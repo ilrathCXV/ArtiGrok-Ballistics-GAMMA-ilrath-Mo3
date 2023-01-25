@@ -1,0 +1,21 @@
+-- Sample handler files for ballistics_mcm.
+
+--[[
+    The default means of managing damage. This is a no-op function for demonstrative purposes.
+    In addition to passing the object being hit and the hit, it also passes a context that collects information about the hit details.
+    Contents are as follows:
+    {
+        hit_data = {
+            wpn = Weapon object that was used to perform the hit
+            sec = Section of the weapon, for convenience
+            ammo = Section of the ammo that did the hit. Can be used to pull more information stored in ini_ammo or from your custom configs.
+        }
+        bone_id = Bone ID, can leverage npc_bone_mult, npc_bone_protection, npc_bone_data with npc to pull additional information.
+        is_npc = Boolean that determines if we hit a human (true) or mutant (false)
+    }
+    Monkey patch this handler or specify a custom handler.
+]]
+
+function default(npc, s_hit, ctx)
+    return s_hit
+end

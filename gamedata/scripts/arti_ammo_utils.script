@@ -1,0 +1,270 @@
+
+math_random         = math.random
+math_floor          = math.floor
+gc                  = game.translate_string
+ini_ammo            = ballistics_utils.ini_ammo
+get_ammo_data       = arti_handlers.get_ammo_data
+print_dbg           = ballistics_mcm.print_dbg
+
+local modes = {
+	["inventory"] = true,
+}
+local bags = {
+	["actor_bag"] = true,
+	["actor_equ"] = true,
+	["actor_belt"] = true,
+}
+function try_mg_link(obj, bag, mode)
+    if obj and bags[bag] and modes[mode] then
+        if obj:section() == "ammo_7.62x54_7h1" then
+            return gc("st_link")
+        elseif obj:section() == "ammo_pkm_100" then
+            return gc("st_unlink")
+        end
+    end
+end
+
+function mg_link(obj)
+    -- grab up to 5 and try to link them together
+    if obj:section() ==  "ammo_7.62x54_7h1" then
+        local to_link = {}
+        local count = 0
+        db.actor:iterate_inventory(function(npc, item)
+            if item:section() == "ammo_7.62x54_7h1" and count < 5 then
+                to_link[item:id()] = item
+                count = count + 1
+            end
+        end)
+        local total = 0
+        for k,v in pairs(to_link) do
+            total = total + v:ammo_get_count()
+            alife_release_id(k)
+        end
+        if total > 0 then
+            alife_create_item("ammo_pkm_100", db.actor, {ammo = total})
+        end
+    elseif obj:section() == "ammo_pkm_100" then
+        local count = obj:ammo_get_count()
+        create_ammo("ammo_7.62x54_7h1", db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), AC_ID, count)
+        alife_release(obj)
+    end
+end
+
+function downgrade_ammo(sec, bypass, mult)
+    mult = mult or 1
+    local dg_ammo = ini_ammo:r_string_ex(sec, "dg_ammo")
+    local dg_chance = ini_ammo:r_float_ex(sec, "dg_chance") or 0
+    dg_chance = dg_chance * mult
+    -- print_dbg("Attempt downgrade ammo %s to %s", sec, dg_ammo)
+    if dg_ammo and (math_random() < (dg_chance) or bypass) then
+        -- print_dbg("Downgrading ammo %s to %s", sec, dg_ammo)
+        return dg_ammo
+    else 
+        return sec
+    end
+end
+
+function process_wpn(wpn, bypass)
+    local ammo_data = utils_item.get_ammo(wpn:section(), wpn:id())
+    local ammo_data_inv = invert_table(ammo_data)
+    if is_empty(ammo_data) then return end
+    local ammo_type = ammo_data[wpn:get_ammo_type() + 1]
+    local dg_ammo = ini_ammo:r_string_ex(ammo_type, "dg_ammo") or ""
+    local dg_chance = ini_ammo:r_float_ex(ammo_type, "dg_chance") or 0
+    if ammo_data_inv[dg_ammo] and (bypass or math_random() < dg_chance) then
+        -- print_dbg("Downgrading ammo for weapon %s", wpn:section())
+        local cnt = wpn:get_ammo_in_magazine()
+        wpn:unload_magazine(true)
+        wpn:set_ammo_type(ammo_data_inv[dg_ammo] - 1)
+        wpn:set_ammo_elapsed(cnt)
+    end
+end
+
+local recipe_trader = {
+    killer = {
+       "recipe_ammo_nato",
+       "recipe_ammo_pistol"
+    },
+    army = {
+        "recipe_ammo_ru1",
+        "recipe_ammo_ru2",
+		"recipe_ammo_pistol"
+    },
+    ecolog = {
+        "recipe_ammo_arty2",
+        "recipe_ammo_arty1",
+        "recipe_ammo_ru1",
+        "recipe_ammo_ru2"
+    },
+    monolith = {
+        "recipe_ammo_ru2",
+        "recipe_ammo_fire",
+        "recipe_ammo_ru1"
+    },
+    dolg = {
+        "recipe_ammo_ru1",
+        "recipe_ammo_shotgun"
+    },
+    freedom = {
+        "recipe_ammo_nato",
+        "recipe_ammo_fire",
+    },
+    csky = {
+        "recipe_ammo_shotgun",
+        "recipe_ammo_arty1",
+        "recipe_ammo_ru1",
+        "recipe_ammo_ru2",
+    },
+    stalker = {
+		"recipe_ammo_ru2",
+        "recipe_ammo_pistol",
+        "recipe_ammo_shotgun",
+    },
+    bandit = {
+        "recipe_ammo_ru1",
+        "recipe_ammo_pistol"
+    },
+    greh = {
+        "recipe_ammo_arty2",
+        "recipe_ammo_nato",
+    },
+    isg = {
+        "recipe_ammo_ru1",
+        "recipe_ammo_ru2",
+        "recipe_ammo_pistol",
+        "recipe_ammo_shotgun",
+        "recipe_ammo_nato",
+        "recipe_ammo_arty1",
+        "recipe_ammo_arty2",
+        "recipe_ammo_fire",
+    },
+}
+
+local powder_list_weights = {
+	powder_nightstar = 5,
+	powder_gravi = 25,
+	powder_fireball = 20,
+	powder_blood = 15,
+	powder_battery = 25,
+	powder_medusa = 15,
+}
+
+TraderAuto = trader_autoinject.update
+function trader_autoinject.update(npc)
+    TraderAuto(npc)
+    
+    if trader_autoinject.get_trader_type(npc) == 1 then
+        trader_autoinject.spawn_items(npc, {
+            powder_fire = 5
+        }, true)
+    end
+
+    to_create = {}
+    npc:iterate_inventory(function(npc, item)
+        if not IsAmmo(item) then return end
+        local sec = item:section()
+        dg = downgrade_ammo(sec)
+        if sec ~= dg then
+            to_create[item:id()] = {
+                sec = dg,
+                cnt = item:ammo_get_count()
+            }
+        end
+    end)
+    for k,v in pairs(to_create) do
+        alife_release_id(k)
+        alife_create_item(v.sec, npc, {ammo = v.cnt})
+    end
+
+    
+    local level = trader_autoinject.supply_level(npc, true) or 1
+    local chance = clamp(30 * (level - 1), 0, 100)
+    local comm = trader_autoinject.get_real_community(npc, "stalker")
+    if not recipe_trader[comm] then return end
+    for k,v in pairs(recipe_trader[comm]) do
+        if math.random(100) <= chance then
+            alife_create_item(v, npc)
+        end
+    end
+	local k = random_key_table(powder_list_weights)
+    if math.random(100) <= powder_list_weights[k] then
+		if trader_autoinject.get_trader_type(npc) == 1 then
+			trader_autoinject.spawn_items(npc, {
+				k = 2
+			}, true)
+		end
+    end
+end
+
+local downgrade = false
+
+SpawnAmmo = death_manager.try_spawn_ammo
+function death_manager.try_spawn_ammo(npc)
+    downgrade = true
+    SpawnAmmo(npc)
+    downgrade = false
+end
+SetDrop = death_manager.set_weapon_drop_condition
+function death_manager.set_weapon_drop_condition(npc,itm)
+    downgrade = true
+    SetDrop(npc,itm)
+    downgrade = false
+end
+AlifeCreate = _G.alife_create_item
+function _G.alife_create_item(section, obj, t)
+    if downgrade and IsItem("ammo",section) and obj:id() ~= AC_ID then 
+        section = downgrade_ammo(section, true)
+    end
+    return AlifeCreate(section, obj, t)
+end
+
+SetWep = death_manager.set_weapon_drop_condition
+function death_manager.set_weapon_drop_condition(npc,itm)
+    SetWep(npc, itm)
+    process_wpn(itm)
+end
+
+-- spawn recipes with random weights
+local recipe_weights = {
+    recipe_ammo_ru1 = 20,
+    recipe_ammo_ru2 = 10,
+    recipe_ammo_pistol = 20,
+    recipe_ammo_shotgun = 15,
+    recipe_ammo_nato = 10,
+    recipe_ammo_arty1 = 5,
+    recipe_ammo_arty2 = 5,
+    recipe_ammo_fire = 5,
+}
+
+SpawnTreasure = treasure_manager.try_spawn_treasure
+
+function treasure_manager.try_spawn_treasure(box)
+    local id = box:id()
+
+	--printf("try_spawn_treasure [%s]",caches[id])
+    -- no spawn if the cache is already looted
+	if not (treasure_manager.caches[id]) then
+		return
+	end
+    SpawnTreasure(box)
+    local k = random_key_table(recipe_weights)
+    if math.random(100) <= recipe_weights[k] then
+        alife_create_item(k, box)
+    end
+end
+if magazines then
+    RollAmmo = magazines_loot.determine_ammo
+    -- subject the ammo pop in mags to downgrade
+    function magazines_loot.determine_ammo(ammo_to_pick, mag_sec, rank)
+        if RollAmmo then
+            print_dbg("Roll to downgrade %s in %s", ammo_to_pick, mag_sec)
+            ammo_to_pick = RollAmmo(ammo_to_pick, mag_sec, rank)
+            ammo_to_pick = downgrade_ammo(ammo_to_pick)
+        end
+        return ammo_to_pick
+    end
+end
+
+function on_game_start()
+	custom_functor_autoinject.add_functor("mg_link", try_mg_link, try_mg_link, nil, mg_link, true)
+end

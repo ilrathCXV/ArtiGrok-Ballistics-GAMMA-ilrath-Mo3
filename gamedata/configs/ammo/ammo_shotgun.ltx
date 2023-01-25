@@ -1,0 +1,70 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Keys for comments (additive): (ilrathCXV 12/12/22)                                           ;
+; Grok: Original value from Grok                                                               ;
+; Grok+: Adapted from Grok to match differences from Arti's                                    ;
+; Grok++: Adapted baseline from Grok to match differences from Arti's                          ;
+; Grok*: Original value from Grok + affected in GBOOBS script                                  ;
+; Arti: Original value from Arti                                                               ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_12x70_buck]:ammo_base ; ordinary buckshot
+handler     = arti_handlers.buckshot_damage
+name		= ammo_new_12x70_buck
+k_hit		= 1.00 		;0.35 - Arti 		;0.40 - Grok
+k_ap		= 0.03 		;0.025 - Arti
+cost        = 750
+
+[ammo_12x70_buck_bad]:ammo_12x70_buck ; magnum buckshot
+name		= ammo_new_12x70_magnum
+k_hit		= 1.175 	;0.42 - Arti 		;0.47 - Grok+
+k_ap		= 0.075 	;0.05 - Arti
+cost        = 1250
+recoil		= 1.5
+dg_ammo     = ammo_12x70_buck
+dg_chance   = 0.4
+
+
+[ammo_12x76_zhekan]:ammo_base ; slug
+handler     = arti_handlers.slug
+name		= ammo_new_12x70_zhekan
+k_hit		= 6.25 		;2.5 - Arti 		;2.5 - Grok
+k_ap		= 0.23 		;0.1 - Arti
+cost        = 1450
+recoil		= 1.1
+special     = slug
+
+[ammo_12x76_zhekan_bad]:ammo_12x76_zhekan ; now Dart AP slugs
+handler     = arti_handlers.slug
+name		= ammo_new_12x70_dart
+k_hit		= 5 		;2 - Arti		;1.52 - Grok
+k_ap		= 0.42 		;0.175 - Arti
+k_hp 		= 1.5
+cost        = 5000
+recoil		= 1.1
+special		= slug
+dg_ammo     = ammo_12x76_zhekan
+dg_chance   = 0.5
+
+
+[ammo_12x76_dart]:ammo_base ; flechette
+handler     = arti_handlers.buckshot_damage
+name		= ammo_new_12x70_flechette
+k_hit		= 0.7 		;0.28 - Arti
+k_ap		= 0.3
+cost        = 3500
+
+[ammo_12x76_dart_bad] ; anomalous dragonsbreath
+handler     = arti_handlers.dragonsbreath
+name		= ammo_new_12x70_dragon
+k_hit		= 0.625 	;0.25 - Arti
+k_ap		= 0.1
+ignite      = 1
+cost        = 9000
+dg_ammo     = ammo_12x76_dart
+dg_chance   = 0.95
+special     = fire_melt
+
+
+[ammo_12x70_buck_verybad]:ammo_12x70_buck_bad
+[ammo_12x76_zhekan_verybad]:ammo_12x76_zhekan_bad
+[ammo_12x76_dart_verybad]:ammo_12x76_dart_bad
