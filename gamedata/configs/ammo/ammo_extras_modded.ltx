@@ -66,7 +66,8 @@ name 		= ammo_20x70_devastator
 k_hit		= 2.33
 k_ap		= 0.29
 cost		= 1000
-special 	= slug
+special 	= flinch
+flinch		= 0.6
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; 20x70 Star Slug ;;
@@ -79,7 +80,6 @@ k_hit		= 1.95
 k_ap		= 0.5
 k_hp		= 1.5
 cost		= 2000
-special 	= slug
 
 ;;;;;;;;;;;;;;;
 ;; 9x21 SP11 ;;
@@ -134,3 +134,21 @@ name 		= ammo-300BLK-fjm
 k_hit		= 1.00
 k_ap		= 0.30
 cost		= 1500
+
+
+;;;;;;;;;;;;;;;;;;;;;;
+;; .45 ACP Behemoth ;;
+;;;;;;;;;;;;;;;;;;;;;;
+[ammo_11.43x23_ap]:ammo_base
+name				= ammo_11.43x23_ap
+k_hit				= 4.00	;2.00 - Momo
+k_ap				= 0.28
+cost				= 8220
+
+[ammo_11.43x23_ap_bad]:ammo_base
+name				= ammo_11.43x23_ap_bad
+k_hit				= 2.50	;1.25 - ilrathCXV
+k_ap				= 0.35
+cost				= 12500
+special 			= frag
+frag				= 2.00

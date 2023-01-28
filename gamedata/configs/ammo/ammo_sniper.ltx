@@ -20,9 +20,9 @@ name		= ammo_new_7.62x54_fp
 k_hit		= 1.05 		;1.067 - Grok+
 k_ap		= 0.372 	;0.249 - Arti
 k_hp        = 1.15
-cost        = 37500
+cost        = 52500
 dg_ammo     = ammo_7.62x54_7h14
-dg_chance   = 0.5
+dg_chance   = 0.9
 special     = head
 
 
@@ -77,7 +77,7 @@ name		= ammo_new_7.62x54_split
 k_hit		= 0.7 		;1.2 - Grok+
 k_ap		= 0.307 	;0.155 - Arti
 k_hp        = 1.1
-cost        = 4260
+cost        = 7260
 dg_ammo     = ammo_pkm_100
 dg_chance   = 0.6
 
@@ -118,7 +118,8 @@ k_ap		= 0.9 		;0.395 - Arti
 cost        = 8750
 dg_ammo     = ammo_7.62x51_ap
 dg_chance   = 0.6
-special     = pierce
+special     = fire	;pierce
+ignite      = 0.75
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -172,7 +173,7 @@ k_hit		= 1.65 		;1.5 - Grok+
 k_ap		= 0.38 		;0.255 - Arti
 cost        = 4550
 dg_ammo     = ammo_12.7x55_fmj
-dg_chance   = 0.4
+dg_chance   = 0.25
 
 [ammo_12.7x55_ap]:ammo_base; ap
 name		= ammo_new_12.7x55_ap
@@ -180,8 +181,8 @@ k_hit		= 1.5 		;1.35 - Grok
 k_ap		= 0.75 		;0.305 - Arti
 recoil		= 1.05
 cost        = 7500
-dg_ammo     = ammo_12.7x55_fmj
-dg_chance   = 0.4
+;dg_ammo     = ammo_12.7x55_fmj
+;dg_chance   = 0.4
 
 [ammo_12.7x55_ap_bad]:ammo_12.7x55_ap; explosive
 name		= ammo_new_12.7x55_exp
@@ -191,7 +192,7 @@ k_ap		= 0.405 	;0.049 - Arti
 cost        = 9000
 special     = explodes
 dg_ammo     = ammo_12.7x55_ap
-dg_chance   = 0.6
+dg_chance   = 0.65
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
