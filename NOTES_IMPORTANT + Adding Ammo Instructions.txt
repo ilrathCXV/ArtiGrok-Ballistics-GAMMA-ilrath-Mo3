@@ -1,0 +1,207 @@
+Merge between Arti and Groks ballistics (collaborative effort between Mo3 and ilrathCXV).
+
+This is currently in the BETA stage. The merge is complete and incorporated into Grok's Ballistics, while taking advantage of Arti's conversion of bad ammo to special ammo types plus some special ammo effects.
+
+Install notes:
+
+This inludes Maid's Ammo Icons. The default ammo icons of GAMMA will not match the changes made to the names of ammunition as a warning. 
+
+Grok's/GAMMA's Ballistics has been overwritten just to include the special effects as well as some custom ammo support from ilrathCXV's 9x21 ammo types and .357 Monolithic as well as Momopate's 20x70 Slugs.
+
+UNCHECK "183- GBOOBS BWRR patch - Grokitach" [ONLY IF YOU ARE USING Mo3's WarDogs Modpack]
+UNCHECK "205- Old to ammo to new ammo converter (less item bloat) - Great_Day" or the special ammo types will converted to regular ammo!!!
+
+You have TWO options for recoil: 
+Grok's or Arti's. To choose Arti's, go to "Ballistics" in MCM and make sure it's checked, then go to GAMMA Enhanced Recoil in the MCM and uncheck it.
+I suggest playing with both until you figure out which you like best, as they both did a great job. Personally, we both play with Grok's. However, there is some work being done to improve Arti's.
+
+Although the merge is complete, you are free to reduce your hit power in the difficulty options if you feel too strong with these effects.
+
+GROK- Great job with ballistics, like i said.. but the people want more options!
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+Instructions for implementing new ammo/modifying ammo into ArtiGrok (written by ilrathCXV):
+
+First, go into this mod's files and go to the directory: [this mod]\gamedata\configs\ammo
+Next, either create a new .ltx (ammo_(custom_name_here).ltx without the parenthesis) or add it to the "ammo_extras_modded.ltx" file included with this mod.
+
+We will now look at an example of an ammo type that will give you a good look at how these file entries should be structured.
+
+Example of an ammo type that has nearly all the elements involoved in the system - 5.56x45 FMJ Bad (now bridge b/w regular FMJ and AP)
+
+[ammo_5.56x45_fmj_bad]:ammo_5.56x45_fmj 		-- This is the debug name of the ammo. The ":ammo_5.56x45_fmj" just means it is inheriting some stats from the standard FMJ ammo. For custom ammo, I suggest using ":ammo_base"
+handler     = arti_handlers.fragment_sound		-- This is a handler from Arti's system. Due to changes, the "handler" is no longer needed. But, you are free to use it in case.
+name		= ammo_new_5.56x45_fmjs				-- This is the name designation of the ammo. Pull the designation from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
+k_hit		= 1.1 								-- This is based on the "k_hit" parameter of the ammo. I will go into how to determine this value specifically for these special files below.
+k_ap		= 0.326								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
+cost        = 2250								-- This is the "cost" parameter of the ammo. It was used by Arti's system to modify the cost of ammo. Pull the value from ammo's file or change it if the ammo is old ammo you are looking to change  (changes in here only take effect is the "Cost" option in this mod's MCM settings are turned on).
+dg_ammo     = ammo_5.56x45_fmj					-- This parameter takes in another ammo that this ammo can degrade/convert to when looting (in order to offset the fact bad-now-special ammo is more prevalent). Only necessary if you want to make use of this.
+dg_chance   = 0.5								-- This parameter is the chance that this ammo will degrade/convert into the ammo in the above line. This MUST be used in combo with the above line if you choose to use this conversion system.
+frag        = 1.6								-- Special: EXPLAINED LATER
+special     = frag								-- Special: EXPLAINED LATER
+
+More on "k_hit":
+
+This parameter in Arti's original system just used the ammo variable's raw value as seen in the ammo's original files (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx" /Custom ammo will be found in that mod's files).
+However, I have opted for a new way to utilize this. Make the very first ammo type of that caliber has a "k_hit" of 1.00 IN THESE SPECIALITY AMMO FILES. The first ammo will be the baseline for the other ammos to compare to.
+Keep in mind the raw/actual "k_hit" values. For example, let's look at .45 ACP:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ammo_11.43x23_fmj]:ammo_base ; FMJ
+name        = ammo_new_11.43x23_fmj
+k_hit       = 1.0 		;(Baseline --- 0.7)
+k_ap        = 0.19 		
+cost        = 950
+
+[ammo_11.43x23_fmj_bad]:ammo_11.43x23_fmj; +P
+name		= ammo_new_11.43x23_fmjs
+k_hit		= 0.71 		;(0.71 = 0.5/0.7)
+k_ap		= 0.3 		
+cost        = 1875
+recoil		= 1.15
+dg_ammo     = ammo_11.43x23_fmj
+dg_chance   = 0.6
+
+[ammo_11.43x23_hydro]:ammo_base ; HP
+handler     = arti_handlers.varmageddon
+name		= ammo_new_11.43x23_hp
+k_hit		= 3.21 		;(3.21 = 2.25/0.7)
+k_ap        = 0.10 		
+k_hp	    = 1.5
+varma		= 1.5
+cost        = 1750
+special     = varma
+
+[ammo_11.43x23_hydro_bad]:ammo_11.43x23_hydro; RIP
+handler     = arti_handlers.rip
+name		= ammo_new_11.43x23_hydro
+k_hit		= 2.57 		;(2.57 = 1.8/0.7)
+k_ap        = 0.10 		
+k_hp	    = 3
+cost        = 3000
+special     = rip
+dg_ammo     = ammo_11.43x23_hydro
+dg_chance   = 0.7
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Since FMJ is the first ammo type declared in the "weapon_ammo.ltx" file it oriiginates from, its "k_hit" will be the baseline which the next ammo types will compare to (0.7 --translates to--> 1.0).
+FMJ Bad has a "k_hit" of 0.5. Instead of putting this as the "k_hit" value in the speciality values, we compare its value to FMJ: k_hit (special value) = 0.5 (real value) / 0.7 (FMJ's real value/baseline) = ***0.71***
+So, in this case, we set FMJ Bad's "k_hit" value to 0.71 IN THESE SPECIALITY AMMO FLIES. These "k_hit" values do not nerf or buff the damage of a round. I have reworked them to be purely for the tooltips.
+
+
+TO BE CLEAR: DO NOT change the "k_hit" of the ammo in its original ammo files. Only change them here as these are mainly for display purposes.
+
+
+There is one more parameter not shown here that does not require a Special: Expansion
+
+k_hp		= ...
+
+This paramter is a damage multiplier that takes effect when either (1) a mutant is hit or (2) the ammo penetrates a Stalker's armor fully (does NOT affect damage when armor is broken from repeated hits.
+This "Expansion modifier" is meant to mimic certain ammo that expands on contact. I suggest keeping the value within the range of 1.15 - 1.75. Only exception is RIP ammo (explained later).
+
+
+Now, to explain Special effects. I will show the Special effects, explain what they do and how to in corporate them into your ammo.
+NOTE: Only one Special effect can be applied to an ammo type.
+
+Varmaggedon - This Special type increase the damage against mutants (does no additional damage against Stalkers). Recommended range is (1.05 - 1.25), and for use with HP/hunting rounds.
+
+handler     = arti_handlers.varmageddon			-- Not needed but can add
+varma		= 1.25								-- Varmaggedon damage multiplier
+special     = varma								-- Special tag needed by the damage system to see if the ammo is of this type
+
+Dragon's Breath - Self-explanatory. This allows the ammo to act like Dragon's Breath. Receives no benefits or drawbacks due to a mutant's type. Changes hit type to Fire and has a 100% chance to ignite the enemy for 5-10 seconds.
+Recommended ONLY for shotguns.
+
+handler     = arti_handlers.dragonsbreath		-- Not needed but can add.
+ignite      = 1									-- Ignite chance. MUST be set to 1 for Dragon's Breath as a pre-caution.
+special     = fire_melt							-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Acid Rounds - These rounds increases the amount of armor you take away from a Stalker who has a higher AP than the round's capabilities. It changes the damage type to chemical burn, and acts as a damage multiplier against mutants.
+
+handler     = arti_handlers.acid_damage					-- Not needed but can add.
+i_handler   = ballistic_handlers.particle				-- Used by Arti's system to call the particle function
+i_particle  = artefact\\effects\\af_acidic_idle_color 	-- The particle effect used by the function called by the line above
+special 	= acid										-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Lightning Rounds - This ammo creates an AoE damaging field when striking a target. The AoE's damage and size is increased based on the AP tier of the enemy (does not hurt the player). Highest damage possible is 70% of a Stalker's total max health.
+Changes the damage type to shock damage and is a waste to use on mutants (no AoE is created from hitting mutants). Recommended for large-caliber/sniper rounds.
+
+handler     = arti_handlers.shock_damage		-- Not needed but can add.
+special 	= shock								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Ambush - If the hit target is (1) not aggro'd to/is unaware of the player and (2) the used weapon is suppressed/equipped with a silencer, this causes the ammo type to jump a whole BR/AP class in most cases, and does 20% more damage.
+Recommended for subsonic ammunition.
+
+handler     = arti_handlers.ambush				-- Not needed but can add
+special		= ambush							-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Explosive - Self-explanatory. Releases a explosion on contact with a surface or an enemy (can hurt the player). Recommended for large-calbier/sniper rounds. Reduce the k_hit and k_ap of the round to compensate (below 0.5 and 0.3 respectively).
+
+impact_h    = arti_handlers.explode_handler		-- Not needed but can add
+special     = explodes							-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Headhunter - One of the strongest effects in the game. This effect is only applied to headshots. It (1) increases the ammo's k_ap to 1.00 (max), (2) loses no damage on overpentration, and (3) negates Sin and ISG resistances.
+Eidelon will still put up a good fight against the round. Recommended for large-caliber/sniper rounds + make the round stupid expensive to craft and to buy.
+
+handler     = arti_handlers.headshot 			-- Not needed but can add
+special     = head								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Fragmentation - Similar to Expansion, this allows the round to do extra damage to a target due to fragmentation on impact. This takes effect on all hits, unlike Expansion which only affects mutants and full penetration.
+NOTE: The bonus that is granted is 70% of the listed bonus. Recommended to not be used together with Expansion/k_hp (i.e. FMJ-type ammo) and a range of (1.4 - 2.0).
+
+handler     = arti_handlers.fragment 			-- Not needed but can add
+frag        = 1.5								-- Fragmentation multiplier. Multiply this 70% to see the true bonus.
+special     = frag								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+RIP Rounds - These rounds heal the player for a portion of the final damage dealt after calculations.
+Recommendations: (1) use for pistol HP ammo types, (2) reduce the ammo's k_hit to 0.75 or below, (3) set the k_hp in the range of (2.0 - 3.0).
+
+handler     = arti_handlers.rip					-- Not needed but can add
+k_hit		= 0.75								-- Reduce this to 0.75 or below to compensate for the healing factor
+k_hp	    = 3									-- Set this between (2.0 - 3.0) as this round is meant to exapnd much more than standard HP ammo
+special     = rip								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Soulripper - These rounds are idential to RIP Rounds, but only heal on headshots and are meant for AP rounds rather than HP rounds. Recommended for hard-hitting sniper rounds.
+
+handler     = arti_handlers.soulripper			-- Not needed but can add
+special     = soulripper						-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Incendiary/API Rounds - These are Incendiary Armor Piercing Rounds. They have amazing AP values with a chance to ignite an enemy on hit. However, this round does NOT change the damage type to fire.
+Recommended for rifle/sniper AP rounds.
+
+handler     = arti_handlers.fire_damage			-- Not needed but can add
+ignite      = 0.6								-- Ignite chance. Recommended to be set between (0.3 - 0.75).
+special		= fire 								-- Special tag needed by the damage system to make use of this ammo's special effects (not to be confused with Dragon's Breath's "fire_melt" Special tag)
+
+Flinch/Stun Capability - This Special is meant to help give some character to rounds that don't have an special capabilities or giving them some would break the game. It has a chance to stun a target on hit.
+
+flinch      = 0.5								-- Flinch/stun chance. Recommended to be set between (0.5 - 0.95).
+special     = flinch							-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Chaos/Unstable Core Rounds - These are the most interesting rounds in the game. These rounds can pull from nearly every Special Type. This round randomly does anywhere between 60 - 160% damage and AP of its base stats.
+Random effects include (all at a 6.67% chance to occur): Dragon's Breath (5sec), Stun, RIP Heal, Headhunter's maxed out AP (does not ignore Sin/ISG Resistances), Acid, Explosive
+Random chance for no effect: 60%
+Recommended for FMJ/AP rounds due to the need for an "unstable core"
+
+handler     = arti_handlers.chaos_damage		-- Not needed but can add
+special     = chaos								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+
+Now that we have gone through all the needed parameters, let's see a fake ammo entry for .357 HP Bad.
+Fake ammo traits:
+- Large-pistol caliber
+- Experimental rounds (can pull from the fancy effects)
+- Want to heal
+- Great for mutants
+- Must be expensive due to its nature
+
+[ammo_357_hp_mag_bad]:ammo_base					-- can use :ammo_357_hp_mag as well
+name 		= ammo_357_hp_mag_rip
+k_hit		= 0.75
+k_ap		= 0.125
+k_hp		= 3
+cost		= 6500
+special		= rip
+
+Now of course this won't go into effect (or can cause a crash) since that .357 HP Bad is already covered by this mod, but you can follow the process to modify your own ammo types to make use of the special parts of this system.
+

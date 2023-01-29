@@ -115,13 +115,13 @@ dg_chance   = 0.7
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [ammo_11.43x23_fmj]:ammo_base ; FMJ
 name        = ammo_new_11.43x23_fmj
-k_hit       = 1.2 		;0.7 - Grok*
+k_hit       = 1.0 		;0.7 - Grok* (Baseline)
 k_ap        = 0.19 		;0.09 - Arti
 cost        = 950
 
 [ammo_11.43x23_fmj_bad]:ammo_11.43x23_fmj; +P
 name		= ammo_new_11.43x23_fmjs
-k_hit		= 1 		;0.5 - Grok*+
+k_hit		= 0.71 		;0.5 - Grok*+ (0.71 = 0.5/0.7)
 k_ap		= 0.3 		;0.15 - Arti
 cost        = 1875
 recoil		= 1.15
@@ -131,7 +131,7 @@ dg_chance   = 0.6
 [ammo_11.43x23_hydro]:ammo_base ; HP
 handler     = arti_handlers.varmageddon
 name		= ammo_new_11.43x23_hp
-k_hit		= 4.5 		;2.25 - Grok*
+k_hit		= 3.21 		;2.25 - Grok* (3.21 = 2.25/0.7)
 k_ap        = 0.10 		;0.069 - Arti
 k_hp	    = 1.5
 varma		= 1.5
@@ -141,7 +141,7 @@ special     = varma
 [ammo_11.43x23_hydro_bad]:ammo_11.43x23_hydro; RIP
 handler     = arti_handlers.rip
 name		= ammo_new_11.43x23_hydro
-k_hit		= 3.6 		;1.8 - Grok*+
+k_hit		= 2.57 		;1.8 - Grok*+ (2.57 = 1.8/0.7)
 k_ap        = 0.10 		;0.069 - Arti
 k_hp	    = 3
 cost        = 3000
