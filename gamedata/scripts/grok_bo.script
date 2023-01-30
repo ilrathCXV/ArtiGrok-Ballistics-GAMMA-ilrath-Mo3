@@ -1150,7 +1150,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * fragment_mult * custom_bone_hitfraction 
 		else
-			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance * 0.5)))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
+			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance * 0.5))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
                         pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
 			fxdir = shit.direction
