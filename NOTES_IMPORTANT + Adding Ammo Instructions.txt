@@ -6,10 +6,10 @@ Install notes:
 
 This inludes Maid's Ammo Icons. The default ammo icons of GAMMA will not match the changes made to the names of ammunition as a warning. 
 
-Grok's/GAMMA's Ballistics has been overwritten just to include the special effects as well as some custom ammo support from ilrathCXV's 9x21 ammo types and .357 Monolithic as well as Momopate's 20x70 Slugs.
+Grok's/GAMMA's Ballistics has been overwritten just to include the special effects as well as some custom ammo support.
+This mod also edits "205- Old to ammo to new ammo converter (less item bloat) - Great_Day" so that only "Very Bad" ammo get converted.
 
 UNCHECK "183- GBOOBS BWRR patch - Grokitach" [ONLY IF YOU ARE USING Mo3's WarDogs Modpack]
-UNCHECK "205- Old to ammo to new ammo converter (less item bloat) - Great_Day" or the special ammo types will converted to regular ammo!!!
 
 You have TWO options for recoil: 
 Grok's or Arti's. To choose Arti's, go to "Ballistics" in MCM and make sure it's checked, then go to GAMMA Enhanced Recoil in the MCM and uncheck it.

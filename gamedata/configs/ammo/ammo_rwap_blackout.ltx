@@ -1,0 +1,40 @@
+;;;;;;;;;;;;;;;;;;;;;;
+;; .300 Blackout AP ;;
+;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_300blackout_ap]:ammo_base
+name 		= ammo-300BLK-ap
+k_hit		= 1.00
+k_ap		= 0.53
+cost		= 5300
+special 	= ambush
+
+;based off Mr. Brain [AU]
+[ammo_300blackout_ap_bad]:ammo_base	;MAI AP
+name 		= ammo-300BLK-ap-bad
+k_hit		= 1.00
+k_ap		= 0.60
+cost		= 8300
+special 	= ambush
+dg_ammo		= ammo_300blackout_ap
+dg_chance	= 0.4
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;; .300 Blackout FMJ ;;
+;;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_300blackout_fjm]:ammo_base
+name 		= ammo-300BLK-fjm
+k_hit		= 1.00
+k_ap		= 0.30
+cost		= 1500
+
+;based off Mr. Brain [AU]
+[ammo_300blackout_fjm_bad]:ammo_base	; VMAX
+name 		= ammo-300BLK-fjm-bad
+k_hit		= 1.1
+k_ap		= 0.20
+k_hp        = 1.75
+cost		= 4050
+dg_ammo		= ammo_300blackout_fjm
+dg_chance	= 0.4

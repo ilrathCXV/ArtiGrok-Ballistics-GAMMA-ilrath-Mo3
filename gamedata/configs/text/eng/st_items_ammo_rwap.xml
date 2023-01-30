@@ -5,21 +5,41 @@
 -->
 <string_table>
 	<string id="ammo-300BLK-ap">
-		<text>300BLK AP rounds</text>
+		<text>.300 Blackout AP rounds</text>
 	</string>
-	<string id="ammo-300BLK_ap_descr">
-		<text>300 Blackout (7.62x35mm) AP cartridge loaded with an 8.4 gram armor-piercing bullet from a 7.62x51mm NATO M80A1 cartridge, composed of a steel penetrator tip over a copper alloy core with a copper semi-jacket in a brass case. Despite the bullet's own characteristics when used in a full-power cartridge, these are affected when transferred to an intermediate cartridge, however, the bullet continues to have capabilities to pierce basic and intermediate body ballistic protections, in addition to being able to cause substantial adverse effects on the target after impact. Its design also allows it to be used in STANAG 5.56x45mm NATO magazines without any issues.\n \n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power: %c[ui_gray_1]BR5 (53)\n%c[ui_gray_2] - %c[ui_gray_2] Flesh damage power: %c[ui_gray_1]high\n \n%c[ui_gray_1]SPECIAL:\n \n%c[d_red] - %c[ui_gray_2] sub-sonic ammunition\n%c[ui_gray_2] - %c[ui_gray_2] greatly increased projectile drop with distance</text>
+	<string id="ammo-300BLK-ap_descr">
+		<text>The .300 Blackout (7.62x35mm) AP cartridge loaded with an 8.4 gram armor-piercing bullet, composed of a steel penetrator tip over a copper alloy core with a copper semi-jacket in a brass case. Despite the bullet's own characteristics when used in a full-power cartridge, these are affected when transferred to an intermediate cartridge, however, the bullet continues to have capabilities to pierce basic and intermediate body ballistic protections, in addition to being able to cause substantial adverse effects on the target after impact. Its design also allows it to be used in STANAG 5.56x45mm NATO magazines without any issues.</text>
 	</string>
 	<string id="ammo-300BLK-ap_s">
 		<text>300BLK AP</text>
 	</string>
 	<string id="ammo-300BLK-fjm">
-		<text>300BLK FMJ rounds</text>
+		<text>.300 Blackout FMJ rounds</text>
 	</string>
 	<string id="ammo-300BLK_fjm_descr">
-		<text>300 Blackout (7.62x35mm) BCP FMJ cartridge with a 9.4 gram lead core bullet with a bimetallic jacket in a steel case; intended for hunting, home defense, and target practice, produced by Barnaul Cartridge Plant. Thanks to its rudimentary design, this cartridge is one of the most economical options of its caliber, and despite this, the bullet in this cartridge has capabilities to pierce basic ballistic body protection, as well as certain intermediate models in addition to provide a considerable stopping power effect, however, it has a significant bounce probability on various surfaces. Its design also allows it to be used in STANAG 5.56x45mm NATO magazines without any problem.\n \n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power: %c[ui_gray_1]BR3 (30)\n%c[ui_gray_2] - %c[ui_gray_2] Flesh damage power: %c[ui_gray_1]high\n \n%c[ui_gray_1]SPECIAL:\n \n%c[d_red] - %c[ui_gray_2] sub-sonic ammunition\n%c[ui_gray_2] - %c[ui_gray_2] greatly increased projectile drop with distance</text>
+		<text>The .300 Blackout (7.62x35mm) BCP FMJ cartridge with a 9.4 gram lead core bullet with a bimetallic jacket in a steel case; intended for hunting, home defense, and target practice, produced by Barnaul Cartridge Plant. Thanks to its rudimentary design, this cartridge is one of the most economical options of its caliber, and despite this, the bullet in this cartridge has capabilities to pierce basic ballistic body protection, as well as certain intermediate models in addition to provide a considerable stopping power effect, however, it has a significant bounce probability on various surfaces. Its design also allows it to be used in STANAG 5.56x45mm NATO magazines without any problem.</text>
 	</string>
 	<string id="ammo-300BLK-fjm_s">
 		<text>300BLK FMJ</text>
 	</string>
+	
+	<string id="ammo-300BLK-ap-bad">
+		<text>.300 Blackout MAI AP rounds</text>
+	</string>
+	<string id="ammo-300BLK-ap-bad_descr">
+		<text>The .300 Blackout (7.62x35mm) MAI AP cartridge has greater penetration than the standard .300 AP rounds while having increased potency against unaware targets. MAI created these rounds to increase the effectiveness of operators conducting covert operations.</text>
+	</string>
+	<string id="ammo-300BLK-ap-bad_s">
+		<text>300BLK MAI AP</text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad">
+		<text>.300 Blackout VMAX rounds</text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad_descr">
+		<text>The .300 Blackout (7.62x35mm) VMAX cartridge is created with the intent of offering less armor penetration in exchange for higher performance against animals and lightly-armored targets. Thanks to this, Stalkers have an option that helps them dispatch mutants while still having a fighting chance against anyone they come across.</text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad_s">
+		<text>300BLK VMAX</text>
+	</string>
+	
 </string_table>
