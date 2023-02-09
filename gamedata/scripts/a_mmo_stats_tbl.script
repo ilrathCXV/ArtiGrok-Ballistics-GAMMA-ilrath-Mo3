@@ -39,8 +39,12 @@ function inject_stats()
         index= 3, typ= "float",   name= "st_prop_k_hp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
     ["projectiles"] = { 
         index= 4, typ= "float",   name= "st_prop_projectiles",  icon_p= "ui_wp_prop_skorostrelnost",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
-    ["special"]={ 
-        index= 5 , typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } 
+    ["accuracy"] ={ 
+        index= 5, typ= "float",   name= "st_prop_k_disp",       icon_p= "ui_wp_prop_tochnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",       compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
+    ["velocity"]={ 
+        index= 6, typ= "float",   name= "st_prop_k_vel",       icon_p= "ui_wp_prop_nastilnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",      compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
+	["special"]={ 
+        index= 7, typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } 
     }
 end
 
@@ -132,7 +136,8 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 end
 
 function prop_damage(obj, sec)
-    return math.floor(100 * (ini_ammo:r_float_ex(sec, "k_hit") or SYS_GetParam(2, sec, "k_hit") or 1))
+    -- return math.floor(100 * (ini_ammo:r_float_ex(sec, "k_hit") or SYS_GetParam(2, sec, "k_hit") or 1))
+	return math.floor(100 * (SYS_GetParam(2, sec, "k_hit") or 1))
 end
 
 -- pull from the armor classification

@@ -176,21 +176,21 @@ k_hit		= 1 		;0.70 - Grok
 k_ap        = 0.25 		;0.14 - Arti
 cost        = 875
 
-[ammo_7.62x25_p_bad]:ammo_7.62x25_p; pst
+[ammo_7.62x25_p_bad]:ammo_7.62x25_p; hp ;pst
+name		= ammo_new_7.62x25_hp
+k_hit		= 1 		;0.70 - Grok
+k_ap		= 0.13 		;0.075 - Arti
+k_hp        = 1.5
+cost        = 1345
+dg_ammo     = ammo_7.62x25_p
+dg_chance   = 0.5
+
+[ammo_7.62x25_ps]:ammo_base ; pst ;hp
 name		= ammo_new_7.62x25_ps
 k_hit		= 1 		;0.70 - Grok
 k_ap		= 0.291  	;0.165 - Arti
-cost        = 1345
-recoil		= 1.05
-dg_ammo     = ammo_7.62x25_p
-dg_chance   = 0.4
-
-[ammo_7.62x25_ps]:ammo_base ; hp
-name		= ammo_new_7.62x25_hp
-k_hit		= 1 		;0.70 - Grok
-k_ap		= 0.08 		;0.075 - Arti
-k_hp        = 1.5
 cost        = 975
+recoil		= 1.05
 
 [ammo_7.62x25_ps_bad]:ammo_7.62x25_ps; acid
 handler     = arti_handlers.acid_damage

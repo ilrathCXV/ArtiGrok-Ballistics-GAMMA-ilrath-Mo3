@@ -34,63 +34,13 @@ Example of an ammo type that has nearly all the elements involoved in the system
 [ammo_5.56x45_fmj_bad]:ammo_5.56x45_fmj 		-- This is the debug name of the ammo. The ":ammo_5.56x45_fmj" just means it is inheriting some stats from the standard FMJ ammo. For custom ammo, I suggest using ":ammo_base"
 handler     = arti_handlers.fragment_sound		-- This is a handler from Arti's system. Due to changes, the "handler" is no longer needed. But, you are free to use it in case.
 name		= ammo_new_5.56x45_fmjs				-- This is the name designation of the ammo. Pull the designation from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
-k_hit		= 1.1 								-- This is based on the "k_hit" parameter of the ammo. I will go into how to determine this value specifically for these special files below.
+k_hit		= 1.1 								-- This is the "k_hit" parameter of the ammo. Pull the 'k_hit' from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
 k_ap		= 0.326								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
 cost        = 2250								-- This is the "cost" parameter of the ammo. It was used by Arti's system to modify the cost of ammo. Pull the value from ammo's file or change it if the ammo is old ammo you are looking to change  (changes in here only take effect is the "Cost" option in this mod's MCM settings are turned on).
 dg_ammo     = ammo_5.56x45_fmj					-- This parameter takes in another ammo that this ammo can degrade/convert to when looting (in order to offset the fact bad-now-special ammo is more prevalent). Only necessary if you want to make use of this.
 dg_chance   = 0.5								-- This parameter is the chance that this ammo will degrade/convert into the ammo in the above line. This MUST be used in combo with the above line if you choose to use this conversion system.
 frag        = 1.6								-- Special: EXPLAINED LATER
 special     = frag								-- Special: EXPLAINED LATER
-
-More on "k_hit":
-
-This parameter in Arti's original system just used the ammo variable's raw value as seen in the ammo's original files (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx" /Custom ammo will be found in that mod's files).
-However, I have opted for a new way to utilize this. Make the very first ammo type of that caliber has a "k_hit" of 1.00 IN THESE SPECIALITY AMMO FILES. The first ammo will be the baseline for the other ammos to compare to.
-Keep in mind the raw/actual "k_hit" values. For example, let's look at .45 ACP:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-[ammo_11.43x23_fmj]:ammo_base ; FMJ
-name        = ammo_new_11.43x23_fmj
-k_hit       = 1.0 		;(Baseline --- 0.7)
-k_ap        = 0.19 		
-cost        = 950
-
-[ammo_11.43x23_fmj_bad]:ammo_11.43x23_fmj; +P
-name		= ammo_new_11.43x23_fmjs
-k_hit		= 0.71 		;(0.71 = 0.5/0.7)
-k_ap		= 0.3 		
-cost        = 1875
-recoil		= 1.15
-dg_ammo     = ammo_11.43x23_fmj
-dg_chance   = 0.6
-
-[ammo_11.43x23_hydro]:ammo_base ; HP
-handler     = arti_handlers.varmageddon
-name		= ammo_new_11.43x23_hp
-k_hit		= 3.21 		;(3.21 = 2.25/0.7)
-k_ap        = 0.10 		
-k_hp	    = 1.5
-varma		= 1.5
-cost        = 1750
-special     = varma
-
-[ammo_11.43x23_hydro_bad]:ammo_11.43x23_hydro; RIP
-handler     = arti_handlers.rip
-name		= ammo_new_11.43x23_hydro
-k_hit		= 2.57 		;(2.57 = 1.8/0.7)
-k_ap        = 0.10 		
-k_hp	    = 3
-cost        = 3000
-special     = rip
-dg_ammo     = ammo_11.43x23_hydro
-dg_chance   = 0.7
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Since FMJ is the first ammo type declared in the "weapon_ammo.ltx" file it oriiginates from, its "k_hit" will be the baseline which the next ammo types will compare to (0.7 --translates to--> 1.0).
-FMJ Bad has a "k_hit" of 0.5. Instead of putting this as the "k_hit" value in the speciality values, we compare its value to FMJ: k_hit (special value) = 0.5 (real value) / 0.7 (FMJ's real value/baseline) = ***0.71***
-So, in this case, we set FMJ Bad's "k_hit" value to 0.71 IN THESE SPECIALITY AMMO FLIES. These "k_hit" values do not nerf or buff the damage of a round. I have reworked them to be purely for the tooltips.
-
-
-TO BE CLEAR: DO NOT change the "k_hit" of the ammo in its original ammo files. Only change them here as these are mainly for display purposes.
-
 
 There is one more parameter not shown here that does not require a Special: Expansion
 

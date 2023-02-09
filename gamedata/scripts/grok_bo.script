@@ -294,9 +294,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	fragment_mult 	= ini_ammo:r_float_ex(ammo_section, "frag") or 1.00
-	if fragment_mult > 1.00 then
-		fragment_mult = 1 + ((fragment_mult - 1.0) * 0.3)
-	end
+	--if fragment_mult > 1.00 then
+	--	fragment_mult = 1 + ((fragment_mult - 1.0) * 0.3)
+	--end
 	
 	------------------
 	-- Chaos Rounds --
@@ -313,9 +313,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Expansion Bonus --
 	---------------------
 	hp_expansion_mult	= ini_ammo:r_float_ex(ammo_section, "k_hp") or 1.00
-	if hp_expansion_mult > 1.00 then
-		hp_expansion_mult = 1 + (hp_expansion_mult - 1.0)
-	end
+	--if hp_expansion_mult > 1.00 then
+	--	hp_expansion_mult = 1 + (hp_expansion_mult - 1.0)
+	--end
 	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") or 0
@@ -653,8 +653,19 @@ function monster_on_before_hit(monster,shit,bone_id)
 		shit.type = hit.shock
 	end
 	
+	-------------------------
+	-- Cloudkill Eco Round --
+	-------------------------
+	cloudkill_mult = 1.0
+	if (get_special(ammo_section) == "toxic") then
+		bas_handler.corrosive_cloud(monster)
+	end
 	
-	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * cqc_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * chaos_mult * ambush_mult
+	if bas_handler.weakened[monster:id()] then
+        cloudkill_mult = 1.2
+    end
+	
+	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * cqc_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * chaos_mult * ambush_mult * cloudkill_mult
 
 	printf("Barrel condition: %s, GBO output damage: %s", barrel_condition, shit.power)
 	
@@ -756,9 +767,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	fragment_mult 	= ini_ammo:r_float_ex(ammo_section, "frag") or 1.00
-	if fragment_mult > 1.00 then
-		fragment_mult = 1 + ((fragment_mult - 1.0) * 0.3)
-	end
+	--if fragment_mult > 1.00 then
+	--	fragment_mult = 1 + ((fragment_mult - 1.0) * 0.3)
+	--end
 	
 	------------------
 	-- Chaos Rounds --
@@ -785,9 +796,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Expansion Bonus --
 	---------------------
 	hp_expansion_mult	= ini_ammo:r_float_ex(ammo_section, "k_hp") or 1.00
-	if hp_expansion_mult > 1.00 then
-		hp_expansion_mult = 1 + ((hp_expansion_mult - 1.0) * 0.75)
-	end
+	--if hp_expansion_mult > 1.00 then
+	--	hp_expansion_mult = 1 + ((hp_expansion_mult - 1.0) * 0.75)
+	--end
 	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") or 0
@@ -980,7 +991,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 		local faction = se_obj:community()
 		isg_res = 1
 		if faction == "isg" then
-			isg_res = 0.50
+			isg_res = 0.70
 			sin_res = 0.75
 			pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
@@ -1054,6 +1065,18 @@ function npc_on_before_hit(npc,shit,bone_id)
 		end
 	end
 	
+	-------------------------
+	-- Cloudkill Eco Round --
+	-------------------------
+	cloudkill_mult = 1.0
+	if (get_special(ammo_section) == "toxic") then
+		bas_handler.corrosive_cloud(npc)
+	end
+	
+	if bas_handler.weakened[npc_id] then
+        cloudkill_mult = 1.2
+    end
+	
 	--printf("// Ammo data :")
 	--printf('game_num = %s', game_num)
 	printf('%s shot with %s, Weapon power= %s, AP power= %s, Hit multiplier= %s, Air res= %s, Distance= %s m, Barrel condition: %s', ammo_section, sec, wpn_hit_power, k_ap, k_hit, air_res, dist, barrel_condition)
@@ -1122,7 +1145,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-----------------------
 	-- Flinch/Stun Bonus --
 	-----------------------
-	local flinch_stun_chance = 0
+	flinch_stun_chance = 0
 	if (get_special(ammo_section) == "flinch") then
 		flinch_stun_chance = ini_ammo:r_float_ex(ammo_section, "flinch") or 0.1
 		arti_handlers.stun_npc(npc,flinch_stun_chance)
@@ -1132,7 +1155,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 
 	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * difficulty_multiplier[game_num]
 
-	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult
+	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult * cloudkill_mult
 	
 	-------------------------------------------------------------------
 	-- Acid Rounds (acid_mult) + Dragon's Breath (dragon_armor_melt) --
@@ -1150,7 +1173,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * fragment_mult * custom_bone_hitfraction 
 		else
-			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance * 0.5))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
+			-- 02/07/23 ilrath - Experimenting with a flinch/stun buff for concussion damage
+			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
+			-- shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance * 0.5))
                         pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
 			fxdir = shit.direction
