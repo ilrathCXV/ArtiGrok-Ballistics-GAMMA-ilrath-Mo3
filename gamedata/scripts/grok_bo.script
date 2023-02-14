@@ -512,6 +512,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		spec_monster_mult = 0.90
 		if (k_ap >= 0.19) and (k_ap <= 0.37) then
 			mutant_mult = 1.0
+			printf("Boar hide pierced!")
 		end
 	end
 
@@ -576,6 +577,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	if string.find(monster:name(), "burer") then
 		if (k_ap >= 0.19) and (k_ap <= 0.37) then
 			mutant_mult = 1.0
+			printf("Burer protection pierced!")
 		end
 	end
 	
@@ -596,7 +598,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		
 		random = math.random(60, 160)
 		chaos_mult = random * 0.01
-		bone_mult = bone_mult * random
+		bone_mult = bone_mult * chaos_mult
 	end
 	
 	-----------------
@@ -614,8 +616,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 	---------------------------
 	-- JHP/Headhunter Rounds --
 	---------------------------
-	if ((get_special(ammo_section) == "head") and (bone_mult > 1.00)) or (chaos_effect == 6) then
-		spec_monster_mult = 1.00
+	if (get_special(ammo_section) == "head") or (chaos_effect == 6) then
+		if (bone_mult > 1.00) or (mutant_mult > 0.85) then
+			spec_monster_mult = 1.00
+			bone_mult = bone_mult * 2
+		end
 	end
 	
 	-------------------
@@ -646,7 +651,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	----------------------
 	-- Lightning Rounds --
 	----------------------
-	if (get_special(ammo_section) == "shock") then
+	if (get_special(ammo_section) == "shock") or (chaos_effect == 9) then
 		spec_monster_mult = 1.00
 		bone_mult = 1.00
 		ammo_mult = 0.85
@@ -657,15 +662,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Cloudkill Eco Round --
 	-------------------------
 	cloudkill_mult = 1.0
-	if (get_special(ammo_section) == "toxic") then
-		bas_handler.corrosive_cloud(monster)
+	if (get_special(ammo_section) == "toxic") or (chaos_effect == 10) then
+		bas_handler.corrosive_cloud(monster, bone_id)
 	end
 	
 	if bas_handler.weakened[monster:id()] then
         cloudkill_mult = 1.2
     end
 	
-	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * cqc_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * chaos_mult * ambush_mult * cloudkill_mult
+	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * cqc_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
 
 	printf("Barrel condition: %s, GBO output damage: %s", barrel_condition, shit.power)
 	
@@ -1016,66 +1021,6 @@ function npc_on_before_hit(npc,shit,bone_id)
 	end
 
 	local game_num = gameplay["type"] or game_num
-
-	------------------
-	-- Chaos Rounds --
-	------------------
-	if (get_special(ammo_section) == "chaos") then
-		chaos_effect = arti_handlers.chaos_damage(npc,shit,bone_id)
-		
-		printf("Old AP: %s", k_ap)
-		local random_mult = math.random(60, 160) * 0.01
-		chaos_mult = random_mult
-		
-		
-		k_ap = k_ap * chaos_mult
-		printf("Mid-Chaos AP: %s", k_ap)
-		if chaos_effect == 7 then
-			printf("Chaos Head AP: %s", k_ap)
-			k_ap = k_ap * 1.2
-		end
-		
-		printf("Chaos Multiplier: %s, Final AP: %s", chaos_mult, k_ap)
-	end
-
-	-----------------
-	-- Acid Rounds --
-	-----------------
-	if (get_special(ammo_section) == "acid") or (chaos_effect == 7) then
-		shit.type = hit.chemical_burn
-		acid_mult = 1.75
-	end
-	
-	---------------------------
-	-- JHP/Headhunter Rounds --
-	---------------------------	
-	if (get_special(ammo_section) == "head") or (chaos_effect == 6) then
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
-			k_ap = 1.0
-		end
-	end
-	
-	-------------------
-	-- Ambush Rounds --
-	-------------------
-	if (get_special(ammo_section) == "ambush") then
-		if arti_handlers.ambush(npc,shit,wpn) then
-			k_ap = k_ap + 0.1
-			ambush_mult = 1.20
-		end
-	end
-	
-	-------------------------
-	-- Cloudkill Eco Round --
-	-------------------------
-	cloudkill_mult = 1.0
-	if (get_special(ammo_section) == "toxic") then
-		bas_handler.corrosive_cloud(npc)
-	end
-	
-	if bas_handler.weakened[npc_id] then
-        cloudkill_mult = 1.2
-    end
 	
 	--printf("// Ammo data :")
 	--printf('game_num = %s', game_num)
@@ -1109,12 +1054,74 @@ function npc_on_before_hit(npc,shit,bone_id)
 		end
 	end
 
+	------------------
+	-- Chaos Rounds --
+	------------------
+	if (get_special(ammo_section) == "chaos") then
+		chaos_effect = arti_handlers.chaos_damage(npc,shit,bone_id)
+		
+		printf("Old AP: %s", k_ap)
+		local random_mult = math.random(60, 160) * 0.01
+		chaos_mult = random_mult
+		
+		
+		k_ap = k_ap * chaos_mult
+		printf("Mid-Chaos AP: %s", k_ap)
+		if chaos_effect == 7 then
+			printf("Chaos Head AP: %s", k_ap)
+			k_ap = k_ap * 1.2
+		end
+		
+		printf("Chaos Multiplier: %s, Final AP: %s", chaos_mult, k_ap)
+	end
+	
+	if (chaos_effect == 6) and (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then  -- headshot
+		if (k_ap < 1.0) then
+			k_ap = 1.0
+		else
+			custom_bone_hitfraction = 1.0
+		end
+	end
+	
+	-----------------
+	-- Acid Rounds --
+	-----------------
+	if (get_special(ammo_section) == "acid") or (chaos_effect == 7) then
+		shit.type = hit.chemical_burn
+		acid_mult = 1.75
+	end
+	
+	-------------------
+	-- Ambush Rounds --
+	-------------------
+	if (get_special(ammo_section) == "ambush") then
+		if arti_handlers.ambush(npc,shit,wpn) then
+			k_ap = k_ap + 0.1
+			ambush_mult = 1.20
+		end
+	end
+	
+	-------------------------
+	-- Cloudkill Eco Round --
+	-------------------------
+	cloudkill_mult = 1.0
+	if (get_special(ammo_section) == "toxic") or (chaos_effect == 10) then
+		bas_handler.corrosive_cloud(npc, bone_id)
+	end
+	
+	if bas_handler.weakened[npc_id] then
+        cloudkill_mult = 1.2
+    end
+
 	---------------------------
 	-- JHP/Headhunter Rounds --
 	---------------------------
 	-- Nullifies any armor + faction resistances & removes any damage penalty from overpenetration
 	if (get_special(ammo_section) == "head") then
 		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
+			if k_ap < 1.0 then
+				k_ap = 1.0
+			end
 			custom_bone_hitfraction = 1.00
 			sin_res = 1.0
 			isg_res = 1.0
@@ -1133,7 +1140,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	----------------------
 	-- Lightning Rounds --
 	----------------------
-	if (get_special(ammo_section) == "shock") then
+	if (get_special(ammo_section) == "shock") or (chaos_effect == 9) then
 		shit.type = hit.shock
 		if (custom_bone_armor == 4) then
 			arti_handlers.shock_damage(npc,bone_id, custom_bone_armor * 0.1)
@@ -1171,7 +1178,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 		local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
 		custom_bone_value[custom_bone_id] = new_bone_armor
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
-			shit.power = shit.power * fragment_mult * custom_bone_hitfraction 
+			shit.power = shit.power * fragment_mult * custom_bone_hitfraction
 		else
 			-- 02/07/23 ilrath - Experimenting with a flinch/stun buff for concussion damage
 			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
@@ -1186,7 +1193,6 @@ function npc_on_before_hit(npc,shit,bone_id)
 			camdir = device().cam_pos:add(device().cam_dir:mul(dist))
 			pos.x = pos.x + (camdir.x * -0.0005)
 			pos.z = pos.z + (camdir.z * -0.0005)
-			fx:play_at_pos(pos)
 		end
 	else
 		custom_bone_value[custom_bone_id] = custom_bone_armor	
@@ -1251,6 +1257,10 @@ function npc_on_before_hit(npc,shit,bone_id)
 			arti_handlers.rip(npc,shit)
 		end
 	end	
+	
+	if (fragment_mult > 1.0) then
+		arti_handlers.fragment_sound(npc)
+	end
 	
 	if surrender_bonus == 1 then
 		npc:set_health_ex(0.0)
