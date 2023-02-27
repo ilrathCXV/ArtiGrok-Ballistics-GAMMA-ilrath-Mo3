@@ -13,15 +13,19 @@ name		= ammo_new_12x70_buck
 k_hit		= 1.00 		;0.35 - Arti 		;0.40 - Grok
 k_ap		= 0.03 		;0.025 - Arti
 cost        = 750
+special		= varma
+varma 		= 1.1
 
 [ammo_12x70_buck_bad]:ammo_12x70_buck ; magnum buckshot
 name		= ammo_new_12x70_magnum
 k_hit		= 1.175 	;0.42 - Arti 		;0.47 - Grok+
-k_ap		= 0.075 	;0.05 - Arti
+k_ap		= 0.045 	;0.05 - Arti
 cost        = 1250
 recoil		= 1.5
 dg_ammo     = ammo_12x70_buck
 dg_chance   = 0.4
+special		= varma
+varma 		= 1.1
 
 
 [ammo_12x76_zhekan]:ammo_base ; slug
@@ -44,16 +48,16 @@ cost        = 5000
 recoil		= 1.1
 special		= flinch
 flinch		= 0.85
-dg_ammo     = ammo_12x76_zhekan
-dg_chance   = 0.5
 
 
 [ammo_12x76_dart]:ammo_base ; flechette
 handler     = arti_handlers.buckshot_damage
 name		= ammo_new_12x70_flechette
 k_hit		= 0.7 		;0.28 - Arti
-k_ap		= 0.3
-cost        = 3500
+k_ap		= 0.15
+cost        = 6500
+dg_ammo     = ammo_12x76_zhekan
+dg_chance   = 0.5
 
 [ammo_12x76_dart_bad] ; anomalous dragonsbreath
 handler     = arti_handlers.dragonsbreath
@@ -62,8 +66,8 @@ k_hit		= 0.625 	;0.25 - Arti
 k_ap		= 0.1
 ignite      = 1
 cost        = 35000
-dg_ammo     = ammo_12x76_dart
-dg_chance   = 0.95
+dg_ammo     = ammo_12x76_zhekan_bad
+dg_chance   = 0.90
 special     = fire_melt
 
 

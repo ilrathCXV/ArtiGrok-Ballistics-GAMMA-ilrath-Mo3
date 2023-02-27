@@ -403,6 +403,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
 
+	--------------------
+	-- Cover Piercing --
+	--------------------
+	
+	if (get_special(ammo_section) == "pierce") then
+		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
+		mutant_mult = 1.0
+	end
+
 	-- /// save gun barrel data ///
 	if (IsWeapon(wpn) and (not IsItem("fake_ammo_wpn",wpn:section()))) or (wpn:parent() and wpn:parent():id() ~= 0) then
 		barrel_condition = nil
@@ -510,9 +519,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Allow standard damage due to piercing the boar's thick hide w/o overpenetration  (BR2 - BR3)
 	if string.find(monster:name(), "boar") then
 		spec_monster_mult = 0.90
-		if (k_ap >= 0.19) and (k_ap <= 0.37) then
-			mutant_mult = 1.0
-			printf("Boar hide pierced!")
+		if bone_id == 20 then
+			bone_mult = 2.00
+			printf("Critical Hit!")
 		end
 	end
 
@@ -575,11 +584,12 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	-- Allow standard damage due to "piercing" the Burer's defenses w/o overpenetration (BR2 - BR3)
 	if string.find(monster:name(), "burer") then
-		if (k_ap >= 0.19) and (k_ap <= 0.37) then
-			mutant_mult = 1.0
-			printf("Burer protection pierced!")
+		if (bone_id >= 39 and bone_id < 43) or (bone_id >= 40 and bone_id < 49) then
+			bone_mult = 2.00
+			printf("Critical Hit!")
 		end
 	end
+
 	
 	local gameplay = alife_storage_manager.get_state().diff_game
 	if not (type(gameplay) == "table") then -- for old saves
@@ -814,6 +824,13 @@ function npc_on_before_hit(npc,shit,bone_id)
 	local shooter_pos = shooter:position()
 	local dist = npc_pos:distance_to(shooter_pos)
 
+	--------------------
+	-- Cover Piercing --
+	--------------------
+	
+	if (get_special(ammo_section) == "pierce") then
+		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
+	end
 
 	-- /// save gun barrel data ///
 
