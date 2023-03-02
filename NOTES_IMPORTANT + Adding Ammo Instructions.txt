@@ -24,6 +24,8 @@ GROK- Great job with ballistics, like i said.. but the people want more options!
 
 Instructions for implementing new ammo/modifying ammo into ArtiGrok (written by ilrathCXV):
 
+**NOTE** The procedure for "k_ap" is slightly out-of-date as of Update 7 due to bringing back "Cover Piercing". If you don't plan on using that effect, this guide is still completely useful to you.
+
 First, go into this mod's files and go to the directory: [this mod]\gamedata\configs\ammo
 Next, either create a new .ltx (ammo_(custom_name_here).ltx without the parenthesis) or add it to the "ammo_extras_modded.ltx" file included with this mod.
 
@@ -34,7 +36,7 @@ Example of an ammo type that has nearly all the elements involoved in the system
 [ammo_5.56x45_fmj_bad]:ammo_5.56x45_fmj 		-- This is the debug name of the ammo. The ":ammo_5.56x45_fmj" just means it is inheriting some stats from the standard FMJ ammo. For custom ammo, I suggest using ":ammo_base"
 handler     = arti_handlers.fragment_sound		-- This is a handler from Arti's system. Due to changes, the "handler" is no longer needed. But, you are free to use it in case.
 name		= ammo_new_5.56x45_fmjs				-- This is the name designation of the ammo. Pull the designation from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
-k_hit		= 1.1 								-- This is the "k_hit" parameter of the ammo. Pull the 'k_hit' from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
+k_hit		= 1.1 								-- This is the "k_hit" parameter of the ammo. This isn't used by the system anymore as of Update 7. This value is pulled straight from the file the ammo is found in.
 k_ap		= 0.326								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
 cost        = 2250								-- This is the "cost" parameter of the ammo. It was used by Arti's system to modify the cost of ammo. Pull the value from ammo's file or change it if the ammo is old ammo you are looking to change  (changes in here only take effect is the "Cost" option in this mod's MCM settings are turned on).
 dg_ammo     = ammo_5.56x45_fmj					-- This parameter takes in another ammo that this ammo can degrade/convert to when looting (in order to offset the fact bad-now-special ammo is more prevalent). Only necessary if you want to make use of this.

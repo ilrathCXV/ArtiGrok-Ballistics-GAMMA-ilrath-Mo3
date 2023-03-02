@@ -1161,6 +1161,8 @@ function npc_on_before_hit(npc,shit,bone_id)
 		shit.type = hit.shock
 		if (custom_bone_armor == 4) then
 			arti_handlers.shock_damage(npc,bone_id, custom_bone_armor * 0.1)
+		elseif (tonumber(custom_bone_armor) < 0.3) and (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+			arti_handlers.shock_damage(npc,bone_id, 0.3)
 		else
 			arti_handlers.shock_damage(npc,bone_id, custom_bone_armor)
 		end

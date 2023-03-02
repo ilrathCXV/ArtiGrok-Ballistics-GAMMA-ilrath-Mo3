@@ -224,7 +224,7 @@ function shock_damage(npc, bone_id, armor_amount)
         h.draftsman = db.actor
         h.power = armor_tier * 0.15
         h.bone = "bip01_spine"
-        radius = armor_tier / 2
+        radius = armor_tier
 
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:alive() and obj:id() ~= AC_ID then
