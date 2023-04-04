@@ -30,8 +30,8 @@ sniper_bad_bone_shit_reduce = 1
 local difficulty_multiplier = {
 	[1]  = 1.3,
 	[2]  = 1.05,
-	[3]  = 1.0,
-	[4]  = 1.0,
+	[3]  = 0.90,	--[3]  = 1.0,
+	[4]  = 0.80,		--[4]  = 1.0,
 }
 
 -----------------------------------------------------------------
@@ -318,7 +318,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	--end
 	
 	-- /// save ammo data ///
-	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") or 0
+	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
 	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
 	local monster_pos = monster:position()
@@ -557,7 +557,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	end
 
 	if string.find(monster:name(), "snork") then
-		spec_monster_mult = 0.95
+		spec_monster_mult = 1.10
 		if bone_id == 4 or bone_id == 5 then
 			bone_mult = 2.00
 			printf("Critical Hit!")
@@ -575,9 +575,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 
 	if string.find(monster:name(), "fracture") then
-		spec_monster_mult = 0.65
+		spec_monster_mult = 0.60
 		if (bone_id == 12 or bone_id == 13) then
-			bone_mult = 2.00
+			bone_mult = 2.20
 			printf("Critical Hit!")
 		end
 	end
@@ -816,7 +816,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	--end
 	
 	-- /// save ammo data ///
-	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") or 0
+	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
 	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
 	local wm_size = ini_sys:r_float_ex(ammo_section, "wm_size") or 0.05
@@ -987,7 +987,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 		local faction = se_obj:community()
 		sin_res = 1
 		if faction == "greh" then
-			sin_res = 0.15
+			sin_res = 0.35
 			pos = npc:bone_position(custom_bone_name)
 			fxdir = shit.direction
 			fxdir.x = (fxdir.x * -1.0) + math.random(-0.009, 0.009)
@@ -1198,6 +1198,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 		custom_bone_value[custom_bone_id] = new_bone_armor
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * fragment_mult * custom_bone_hitfraction
+			if (fragment_mult > 1.0) then
+				arti_handlers.fragment_sound(npc)
+			end
 		else
 			-- 02/07/23 ilrath - Experimenting with a flinch/stun buff for concussion damage
 			shit.power = 0.025 * shit.power * custom_bone_hitfraction * wm_size * 45 * (1 + (flinch_stun_chance))-- residual concussion damage if bullet didn't damage armor enough, the bigger the ammo the bigger the residual damages
@@ -1212,6 +1215,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 			camdir = device().cam_pos:add(device().cam_dir:mul(dist))
 			pos.x = pos.x + (camdir.x * -0.0005)
 			pos.z = pos.z + (camdir.z * -0.0005)
+			fx:play_at_pos(pos)
 		end
 	else
 		custom_bone_value[custom_bone_id] = custom_bone_armor	
@@ -1219,6 +1223,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Expansion Bonus --
 	---------------------
 		shit.power = shit.power * fragment_mult * hp_expansion_mult
+		if (fragment_mult > 1.0) then
+			arti_handlers.fragment_sound(npc)
+		end
 	end
 	
 	-- Add even more feedback on headshots
@@ -1277,29 +1284,25 @@ function npc_on_before_hit(npc,shit,bone_id)
 		end
 	end	
 	
-	if (fragment_mult > 1.0) then
-		arti_handlers.fragment_sound(npc)
-	end
-	
 	if surrender_bonus == 1 then
 		npc:set_health_ex(0.0)
 	else
 		npc:set_health_ex(life_remove)
 	end
 	
-	if life_remove < -1 then
-		if head_bones[bone_id] then
-			target_bone = "bip01_head"
-		end
+--	if life_remove < -1 then
+--		if head_bones[bone_id] then
+--			target_bone = "bip01_head"
+--		end
 		
-		if target_bone and math.random(1,10) >= 8 then
-			npc:set_bone_visible(target_bone, false, true)
-			play_particle(npc, 15, "hit_fx\\effects\\hit_blood_drops_hd_dust_18_extra")
-			play_particle(npc, 15,  "hit_fx\\effects\\hit_blood_drops_hd_dust_20")
-			play_particle(npc, 15,  "hit_fx\\effects\\hit_bb_07")
-			play_sound("gore\\hit_zombie_"..math.random(23), 1.2, npc)
-		end
-	end
+--		if target_bone and math.random(1,10) >= 8 then
+--			npc:set_bone_visible(target_bone, false, true)
+--			play_particle(npc, 15, "hit_fx\\effects\\hit_blood_drops_hd_dust_18_extra")
+--			play_particle(npc, 15,  "hit_fx\\effects\\hit_blood_drops_hd_dust_20")
+--			play_particle(npc, 15,  "hit_fx\\effects\\hit_bb_07")
+--			play_sound("gore\\hit_zombie_"..math.random(23), 1.2, npc)
+--		end
+--	end
 	
 	shit.power = 0.0001
 	life_remove = nil

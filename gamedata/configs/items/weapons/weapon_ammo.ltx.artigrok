@@ -675,7 +675,7 @@ inv_name_short		                     = ammo_new_9x18_7n25_s
 k_disp			= 0.7
 k_hit			= 0.9 ;0.60 ;  0.95
 k_impulse		= 0.52
-k_ap			= 0.4 	;0.2 - Arti; 0.3;0.24
+k_ap			= 0.425 ; 0.3;0.24
 impair			= 1.25 ;4
 tracer_color_ID	= 1
 wm_size			= 0.09
@@ -1010,7 +1010,7 @@ inv_name_short		                     = ammo_new_9x19_7n31_s
 k_disp			= 0.7
 k_hit			= 0.95 ;0.70 ;  0.95
 k_impulse		= 0.32
-k_ap			= 0.417 		;0.225 - Arti
+k_ap			= 0.45 		;0.225 - Arti
 impair			= 1.25 ;4
 tracer_color_ID	= 1
 wm_size         = 0.09
@@ -3331,7 +3331,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_792x33_fmj.ogf
 description		= ammo-7.92x33_fmj_descr
 $prefetch 		= 64
 
-cost			= 2035
+cost			= 2250
 box_size		= 15
 
 inv_weight		= .37
@@ -3368,7 +3368,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_792x33_fmj.ogf
 description		= ammo-7.92x33_fmj_descr
 $prefetch 		= 64
 
-cost			= 2635
+cost			= 2830
 box_size		= 15
 
 inv_weight		= .37
@@ -3555,7 +3555,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_762x51_fmj.ogf
 description				= ammo-7.62x51_fmj_descr
 $prefetch 		= 64
 
-cost					 = 2250
+cost					 = 3000
 
 box_size		= 15
 
@@ -3592,7 +3592,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_762x51_fmj.ogf
 description				= ammo-7.62x51_fmj_descr
 $prefetch 		= 64
 
-cost					 = 2850
+cost					 = 4750
 
 box_size		= 15
 
@@ -3900,7 +3900,7 @@ visual          = dynamics\weapons\wpn_ammo\ammo_762x54_7h1.ogf
 description		= ammo-7.62x54-7n1_descr
 $prefetch 		= 64
 
-cost			= 2800
+cost			= 2250
 
 box_size		= 10
 
@@ -3917,7 +3917,7 @@ inv_name_short		                     = ammo_new_7.62x54_hp_s
 k_disp			= 0.66
 k_impulse		= 1.5
 k_hit           = 1.017
-k_ap			= 0.31; 0.5
+k_ap			= 0.30; 0.5
 k_hit           = 1.18
 tracer_color_ID	= 0
 wm_size         = 0.0762
@@ -3939,7 +3939,7 @@ visual          = dynamics\weapons\wpn_ammo\ammo_762x54_7h1.ogf
 description		= ammo-7.62x54-7n1_descr
 $prefetch 		= 64
 
-cost			= 37500
+cost			= 52500
 
 box_size		= 10
 
@@ -3955,7 +3955,7 @@ inv_name_short		                     = ammo_new_7.62x54_fp_s
 k_disp			= 0.7
 k_hit           = 1.117 	;1.017
 k_impulse		= 1.5
-k_ap			= 0.31		;0.48
+k_ap			= 0.2		;0.48
 ;impair			= 9
 tracer_color_ID	= 0
 wm_size         = 0.0762
@@ -4016,7 +4016,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_762x54_ap.ogf
 description		= ammo-7.62x54-ap_descr
 $prefetch 		= 64
 
-cost					 = 10150
+cost					 = 9500
 
 box_size		= 10
 
@@ -4053,7 +4053,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_762x54_ap.ogf
 description		= ammo-7.62x54-ap_descr
 $prefetch 		= 64
 
-cost					 = 12700
+cost					 = 11000
 
 box_size		= 10
 
@@ -4355,7 +4355,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_127x55_fmj.ogf
 description		= ammo-12.7x55-fmj_descr
 $prefetch 		= 64
 
-cost			= 3200
+cost			= 3000
 box_size		= 10
 
 inv_weight		= 0.75
@@ -4373,7 +4373,7 @@ k_impulse		= 2.8
 k_ap			= 0.38; 0.5
 tracer_color_ID	= 0
 wm_size         = 0.127
-k_air_resistance = 0.50
+k_air_resistance = 0.60
 k_cam_dispersion          = 1.0
 k_bullet_speed	= 1.0
 
@@ -4391,7 +4391,7 @@ visual                  = dynamics\weapons\wpn_ammo\ammo_127x55_fmj.ogf
 description		= ammo-12.7x55-fmj_descr
 $prefetch 		= 64
 
-cost			= 4550
+cost			= 4350
 box_size		= 10
 
 inv_weight		= 0.75
@@ -4447,7 +4447,7 @@ k_ap			= 0.30; 0.5
 impair = 9
 tracer_color_ID	= 0
 wm_size         = 0.127
-k_air_resistance = 0.5
+k_air_resistance = 0.60
 k_cam_dispersion          = 1.0
 k_bullet_speed	= 1.0
 
@@ -4466,7 +4466,7 @@ visual			= dynamics\weapons\wpn_ammo\ammo_127x55_ap.ogf
 description		= ammo_12.7x55_ap_descr
 $prefetch 		= 64
 
-cost			= 7500
+cost			= 6900
 box_size		= 10
 
 inv_weight		= 0.85
@@ -4484,7 +4484,7 @@ k_impulse		= 2.8
 k_ap			= 0.75
 tracer_color_ID	= 1
 wm_size			= 0.127
-k_air_resistance = 0.5
+k_air_resistance = 0.60
 k_cam_dispersion          = 1.2
 k_bullet_speed	= 1.0
 
@@ -4502,7 +4502,7 @@ visual			= dynamics\weapons\wpn_ammo\ammo_127x55_ap.ogf
 description		= ammo_12.7x55_ap_descr
 $prefetch 		= 64
 
-cost			= 9000
+cost			= 12000
 box_size		= 10
 
 inv_weight		= 0.85
@@ -4521,7 +4521,7 @@ k_ap			= 0.405 		;0.5; 0.68
 impair			= 1.3 			;9
 tracer_color_ID	= 1
 wm_size			= 0.133
-k_air_resistance = 0.5
+k_air_resistance = 0.60
 k_bullet_speed	= 1.0
 k_cam_dispersion          = 1.2
 
@@ -4558,7 +4558,7 @@ k_ap			= 0.5; 0.68
 impair			= 9
 tracer_color_ID	= 1
 wm_size			= 0.127
-k_air_resistance = 0.5
+k_air_resistance = 0.60
 k_bullet_speed	= 1.0
 k_cam_dispersion          = 1.2
 

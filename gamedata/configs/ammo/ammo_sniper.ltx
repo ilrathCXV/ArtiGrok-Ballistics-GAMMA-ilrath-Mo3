@@ -10,15 +10,15 @@
 [ammo_7.62x54_7h1]:ammo_base; hunting
 name		= ammo_new_7.62x54_hp
 k_hit		= 1 		;1.017 - Grok
-k_ap		= 0.31 		;0.2 - Arti
+k_ap		= 0.30 		;0.2 - Arti
 k_hp        = 1.5
-cost        = 2800
+cost        = 2250
 
 [ammo_7.62x54_7h1_bad]:ammo_7.62x54_7h1; competition
 handler     = arti_handlers.headshot
 name		= ammo_new_7.62x54_fp
 k_hit		= 1.05 		;1.067 - Grok+
-k_ap		= 0.31 	;0.249 - Arti
+k_ap		= 0.2 	;0.249 - Arti
 k_hp        = 1.15
 cost        = 52500
 dg_ammo     = ammo_7.62x54_7h14
@@ -47,7 +47,7 @@ name		= ammo_new_7.62x54_ap
 k_hit		= 0.95 		;1.017 - Grok
 k_ap		= 0.8 		;0.305 - Arti
 recoil		= 1.05
-cost        = 10150
+cost        = 9500
 dg_ammo     = ammo_7.62x54_7h1
 dg_chance   = 0.5
 
@@ -58,7 +58,7 @@ k_hit		= 1.2 		;1.267 - Grok+
 k_ap		= 0.95 		;0.335 - Arti
 ignite      = 0.9
 special     = fire
-cost        = 12700
+cost        = 11000
 recoil		= 1.05
 dg_ammo     = ammo_7.62x54_ap
 dg_chance   = 0.8
@@ -87,7 +87,7 @@ dg_chance   = 0.6
 name		= ammo_new_7.62x51_fmj
 k_hit		= 1 		;1.065 - Grok
 k_ap		= 0.34 		;0.225 - Arti
-cost        = 2250
+cost        = 3000
 
 [ammo_7.62x51_fmj_bad]:ammo_7.62x51_fmj; mk316? 
 handler     = arti_handlers.fragment_sound
@@ -98,7 +98,7 @@ special     = frag
 name		= ammo_new_7.62x51_fmjs
 k_hit		= 1.05 		;1.105 - Grok+
 k_ap		= 0.34 		;0.225 - Arti
-cost        = 2850
+cost        = 4750
 dg_ammo     = ammo_7.62x51_fmj
 dg_chance   = 0.4
 
@@ -126,13 +126,13 @@ special     = pierce
 name		= ammo_new_7.92x33_fmj
 k_hit		= 1 		;1.13 - Grok
 k_ap		= 0.25 		;0.195 - Arti
-cost        = 2035
+cost        = 2250
 
 [ammo_7.92x33_fmj_bad]:ammo_7.92x33_fmj ;match
 name		= ammo_new_7.92x33_match
 k_hit		= 1.1 		;1.23 - Grok+
 k_ap		= 0.275 	;0.215 - Arti
-cost        = 2635
+cost        = 2830
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.4
 
@@ -160,7 +160,7 @@ special     = shock
 name		= ammo_new_12.7x55_fmj
 k_hit		= 1.5 		;1.35 - Grok
 k_ap		= 0.38 		;0.225 - Arti
-cost        = 3200
+cost        = 3000
 
 [ammo_12.7x55_fmj_bad]:ammo_12.7x55_fmj; pt2
 flinch 		= 0.95
@@ -170,7 +170,7 @@ special 	= flinch
 name		= ammo_new_12.7x55_fmjs
 k_hit		= 1.65 		;1.5 - Grok+
 k_ap		= 0.38 		;0.255 - Arti
-cost        = 4550
+cost        = 4350
 dg_ammo     = ammo_12.7x55_fmj
 dg_chance   = 0.25
 
@@ -179,7 +179,7 @@ name		= ammo_new_12.7x55_ap
 k_hit		= 1.5 		;1.35 - Grok
 k_ap		= 0.75 		;0.305 - Arti
 recoil		= 1.05
-cost        = 7500
+cost        = 6900
 ;dg_ammo     = ammo_12.7x55_fmj
 ;dg_chance   = 0.4
 
@@ -188,7 +188,7 @@ name		= ammo_new_12.7x55_exp
 impact_h    = arti_handlers.explode_handler
 k_hit		= 0.5 		;0.35 - Grok+
 k_ap		= 0.405 	;0.049 - Arti
-cost        = 9000
+cost        = 12000
 special     = explodes
 dg_ammo     = ammo_12.7x55_ap
 dg_chance   = 0.65
