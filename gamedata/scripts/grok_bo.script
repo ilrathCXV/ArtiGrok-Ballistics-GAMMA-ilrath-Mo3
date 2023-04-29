@@ -288,7 +288,10 @@ function monster_on_before_hit(monster,shit,bone_id)
 	------------------------
 	-- Varmageddon Rounds --
 	------------------------
-	varma_mult		= ini_ammo:r_float_ex(ammo_section, "varma") or 1.00
+	local varma_mult = 1.00
+	if (get_special(ammo_section) == "varma") then
+		varma_mult = 1.60
+	end
 	
 	--------------------------
 	-- Fragmentation Rounds --

@@ -117,7 +117,16 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
         for i=1,#self.stats do
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
                 local str
-                local ap = ini_ammo:r_float_ex(sec, "k_ap") or ini_sys:r_float_ex(sec, "k_ap") or 0
+				local special
+				if ini_ammo:section_exist(sec) then
+					special = ini_ammo:r_string_ex(sec, "special")
+				end
+                local ap = ini_sys:r_float_ex(sec, "k_ap") or 0
+				if (special and special == "pierce") or ap == 0 then 
+					ap = ini_ammo:r_float_ex(sec, "k_ap") or 0
+				else
+					ap = ap * 10
+				end
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end

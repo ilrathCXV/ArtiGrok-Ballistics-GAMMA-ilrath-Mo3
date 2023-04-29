@@ -102,7 +102,7 @@ end
 function ambush(npc, s_hit, wpn)
     
     -- hitting distracted npc with suppressed weapon confers 20% damage bonus and ups pen one class (SP6 eq)
-    if wpn:weapon_is_silencer() and(not npc:best_enemy() or npc:best_enemy():id() ~= 0) then
+    if (wpn:weapon_is_silencer() and (not npc:best_enemy() or npc:best_enemy():id() ~= 0)) or (IsMelee(wpn)) then
 		return true
 	else
 		return false
@@ -269,11 +269,12 @@ end
 ------------------------------------------------------------------------------------ END USE
 
 -- randomly rip the durability
-function pab()
+function condition_degrade_on_fire(amount)
     local rand = math_random(4)
     local wpn = db.actor:active_item()
+	local dura_rip = amount or 0.025
     if wpn and rand == 1 then
-        wpn:set_condition(clamp(wpn:condition() - 0.01, 0, 1))
+        wpn:set_condition(clamp(wpn:condition() - dura_rip, 0, 1))	-- Lose 0.25% condition when using variants
     end
 end
 
@@ -298,20 +299,25 @@ end
 
 local custom_proj_table = {
     ["explodes"] = explode_handler,
-    ["impair"] = pab,
     ["soulripper"] = play_grav_sound,
     ["chaos"] = play_grav,
     ["shock"] = play_shock,
     ["fire_melt"] = play_fire_big,
-    ["acid"] = play_acid
+    ["acid"] = play_acid,
+	["head"] = play_grav
 }
 
 function actor_on_weapon_fired(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
     local ammo_table = utils_item.get_ammo(wpn:section(), wpn:id())
     ammo_type = wpn:get_ammo_type()
+	is_variant = ini_ammo:r_string_ex(sec, "dg_ammo")
     if ammo_table[ammo_type + 1] and custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] then
         custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")]()
+		condition_degrade_on_fire(0.0105)	-- Lose 1.05% durability when firing these rounds on (un)lucky roll
     end
+	if ammo_table[ammo_type + 1] and is_variant and (wpn == db.actor:active_item()) then	-- extra check in case an NPC fires variant ammo
+		condition_degrade_on_fire()			-- Lose 0.25% durability when firing these rounds on (un)lucky roll
+	end
 end
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------ END USE
