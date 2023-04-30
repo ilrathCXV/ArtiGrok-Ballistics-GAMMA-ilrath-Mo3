@@ -37,7 +37,17 @@ recoil		= 1.1
 special		= flinch
 flinch		= 0.50
 
-[ammo_12x76_zhekan_bad]:ammo_12x76_zhekan ; now Dart AP slugs
+[ammo_12x76_zhekan_bad]:ammo_12x76_zhekan ; flechette
+handler     = arti_handlers.buckshot_damage
+name		= ammo_new_12x70_flechette
+k_hit		= 0.7 		;0.28 - Arti
+k_ap		= 0.15
+cost        = 6500
+dg_ammo     = ammo_12x76_zhekan
+dg_chance   = 0.5
+
+
+[ammo_12x76_dart]:ammo_base ; AP Dart
 handler     = arti_handlers.slug
 name		= ammo_new_12x70_dart
 k_hit		= 5 		;2 - Arti		;1.52 - Grok
@@ -47,16 +57,6 @@ cost        = 5000
 recoil		= 1.1
 special		= flinch
 flinch		= 0.85
-
-
-[ammo_12x76_dart]:ammo_base ; flechette
-handler     = arti_handlers.buckshot_damage
-name		= ammo_new_12x70_flechette
-k_hit		= 0.7 		;0.28 - Arti
-k_ap		= 0.15
-cost        = 6500
-dg_ammo     = ammo_12x76_zhekan
-dg_chance   = 0.5
 
 [ammo_12x76_dart_bad] ; anomalous dragonsbreath
 handler     = arti_handlers.dragonsbreath

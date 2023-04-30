@@ -279,4 +279,6 @@ end
 
 function on_game_start()
 	custom_functor_autoinject.add_functor("mg_link", try_mg_link, try_mg_link, nil, mg_link, true)
+	RegisterScriptCallback("npc_on_net_spawn",npc_on_net_spawn)
+
 end
