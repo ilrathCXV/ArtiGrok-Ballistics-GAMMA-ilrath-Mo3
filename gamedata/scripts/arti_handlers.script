@@ -270,8 +270,8 @@ end
 ------------------------------------------------------------------------------------ END USE
 
 -- randomly rip the durability
-function condition_degrade_on_fire(amount, wpn)
-    local rand = math_random(4)
+function condition_degrade_on_fire(amount, wpn, chance)
+    local rand = math_random(chance)
     local weapon = wpn or db.actor:active_item()
 	local dura_rip = amount or 0.0025
     if weapon and rand == 1 then
@@ -316,9 +316,9 @@ function actor_on_weapon_fired(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_typ
 	end
 	
 	if ammo_table[ammo_type + 1] and custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] then
-		condition_degrade_on_fire(0.0105, wpn)			-- Lose 1.05% durability when firing these rounds on (un)lucky roll
+		condition_degrade_on_fire(0.0105, wpn, 4)			-- Lose 1.05% durability when firing these rounds on a 25% (un)lucky roll
     elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "bad") then
-		condition_degrade_on_fire(0.0025, wpn)			-- Lose 0.25% durability when firing these rounds on (un)lucky roll
+		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll
 	end
 end
 ------------------------------------------------------------------------------------
