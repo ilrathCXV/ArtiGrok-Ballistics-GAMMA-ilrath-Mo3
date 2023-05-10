@@ -115,10 +115,10 @@
 		<text>headshots ignore some armor, center mass stuns</text>
 	</string>
 	<string id="st_ballistics_rip">
-		<text>lifesteal</text>
+		<text>Min. 5% lifesteal on hit</text>
 	</string>
 	<string id="st_ballistics_varma">
-		<text>bonus damage vs. mutants</text>
+		<text>60% bonus damage vs. mutants</text>
 	</string>
 	<string id="st_ballistics_explodes">
 		<text>explodes on impact</text>
@@ -127,10 +127,10 @@
 		<text>60%-160% damage/ap range, random effects</text>
 	</string>
 	<string id="st_ballistics_acid">
-		<text>breaks armor much faster</text>
+		<text>chemical hit, breaks armor much faster</text>
 	</string>
 	<string id="st_ballistics_ambush">
-		<text>bonus damage and AP vs. unaware targets</text>
+		<text>20% bonus damage and AP vs. unaware targets</text>
 	</string>
 	<string id="st_ballistics_impair">
 		<text>rapidly degrades weapon</text>
@@ -139,7 +139,7 @@
 		<text>headshots ignore armor</text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>ignites targets, reduces armor</text>
+		<text>fire hit, ignites targets & reduces armor</text>
 	</string>
 	<string id="st_ballistics_fire">
 		<text>chance to ignite targets</text>
@@ -148,13 +148,16 @@
 		<text>fires three projectiles</text>
 	</string>
 	<string id="st_ballistics_shock">
-		<text>AoE damage, increases with target's BR-tier</text>
+		<text>shock hit + AoE that increases with target's BR-tier</text>
 	</string>
 	<string id="st_ballistics_pierce">
 		<text>cover piercing</text>
 	</string>
 	<string id="st_ballistics_soulripper">
-		<text>lifesteal on headshots</text>
+		<text>Min. 10% lifesteal on headshots</text>
+	</string>
+	<string id="st_ballistics_armorbuster">
+		<text>breaks armor more effectively</text>
 	</string>
 
 	<string id="st_link">

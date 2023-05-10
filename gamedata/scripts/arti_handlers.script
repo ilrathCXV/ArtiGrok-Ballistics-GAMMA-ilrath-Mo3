@@ -76,7 +76,8 @@ function play_anim(npc)
     if npc:movement_type() == move.walk or npc:movement_type() == move.run then
         npc:set_movement_type(move.stand)
     end
-    npc:play_cycle(anims[math_random(#anims)], true)
+    --npc:play_cycle(anims[math_random(#anims)], true)
+	npc:set_override_animation(anims[math_random(#anims)])
     state_mgr.set_state(npc, "idle")
 end
 
@@ -110,15 +111,23 @@ function ambush(npc, s_hit, wpn)
 end
 
 
-function rip(npc, s_hit)
+function rip(npc, s_hit, headshot)
 
     if is_actor(npc) then return s_hit end
-
-    if s_hit.power > 0.5 and db.actor.health < 1 then
+	
+	local base_heal = 0.050
+	
+    if (s_hit.power > 0.5 and db.actor.health < 1) or headshot then
     	local s = xr_sound.get_safe_sound_object("Soul_"..math.random(5))
 		s:play(db.actor, 0, sound_object.s2d)
     end
-    db.actor.health = clamp(db.actor.health + 0.05 + (0.2 * s_hit.power), 0, 1)
+	
+	if headshot then
+		base_heal = 0.10
+	end
+		
+	
+    db.actor.health = clamp(db.actor.health + base_heal + (0.2 * s_hit.power), 0, 1)
 
 end
 

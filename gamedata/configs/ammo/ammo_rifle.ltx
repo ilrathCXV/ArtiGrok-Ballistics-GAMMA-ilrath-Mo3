@@ -63,21 +63,19 @@ dg_chance   = 0.50
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [ammo_5.56x45_fmj]:ammo_base ; M193
-handler     = arti_handlers.fragment
 name		= ammo_new_5.56x45_fmj
 k_hit		= 1 		;1.05 - Grok
 k_ap		= 0.27 		;0.155 - Arti
 cost        = 1500
 
 [ammo_5.56x45_fmj_bad]:ammo_5.56x45_fmj ; MK318
-handler     = arti_handlers.fragment_sound
 name		= ammo_new_5.56x45_fmjs
 k_hit		= 1.1 		;1.15 - Grok+
 k_ap		= 0.326 	;0.195 - Arti
 cost        = 2250
 dg_ammo     = ammo_5.56x45_fmj
 dg_chance   = 0.25
-special     = pierce
+special     = armorbuster
 
 [ammo_5.56x45_ss190]:ammo_base ; civ hunting
 name		= ammo_new_5.56x45_hp

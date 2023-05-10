@@ -693,6 +693,16 @@ function monster_on_before_hit(monster,shit,bone_id)
         cloudkill_mult = 1.2
     end
 	
+	-------------------------
+	-- [NEW] Armor Buster --
+	-------------------------
+	-- Multiplies bone_mult by 30%, increases ammo_mult by 0.3, and nullifies monster resistance
+	if (get_special(ammo_section) == "armorbuster") then
+		spec_monster_mult = 1.00
+		bone_mult = bone_mult * 1.3
+		ammo_mult = ammo_mult + 0.30
+	end
+	
 	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * cqc_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
 
 	printf("Barrel condition: %s, GBO output damage: %s, CQC multiplier: %s", barrel_condition, shit.power, snake_mult)
@@ -719,7 +729,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	----------------
 	-- Grants healing on successful hits
 	if (get_special(ammo_section) == "rip") then 
-		arti_handlers.rip(monster,shit)
+		arti_handlers.rip(monster,shit,false)
 	end
 	
 	----------------
@@ -727,7 +737,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	----------------
 	-- Grants healing on "critical" hits
 	if (get_special(ammo_section) == "soulripper") and (bone_mult > 1.00) then 
-		arti_handlers.rip(monster,shit)
+		arti_handlers.rip(monster,shit,true)
 	end
 	
 	return
@@ -795,6 +805,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 	------------------------- Arti's Bonuses ------------------------------
 	-----------------------------------------------------------------------
 	
+	armor_break_mult = 1.0
+	armor_break_bonus = 0
+	
 	--------------------------
 	-- Fragmentation Rounds --
 	--------------------------
@@ -807,20 +820,10 @@ function npc_on_before_hit(npc,shit,bone_id)
 	chaos_effect = 0
 	chaos_mult = 1.00
 	
-	------------------
-	-- Acid Rounds --
-	------------------
-	acid_mult = 1.00
-	
 	-------------------
 	-- Ambush Rounds --
 	-------------------
 	ambush_mult = 1.00
-	
-	---------------------
-	-- Dragon's Breath --
-	---------------------
-	dragon_armor_melt = 0
 	
 	---------------------
 	-- Expansion Bonus --
@@ -1133,10 +1136,11 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-----------------
 	-- Acid Rounds --
 	-----------------
-	-- Changes hit to chemical damage + multiplies armor lost on hit by 75%
+	-- Changes hit to chemical damage + multiplies armor lost on hit by 75% + removes 5 BR/armor per hit
 	if (get_special(ammo_section) == "acid") or (chaos_effect == 7) then
 		shit.type = hit.chemical_burn
-		acid_mult = 1.75
+		armor_break_mult = armor_break_mult * 1.75
+		armor_break_bonus = armor_break_bonus + 0.05
 	end
 	
 	-------------------
@@ -1181,11 +1185,20 @@ function npc_on_before_hit(npc,shit,bone_id)
 	---------------------
 	-- Dragon's Breath --
 	---------------------
-	-- Burns target for moderate damage + changes hit to Fire damage + takes off 0.025 BR/armor value on hit
+	-- Burns target for moderate damage + changes hit to Fire damage + removes additional 2.5 BR/armor value on hit
 	if (get_special(ammo_section) == "fire_melt") then
 		shit.type = hit.burn
-		dragon_armor_melt = 0.025
+		armor_break_bonus = armor_break_bonus + 0.025
 		arti_handlers.dragonsbreath(npc,bone_id)
+	end
+	
+	-------------------------
+	-- [NEW] Armor Buster --
+	-------------------------
+	-- Multiplies armor lost on hit by 30% + removes 1.0 BR/armor on hit
+	if (get_special(ammo_section) == "armorbuster") then
+		armor_break_mult = armor_break_mult * 1.3
+		armor_break_bonus = armor_break_bonus + 0.01
 	end
 	
 	----------------------
@@ -1219,8 +1232,10 @@ function npc_on_before_hit(npc,shit,bone_id)
 
 	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult * cloudkill_mult
 	
-	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
-	armor_loss_increment = tonumber( tonumber( tonumber(armor_loss_increment) + tonumber(dragon_armor_melt)) * tonumber(acid_mult) )
+	-- ilrathCXV (05/08/23) - Dragon's Breath melts armor by 2.5 (0.025), Armor Buster removes armor by 1.0 (0.01), and Acid melts armor by 5 (0.05)
+	--						- Additionaly, Armor Buster multiplies armor lost by 30%, and Acid multiplies armor lost by 75% after damage calulations
+	--						- Extra effects only take place if they have the respective ammo type
+	local armor_loss_increment = tonumber(((k_ap * 0.60) + armor_break_bonus) * armor_break_mult) -- reduce bone armor depending on k_ap
 
 	local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
 	custom_bone_value[custom_bone_id] = new_bone_armor
@@ -1305,7 +1320,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	----------------
 	-- Grants healing on successful hits
 	if (get_special(ammo_section) == "rip") then 
-		arti_handlers.rip(npc,shit)
+		arti_handlers.rip(npc,shit,false)
 	end
 	
 	----------------
@@ -1314,7 +1329,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Grants healing on headshots
 	if (get_special(ammo_section) == "soulripper") then 
 		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
-			arti_handlers.rip(npc,shit)
+			arti_handlers.rip(npc,shit,true)
 		end
 	end	
 	

@@ -20,10 +20,10 @@
 	</string>
 	
 	<string id="ammo_9x21_sp12_bad">
-		<text>9x21mm Handloaded SP12 rounds</text>
+		<text>9x21mm Zone-made SP12 rounds</text>
 	</string>
 	<string id="ammo_9x21_sp12_bad_descr">
-		<text>Specialty-crafted variant of the standad SP12 rounds. Despite this cartridge's low penetration to body armor, it boasts devastating power when hitting a target in the head. As such, users will want to ensure their aim is true with this round. Due to this power, this round puts extreme pressure on the weapon compared to other 9x21 rounds.</text>
+		<text>"Homemade" variant of the standad SP12 rounds. Despite this cartridge's low penetration to body armor, it boasts devastating power to mutants and unprotected Stalkers. Due to the round not being tied to any specifications, the round fragments on impact which deals massive damage to any unprotected body parts. Great for mutant hunting or taking out lightly-armored thugs.</text>
 	</string>
 
 </string_table>
