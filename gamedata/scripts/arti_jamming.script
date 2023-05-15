@@ -59,7 +59,7 @@ end
 
 -- export function
 function get_jammed(id)
-	if mag_support then return jammed_guns[id] end
+	if magazines and magazine_binder then return jammed_guns[id] end
 	return jammed_guns[id] and jammed_guns[id] > 0
 end
 
@@ -731,9 +731,10 @@ function unjam_replace(weapon, slot, sound)
 		return true
 	end
 	
-	if mag_support()
+	if magazines and magazine_binder then
 		db.actor:hide_weapon()
 		CreateTimeEvent("arti_jamming", "move"..weapon:id(), 0, move_to_slot, weapon, slot, sound)
+		return true
 	end
 	
 --	db.actor:hide_weapon()
@@ -743,7 +744,7 @@ function unjam_replace(weapon, slot, sound)
 end
 
 function move_to_slot(weapon, slot, sound)
-	if mag_support then
+	if magazines and magazine_binder then
 		local current_weapon = db.actor:active_item()
 		if current_weapon then return false end
 
@@ -804,15 +805,14 @@ local function on_key_press(key)
 	if (key == DIK_keys[d_key]) then
 		d_flag = true
 	end
-	if not mag_support then
-		local bind = dik_to_bind(key)
-		if bind == key_bindings.kCUSTOM22 then
-			local wpn = db.actor:active_item()
-			if wpn and jammed_guns[wpn:id()] then
-				unjam()
-			else
-				level.press_action(bind_to_dik(key_bindings.kWPN_RELOAD))
-			end
+	if magazines and magazine_binder then return end
+	local bind = dik_to_bind(key)
+	if bind == key_bindings.kCUSTOM22 then
+		local wpn = db.actor:active_item()
+		if wpn and jammed_guns[wpn:id()] then
+			unjam()
+		else
+			level.press_action(bind_to_dik(key_bindings.kWPN_RELOAD))
 		end
     end
 end
@@ -955,7 +955,8 @@ function on_game_start()
 	RegisterScriptCallback("actor_on_update",actor_on_update)
 	RegisterScriptCallback("npc_on_before_hit",npc_on_before_hit)
 	RegisterScriptCallback("monster_on_before_hit",monster_on_before_hit)
-	if not mag_support then
+	if magazines and magazine_binder then
+	else
 		exec_console_cmd("bind wpn_reload kF10")
 	end
 end
