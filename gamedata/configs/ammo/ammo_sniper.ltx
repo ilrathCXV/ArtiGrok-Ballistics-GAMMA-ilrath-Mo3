@@ -56,7 +56,7 @@ handler     = arti_handlers.fire_damage
 name		= ammo_new_7.62x54_api
 k_hit		= 1.2 		;1.267 - Grok+
 k_ap		= 0.95 		;0.335 - Arti
-ignite      = 0.9
+ignite      = 90
 special     = fire
 cost        = 11000
 recoil		= 1.05
@@ -91,7 +91,7 @@ cost        = 3000
 
 [ammo_7.62x51_fmj_bad]:ammo_7.62x51_fmj; mk316? 
 handler     = arti_handlers.fragment_sound
-frag        = 1.5
+frag        = 50
 special     = frag
 ;ilrathCXV - Additonal effects to separate it from regular FMJ
 
@@ -161,7 +161,7 @@ k_ap		= 0.38 		;0.225 - Arti
 cost        = 3000
 
 [ammo_12.7x55_fmj_bad]:ammo_12.7x55_fmj; pt2
-flinch 		= 0.95
+flinch 		= 95
 special 	= flinch
 ;ilrathCXV - Giving an additonal effect (basically same as normal FMJ ammo the way Arti had it)
 
@@ -178,8 +178,6 @@ k_hit		= 1.5 		;1.35 - Grok
 k_ap		= 0.75 		;0.305 - Arti
 recoil		= 1.05
 cost        = 6900
-;dg_ammo     = ammo_12.7x55_fmj
-;dg_chance   = 0.4
 
 [ammo_12.7x55_ap_bad]:ammo_12.7x55_ap; explosive
 name		= ammo_new_12.7x55_exp

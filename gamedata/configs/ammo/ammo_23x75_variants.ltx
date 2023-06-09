@@ -1,0 +1,29 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 23x75 Pure Chaos Buckshot ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[ammo_23x75_shrapnel_bad]:ammo_base
+;handler     = arti_handlers.buckshot_damage
+handler     = arti_handlers.chaos_damage
+name		= ammo_23x75_chaos
+k_hit		= 1.15
+k_ap		= 0.04
+cost        = 9500
+special		= chaos
+
+dg_ammo     = ammo_23x75_shrapnel
+dg_chance   = 0.85
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 23x75 Fire Bomb "Slug" ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_23x75_barrikada_bad]:ammo_base
+handler     = arti_handlers.napalm_damage
+name 		= ammo_23x75_mini_napalm
+k_hit		= 1.15
+k_ap		= 0.03
+cost		= 16500
+special 	= napalm
+
+dg_ammo     = ammo_23x75_barrikada
+dg_chance   = 0.95

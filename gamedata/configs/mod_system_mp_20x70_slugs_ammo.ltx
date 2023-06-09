@@ -1,0 +1,101 @@
+[ammo_20x70_devastator]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_20x70_devastator"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_12x76_zhekan.ogf
+$prefetch 				= 64
+
+cost					= 900
+box_size				= 10
+
+inv_name				= ammo_20x70_devastator
+inv_name_short			= ammo_20x70_devastator
+description				= ammo_20x70_devastator_descr
+inv_weight				= .5
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070dev
+
+k_dist					= 1.0
+k_disp					= 0.45
+k_hit					= 2.33
+k_impulse				= 2.0
+k_ap					= 0.3
+wm_size					= 0.2070
+k_air_resistance		= 1.5
+k_cam_dispersion		= 1.0
+impair					= 1.75
+
+tracer					= on
+tracer_color_ID			= 0
+
+tier					= 3
+
+[ammo_20x70_star]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_20x70_star"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_12x76_dart.ogf
+$prefetch 				= 64
+
+cost					= 1800
+box_size				= 10
+
+inv_name				= ammo_20x70_star
+inv_name_short			= ammo_20x70_star
+description				= ammo_20x70_star_descr
+inv_weight				= .45
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070star
+
+k_dist					= 1.0
+k_disp					= 0.4
+k_hit					= 1.95
+k_impulse				= 1.85
+k_ap					= 0.5
+wm_size					= 0.2070
+k_air_resistance		= 1.0
+k_cam_dispersion		= 1.5
+impair					= 2.0
+
+tracer					= on
+tracer_color_ID			= 3
+
+tier					= 4
+
+[ammo_20x70_buck_bad]:ammo_20x70_buck
+cost					= 190
+impair					= 3
+
+[ammo_20x70_buck_verybad]:ammo_20x70_buck
+cost					= 9
+impair					= 5
+
+[ammo_20x70_devastator_bad]:ammo_20x70_devastator
+cost					= 190
+impair					= 3
+
+[ammo_20x70_devastator_verybad]:ammo_20x70_devastator
+cost					= 9
+impair					= 5
+
+[ammo_20x70_star_bad]:ammo_20x70_star
+cost					= 180
+
+impair					= 3
+
+[ammo_20x70_star_verybad]:ammo_20x70_star
+cost					= 18
+
+impair					= 5

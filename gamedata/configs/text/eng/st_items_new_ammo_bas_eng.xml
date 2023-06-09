@@ -17,7 +17,7 @@
 	</string>
 	
 	<string id="ammo_new_23x75_barrikada">
-		<text>23x75μμ "Barrikada" shells</text>
+		<text>23x75mm "Barrikada" shells</text>
 	</string>
 	<string id="ammo_new_23x75_barrikada_descr">
 		<text>23mm shell with a pointed steel bullet. Employed to forcibly stop vehicles by destroying the engine block. Application range up to 100 meters. Imported by esoteric stalkers for hunting very large creatures.</text>
@@ -40,7 +40,7 @@
 		<text>20x70 Buckshot shells</text>
 	</string>
 	<string id="ammo_new_20x70_buck_descr">
-		<text>Standard 20-caliber shell filled with 5 6mm buckshot pellets. Highly lethal at close range. Due to the reduced powder charge it suffers from reduced power compared to 12 gauge shotguns. The lighter recoil makes it more popular for novice hunters. Only suitable for use with smoothbore weapons.</text>
+		<text>Standard 20-caliber shell filled with 6mm buckshot pellets. Highly lethal at close range. Due to the reduced powder charge it suffers from reduced power compared to 12 gauge shotguns. The lighter recoil makes it more popular for novice hunters. Only suitable for use with smoothbore weapons.</text>
 	</string>
 	<string id="ammo_new_20x70_buck_s">
 		<text>20x70 Buck</text>

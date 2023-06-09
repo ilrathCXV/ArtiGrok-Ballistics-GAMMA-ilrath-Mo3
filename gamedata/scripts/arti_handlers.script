@@ -64,7 +64,7 @@ end
 local npc_stun = {}
 function stun_npc(npc, flinch_stun_chance)
     if not is_actor(npc) and IsStalker(npc) then
-		if math_random() < flinch_stun_chance then
+		if math_random(100) < flinch_stun_chance and (not npc_stun[npc:id()] or npc_stun[npc:id()] == false) then
 			play_anim(npc)
 			npc_stun[npc:id()] = time_global() + 750
 		end
@@ -76,18 +76,21 @@ function play_anim(npc)
     if npc:movement_type() == move.walk or npc:movement_type() == move.run then
         npc:set_movement_type(move.stand)
     end
-    --npc:play_cycle(anims[math_random(#anims)], true)
-	npc:set_override_animation(anims[math_random(#anims)])
+    npc:play_cycle(anims[math_random(#anims)], true)
+	--npc:set_override_animation(anims[math_random(#anims)])
     state_mgr.set_state(npc, "idle")
+	npc:movement_enabled(false)	
 end
 
 function on_enemy_eval(obj, enemy, flags)
-    if npc_stun[obj:id()] then
+    if npc_stun[obj:id()] and (enemy:id() == AC_ID) then
         if time_global() > npc_stun[obj:id()] then
             npc_stun[obj:id()] = false
-        else 
-            flags.override = true
-            flags.ret_value = false 
+			obj:movement_enabled(true)
+		else 
+			flags.override = true
+			flags.ret_value = false 
+			return
         end
     end
 end
@@ -157,7 +160,7 @@ end
 
 -- ignite
 function fire_damage(npc, bone_id, ignite_chance)
-    if math_random() < ignite_chance then
+    if math_random(100) < ignite_chance then
         ignite_npc(npc, bone_id, 3, 10)
     end
 end
@@ -247,6 +250,18 @@ function shock_damage(npc, bone_id, armor_amount)
     -- return s_hit
 end
 
+local napalm_effect = particles_object("artefact\\af_thermal_show")
+function napalm_damage(npc)
+	napalm_effect:play_at_pos(npc:position())
+	ignite_npc(npc, "bip01_spine", 10, 10)
+    level.iterate_nearest(npc:position(), 5, function(obj)
+        if obj and obj:alive() and obj:id() ~= AC_ID then
+            ignite_npc(obj,"bip01_spine",2,5)
+         end
+    end)
+    play_sound_on_location("anomaly\\fireball_blow", npc)
+end
+
 -- get position of where actor is aiming
 function get_point_of_aim()
     gvid = db.actor:game_vertex_id()
@@ -313,6 +328,7 @@ local custom_proj_table = {
     ["chaos"] = play_grav,
     ["shock"] = play_shock,
     ["fire_melt"] = play_fire_big,
+	["napalm"] = play_fire_big,
     ["acid"] = play_acid,
 	["head"] = play_grav
 }

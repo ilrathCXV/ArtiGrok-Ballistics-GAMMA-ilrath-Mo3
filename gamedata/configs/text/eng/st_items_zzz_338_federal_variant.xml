@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	<string id="ammo_338_fed_cloudkill">
+		<text>.338 Federal "Cloudkill" rounds</text>
+	</string>
+	<string id="ammo_338_fed_cloudkill_descr">
+		<text>This sniper round utilizes the power of chemical artefacts. When coming into contact with a target, the round releases a cloud of chemical poison. Any target within range of the cloud when it is released will be more vulnerable to any incoming damage and will have less power when fighting other targets. Despite the volatile makeup of the round, it still is a very deadly round on its own.</text>
+	</string>
+	<string id="ammo_338_fed_cloudkill_s">
+		<text>.338 Federal "Cloudkill"</text>
+	</string>
+
+</string_table>

@@ -17,7 +17,8 @@
 		<text>A modern, highly durable hunting knife with a large stainless steel blade. Ideal for field dressing the meat off larger animals with thick hides. It is also able to cause massive bleeding wounds to exposed flesh. As it wasn't intended for use in battle, it struggles against combat armors.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n\n
+		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Varmageddon: %c[ui_green]60%%c[ui_gray_2] extra damage to mutants
 		</text>
 	</string>
@@ -29,7 +30,8 @@
 		<text>An axe is an implement that has been used for millennia to shape, split and cut wood, to harvest timber, as a weapon and as a ceremonial or heraldic symbol. The axe has many forms but generally consists of an axe head with a handle or helve. In the Zone, the axe can ensure your survival thanks to its versatility.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n\n
+		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Varmageddon: %c[ui_green]60%%c[ui_gray_2] extra damage to mutants
 		</text>
 	</string>
@@ -41,7 +43,8 @@
 		<text>Most commonly employed by firefighters, this heavy axe is often used by stalkers for felling trees or, like all great things, repurposed for hacking apart enemies. Thus, it can serve as a formidable weapon in the hands of a skilled stalker.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n\n
+		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Varmageddon: %c[ui_green]60%%c[ui_gray_2] extra damage to mutants
 		</text>
 	</string>
@@ -57,7 +60,8 @@
 		<text>A well-kept blade, ideal for special forces operators participating in surgical strikes. It is good at piercing armors and dealing massive tissue damage. The ultimate combat cutlery.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n\n
+		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Ambush: %c[ui_green]20%%c[ui_gray_2] extra damage and AP to unaware targets
 		</text>
 	</string>
@@ -69,7 +73,8 @@
 		<text>A large multi-purpose knife with a rugged rubber handle, commonly used by US soldiers since 1986. Sharp and well maintained. Although it's inconvenienced when facing heavily protected opponents, its toothed blade is ideal for causing massive bleeding wounds to softer targets. This makes it a perfect choice for finishing off wounded animals, or silently getting the drop on light infantry.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n\n
+		%c[d_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Ambush: %c[ui_green]20%%c[ui_gray_2] extra damage and AP to unaware targets
 		</text>
 	</string>
@@ -81,7 +86,8 @@
         <text>The kukri is a type of machete originating from the Indian subcontinent. The knife has a distinct recurve in its blade. It serves multiple purposes as a melee weapon and also as a regular cutting tool and is the national weapon of Nepal.\n \n
 		%c[0,255,255,255]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[pda_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n\n
+		%c[pda_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Ambush: %c[ui_green]20%%c[ui_gray_2] extra damage and AP to unaware targets
 		</text>
 	</string>
@@ -93,7 +99,8 @@
 		<text>Tactical tomahawk, multitool and breaching tool, all-in-one solution.\n \n
 		%c[0,255,255,255]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[pda_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n\n
+		%c[pda_green] • %c[ui_gray_2]cut thick skin?: %c[ui_green]YES\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Ambush: %c[ui_green]20%%c[ui_gray_2] extra damage and AP to unaware targets
 		</text>
 	</string>
@@ -108,7 +115,8 @@
 		<text>Used for thousands of years for cutting wood, hacking flesh, and even as a ceremonial object. This convenient axe comes in many shapes, though always consisting of a cleaver and handle. In a place like the Zone, this axe can mean both life and death.\n \n
 		%c[ui_gray_3]PROPERTIES:\n
 		%c[d_cyan] • %c[ui_gray_2]melee weapon\n
-		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n\n
+		%c[d_green] • %c[ui_gray_2]greater reach compared to knives\n \n
+		%c[d_red] • %c[ui_gray_2]Expansion: %c[ui_green]20%%c[ui_gray_2] extra damage on armor-penetrating hits and on mutants\n
 		%c[d_red] • %c[ui_gray_2]Headhunter: Completely %c[ui_green]ignore armor and faction resistances%c[ui_gray_2] when hitting the head
 		</text>
 	</string>

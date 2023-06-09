@@ -1,6 +1,7 @@
 ----------------------------------------------------
 ----- EDIT for ArtiGrok - ilrathCXV (01/17/23) -----
 ----------------------------------------------------
+if zz_Cost_in_tool_tip then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
 
@@ -133,7 +134,18 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_special") then    
                 local str_spec = ini_ammo:r_string_ex(sec, "special")
                 if str_spec then
-                    self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec))
+					if str_spec == "frag" then
+						local frag_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(frag_str)
+					elseif str_spec == "fire" then
+						local fire_str = ini_ammo:r_float_ex(sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(fire_str)
+					elseif str_spec == "flinch" then
+						local flinch_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(flinch_str)
+					else
+						self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec))
+					end
                 end
             end
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") and ini_ammo:r_string_ex(sec, "special") == "chaos" then
