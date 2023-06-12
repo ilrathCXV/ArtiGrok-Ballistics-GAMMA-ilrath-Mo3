@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+<string_table>
+	<string id="ammo-300BLK-ap">
+		<text>Бронебойные патроны .300 Blackout</text>
+	</string>
+	<string id="ammo-300BLK-ap_descr">
+		<text>Патрон, снаряжённый бронебойной пулей от патрона М61 калибра 7.62 х 51 мм. Несмотря на более низкую скорость полёта, пуля данного патрона имеет бронебойные качества на уровне своих одноклассников . Размеры патрона позволяют его заряжать в магазины STANAG 5.56 NATO.</text>
+	</string>
+	<string id="ammo-300BLK-ap_s">
+		<text>300BLK AP</text>
+	</string>
+	<string id="ammo-300BLK-fjm">
+		<text>Патроны .300 Blackout FMJ</text>
+	</string>
+	<string id="ammo-300BLK-fjm_descr">
+		<text>Оболочечный патрон .300 Blackout (7.62 х 35мм) с пулей весом 9.4 грамма производства Баранульского патронного завода; создан для охоты, спортивной стрельбы и самообороны, однако хорошо себя показывает в борьбе с противником в бронижилетов среднего уровня, в довесок имея хорошие раневые качества против небронированных целей. Имеет стальную гильзу, что очень хорошо сказывается на доступности патрона и может заряжаться в магазины STANAG 5.56 NATO.</text>
+	</string>
+	<string id="ammo-300BLK-fjm_s">
+		<text>300BLK FMJ</text>
+	</string>
+	
+	<string id="ammo-300BLK-ap-bad">
+		<text> Бронебойные патроны .300 Blackout MAI</text>
+	</string>
+	<string id="ammo-300BLK-ap-bad_descr">
+		<text>Патрон .300 имеет специально разработанную компанией Modern Arms International бронебойную пулю с улучшенными баллистическими показателями, чем стандартный бронебойный патрон .300 BLK. Создавался для тайных операций, где важно гарантированное поражение из засад. </text>
+	</string>
+	<string id="ammo-300BLK-ap-bad_s">
+		<text>300BLK MAI AP</text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad">
+		<text>Экспансивные .300 Blackout VMAX</text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad_descr">
+		<text>Изначально, .300 Blackout (7.62x35mm) VMAX создавался как спортивно-охотничий патрон. Благодаря его баллистическим и раневым качествам, сталкеры могут эффективно бороться как с мутантами, так и со своими визави в лёгких бронежилетах. </text>
+	</string>
+	<string id="ammo-300BLK-fjm-bad_s">
+		<text>300BLK VMAX</text>
+	</string>
+	
+</string_table>

@@ -10,430 +10,439 @@
 		<text>•</text>
 	</string>
 	<string id="st_ball_properties">
-		<text>PROPERTIES:</text>
+		<text>СВОЙСТВА:</text>
 	</string>
 	<string id="st_prop_k_hit">
-		<text>Damage multiplier</text>
+		<text>Множитель урона  </text>
 	</string>
 	<string id="st_prop_armor">
-		<text>Defeats armor level: </text>
+		<text>Пробивает броню  </text>
 	</string>
 	<string id="st_prop_k_ap">
-		<text>Defeats armor level</text>
+		<text>Пробитие </text>
 	</string>
 	<string id="st_prop_k_hp">
-		<text>Expansion bonus</text>
+		<text>Урон </text>
 	</string>
 	<string id="st_prop_k_vel">
-		<text>Velocity modifier</text>
+		<text>Скорость</text>
 	</string>
 	<string id="st_prop_k_disp">
-		<text>Accuracy modifier</text>
+		<text>Точность</text>
 	</string>
 	<string id="st_prop_impair">
-		<text>Wear multiplier</text>
+		<text>Износ</text>
 	</string>
 	<string id="st_prop_projectiles">
-		<text>Projectiles</text>
+		<text>Снаряды</text>
 	</string>
 	<string id="st_prop_special">
-		<text>Special</text>
+		<text>Особое</text>
 	</string>
 	<string id="st_prop_armor_0">
-		<text>none</text>
+		<text>Бр0</text>
 	</string>
 	<string id="st_prop_armor_1">
-		<text>I</text>
+		<text>Бр1</text>
 	</string>
 	<string id="st_prop_armor_2">
-		<text>IIA</text>
+		<text>Бр2</text>
 	</string>
 	<string id="st_prop_armor_3">
-		<text>II</text>
+		<text>Бр3</text>
 	</string>
 	<string id="st_prop_armor_4">
-		<text>III</text>
+		<text>Бр4</text>
 	</string>
 	<string id="st_prop_armor_5">
-		<text>IV</text>
+		<text>Бр5</text>
 	</string>
 	<string id="st_prop_armor_6">
-		<text>V</text>
+		<text>Бр6</text>
 	</string>
 	<string id="st_prop_armor_7">
-		<text>VI+</text>
+		<text>Бр7</text>
 	</string>
 
 	<string id="st_ballistics_flinch">
-		<text>chance to stagger human enemies</text>
+		<text> Шанс ошеломить человека </text>
 	</string>
 	<string id="st_ballistics_frag">
-		<text>chance to fragment, dealing extra damage</text>
+		<text> Шанс фрагментации, увеличивающей урон </text>
 	</string>
 	<string id="st_ballistics_hp">
-		<text>expansion damage on full penetration</text>
+		<text> Увеличение урона при полном пробитии </text>
 	</string>
 	<string id="st_ballistics_slug">
-		<text>headshots ignore some armor, center mass stuns</text>
+		<text> Попадания в голову игнорируют часть брони </text>
 	</string>
 	<string id="st_ballistics_rip">
-		<text>high expansion damage, lifesteal</text>
+		<text> Глубокий раневой канал, сильное кровотечение </text>
 	</string>
 	<string id="st_ballistics_varma">
-		<text>deals bonus damage to mutants</text>
+		<text> Дополнительный урон мутантам </text>
 	</string>
 	<string id="st_ballistics_explodes">
-		<text>explodes on impact</text>
+		<text>Детонирует при попадании</text>
 	</string>
 	<string id="st_ballistics_chaos">
-		<text>60%-160% damage/ap range, random effects</text>
+		<text>60 - 160% урона/бронепробития. </text>
 	</string>
 	<string id="st_ballistics_acid">
-		<text>reduces armor on hit</text>
+		<text> Ослабляет броню </text>
 	</string>
 	<string id="st_ballistics_ambush">
-		<text>bonus damage and AP vs. unaware targets</text>
+		<text> Дополнительный урон и пробитие из засады </text>
 	</string>
 	<string id="st_ballistics_head">
-		<text>headshots ignore armor</text>
+		<text> Попадания в голову игнорируют броню </text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>ignites targets, reduces armor</text>
+		<text> Плавит броню </text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>chance to ignite targets</text>
+		<text> Поджигает цель </text>
 	</string>
 	<string id="st_ballistics_split">
-		<text>fires three projectiles</text>
+		<text> Стреляет тремя снарядами </text>
 	</string>
 	<string id="st_ballistics_shock">
-		<text>damage and aoe increases with target armor</text>
+		<text> Оглушает при попаднии. </text>		
+	</string>
+	<string id="st_ballistics_acid">
+		<text> Кислотный урон, разъедает броню </text>
 	</string>
 	<string id="st_ballistics_pierce">
-		<text>limited target piercing</text>
+		<text> Ограниченое бронепробитие </text>
 	</string>
 	<string id="st_ballistics_soulripper">
-		<text>exponential ultra piercing, headshots heal</text>
+		<text> Рост пробития, лечение при попаданиях в голову </text>
 	</string>
-
+	<string id="st_ballistics_armorbuster">
+		<text> Эффективней ломает броню </text>
+	</string>
+	<string id="st_ballistics_napalm">
+		<text> Наносит огненный урон цели, поджигает окружение </text>
+	</string>
 	<string id="st_link">
-		<text>link to belt</text>
+		<text> Присоединить к ленте </text>
 	</string>
 	<string id="st_unlink">
-		<text>unlink belt</text>
+		<text> Отсоединить от ленты </text>
 	</string>
 
 	
 	<!-- handgun -->
 	<string id="ammo_new_9x18_fmj">
-		<text>9x18mm FMJ rounds</text>
+		<text>Патроны 9x18мм FMJ</text>
 	</string>
 	<string id="ammo_new_9x18_fmj_descr">
-		<text>A full metal jacket round with a steel penetrator and a lead core under a metal jacket. Such rounds are the most common type of handgun round throughout the former Soviet Union. Provides good stopping power but is ineffective against heavy body armour.</text>
+		<text>Оболочечная пуля со свинцовым сердечником. Такой пистолетный патрон наиболее распространен на территории бывшего Советского Союза. Обладает хорошим останавливающим действием. Не эффективен против тяжелых бронежилетов.</text>
 	</string>
 	<string id="ammo_new_9x18_fmj_s">
-		<text>9x18 FMJ</text>
+		<text>Патроны 9x18 FMJ</text>
 	</string>
 	
 	<string id="ammo_new_9x18_plus">
-		<text>9x18mm +P+ FMJ rounds</text>
+		<text>Патроны 9x18мм +P+ FMJ </text>
 	</string>
 	<string id="ammo_new_9x18_plus_descr">
-		<text>Full metal jacket round with overpressure powder load. Provides a 30% increase in muzzle velocity and commensurately increased stopping power and effectiveness against armor, at the cost of increased wear on the weapon.</text>
+		<text>Оболочечные патроны высокого давления. Обеспечивают увеличеную скорость пули на 30%, соразмерное увеличение останавливающего действия и бронепробиваемости. Ценой повышенного износа оружия.</text>
 	</string>
 	<string id="ammo_new_9x18_plus_s">
 		<text>9x18 +P+</text>
 	</string>
 
 	<string id="ammo_new_9x18_hp">
-		<text>9x18mm HP rounds</text>
+		<text>Патроны 9x18мм HP </text>
 	</string>
 	<string id="ammo_new_9x18_hp_descr">
-		<text>Civilian-grade hollow-point 9x18mm round. Used primarily for hunting of small creatures and home defense. Quite a common find amongst Loners who bring their personal weapons to the Zone.</text>
+		<text>Патрон 9х18 мм с экспансивной пулей. Используется в основном для охоты на мелких существ и обороны дома. Распространены среди одиночек, которые приносят в Зону свое личное оружие.</text>
 	</string>
 	<string id="ammo_new_9x18_hp_s">
 		<text>9x18 HP</text>
 	</string>
 
 	<string id="ammo_new_9x18_sp7">
-		<text>9x18mm SP-7 rounds</text>
+		<text>Патроны 9x18мм СП-7 </text>
 	</string>
 	<string id="ammo_new_9x18_sp7_descr">
-		<text>Military_spec jacketed hollowpoint bullet with a plastic plug and increased powder charge. Offers superior ballistics and remarkably flat shooting, making it popular amongst backline troops. Effective at stopping man and mutant alike, and as such is commonly used by the SSU in their sidearms and submachine guns.</text>
+		<text>Оболочечный экспансивный патрон военного образца с пластиковым колпачком и увеличенным пороховым зарядом. Обладает превосходной баллистикой и настильной траекторией, что делает его популярной среди бойцов тыловых подразделений. Эффективно останавливает как людей, так и мутантов, поэтому широко используется СБУ в своих пистолетах и пистолет-пулемётах.</text>
 	</string>
 	<string id="ammo_new_9x18_sp7_s">
-		<text>9x18 SP-7</text>
+		<text>9x18 СП-7</text>
 	</string>
 	
 	<string id="ammo_new_9x18_ap">
-		<text>9x18mm RG028 rounds</text>
+		<text>Патроны 9x18мм РГ028</text>
 	</string>
 	<string id="ammo_new_9x18_ap_descr">
-		<text>RG028 is a cartridge used for its armour penetration capabilities. The goal of the RG028 was to become a counter to body armour; for this reason, it's loaded with a hardened steel core. Unfortunately, the round itself isn't much of an improvement over the standard, only reliably penetrating soft body armor.</text>
+		<text>РГ028 - патрон используемый для пробития лёгкой брони. Цель создания РГ028 - противостояние противникам в индивидуальных средствах защиты. По этой причине патрон оснащён упрочнённым стальным сердечником. К сожалению, не сильно превосходит стандартный 9х18, имея лишь  увеличенную пробивную способность</text>
 	</string>
 	<string id="ammo_new_9x18_ap_s">
-		<text>9x18 RG028</text>
+		<text>9x18 РГ028</text>
 	</string>
 
 	<string id="ammo_new_9x18_7n25">
-		<text>9x18mm 7N25 AP rounds</text>
+		<text>Патроны 9x18мм 7Н25</text>
 	</string>
 	<string id="ammo_new_9x18_7n25_descr">
-		<text>Modern 9x18 armor-piercing handgun round with a carbon steel core and increased powder load. Unlike its predecessor RG028, this round is able to reliably defeat soft body armor and deal some damage to even rifle plates, but due to the powder charge and shape of the penetrator it suffers from reduced stopping power and increased wear on the weapon's internal components.</text>
+		<text>Современный бронебойный пистолетный патрон 9х18 с сердечником из углеродистой стали и увеличенной навеской пороха. В отличие от своего предшественника РГ028, этот патрон надёжно пробивает легкую броню и наносит повреждения даже бронеплитам высокого класса, но из-за навески пороха и формы проникающего элемента он страдает пониженной останавливающей способностью и уменьшает ресурс ствола.</text>
 	</string>
 	<string id="ammo_new_9x18_7n25_s">
-		<text>9x18 7N25</text>
+		<text>9x18 7Н25</text>
 	</string>
 
 	<string id="ammo_new_9x19_fmj">
-		<text>9x19mm FMJ rounds</text>
+		<text>Патроны 9x19 мм FMJ</text>
 	</string>
 	<string id="ammo_new_9x19_fmj_descr">
-		<text>Basic and ubiquitous 9x19 caliber round with a jacketed bullet. Possesses good flight characteristics and appreciable stopping power while being simple to produce. The round is popular due to the fact that international conventions prohibit the use of expanding ammunition in combat. Ineffective against body armour.</text>
+		<text>Стандартный патрон калибра 9х19 мм с оболочечной пулей. Обладает хорошими баллистическими характеристиками и при этом недорог в изготовлении. Особо популярен в связи с тем, что международная конвенция запрещает применение экспансивных пуль в бою. Малоэффективен против бронежилетов.</text>
 	</string>
 	<string id="ammo_new_9x19_fmj_s">
 		<text>9x19 FMJ</text>
 	</string>
 	
 	<string id="ammo_new_9x19_plus">
-		<text>9x19mm FMJ +P+ rounds</text>
+		<text>Патроны 9x19мм +P+ FMJ</text>
 	</string>
 	<string id="ammo_new_9x19_plus_descr">
-		<text>Standard 9x19 Parabellum round with an overpressure powder load. Overpressure loads shoot straighter and have increased stopping power compared to standard loads, but kick harder and wear on the weapon more.</text>
+		<text>Патрон высокого давления калибра 9х19 мм с оболочечной пулей. Патроны высокого давления имеют более настильную траекторию и повышенное останавливающее действие</text>
 	</string>
 	<string id="ammo_new_9x19_plus_s">
-		<text>9x19 FMJ+</text>
+		<text>Патроны 9x19 FMJ +P+</text>
 	</string>
 	
 	<string id="ammo_new_9x19_pbp">
-		<text>9x19mm JHP rounds</text>
+		<text>Патроны 9x19мм JHP</text>
 	</string>
 	<string id="ammo_new_9x19_pbp_descr">
-		<text>This 9x19 calibre jacketed hollow-point bullet with an expanding hollow has high stopping power and low ricochet propensity. Popular amongst police officers and concealed carry for its high stopping power. Ineffective against body armour due to its low penetration potential.</text>
+		<text>Оболочечная экспансивная пуля калибра 9х19 с расширяющимся носиком. Обладает высокой останавливающей способностью и низкой склонностью к рикошету. Используется сотрудниками полиции и силовых структур в силу высокой останавливающей способности. Неэффективна против бронежилетов из-за низкого бронепробития.</text>
 	</string>
 	<string id="ammo_new_9x19_pbp_s">
 		<text>9x19 JHP</text>
 	</string>
 	
 	<string id="ammo_new_9x19_pbps">
-		<text>9x19mm JSP +P rounds</text>
+		<text>Патроны 9x19mm JSP +P</text>
 	</string>
 	<string id="ammo_new_9x19_pbps_descr">
-		<text>Match grade 9mm hand loaded JSP rounds. Soft Point rounds are semi-jacketed and expose the lead tip, and expand like hollowpoint rounds while retaining better armor penetration properties. These are custom-order rounds from folk craftsmen that have earned the nickname of 'Man stopper' due to their purported ability to stop men dead in their tracks.</text>
+		<text>Матчевый полуоболочечный патрон снаряжённый вручную. Патрон Soft Point имеют оболочку с обнаженным носиком, сплющивающимся при попадании в цель, имея лучшее бронепробитие. Патрон изготавливается вручную по индивидуальным заказам. Он имеет лучшие, чем стандартные оболочечные патроны, раневые качества по слабо защищенным целям.</text>
 	</string>
 	<string id="ammo_new_9x19_pbps_s">
 		<text>9x19 JSP</text>
 	</string>
 	<string id="ammo_new_9x19_ap">
-		<text>9x19mm AP rounds</text>
+		<text>Патроны 9x19мм 7Н30</text>
 	</string>
 	<string id="ammo_new_9x19_ap_descr">
-		<text>Russian-produced armor piercing pistol round designed to go in tandem with their newest suite of sidearms and submachine guns. Has a considerably higher muzzle velocity compared to other 9x19mm rounds and is much more effective at defeating armor. This is considered an 'overpressure' cartridge and thus caution must be used when firing this round. Relatively rare in the Zone and usually imported by mercenaries.</text>
+		<text>Бронебойный пистолетный патрон российского производства, разработанный для новейших пистолетов и пистолет-пулеметов. Имеет значительно большую начальную скорость, в сравнении с другими патронами калибра 9х19 мм и гораздо эффективнее пробивает броню. Считается патроном "избыточного давления", поэтому при его использовании следует соблюдать осторожность. Относительно редко встречается в Зоне и обычно импортируется наемниками.</text>
 	</string>
 	<string id="ammo_new_9x19_ap_s">
-		<text>9x19 AP</text>
+		<text>9x19 7Н30</text>
 	</string>
 	
 	<string id="ammo_new_9x19_7n31">
-		<text>9x19mm 7N31 AP rounds</text>
+		<text>Патроны 9x19мм 7Н31</text>
 	</string>
 	<string id="ammo_new_9x19_7n31_descr">
-		<text>Enhanced Russian AP round with a stronger powder charge and lighter bullet. Provides much better peak performance and armor defeating capability than its predecessor, at the cost of higher wear. Extremely rare in the Zone and issued only to Spetsnaz or Russian Mercenaries.</text>
+		<text>Усовершенствованный российский бронебойный патрон с более мощным, чем его предшественник 7Н30, пороховым зарядом. Пуля имеет термоупрочнённый сердечник и алюминиевую рубашку. Обеспечивает лучшие пиковые характеристики и бронепробитие ценой повышенного износа. Крайне редок в Зоне и используется только Спецназом или наемниками из России/Беларуси.</text>
 	</string>
 	<string id="ammo_new_9x19_7n31_s">
-		<text>9x19 7N31 AP</text>
+		<text>9x19 7Н31</text>
 	</string>
 
 	<string id="ammo_new_11.43x23_fmj">
-		<text>.45 ACP rounds</text>
+		<text>Патроны .45 ACP FMJ</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmj_descr">
-		<text>The .45 calibre full metal jacket round has enjoyed popularity for a hundred years thanks to its ballistic performance and a relatively small propelling charge. As a result, the bullet in this round is relatively slow but highly accurate and provides considerable stopping power.</text>
+		<text>Патрон .45 калибра с цельнометаллической оболочкой. Пользуется популярностью уже сто лет благодаря хорошим баллистическим характеристикам и относительно небольшой навеске пороха. В результате пуля этого патрона относительно медленная, но точная и обладает значительной останавливающей силой.</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmj_s">
 		<text>.45 ACP</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmjs">
-		<text>.45 ACP AP+P rounds</text>
+		<text>Патроны .45 ACP AP+P</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmjs_descr">
-		<text>.45 ACP round with an overpressure load to bring the terminal performance of the .45 bullet up to modern standards. Carbon steel penetrator has been added to the large bullet, adding some effectiveness in armor penetration without losing too much stopping power. Recommended to use in a modern handgun that is capable of withstanding the increased pressure, otherwise the round poses a danger to the operator.</text>
+		<text>Патрон .45 ACP с избыточным давлением, позволяющим довести терминальные характеристики пули .45 до современных стандартов. В крупную пулю добавлен сердечник из углеродистой стали, повысивший эффективность бронепробития без потери останавливающего действия. Рекомендуется использовать в современных пистолетах и пистолет-пулемётах, способных выдержать повышенное давление, в противном случае патрон представляет опасность для стрелка.</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmjs_s">
 		<text>.45 AP+P</text>
 	</string>
 	
 	<string id="ammo_new_11.43x23_hp">
-		<text>.45 ACP JHP rounds</text>
+		<text> Патроны.45 ACP JHP</text>
 	</string>
 	<string id="ammo_new_11.43x23_hp_descr">
-		<text>Standard load .45 ACP round with a hollow point bullet. Infamously effective against unarmored human targets and is a mainstay round of most law enforcement. Surprisingly effective against mutants and makes for a popular option to protect against them.</text>
+		<text>Стандартный патрон калибра .45 ACP с экспансивной пулей. Невероятно эффективен против небронированных целей и является основным патроном для большинства правоохранительных органов. Удивительно эффективен против мутантов и является популярным вариантом защиты от них.</text>
 	</string>
 	<string id="ammo_new_11.43x23_hp_s">
 		<text>.45 HP</text>
 	</string>
 
 	<string id="ammo_new_11.43x23_hydro">
-		<text>.45 ACP 'RIP' rounds</text>
+		<text>Патроны .45 ACP 'RIP'</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_descr">
-		<text>This experimental .45 ACP round is constructed from a chemical artifact fragment around which lead was 'grown' and molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter.</text>
+		<text>Этот экспериментальный патрон .45 ACP создан из фрагмента химического артефакта с наплавленным на него свинцом и гальванически покрыт никелем. Пуля изготовлена в ходе секретных экспериментов Министерства науки совместно с исследованиями, проведенными по заказу Свободы. Несмотря на твердое металлическое покрытие, пуля легко распадается на несколько "когтей", что придает патрону феноменальную останавливающую силу ценой снижения проникающей способности. Пули создают локализованную аномалию в месте попадания, воздействуя на живые существа в непосредственной близости. Говорят, жизненная энергия таинственным образом переходит от жертвы к стрелку.</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_s">
 		<text>.45 RIP</text>
 	</string>
 
 	<string id="ammo_new_357_hp">
-		<text>.357 HP rounds</text>
+		<text>Патроны .357 HP</text>
 	</string>
 	<string id="ammo_new_357_hp_descr">
-		<text>The .357 HP round is a hollow-point bullet. The purpose of the round is to slow down upon impact, which decreases its penetration, but at the same time causes larger internal tissue damage. The high stopping power afforded by this round makes it extremely popular amongst Dutyers, especially to stop heavier mutants like boars.</text>
+		<text> Патрон .357 HP снаряжённый экспансивной пулей. Цель патрона - замедление при ударе, что уменьшает его проникающую способность, в то же время он вызывает сильные повреждения внутренних тканей. Высокая останавливающая способность, обеспечиваемая этим патроном, делает его чрезвычайно популярным у Долга, особенно для поражения крупных мутантов. 
+</text>
 	</string>
 	<string id="ammo_new_357_hp_s">
 		<text>.357 HP</text>
 	</string>
 	<string id="ammo_new_357_jfp">
-		<text>.357 JFP Hand loaded rounds</text>
+		<text>Переснаряжённые патроны .357 JFP</text>
 	</string>
 	<string id="ammo_new_357_jfp_descr">
-		<text>Hand loaded .357 round designed for hunters and target shooters. The bullet is flat and wrapped in a copper jacket. While lacking the sheer stopping power of hollow-point rounds, they fly straighter and penetrate armor to a much more effective degree. Transfers immense concussive force.</text>
+		<text>Переснаряжённый вручную патрон калибра .357, предназначенный для охотников и стрелков по мишеням. Пуля плоская и заключена в медную оболочку. Не обладая такой же останавливающей силой, как экспансивные пули, летит быстрее и эффективнее пробивает броню. Имеет сильное запреградное действие.</text>
 	</string>
 	<string id="ammo_new_357_jfp_s">
 		<text>.357 JFP</text>
 	</string>
 	
 	<string id="ammo_new_7.62x25_p">
-		<text>7.62x25mm P rounds</text>
+		<text>Патроны 7.62x25mm П</text>
 	</string>
 	<string id="ammo_new_7.62x25_p_descr">
-		<text>The 7.62x25mm cartridge is a Russian bottle-necked pistol cartridge widely used in former Soviet satellite states, China and Pakistan among other countries. The cartridge is an enhanced Russian version of the 7.63x25mm Mauser. Possesses excellent penetration capabilities and can easily defeat lighter ballistic vests as well as kevlar helmets. Although most firearms chambered in this caliber are obsolete and removed from military inventories, the cartridge still sees widespread use because of the large quantity of stored ammunition available.</text>
+		<text>Патрон 7,62х25 мм - российский пистолетный патрон с бутылочной гильзой, широко используемый в странах-сателлитах бывшего СССР, Китае, Пакистане и других странах. Патрон является усовершенствованной советской версией патрона 7,63х25 мм Mauser. Обладает отличной пробивной способностью и может легко пробить легкие бронежилеты, а также кевларовые каски. Несмотря на то, что большинство оружия под этот калибр устарело и снято с вооружения, патрон по-прежнему широко используется из-за большого количества доступных боеприпасов.</text>
 	</string>
 	<string id="ammo_new_7.62x25_p_s">
-		<text>7.62x25 P</text>
+		<text>7.62x25 П</text>
 	</string>
 	
 	<string id="ammo_new_7.62x25_ps">
-		<text>7.62x25mm Pst rounds</text>
+		<text>7.62x25mm ПСТ</text>
 	</string>
 	<string id="ammo_new_7.62x25_ps_descr">
-		<text>The steel core 7.62x25mm cartridge is a Russian bottle-necked pistol cartridge widely used in former Soviet satellite states, China and Pakistan among other countries. It's effective against lightly armoured targets thanks to the steel core, without sacrificing much in the way of stopping power.</text>
+		<text>Патрон 7.62x25 мм Пст - российский пистолетный патрон с бутылочной гильзой, широко используемый в странах-сателлитах бывшего СССР, Китае, Пакистане и других странах. Благодаря пуле со стальным сердечником эффективен против легкобронированных целей, не теряя при этом в останавливающем действии.</text>
 	</string>
 	<string id="ammo_new_7.62x25_ps_s">
-		<text>7.62x25 Pst</text>
+		<text>7.62x25 ПСТ</text>
 	</string>
 
 	<string id="ammo_new_7.62x25_hp">
-		<text>7.62x25mm HP rounds</text>
+		<text>Патроны 7.62x25mm HP</text>
 	</string>
 	<string id="ammo_new_7.62x25_hp_descr">
-		<text>7.62x25mm cartridge in hollowpoint sporting configuration. Still possesses respectable armor defeating capabilities due to the narrow bullet, and offers a respectable increase in stopping power.</text>
+		<text>Спортивный, экспансивный патрон 7,62x25 мм. Все еще обладает достойным бронепробитием за счет узкой пули и обеспечивает значительно повышенное останавливающее действие.</text>
 	</string>
 	<string id="ammo_new_7.62x25_hp_s">
 		<text>7.62x25 HP</text>
 	</string>
 	<string id="ammo_new_7.62x25_cor">
-		<text>7.62x25mm Acid rounds</text>
+		<text>Кислотные патроны 7.62x25мм</text>
 	</string>
 	<string id="ammo_new_7.62x25_cor_descr">
-		<text>Experimental rounds developed by a secret joint effort between elements of the Ukrainian Ministry of Science and members of the Clear Sky faction. These hollowpoint rounds are filled with a turquoise plug that feels like plastic to the touch. A certain treatment involving the use of Stone Blood artifacts and catalysis in the presence of aerosolized ammonia has resulted in the production of corrosive tips that, when exposed to the heat of a gunpowder explosion, reacts to form a substance that violently melts and consumes metal, fabric, wood, plastic, or stone. The material is safe to handle in its inert state and only reacts when fired out of a weapon.</text>
+		<text>Экспериментальные патроны, разработанные в результате секретной программы сотрудников Министерства науки Украины и членов фракции "Чистое небо". Эти экспансивные патроны имеют бирюзовый колпачок, который на ощупь напоминает пластик. В результате манипуляции с использованием артефактов Кровь Камня и катализа в присутствии аэрозольного аммиака были получены коррозийные наконечники, которые при горении пороха вступают в реакцию с образованием вещества, которое активно плавит и разъедает металл, ткань, дерево, пластик или камень. Материал безопасен в обращении в инертном состоянии и вступает в реакцию только при стрельбе.</text>.
 	</string>
 	<string id="ammo_new_7.62x25_cor_s">
-		<text>7.62x25 Acid</text>
+		<text>Кислотные 7.62x25</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_fmj">
-		<text>5.7x28 FMJ rounds</text>
+		<text>Патроны 5.7x28 FMJ</text>
 	</string>
 	<string id="ammo_new_5.7x28_fmj_descr">
-		<text>Civilian-grade SS196SR 5.7x28 FMJ round. Unlike the SS190, this round is not rated to defeat body armor. However, in practice this round is still capable of defeating light kevlar and thus is still used fairly commonly for that reason. Much cheaper and easier to acquire than its military armor-piercing brother, and is a good choice for the budget-conscious black operator looking to terrorize Loners.</text>
+		<text> Гражданский патрон SS196SR 5.7x28 FMJ. В отличие от SS190, этот патрон не предназначен для поражения бронежилетов. Однако на практике он способен пробивать легкие СИБЗ (средства индивидуальной броневой защиты), что делает его популярным средством борьбы с ними. Его гораздо проще достать, чем его бронебойную версию. Является хорошим выбором для экономных "черных" операторов, желающих терроризировать одиночек.</text>
 	</string>
 	<string id="ammo_new_5.7x28_fmj_s">
 		<text>5.7x28 FMJ</text>
 	</string>
 	<string id="ammo_new_5.7x28_ss190">
-		<text>5.7x28 SS190 rounds</text>
+		<text>Патроны 5.7x28 SS190</text>
 	</string>
 	<string id="ammo_new_5.7x28_ss190_descr">
-		<text>The FN 5.7x28mm is a high velocity cartridge designed and manufactured by FN Herstal. It is a bottlenecked centrefire cartridge that is somewhat similar to the .22 Hornet or .22 K-Hornet. The 5.7x28mm was developed in conjunction with the FN P90 personal defense weapon (PDW) and FN Five-seven pistol, in response to perceived threats of body armor. As such, this type of projectile is capable of defeating rifle plates handedly, but its small size reduces its damage potential greatly.</text>
+		<text> FN 5.7x28 мм - высокоскоростной патрон, разработанный и производимый компанией FN Herstal. Патрон имеем бутылочную гильзу, схожую с патронами .22 Hornet или .22 K-Hornet. FN 5,7x28 мм был разработан совместно с пистолетом-пулемётом FN P90 и пистолетом FN Five-seven в ответ на предполагаемое наличие на целях бронежилетов. Патрон этого типа способен пробивать бронеплиты, защищающие от поражения штурмовыми винтовками, но его малый размер значительно снижает урон.</text>.
 	</string>
 	<string id="ammo_new_5.7x28_ss190_s">
-		<text>5.7x28 AP</text>
+		<text>5.7x28 SS190</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_chaos">
-		<text>5.7x28 Unstable Core</text>
+		<text>Патроны 5.7x28 ХАОС </text>
 	</string>
 	<string id="ammo_new_5.7x28_chaos_descr">
-		<text>5.7x28mm SS190 rounds with signs of unknown anomalous tampering. These are rarely found in the employ of Monolith and Sinners, and possess markers of treatment in the same vein as other experimental ammo types. These in particular have a bullet that destabilizes its presence in reality, randomly losing and gaining velocity, mass, and kinetic potential during flight. Performance is thus highly erratic, though if fired at high enough volume the overall potential seems to be higher than standard rounds. The exact nature and purpose of these rounds are unknown.</text>
+		<text>5,7x28 мм патроны SS190 со следами неизвестного аномального вмешательства. Достаточно редко встречаются на вооружении Монолита и Греха, и обладают следами обработки в том же ключе, что и другие экспериментальные типы патронов. В частности, их пуля дестабилизирует реальность, произвольно теряя и набирая скорость, массу и кинетический потенциал во время полета. Таким образом, характеристики пули весьма нестабильны, хотя при достаточно высокой мощности выстрела общий потенциал, по-видимому, выше, чем у стандартных патронов. Точная природа и назначение этих патронов неизвестны.</text>
 	</string>
 	<string id="ammo_new_5.7x28_chaos_s">
-		<text>5.7x28 CHAOS</text>
+		<text>5.7x28 ХАОС </text>
 	</string>
 	<string id="ammo_new_5.7x28_ss195">
-		<text>5.7x28mm SS195 rounds</text>
+		<text>Патроны 5.7x28mm SS195</text>
 	</string>
 	<string id="ammo_new_5.7x28_ss195_descr">
-		<text>The SS195 FN 5.7x28mm is an expansive cartridge designed and manufactured by FN Herstal. It is a bottlenecked centrefire cartridge that is somewhat similar to the .22 Hornet or .22 K-Hornet. Popular sporting and hunting cartridge in the West that has made its way to the Zone for certain enthusiasts of the Five-seveN as a mutant defense handgun.</text>
+		<text> SS195 FN 5.7x28 мм -  экспансивный патрон, разработанный и производимый компанией FN Herstal. Это патрон с бутылочной гильзой, несколько похожий на .22 Hornet или .22 K-Hornet. Популярный на Западе спортивный и охотничий патрон, пронесенный в Зону к радости пользователей "Five-seveN".  Достаточно хорош в защите от мутантов и охоте на них.</text>
 	</string>
 	<string id="ammo_new_5.7x28_ss195_s">
-		<text>5.7x28 HP</text>
+		<text>5.7x28 SS195</text>
 	</string>
 
 
 	<!-- shotgun -->
 	<string id="ammo_new_12x70_buck">
-		<text>12x70 #00 Buckshot</text>
+		<text>Картечные патроны 12x70 #00 </text>
 	</string>
 	<string id="ammo_new_12x70_buck_descr">
-		<text>Standard 12 gauge shell filled with 8mm #00 sized shot. Highly lethal at close range but effectiveness drops quickly. Very common in the Zone. Only suitable for use with smoothbore weapons.</text>
+		<text>#00 Картечь, с увеличенной навеской пороха. Обеспечивает огромное увеличение останавливающей силы и несколько лучшее бронепробитие, ценой повышенного износа оружия. Отлично подходит для охоты, но отдача может травмировать стрелка. Тем не менее, является отличным выбором для охоты на опасных мутантов.</text>
 	</string>
 	<string id="ammo_new_12x70_buck_s">
-		<text>12x70 Buck</text>
+		<text>12x70мм Картечный</text>
 	</string>
 
 	<string id="ammo_new_12x70_magnum">
-		<text>12x70 Magnum Buckshot</text>
+		<text>Картечные патроны 12x70мм Магнум </text>
 	</string>
 	<string id="ammo_new_12x70_magnum_descr">
-		<text>#00 Buckshot loaded with an increased powder charge. Provides a huge increase in stopping power and slightly better armor penetration at the cost of increased wear on the weapon. Excellent for hunting and the sheer force of the shot can seriously injure even protected limbs. If you're dropping monstrous mutants, better use some magnum buck.</text>
+		<text>#00 Картечь, с увеличенной навеской пороха. Обеспечивает огромное увеличение останавливающей силы и несколько лучшую бронепробиваемость ценой повышенного износа оружия. Отлично подходит для охоты, но отдача может травмировать стрелка, однако для охоты на опасных мутантов является отличным выбором.</text>
 	</string>
 	<string id="ammo_new_12x70_magnum_s">
-		<text>12x70 Magnum</text>
+		<text>12x70мм Магнум</text>
 	</string>
 
 	<string id="ammo_new_12x70_zhekan">
-		<text>12x76 Slug shells</text>
+		<text>Патроны 12x76мм Жекан</text>
 	</string>
 	<string id="ammo_new_12x70_zhekan_descr">
-		<text>This heavy 12 gauge slug round is normally used for hunting big game, but is also good for hunting men on a budget. Instead of piercing, this hefty slug is capable of crushing armor like a mace. Sheer concussive force makes this type of round extremely good at stopping people in their tracks.</text>
+		<text>Патрон 12-го калибра с безоболочечной пулей и удлинённой гильзой. Обычно используется для охоты на крупных животных, но подходит и для других целей. Его тяжёлая пуля не пробивает, а фактически продавливает бронежилеты. </text> 
 	</string>
 	<string id="ammo_new_12x70_zhekan_s">
-		<text>12x76 Slug</text>
+		<text>12x76 мм Жекан</text>
 	</string>
 	<string id="ammo_new_12x70_dart">
-		<text>12x76 AP Dart shells</text>
+		<text>Патроны 12x76мм Дротик</text>
 	</string>
 	<string id="ammo_new_12x70_dart_descr">
-		<text>12 gauge hardened steel armor-piercing dart round. Capable of providing equivalent armor penetration of rifle rounds with a considerable increase in stopping power. Extra powder load is used to propel the projectile to maximize damage to armor. </text>
+		<text>Патрон 12-го калибра с удлинённой гильзой и тяжёлым бронебойным стреловидным сердечником. Бронепробитие на уровне стандартных, винтовочных, бронебойных пуль.</text>
 	</string>
 	<string id="ammo_new_12x70_dart_s">
-		<text>12x76 Dart</text>
+		<text>12x76 Дротик</text>
 	</string>
 
 	<string id="ammo_new_12x70_flechette">
-		<text>12x70 Flechette shells</text>
+		<text>Патроны 12x70 с флешеттами</text>
 	</string>
 	<string id="ammo_new_12x70_flechette_descr">
-		<text>12 gauge shotgun shell filled with 9 hardened steel spikes. Provides tight groupings, increased effective range and good armor penetration compared to buckshot, but lacks sheer stopping power. Suitable for defeating light body armor but ineffective against heavier armor, unless shots to the limbs are prioritized.</text>
+		<text>Патрон 12го калибра, начиненный 9 иглами из закаленной стали. Обеспечивает низкое рассеивание, повышенную дальность и хорошее бронепробитие, в сравнении с картечью. Тем не менее не обладает значительным уроном. Пригоден для борьбы с лёгкими бронежилетами.</text>
 	</string>
 	<string id="ammo_new_12x70_flechette_s">
-		<text>12x70 Flechette</text>
+		<text>12x70 Флешетта</text>
 	</string>
 	<string id="ammo_new_12x70_dragon">
-		<text>12x70 'Dragon's Breath' shells</text>
+		<text>Патроны 12x70 'Dragon's Breath'</text>
 	</string>
 	<string id="ammo_new_12x70_dragon_descr">
-		<text>12 gauge shotgun shell loaded with small fragments of Fireball and Night Star artifacts. When fired, the gunpowder explosion sets off a runaway anomalous interaction that superheats the artifact pieces to temperatures equivalent to that of ignited thermite. The impact is devastating to flesh and melts most armors, but the extreme heat generated is hugely damaging to the weapon it is shot out of. Artifact fragments regrettably do not provide much armor defeating potential, so the primary source of damage comes from the ammo's ability to ignite targets.</text>
+		<text> Дробовой снаряд 12-го калибра, заряженный осколками артефактов "Огненный шар" и "Ночная звезда". При выстреле сгорание пороха запускает аномальное взаимодействие, которое перегревает осколки до температуры горящего термита. Удар разрушителен для плоти и плавит большинство бронекостюмов, но выделяемое при этом огромное количество тепла наносит огромный ущерб оружию. К сожалению, фрагменты артефактов не обладают большим потенциалом пробития брони, поэтому основной источник повреждений - поджог цели.</text>.
 	</string>
 	<string id="ammo_new_12x70_dragon_s">
 		<text>12x70 Dragonsbreath</text>
@@ -442,281 +451,281 @@
 	<!-- small rifle -->
 	
 	<string id="ammo_new_5.45x39_fmj">
-		<text>5.45x39mm FMJ rounds</text>
+		<text>Патроны 5.45x39мм ПС </text>
 	</string>
 	<string id="ammo_new_5.45x39_fmj_descr">
-		<text>Steel-cased military 5.45x39 caliber round, designation 7N6, was the first standard issue round for automatic rifles of Warsaw Pact countries using the new intermediate cartridge. Provides better accuracy than the 7.62 calibre round thanks to reduced recoil and a 100-metre increase in range. Unique bullet design ensures consistent yawing on flesh peneteration, ensuring consistent stopping power. Typically found loaded in the rifles of backline troops, rear guards and poor schmucks patrolling the borders of the Exclusion Zone.</text>
+		<text>Армейский патрон 7Н6 калибра 5,45x39 мм с обыкновенной пулей (ПС) со стальным сердечником, предназначенный для поражения живых целей, расположенных открыто или за преградами, пробиваемыми пулей, огневых средств и небронированной техники. Обеспечивает лучшую точность по сравнению с калибром 7,62 мм благодаря пониженной отдаче, а также увеличению эффективности ведения огня на 100 метров. Обычно встречается в винтовках солдат тыловых частей, и бедолаг, патрулирующих границы Зоны отчуждения.</text>
 	</string>
 	<string id="ammo_new_5.45x39_fmj_s">
-		<text>5.45x39 FMJ</text>
+		<text>5.45x39 ПС</text>
 	</string>	
 	
 	<string id="ammo_new_5.45x39_fmjs">
-		<text>5.45x39mm EP rounds</text>
+		<text>Патроны 5.45x39мм ПП</text>
 	</string>
 	<string id="ammo_new_5.45x39_fmjs_descr">
-		<text>Standard-issue 5.45x39 caliber 7N10 is an enhanced penetration round for automatic rifles of Warsaw Pact countries. A harder and sleeker steel core is used to improve penetration. Standard issue round with modern SSU ground forces, and is readily found in stock with most military personnel. Improved penetration capabilities make a huge difference in combat effectiveness when fighting Mercenaries and Monolith forces.</text>
+		<text>Армейский патрон 7Н10 калибра 5,45x39 мм с пулей повышенной пробиваемости (ПП) со стальным термоупрочнённым сердечником, предназначенный для поражения живых целей, носящих СИБЗ (бронежилеты, по-простому) и прочих легкоброннированных целей. Обычно выдаётся оперативникам СБУ и военсталам, действующим на севере Зоны, для эффективной борьбы с фанатиками Монолита и наёмниками.</text>
 	</string>
 	<string id="ammo_new_5.45x39_fmjs_s">
-		<text>5.45x39 EP</text>
+		<text>5.45x39 ПП </text>
 	</string>
 
 	<string id="ammo_new_5.45x39_sp">
-		<text>5.45x39mm Soft Point rounds</text>
+		<text>Патроны 5.45x39мм ПРС</text>
 	</string>
 	<string id="ammo_new_5.45x39_sp_descr">
-		<text>Special-issue 5.45x39mm Soft Point rounds used by law enforcement in response to armed and dangerous threats. The jacketed round is cut away at the top, exposing the inner lead core, and the powder charge is increased. Provides penetration capabilities comparable to that of 7N6, but also expands similarly to hollow-point rounds and imparts a stumbling effect on impact.</text>
+		<text>Патроны 5,45x39 мм пониженной рикошетирующей способности. Пуля с усечённым носиком и большей навеской пороха, чем у стандартных патронов 7Н6. Обычно используется правоохранительными органами и антитеррористическими подразделениями. Обеспечивает пробивную способность, сравнимую с 7Н6. Раневой канал, создаваемый этим боеприпасом, сходен с таковым у патрона с экспансивной пулей и создает эффект ошеломления при попадании.</text>
 	</string>
 	<string id="ammo_new_5.45x39_sp_s">
-		<text>5.45x39 SP</text>
+		<text>5.45x39 ПРС</text>
 	</string>
 	<string id="ammo_new_5.45x39_hp">
-		<text>5.45x39mm HP rounds</text>
+		<text>Патроны 5.45x39мм HP </text>
 	</string>
 	<string id="ammo_new_5.45x39_hp_descr">
-		<text>5.45x39mm hollow-point rounds used by civilians for target shooting and police for special operations. Expands in the body as it travels, reducing penetration but increasing stopping power. Ineffective against body armor, though can overcome some soft armor with sheer force.</text>
+		<text>Патрон 5.45х39 спортивно-охотничий с биметаллической пулей с пустым носиком. Образует большой раневой канал - что даёт высокую убойную силу - но низкую бронепробиваемость, однаком может "продавить" лёгкий бронежилет.</text>
 	</string>
 	<string id="ammo_new_5.45x39_hp_s">
 		<text>5.45x39 HP</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_ap">
-		<text>5.45x39mm AP rounds</text>
+		<text>Патроны 5.45x39мм БП</text>
 	</string>
 	<string id="ammo_new_5.45x39_ap_descr">
-		<text>Special-issue 5.45x39 caliber 7N22 armour-piercing round for automatic rifles of Warsaw Pact countries. The bullet contains a hard-alloy armour-piercing penetrator that is highly effective against body armour. Issued to Spetsnaz units conducting direct action against the most dangerous and well-armed foes, though a handful of these rounds rarely find their way into the hands of Dutyers. </text>
+		<text>Армейский патрон 7Н22 калибра 5,45x39 мм с бронебойной пулей (БП). Используется в автоматических винтовках многих стран-участниц Варшавского договора. Бронебойный сердечник из инструментальной стали марки У12А. Эффективен против бронежилетов. </text>
 	</string>
 	<string id="ammo_new_5.45x39_ap_s">
-		<text>5.45x39 AP</text>
+		<text>5.45x39 БП</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_aps">
-		<text>5.45x39mm 7N39 AP rounds</text>
+		<text>5.45x39мм 7Н39 Игольник</text>
 	</string>
 	<string id="ammo_new_5.45x39_aps_descr">
-		<text>Classified, extremely rare 5.45x39 caliber 7N39 'super' armour-piercing round for automatic rifles of Warsaw Pact countries. The bullet contains a hardened tungsten penetrator and the cartridge packs a high-pressure load, conferring extreme penetration capability against most types of armor. Extremely difficult to find outside of Russian Special Forces armories - it has long been rumored that the Russian Federation is aware of the activities in the Zone and is conducting clandestine activities under the guise of cooperation with the Ukrainian Armed Forces, likely serving their own agenda. No matter the origin, these rounds are likely the best intermediate rifle rounds you can find.</text>
+		<text>Новейший, крайне редкий бронебойный патрон 7Н39 калибра 5,45х39, разработанный в рамках ОКР "Игольник".  Патрон высокого давления, с вольфрамокобальтовым сердечником, даёт возможность поражать даже самые тяжёлые комплекты бронезащиты. Эти патроны крайне сложно найти вне рук бойцов ССО РФ. Давно ходят слухи, что правительство Российской Федерации уже давно действует внутри зоны под видом сотрудничества с ВСУ и СБУ, преследуя свои собственные цели. Независимо от происхождения, это лучшие автоматные патроны 5.45, которые вы можете найти.</text>	
 	</string>
 	<string id="ammo_new_5.45x39_aps_s">
-		<text>5.45x39 AP+</text>
+		<text>5.45x39 Игольник</text>
 	</string>
 	
 	
 	<string id="ammo_new_5.56x45_fmj">
-		<text>5.56x45mm FMJ rounds</text>
+		<text>Патроны 5.56x45мм FMJ</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmj_descr">
-		<text>A standard-issue NATO 5.56x45 caliber M193 round that debuted along with the AR-15 family of rifles during the Vietnam War. While issues with the original stock of M193 ammo plagued U.S. soldiers in Vietnam, new manufacture rounds use the recommended IMR powder and retain the M193 round's signature fragmentation-derived stopping power. While relatively weak against modern armor, this round still enjoys high popularity in the Zone due to its flexibility as well as its reasonable cost. </text>
+		<text>Стандартный, повсеместно используемый, 5,56 патрон войск стран НАТО, известный под индексом M193. Хорошо известен ещё со времен войны во Вьетнаме и предназначен для ведения прицельного огня очередями. Патрон хоть и обладает малой пробивной силой, но в то же время обеспечивает отличное останавливающее действие. </text>
 	</string>
 	<string id="ammo_new_5.56x45_fmj_s">
 		<text>5.56x45 FMJ</text>
 	</string>
 
 	<string id="ammo_new_5.56x45_fmjs">
-		<text>5.56x45mm Mk318 FMJ rounds</text>
+		<text> Патроны 5.56x45мм Mk318</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmjs_descr">
-		<text>Match-grade 5.56x45 FMJ round that is standard issue with U.S. Marines and other elite task groups. Developed in response to M855's reported ineffectiveness at reliably putting down targets, the Mk318 roundprovides tight groupings out of short barrels, penetrates barriers reliably and offers fragmentation potential exceeding that of the M193. These combined properties make the round unmatched in close-range modern warfare. A reasonably rare find, however members of Freedom maintain an unusually high stock of these rounds, the origin of which is a well-guarded secret.</text>
+		<text>Патрон 5.56x45 FMJ матчевого класса, разработанный для морской пехоты США и спецназа ВМС США. Разработанный для стрельбы из карабинов и уверенного поражения целей за лёгкими укрытиями, без потери точности или убойной силы. Данные свойства делают данный патрон непревзойденным в современной войне на близких дистанциях. Достаточно редкая находка, однако члены "Свободы" имеют необычайно большой запас этих патронов, происхождение которых является хорошо охраняемым секретом.</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmjs_s">
-		<text>5.56x45 FMJ+</text>
+		<text>5.56x45 Mk318</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_hp">
-		<text>5.56x45mm HP rounds</text>
+		<text>Патроны 5.56x45мм HP</text>
 	</string>
 	<string id="ammo_new_5.56x45_hp_descr">
-		<text>Hollow-point 5.56x45mm round commonly used in hunting and sport shooting. The open tip makes this round ineffective against armor, but provides for increased stopping power against unarmored enemies. Popular round for shooting mutants.</text>
+		<text>5,56x45 мм патрон. Пуля с полым носиком, широко используемая в охоте и спортивной стрельбе. Полый носик делает этот патрон неэффективным против брони, но обеспечивает повышенную останавливающую способность против небронированных противников. Популярный патрон для отстрела мутантов.</text>
 	</string>
 	<string id="ammo_new_5.56x45_hp_s">
 		<text>5.56x45 HP</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_varma">
-		<text>5.56x45mm 'Varmageddon' rounds</text>
+		<text> Патроны 5.56x45мм 'Varmageddon'</text>
 	</string>
 	<string id="ammo_new_5.56x45_varma_descr">
-		<text>Imported 5.56x45 hunting cartridge specially designed to kill animals. The unique shape of the bullet enables projectiles to expand greatly in thick muscle and flesh of animals, inflicting catastrophic damage. The wounding effects in human targets are acceptable in comparison, but not as pronounced. These rounds enable Freedom fighters to stand toe to toe with the nastier mutants that are more prevalent up north.</text>
+		<text>Импортный охотничий патрон 5,56х45, специально разработанный для отстрела животных. Уникальная форма пули позволяет ей сильно расширяться в толще мышц и плоти животных, нанося чудовищный повреждения. Поражающие эффекты в человеческих целях примерно те же, но не так выражены, по очевидным причинам. Эти патроны позволяют сталкерам Свободы эффективно сражаться с опасными мутантами, которые населяют север Зоны.</text>
 	</string>
 	<string id="ammo_new_5.56x45_varma_s">
 		<text>5.56x45 Varma</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_ap">
-		<text>5.56x45mm AP rounds</text>
+		<text>Патроны 5.56x45мм М855А1 </text>
 	</string>
 	<string id="ammo_new_5.56x45_ap_descr">
-		<text>The latest NATO military 5.56x45 caliber enhanced penetration round, known as M855A1, used by the US armed forces. The failure of the M855 round led to the development of both the Mk318 and this round, which offers both increased armor penetrating capabilities but also increased stopping power fired out of standard rifles. Difficult to find but extremely effective, especially against exosuit-level protection. Imported in bulk by unknown suppliers of the Mercenary group, and forms one of the bulk import items (alongside marijuana) that Freedom trades for.</text>
+		<text>Новейший армейский патрон НАТО калибра 5.56x45 повышенной пробиваемости, известный как M855A1. Неудача патрона M855 привела к разработке Mk318 и этого патрона, который обеспечивает как повышенное бронепробитие так и останавливающую способность при стрельбе из стандартных винтовок. Трудно переоценить его эффективность против тяжелых средств индивидуальной защиты. Импортируется оптом неизвестными поставщиками группы наемников и имеется в наличии на складах Свободы..</text>
 	</string>
 	<string id="ammo_new_5.56x45_ap_s">
-		<text>5.56x45 AP</text>
+		<text>5.56x45 М855А1</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_ss190">
-		<text>5.56x45mm EP rounds</text>
+		<text>Патроны 5.56x45мм М855</text>
 	</string>
 	<string id="ammo_new_5.56x45_ss190_descr">
-		<text>Relatively obsolete NATO 5.56x45 caliber round with a steel core. Initially developed as a means to counter body armor, the round, designated M855, lost the fragmentation properties that made the M193 such an effective round and thus traded a huge amount of stopping power for respectable armor defeating capability. Large quantities of this round have made it to the Zone as most militaries have abandoned their stocks of this ineffectual round. Even despite the commonality, most stalkers only use these rounds begrudgingly.</text>
+		<text>Относительно устаревший патрон М855 калибра 5,56х45 НАТО со стальным сердечником. Первоначально разработанный как средство борьбы с бронежилетами, обладает несколько меньшей убойной силой, в сравнении с М193. Большое количество этих патронов попало в Зону в связи с их моральным устареванием. Большинство сталкеров неохотно используют этот патрон, даже несмотря на его невысокую цену.</text>
 	</string>
 	<string id="ammo_new_5.56x45_ss190_s">
-		<text>5.56x45 EP</text>
+		<text>5.56x45 М855</text>
 	</string>
 	
 	<string id="ammo_new_7.62x39_fmj">
-		<text>7.62x39mm FMJ rounds</text>
+		<text>Патрон 7.62x39мм ПС</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmj_descr">
-		<text>Steel case 7.62x39 M43 FMJ round that is ubiquitous in conflict zones, insurgencies and revolutions around the world. Provides high stopping power and strong armor defeating capabilities, but is hampered by its high recoil, reduced range and relative inaccuracy compared to the more modern 5.45 and 5.56 rounds. Extremely common in the Zone, as this type of round is also very popular for hunting and shooting for fun.</text>
+		<text>Стандартный промежуточный патрон 7,62х39 мм с цельнометаллической оболочкой. Является одним из наиболее массово производимых боеприпасов, хорошо известных от Европы до Азии и Африки. На сегодняшний день порядком устарел и уступает многим современным средствам поражения, но благодаря тяжелой пуле всё ещё является хорошим аргументом в споре с мутантами и людьми в лёгкой и средней защите.</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmj_s">
-		<text>7.62x39 FMJ</text>
+		<text>7.62x39 ПС</text>
 	</string>	
 	<string id="ammo_new_7.62x39_fmjs">
-		<text>7.62x39mm M67 FMJ rounds</text>
+		<text>Патроны 7.62x39мм M67</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmjs_descr">
-		<text>Brass cased 7.62x39 originally developed in Yugoslavia, but now used as a catch-all for the more modern manufacture brass-cased ammo. The round still features a mild steel core and provides slightly better performance to the M43 round, but the main selling point is the better feeding and reduced wear on the weapon. Clear Sky faction maintains an agreement with an unknown party to supply these rounds through their faction.</text>
+		<text>7,62x39 патрон производства Югославии. С латунной гильзой и сердечником из мягкой стали. Обеспечивает несколько лучшие характеристики по сравнению с советским ПС патроном. Основным преимуществом является лучшая подача, выброс гильзы и меньший износ оружия. Чистое Небо поддерживает соглашение с неизвестной стороной о поставках этих боеприпасов.</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmjs_s">
-		<text>7.62x39 FMJ+</text>
+		<text>7.62x39 М67</text>
 	</string>	
 
 	<string id="ammo_new_7.62x39_ap">
-		<text>7.62x39mm AP rounds</text>
+		<text>Патроны 7.62x39мм БП</text>
 	</string>
 	<string id="ammo_new_7.62x39_ap_descr">
-		<text>7.62x39 round with a carbon steel core. These rounds are designed to neutralize enemy personnel behind light cover and defeat modern body armor that the M43 round normally struggles with. Thanks to the heavy weight, this round transfers more force on target compared to lighter 5.45 rounds, at the cost of accuracy and effective range. Issued on an increasing basis to SSU troops in order to combat the increasing presence of Monolith forces, as part of an agreement with the Russian government.</text>
+		<text>Патрон 7,62х39 7Н23 с сердечником из углеродистой стали. Предназначен для поражения живой силы противника за легким укрытием и в современных средствах защиты, останавливающие патрон M43. Внутри пули бронебойный сердечник из инструментальной стали марки У12А. Поставляется вооруженным подразделениям СБУ для борьбы с возрастающей угрозой Монолита, в рамках соглашения с правительством России.</text>
 	</string>
 	<string id="ammo_new_7.62x39_ap_s">
-		<text>7.62x39 AP</text>
+		<text>7.62x39 БП</text>
 	</string>
 
 	<string id="ammo_new_7.62x39_api">
-		<text>7.62x39mm BZ API rounds</text>
+		<text>Патроны 7.62x39мм БЗ</text>
 	</string>
 	<string id="ammo_new_7.62x39_api_descr">
-		<text>7.62x39 armor-piercing rounds with an incendiary component added to the base of the bullet. Designed to blow up vehicles by shooting the fuel tanks, the penetrator punches through any armor plating and the incendiary component creates sparks as they pass through, igniting fuel. While armored vehicles are an extreme shortage in the Zone, these rounds work extremely well as a means to inhumanely increase lethality against armored targets. Due to the incendiary component, the temperatures generated are high and increases heat generated in the weapon.</text>
+		<text>7,62х39 патрон с бронебойно-зажигательной пулей БЗ. Предназначен для поражения легко бронированных целей и живой силы противника, а также зажигания горючих материалов, защищенных легкими броневыми прикрытиями, на дальности до 300 м. Из-за более высокой навески пороха, износ ствола и его нагрев несколько повышены.</text>
 	</string>
 	<string id="ammo_new_7.62x39_api_s">
-		<text>7.62x39 API</text>
+		<text>7.62x39 БЗ</text>
 	</string>
 
 	
 	<string id="ammo_new_9x39_sp5">
-		<text>9x39mm SP-5 rounds</text>
+		<text>Патроны 9x39мм СП-5</text>
 	</string>
 	<string id="ammo_new_9x39_sp5_descr">
-		<text>The SP-5 is a subsonic rifle round with a bimetallic casing. The round contains a steel core with a gap behind it that is filled with lead. Canonically used in tandem with the VSS Vintorez, this round provides tight groupings and high stopping power, but is hampered by its steep trajectory and limited range. Requires a suppressor for stealth firing. Used by special services of Warsaw Pact countries.</text>
+		<text>Снайперский патрон СП-5 создавался для применения в комплексе с винтовкой ВСС. Пуля патрона имеет стальной сердечник, полость позади него заполнена свинцом, ее оболочка биметаллическая. Благодаря форме пули имеет хорошие баллистические свойства при полете с дозвуковой скоростью. Конструкция патрона обеспечивает низкий уровень звука выстрела и высокую кучность стрельбы.</text>
 	</string>
 	<string id="ammo_new_9x39_sp5_s">
-		<text>9x39 SP-5</text>
+		<text>9x39 СП-5</text>
 	</string>
 	<string id="ammo_new_9x39_spp">
-		<text>9x39mm SPP rounds</text>
+		<text>Патроны 9х39мм СПП</text>
 	</string>
 	<string id="ammo_new_9x39_spp_descr">
-		<text>The 9x39 SPP round is a modernized SP-5 round with a steel penetrator. Developed as an immediate successor to the SP-5, the SPP round capitalizes on and improves upon all the characteristics that make the SP-5 such an effective round. The redesigned bullet incorporates a steel penetrator core that enables the round to be more effective at defeating armor than the SP-5, and the shape and weight distribution of the bullet is improved upon to optimize its aerodynamic capabilities.</text>
+		<text>Патрон 9х39 СПП является модернизированным патроном СП-5 со стальным сердечником из высокоуглеродистой стали марки У12А. Благодаря этому куда лучше поражает цели в индивидуальных средствах защиты, не теряя в точности и баллистических характеристиках.</text>
 	</string>
 	<string id="ammo_new_9x39_spp_s">
-		<text>9x39 SPP</text>
+		<text>9x39 СПП</text>
 	</string>
 	
 	<string id="ammo_new_9x39_pab9">
-		<text>9x39mm PAB-9 rounds</text>
+		<text>Патроны 9x39мм ПАБ-9</text>
 	</string>
 	<string id="ammo_new_9x39_pab9_descr">
-		<text>Old issue PAB-9 ammo that is no longer produced. In an effort to cut costs of producing SP-6 rounds, the penetrator core was stamped instead of machined and the propellant was replaced with a cheaper, dirtier mix. The end result is a cartridge that has performance mildly better than the SP-6, but suffers from instability in flight and very quickly destroys the weapon it is shot out of.</text>
+		<text>ПАБ-9. Более дешевая модификация СП-6. Снят с производства и запрещен в использовании с АС и ВСС из за слишком высокого давления в стволе. Имеет более крутую траекторию полета и увеличенную массу пули, в сравнении с предшественником, но куда сильнее изнашивает оружие.</text>
 	</string>
 
 	<string id="ammo_new_9x39_pab9_s">
-		<text>9x39 PAB-9</text>
+		<text>9x39 ПАБ-9</text>
 	</string>
 	<string id="ammo_new_9x39_ap">
-		<text>9x39mm SP-6 rounds</text>
+		<text>Патроны 9x39 мм СП-6</text>
 	</string>
 	<string id="ammo_new_9x39_ap_descr">
-		<text>The SP-6 is a subsonic armour-piercing round with a jacketed soft point bullet with a hard steel core that protrudes from the casing. Used in tandem with the AS VAL special assault rifle by elite Spetsnaz units. Requires a suppressor for stealth firing. Highly effective against body armour.</text>
+		<text>Дозвуковой бронебойный специальный патрон СП-6. Оснащён полуоболочечной пулей с частично открытым сердечником из высокоуглеродистой стали У12А. Используется в комплексе с специальными винтовками и автоматами ОВД, обеспечивая практически бесшумное поражение целей в в лёгких и средних средствах защиты.</text>
 	</string>
 	<string id="ammo_new_9x39_ap_s">
-		<text>9x39 SP-6</text>
+		<text>9x39 СП-6</text>
 	</string>	
 	
 
 	<!-- large rifle -->
 
 	<string id="ammo_new_7.62x54r">
-		<text>7.62x54mm PP rounds</text>
+		<text>Патроны 7.62x54мм ЛПС</text>
 	</string>
 	<string id="ammo_new_7.62x54r_descr">
-		<text>Surplus 7.62x54mm 57-N-323S ammunition. The 7.62x54mm round is the second-oldest rifle cartridge still in use today, first produced in 1891 for the Mosin-Nagant rifle. The basic design of the bullet has not changed much since 1908, and remains very popular today amongst hunters and target shooters. These rounds are loose, but can be linked together for use in the PK machine gun.</text>
+		<text>Валовый патрон 7,62х54мм 57-Н-323С. Патрон 7,62x54мм является вторым старейшим винтовочным патроном, используемым до сих пор. Принят на вооружение в 1891 году вместе с винтовкой Мосина-Нагана. Получил остроконечную пулю в 1908 году и поныне остается очень популярным среди охотников и стрелков. Идут россыпью, но их можно собрать в ленту для пулемёта ПК.</text>
 	</string>
 	<string id="ammo_new_7.62x54r_s">
-		<text>7.62x54 PP</text>
+		<text>7.62x54 ЛПС</text>
 	</string>
 
 	<string id="ammo_new_7.62x54_7n1">
-		<text>7.62x54mm 7N1 rounds</text>
+		<text>Патроны 7.62x54мм 7Н1</text>
 	</string>
 	<string id="ammo_new_7.62x54_7n1_descr">
-		<text>A 7.62x54 sniper round for precision shooting at range. Designed specially for and in tandem with the SVD sniper rifle. Provides extremely tight groupings and consistent stopping power against lightly armored targets, but suffers slightly when dealing with heavy body armor. Popular round with all marksmen. Compatible with LMGs, but frankly using such a quality round in a machine gun is a complete waste.</text>
+		<text>Снайперский патрон 7,62x54 для точной стрельбы на дальних дистанциях. Разработан специально для снайперской винтовки СВД. Обеспечивает хорошую кучность и убойность против легкобронированных целей, показывая себя немного хуже против более тяжело защищенных. Этот факт не мешает ему быть одним из самых ходовых патронов в среде военных снайперов и гражданских стрелков.</text>
 	</string>
 	<string id="ammo_new_7.62x54_7n1_s">
-		<text>7.62x54 7N1</text>
+		<text>7.62x54 7Н1</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_hp">
-		<text>7.62x54mm HP rounds</text>
+		<text>Патроны 7.62x54мм HP</text>
 	</string>
 	<string id="ammo_new_7.62x54_hp_descr">
-		<text>Civilian grade 7.62x54 hunting rounds. The hollow point reduces penetration and increases stopping power, making it a good choice for hunters bringing down large animals without punching two holes in the valuable pelt. Very common in the Zone owing to the pedigree of a majority of Loners.</text>
+		<text>Гражданский охотничьий патрон калибра 7,62х54. Полый носик снижает пробиваемость и увеличивает убойную силу. По этой причине не пробивает туши насквозь, что делает его хорошим выбором для охотников на крупную дичь, Распространён в Зоне из-за Одиночек, занимавшихся охотой ещё на Большой Земле.</text>
 	</string>
 	<string id="ammo_new_7.62x54_hp_s">
 		<text>7.62x54 HP</text>
 	</string>
 	<string id="ammo_new_7.62x54_fp">
-		<text>7.62x54mm 'Headhunter' match rounds</text>
+		<text>Снайперские патроны 7.62x54мм 'Headhunter'</text>
 	</string>
 	<string id="ammo_new_7.62x54_fp_descr">
-		<text>High-precision variant of the 7.62x54mm round, with a flat nose that provides tight groupings at medium to long ranges. These rounds are used for competition shooting where accuracy and precision are key, and thus these rounds are all carefully built to be exactly the same. The flat nosed round is designed for superior weight distribution and to punch clean holes through targets, and is tipped with a plastic plug to retain maximal aerodynamic performance. While the armor penetrating capabilities are lacking, the sheer force of impact due to the flat nose is enough to cause deadly concussions. In practice, snipers report that headshots with these rounds will lethally concuss targets, almost always guaranteeing a kill. Proper use of such rounds demands high skill.</text>
+		<text>Высокоточный вариант патрона 7,62х54мм с плоской головкой, обеспечивающий высокую кучность стрельбы на средних и дальних дистанциях. Патрон предназначен для спортивной стрельбы и изготовлен с минимальными допусками по размерам пули и навеске пороха. Пуля с плоской головкой предназначена для лучшего распределения веса и позволяет пробивать чистые отверстия в мишенях. На конце имеется пластиковый аэродинамический колпачок. В силу отсутствия какого-либо сердечника, кинетической энергии пули достаточно, чтобы вызвать смертельные сотрясения мозга но едва ли способна нанести серьезные повреждения при попадании в менее важную часть тела.</text>
 	</string>
 	<string id="ammo_new_7.62x54_fp_s">
 		<text>7.62x54 FP</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_ap">
-		<text>7.62x54mm AP rounds</text>
+		<text>Патроны 7.62x54мм СНБ</text>
 	</string>
 	<string id="ammo_new_7.62x54_ap_descr">
-		<text>7.62x54 7N13 armor piercing round. Features a hardened steel core and strong propellant charge. This round is normally designed for use in machine guns, especially those deployed for light anti armor purposes, but they work acceptably enough in sniper rifles to defeat heavy body armor at medium range. Due to the sheer power of the round, damage on unarmored targets remains extremely high.</text>
+		<text>>Специально разработанный модернизированный снайперский патрон 7,62х54 мм с бронебойной пулей СНБ. Пуля оснащена комбинированным сердечником из свинца и закалённой стали марки У12А, способной пробивать бронежилеты и небольшие преграды. В сравнении со стандартным патроном того же калибра имеет облегчённую хвостовую часть, что обеспечивает большую точность и улучшенные баллистические характеристики.</text>
 	</string>
 	<string id="ammo_new_7.62x54_ap_s">
-		<text>7.62x54 AP</text>
+		<text>7.62x54 СНБ</text>
 	</string>
 
 	<string id="ammo_new_7.62x54_api">
-		<text>7.62x54mm BZAPI rounds</text>
+		<text>7.62x54мм Б-32 гж</text>
 	</string>
 	<string id="ammo_new_7.62x54_api_descr">
-		<text>7.62x54 armor-piercing incendiary round designed to defeat light armor by penetrating external armor and igniting fuel tanks. Extremely and terrifyingly effective against mutants and men, as any and all protection is defeated by the armor piercing tip while the incendiary component causes catastrophic flesh damage. Generates a high temperature in the barrel, so frequent barrel changes are required when shooting out of a machine gun. In addition, this is nomally a machine gun round and thus it is not designed for precision - if using a rifle, be wary. </text>
+		<text>Бронебойно-зажигательный патрон калибра 7,62х54 предназначен для поражения легкой бронетехники и людей в средствах индивидуальной защиты. Будучи созданным как патрон авиационного пулемета  -  не рассчитан на большую точность. Эффективен как против мутантов, так и против людей из-за хорошей бронебойности и зажигательного состава в донце, наносящего сильные ожоги. Нагревает оружие, требуя дополнительного ухода и контроля стрельбы.</text>
 	</string>
 	<string id="ammo_new_7.62x54_api_s">
-		<text>7.62x54 API</text>
+		<text>7.62x54 Б-32 гж</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_ppr">
-		<text>7.62x54mm PP rounds (linked)</text>
+		<text>Патроны 7.62x54мм ЛПС в ленте</text>
 	</string>
 	<string id="ammo_new_7.62x54_ppr_descr">
-		<text>Surplus 7.62x54mm ammunition. The 7.62x54mm round is the second-oldest rifle cartridge still in use today, first produced in 1891 for the Mosin-Nagant rifle. The basic design of the bullet has not changed much since 1908, and remains very popular today amongst hunters and target shooters. These rounds are linked in a belt for use in the PK machine gun, but can be tediously unlinked to be used in other weapons.</text>
+		<text>Валовый патрон 7,62х54мм 57-Н-323С. Является вторым старейшим винтовочным патроном, используемым до сих пор. Принят на вооружение в 1891 году вместе с винтовкой Мосина-Нагана. Получил остроконечную пулю в 1908 году и поныне остается очень популярным среди охотников и стрелков. Идут россыпью, но их можно собрать в ленту для пулемёта ПК.</text>
 	</string>
 	<string id="ammo_new_7.62x54_ppr_s">
-		<text>7.62x54 PP MG</text>
+		<text>7.62x54 ЛПС П</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_split">
-		<text>7.62x54mm Split Shot rounds</text>
+		<text>Патроны 7.62x54мм Split Shot</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_descr">
-		<text>7.62x54mm machine gun rounds that split into three projectiles in flight. These projectiles have a short effective range comparable to handguns and some shotguns, but make up for it in sheer volume of fire. The rounds are anomalously tampered with to be extremely frangible at certain places, enough so that the stress of firing out of a barrel is enough to fracture the round into pieces. While seemingly counterintuitive, these rounds are used to great effect by members of Duty to provide a huge amount of short-range firepower in taking down mutant hordes, acting as a sort of heavy automatic shotgun. Due to the round's short range, there is no reason to fire this out of a rifle.</text>
+		<text>Пулеметный патрон 7,62x54мм, разделяющийся на три части после выхода из ствола. Имеет малую дальность, сравнимую с пистолетами и некоторыми дробовиками, но компенсирует это плотностью огня. В своей основе имеет аномальный и слабо изученный принцип действия. Мало полезен для стрельбы из винтовки, но популярен среди пулемётчиков Долга, обеспечивая огромную огневую мощь для уничтожения полчищ мутантов.</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_s">
 		<text>7.62x54 Split</text>
@@ -724,40 +733,40 @@
 	
 
 	<string id="ammo_new_7.62x51_fmj">
-		<text>7.62x51mm M80 ball rounds</text>
+		<text>Патроны 7.62x51мм M80</text>
 	</string>
 	<string id="ammo_new_7.62x51_fmj_descr">
-		<text>The 7.62x51 NATO round is a military variant of the .308 round which was used as a standard-issue by the NATO forces until 5.56 ammunition was introduced in the '70s in the Vietnam War. At present, it is most commonly employed by private military contractors all over the world. The 7.62x51 round is a very common and versatile machine gun caliber, and can also be used in battle or sniper rifles.</text>
+		<text>Патрон 7,62x51 NATO — это военный вариант патрона .308, который был основным боеприпасом НАТО до войны во Вьетнаме, во время которой появился патрон 5.56 х 45 мм, который был стандартизирован в 70-ые . В настоящее время он чаще всего используется частными военными подрядчиками по всему миру. Патрон 7,62x51 является ходовым пулеметным патроном, который также может использоваться в боевых или снайперских винтовках.</text>
 	</string>
 	<string id="ammo_new_7.62x51_fmj_s">
-		<text>7.62x51 FMJ</text>
+		<text>7.62x51 М80</text>
 	</string>
 	
 	<string id="ammo_new_7.62x51_fmjs">
-		<text>7.62x51mm Mk316 Match rounds</text>
+		<text>7.62x51мм Mk316 Match rounds</text>
 	</string>
 	<string id="ammo_new_7.62x51_fmjs_descr">
-		<text>Specialized 7.62x51 round designed for long-range sniping. The tip is slightly hollowed out and the bullet is shaped specifically for maximal aerodynamic performance when shot out of long barrel rifles. Firing this round out of a battle rifle is frankly a waste, but the round will still perform admirably. Favored by Freedom snipers who will gladly trade any marijuana they have for boxes of these rounds.</text>
+		<text> Высокоточный патрон 7,62х51, предназначенный для стрельбы на дальних дистанциях. Наконечник пули имеет выемку, а сама пуля оптимизированна для винтовок с длинным стволом, однако его можно зарядить в любое оружие под 7.62 NATO, но не ожидайте оптимальных показателей в таком случае. Обожаемы снайперами Свободы, которые с радостью обменяют любую имеющуюся у них марихуану на коробки с этими патронами.</text>
 	</string>
 	<string id="ammo_new_7.62x51_fmjs_s">
-		<text>7.62x51 Match</text>
+		<text>7.62x51 Mk316</text>
 	</string>
 
 	<string id="ammo_new_7.62x51_ap">
-		<text>7.62x51mm M61 AP rounds</text>
+		<text>Патроны 7.62x51 мм M61</text>
 	</string>
 	<string id="ammo_new_7.62x51_ap_descr">
-		<text>Military 7.62x51 calibre M61 armor-piercing round with a hardened steel core. It retains high damage while greatly improving performance against body armor. Used often by Freedom snipers to eliminate armored Monolith targets.</text>
+		<text>Армейский патрон M61 с бронебойной пулей с закалённым стальным сердечником. Сохраняет показатели урона, обладая в то же время улучшенными показателями пробития бронежилетов. Часто используется снайперами Свободы для ликвидации бойцов Монолита в тяжёлой броне.</text>
 	</string>
 	<string id="ammo_new_7.62x51_ap_s">
-		<text>7.62x51 AP</text>
+		<text>7.62x51 М61</text>
 	</string>
 
 	<string id="ammo_new_7.62x51_slap">
-		<text>7.62x51mm M69 SLAP rounds</text>
+		<text>Патроны 7.62x51 мм M69 SLAP</text>
 	</string>
 	<string id="ammo_new_7.62x51_slap_descr">
-		<text>Special-issue 7.62x51 round consisting of a 4mm tungsten dart encased in a plastic plug and short metal sabot. The plastic plug retains the shape of a normal FMJ round, making for easy feeding, and when fired the dense tungsten dart punches clean through light and medium vehicle armor, or any body armor. Due to the small size of the projectile, wounding effects are minimized. However, the penetrating capability makes it possible to shoot through cover or attack multiple targets in a row. Imported in limited quantities by Mercenaries to counter armored SSU divisions and to neutralize heavily armored Monolith threats.</text>
+		<text>Бронебойно-подкалиберный патрон с отделяющимся поддом калибра 7.62 х 51 мм. Состоит из пластикового обтюратора, который сохраняет форму обычной пули для простоты подачи, а при выстреле вольфрамовый дротик пробивает легкую и среднюю броню транспортных средств или любой бронежилет. Из-за малого размера сердечника, поражающие эффекты сведены к минимуму, однако пробивная способность позволяет пробивать на вылет кого-то или что-то, к примеру железную пластину укрытия или керамическую плиту бронежилета. Импортируется в ограниченных количествах наёмниками для борьбы с экзоскелетчиками Монолита или бронетехникой охраны Периметра Зоны.</text>
 	</string>
 	<string id="ammo_new_7.62x51_slap_s">
 		<text>7.62x51 SLAP</text>
@@ -765,100 +774,100 @@
 	
 
 	<string id="ammo_new_7.92x33_fmj">
-		<text>7.92x57mm Mauser rounds</text>
+		<text>Патроны 7.92x57mm Mauser</text>
 	</string>
 	<string id="ammo_new_7.92x33_fmj_descr">
-		<text>The 7.92x57 Mauser round was adopted by the German Empire and then the Third Reich. It was one of the most popular cartridges in the period of two world wars. However, nowadays, the round is primarily used for hunting and sports. Vast quantities of this round were seized from the losing faction of the Second World War and repurposed to ultimately shoot mutants with in the Zone.</text>
+		<text>Патрон Маузера 7,92x57 мм. Был основным винтовочно-пулемётным боеприпасом Германской Империи и Третьего Рейха и винтовочным патроном Югославии вплоть до её развала. Сейчас продолжает использоваться как спортивно-охотничий патрон для гражданских. Попал в зону с украинских складов трофейного оружия, оставшихся с советских времён, и контрабандой из бывшей Югославии.</text>
 	</string>
 	<string id="ammo_new_7.92x33_fmj_s">
 		<text>7.92x57 FMJ</text>
 	</string>
 
 	<string id="ammo_new_7.92x33_match">
-		<text>7.92x57mm Match hand load rounds</text>
+		<text>Матчевые патроны 7.92x57мм </text>
 	</string>
 	<string id="ammo_new_7.92x33_match_descr">
-		<text>Match grade 7.92x57 round with a hollow tip and boat-tail base bullet. Modern powder loads exert greater stress on historic rifles, but offer highly improved performance to compensate. Such rounds are popular with hunters and sport shooters for their flatness, tight groupings and reliable kill power for medium and large game.</text>
+		<text>Патрон калибра 7,92x57 с полым носиком и узким донцем. Патроны с современным порохом повышают износ старых винтовок, но компенсируют это лучшими баллистическими показателями. Такие патроны популярны среди охотников и спортивных стрелков за их настильность, кучность и убойную силу для средней и крупной дичи.</text>
 	</string>
 	<string id="ammo_new_7.92x33_match_s">
 		<text>7.92x57 Match</text>
 	</string>
 
 	<string id="ammo_new_7.92x33_ap">
-		<text>7.92x57mm SA rounds</text>
+		<text>7.92x57мм S.m.K.H.</text>
 	</string>
 	<string id="ammo_new_7.92x33_ap_descr">
-		<text>7.92x57 SA is a round originally designed and used by the British military against armoured targets. It features a hardened steel core which gives it higher piercing capabilities. Used primarily for long range shots, the grain quality of this round is higher than the standard. Provides overall superior performance to its Wehrmacht counterpart. This cartridge is supported by several sniper rifles.</text>
+		<text>Бронебойный остроконечный патрон с вольфрамовым сердечником 7,92x57 мм. Используется, в основном, для стрельбы на дальние дистанции и поражения лёгкой техники/целей за относительно толстыми укрытиями. Обеспечивает лучшую точность, чем британский аналог SA Mk2Z для пулемётов.</text>
 	</string>
 	<string id="ammo_new_7.92x33_ap_s">
 		<text>7.92x57 AP</text>
 	</string>
 	
 	<string id="ammo_new_7.92x33_shock">
-		<text>7.92x57mm Lightning rounds</text>
+		<text>Патроны 7.92x57 мм Гроза</text>
 	</string>
 	<string id="ammo_new_7.92x33_shock_descr">
-		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. While this has limited stopping power against lightly armored targets, on heavily armored targets and powered armor the effect is devastating to both the target and the area around the target. Deals minimal damage to mutants and unarmored targets.</text>
+		<text>Патрон 7,92х57 с пулей из сплава меди, никеля и артефакта Вспышка. При выстреле материал пули электризуется, а попав в цель очень сильно бьёт её током. Малоэффективен против легкобронированных целей, но на тяжелобронированных целях эффект разрушительен как для цели, так и для всего вокруг. Наносит минимальный урон мутантам и небронированным целям.</text>
 	</string>
 	<string id="ammo_new_7.92x33_shock_s">
-		<text>7.92x57 Shock</text>
+		<text>7.92x57 Гроза</text>
 	</string>
 	
 	<string id="ammo_new_12.7x55_fmj">
-		<text>12.7x55mm STs-130 rounds</text>
+		<text>Патроны 12.7x55 мм СЦ-130</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmj_descr">
-		<text>The full metal jacket 12.7x55mm subsonic cartridge is used in the VKS bullpup sniper rifle. The cartridge can carry a projectile weighing between from 59 grams (911 grains) and 76 g (1173 grains), yielding massive amounts of kinetic energy. Commonly used by the SSU Spetsnaz when actions necessitate the clandestine recon and assassination of well-armored and well-equipped foes.</text>
+		<text>12,7x55 мм СЦ-130 - российский винтовочный боеприпас с дозвуковой скоростью пули, созданный в ЦКИБ СОО для малошумного и беспламенного поражения защищённых целей и живой силы в тяжёлых бронежилетах на дальностях до 600 метров.</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmj_s">
-		<text>12.7x55</text>
+		<text>12.7x55 СЦ-130</text>
 	</string>
 	
 	<string id="ammo_new_12.7x55_fmjs">
-		<text>12.7x55mm STs-130 PT2 rounds</text>
+		<text>Патроны 12.7x55 мм СЦ-130 ПТ-2</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmjs_descr">
-		<text>Bronze 12.7x55mm subsonic cartridge used in the VKS bullpup sniper rifle. PT2 designation round is designed for high accuracy, strong armor penetration and extreme stopping power at short to medium ranges. As this round is a relatively recent development, it is imported and fielded in highly limited capacity. General Voronin maintains a reserve of these rounds, along with VKS rifles, to be issued for clandestine assassination missions.</text>
+		<text>Дозвуковой патрон 12,7х55мм с бронзовой пулей повышенной точности ПТ-2, используемый в снайперской винтовке ВССК. Импортируется и используется в крайне ограниченных количествах, поскольку является относительно недавней разработкой. У генерала Воронина запас этих патронов для операций для ликвидации особо важных целей из противоборствующих группировок.</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmjs_s">
-		<text>12.7x55 PT2</text>
+		<text>12.7x55 ПТ-2</text>
 	</string>
 
 	<string id="ammo_new_12.7x55_ap">
-		<text>12.7x55 mm STs-130 VPS rounds</text>
+		<text>Патроны 12.7x55 мм СЦ-130 ВПС</text>
 	</string>
 	<string id="ammo_new_12.7x55_ap_descr">
-		<text>The armour-piercing 12.7x55mm subsonic cartridge is used in the VKS bullpup sniper rifle. The hardened penetrator defeats most forms of body armor, but the true value in the round lies in its massive short-range stopping power, which is retained even despite the reduced capacity to fragment or yaw.</text>
+		<text>Крупнокалиберный снайперский патрон СЦ-130 ВПС (высокой пробивной способности) предназначен для поражения бесшумным выстрелом живой силы противника, защищенной тяжёлыми СИБ (5-6 уровня защиты по ГОСТ Р50744-95) на дальностях до 200 метров или находящейся за различными преградами (обшивка автомобиля, дверь, стекло, забор и т.д.) на дальности до 600 метров, а также для поражения легкобронированных и небронированных транспортных средств.</text>
 	</string>
 	<string id="ammo_new_12.7x55_ap_s">
-		<text>12.7x55 AP</text>
+		<text>12.7x55 ВПС</text>
 	</string>
     <string id="ammo_new_12.7x55_exp">
-		<text>12.7x55mm Explosive rounds</text>
+		<text>Патроны 12.7x55мм Мгновенного действия</text>
 	</string>
 	<string id="ammo_new_12.7x55_exp_descr">
-		<text>A relatively new and restricted development, these experimental rounds have a small fragment of a destabilized thermal artifact wrapped in lead with a standard metal jacket. The round exhibits no anomalous effects when impacting most solid surfaces, but the artifact core releases a tremendous amount of energy on impacting a hard target. The lead casing and metal jacket become shrapnel for the explosion, like the outer case of a grenade. While the armor penetration is limited due to a majority of the energy being transferred radially outward, the force of the explosion will cause serious damage and disorientation to the target and anyone around them.</text>
+		<text>Относительно новая и ограниченная разработка. Использована пуля  БЗТ-44 с фрагментом огненного артефакта в донце, вместо обычного зажигательного состава. Помимо обычных бронебойных свойств, при попадании в твёрдую цель, происходит взрыв с образованием осколков. Поскольку при попадании происходит взрыв, бронебойные качества пули несколько ниже оригинала, Дополнительно оглушает иные, находящиеся в радиусе поражения, цели взрывом.</text>
 	</string>
 	<string id="ammo_new_12.7x55_exp_s">
-		<text>12.7x55 EXP</text>
+		<text>12.7x55 МДЗ</text>
 	</string>
 	
 	
 	<string id="ammo_new_338_lapua">
-		<text>.338 Lapua Magnum rounds</text>
+		<text> Патроны .338 Lapua Magnum</text>
 	</string>
 	<string id="ammo_new_338_lapua_descr">
-		<text>The .338 Lapua Magnum is a specialised rimless bottlenecked centrefire cartridge developed for military long-range sniper rifles. The Afghanistan War and Iraq War made it a combat-proven round with ready and substantial ammunition availability. The .338 Lapua is a dual-purpose anti-personnel and anti-materiel round, but its anti-materiel potential is limited.</text>
+		<text>.338 Lapua Magnum - специализированный патрон с безрантовой бутылочной гильзой, разработанный для дальнобойных армейских снайперских винтовок, получивший распространение после войн в Афганистане и Ираке. Боеприпас .338 Lapua Magnum является патроном двойного назначения: противопехотный и противотранспортный, но противотранспортный потенциал сильно ограничен.</text>
 	</string>
 	<string id="ammo_new_338_lapua_s">
 		<text>.338 Lapua Magnum</text>
 	</string>
 	
 	<string id="ammo_new_338_ap">
-		<text>.338 'Soulripper' Sabot rounds</text>
+		<text>Подкалиберный патроны .338 'Soulripper'</text>
 	</string>
 	<string id="ammo_new_338_ap_descr">
-		<text>.338 round consisting of a depleted uranium penetrator wrapped in a sabot and propelled with an anomalously powerful charge. Exhibits signs of anomalous tampering, as it is not physically possible for a projectile of this mass to fly with such velocity and deal as much damage as it does. Extremely rare, powerful, and dangerous to handle.</text>
+		<text>Патрон калибра .338, Сердечник из обедненного урана в обтюраторе. Приводится в движение чрезвычайно мощным зарядом. Имеет все признаки аномального вмешательства. Пуля такой массы, в обычном состоянии, не должна иметь столько урона и бронепробития. Чрезвычайно редкий, мощный и опасный в обращении.</text>
 	</string>
 	<string id="ammo_new_338_ap_s">
 		<text>.338 DU AP</text>
@@ -867,19 +876,19 @@
 	<!-- some leftovers -->
 	
 	<string id="ammo_new_50_bmg">
-		<text>.50 BMG M2 Ball Rounds</text>
+		<text>Патроны .50 BMG M2 Ball</text>
 	</string>
 	<string id="ammo_new_50_bmg_descr">
-		<text>.50 Browning Machine Gun (12.7x99mm) cartridge introduced in 1910 and adopted in 1921 along with the Browning M2 heavy machine gun. This round is very commonly used for man-portable anti-armor capabilities, where a single shot to the engine block is enough to disable a civilian vehicle or heavily damage a lightly armored military vehicle. Rarely imported in the Zone due to the lack of need - the Zone already does more than enough work destroying vehicles as it is. </text>
+		<text>Патрон .50 Browning Machine Gun (12,7x99мм) представлен в 1910 году и принят на вооружение в 1921 вместе с крупнокалиберным пулеметом Browning M2. Этот снаряд очень часто используется для переносных противотанковых средств, где одного выстрела в блок двигателя достаточно, чтобы вывести из строя гражданскую машину или серьезно повредить легкобронированную технику. Редко ввозится в Зону из-за отсутствия надобности - Зона и так делает более чем достаточно работы по уничтожению техники.</text>
 	</string>
 	<string id="ammo_new_50_bmg_s">
 		<text>.50 Ball</text>
 	</string>
 	<string id="ammo_new_50_ap">
-		<text>.50 BMG M2 AP Rounds</text>
+		<text>Патроны .50 BMG M2</text>
 	</string>
 	<string id="ammo_new_50_ap_descr">
-		<text>.50 M2 AP round used to effectively counter more heavily armored vehicles and personnel. This round is capable of defeating any threat in the Zone, but will rarely be used due to its great weight, rarity and compatibility with weaponry. It is rumored Freedom has a secret stash of this ammo somewhere that is used to fend off Monolith threats in the Army Warehouses area.</text>
+		<text>Патрон .50 M2 AP используется для эффективного противодействия ещё более тяжелобронированной технике и живой силе, чем обычный .50. Хоть этот снаряд и способен уничтожить любую угрозу в Зоне, используется крайне редко из-за большого веса, редкости и совместимости лишь с самым тяжелым вооружением. Ходят слухи, что у Свободы где-то припрятан секретный тайник с подобными боеприпасами, используемыми для отражения самых тяжелых атак Монолита в районе Армейских складов.</text>
 	</string>
 	<string id="ammo_new_50_ap_s">
 		<text>.50 AP</text>
@@ -887,31 +896,31 @@
 
 	
 	<string id="ammo_new_4.6x30_fmj">
-		<text>4.6x30mm FMJ rounds</text>
+		<text>Патроны 4.6x30mm FMJ</text>
 	</string>
 	<string id="ammo_new_4.6x30_fmj_descr">
-		<text>4.6x30mm bottlenecked PDW round developed for the MP7. Capable of defeating soft body armor but is insufficient to defeat armor rated for rifle-grade threats. This full metal jacket projectile has a lead-antimony core and is optimized for damage to soft targets.</text>
+		<text>Патрон PDW калибра 4,6x30мм с бутылочной гильзой разработанный для MP7. Способен пробивать лёгкие бронежилеты, но недостаточен для пробития бронеплит. Пуля с цельнометаллической оболочкой имеет сердечник из свинца и сурьмы и оптимизирована для поражения мягких тканей.</text>
 	</string>
 	<string id="ammo_new_4.6x30_fmj_s">
 		<text>4.6x30 FMJ</text>
 	</string>
 	<string id="ammo_new_4.6x30_ap">
-		<text>4.6x30mm AP rounds</text>
+		<text>Патроны 4.6x30mm DM11</text>
 	</string>
 	<string id="ammo_new_4.6x30_ap_descr">
-		<text>German DM111 round with a hardened core. Lighter and faster, but loses a bit of stopping power in exchange. Given that the standard operating procedure for using the MP7 is to throw high volumes of fire with low-recoil rounds, it is not terribly concerning.</text>
+		<text>Немецкий патрон DM11 с закаленным сердечником. Будучи легче и быстрее стандартного, имеет пониженную останавливающую способность. Учитывая обыкновенную ситуацию применения MP-7 - стрельбу длинными очередями в упор, об этом можно особенно не волноваться.</text>
 	</string>
 	<string id="ammo_new_4.6x30_ap_s">
 		<text>4.6x30 AP</text>
 	</string>
 	<string id="ammo_new_12x76_bull">
-		<text>12x90 'Bull' Magnum Slugs</text>
+		<text>Патроны Супер Магнум 12x89мм </text>
 	</string>
 	<string id="ammo_new_12x76_bull_descr">
-		<text>12 gauge shell with stainless steel base and extremely high powder load. The projectile consists of a dense, copper-covered lead slug encased around a cone of depleted uranium. Ridiculously heavy and powerful round that requires a specially reinforced shotgun to be safely fired out of. The identity of the creator or buyers of these rounds and the shotguns they use remains a mystery.</text>
+		<text>Гильза 12-го калибра Супер Магнум с донцем из нержавеющей стали и чрезвычайно высокой навеской пороха. Пуля состоит из омеднённой свинцовой пули и уранового колпачка. Невероятно тяжелый и мощный патрон, для безопасной стрельбы из которого требуется специально усиленный дробовик. Личность создателя или покупателей этих патронов и дробовиков, которые они используют, остается загадкой.</text>
 	</string>
 	<string id="ammo_new_12x76_bull_s">
-		<text>12x90 Bull</text>
+		<text>12x89 Супер Магнум</text>
 	</string>
 
 </string_table>

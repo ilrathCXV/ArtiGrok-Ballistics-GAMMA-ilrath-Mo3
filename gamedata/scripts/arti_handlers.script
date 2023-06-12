@@ -175,29 +175,25 @@ function acid_damage(npc, bone_id)
 end
 
 -- for 5.7 chaos sx
-function chaos_damage(npc, s_hit, bone_id)
+function chaos_damage(npc, bone_id)
     
-    local extra_effect = math_random(25)
+    local extra_effect = math_random(26)
     if not is_actor(npc) then
-        if extra_effect >= 3 and extra_effect < 5 then
+        if extra_effect >= 3 and extra_effect < 5 then			-- Moderate ignite (stronger than API but less than Dragon's Breath)
             ignite_npc(npc, 11, 5, 5)
 			extra_effect = 3
-        elseif extra_effect >= 5 and extra_effect < 9 then
+        elseif extra_effect >= 5 and extra_effect < 9 then		-- Stun NPC for 1 second
             stun_npc(npc, 1.0)
 			extra_effect = 4
-        elseif extra_effect >= 9 and extra_effect < 11 then
-            db.actor.health = clamp(db.actor.health + (0.1 * s_hit.power), 0, 1)
+        elseif extra_effect >= 9 and extra_effect < 11 then		-- 10% Lifesteal based on final calc. hit power
 			extra_effect = 5
-        elseif extra_effect == 11 then
+        elseif extra_effect == 11 then 							-- Headhunter (no ignoring faction resistances)
 			extra_effect = 6
-            -- random full AP
-            -- calcs.ap_calc = 1
-        elseif extra_effect >= 12 and extra_effect < 16 then
+        elseif extra_effect >= 12 and extra_effect < 16 then 	-- Acid Rounds
             play_particle(npc, bone_id, "artefact\\effects\\af_acidic_idle_color")
-            -- modify_bone(npc, bone_id, clamp(bone_data.armor * 0.8, 0, 1))
             play_sound_on_location("acid", npc)
 			extra_effect = 7
-        elseif extra_effect == 17 then
+        elseif extra_effect == 17 then							-- Explosive Rounds
             local explode_obj = alife_create_item("bullet_blow", npc)
             CreateTimeEvent(explode_obj.id, explode_obj.id, 0, 
             function(id)
@@ -209,11 +205,9 @@ function chaos_damage(npc, s_hit, bone_id)
                 return false
             end, explode_obj.id)
 			extra_effect = 8
-		elseif extra_effect >= 18 and extra_effect < 21 then
-			-- Lightning Effect
+		elseif extra_effect >= 18 and extra_effect < 21 then		-- Lightning Effect
 			extra_effect = 9
-		elseif extra_effect >= 21  and extra_effect < 24 then
-			-- Cloudkill Effect
+		elseif extra_effect >= 21  and extra_effect < 24 then		-- Cloudkill Effect
 			extra_effect = 10
         end
     end

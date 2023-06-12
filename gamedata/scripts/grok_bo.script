@@ -631,7 +631,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	------------------
 	-- bone_mult mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
 	if (get_special(ammo_section) == "chaos") then
-		chaos_effect = arti_handlers.chaos_damage(monster,shit,bone_id)
+		chaos_effect = arti_handlers.chaos_damage(monster,bone_id)
 		
 		random = math.random(60, 160)
 		chaos_mult = random * 0.01
@@ -772,6 +772,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Grants healing on "critical" hits
 	if (get_special(ammo_section) == "soulripper") and (bone_mult > 1.00) then 
 		arti_handlers.rip(monster,shit,true)
+	end
+	
+	------------------------------------
+	-- Chaos Rounds (if healing proc) --
+	------------------------------------
+	if chaos_effect == 5 then
+		db.actor.health = clamp(db.actor.health + (0.1 * s_hit.power), 0, 1)
 	end
 	
 	return
@@ -1143,7 +1150,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	------------------
 	-- AP/BR mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
 	if (get_special(ammo_section) == "chaos") then
-		chaos_effect = arti_handlers.chaos_damage(npc,shit,bone_id)
+		chaos_effect = arti_handlers.chaos_damage(npc,bone_id)
 		
 		printf("Old AP: %s", k_ap)
 		local random_mult = math.random(60, 160) * 0.01
@@ -1385,6 +1392,13 @@ function npc_on_before_hit(npc,shit,bone_id)
 			arti_handlers.rip(npc,shit,true)
 		end
 	end	
+	
+	------------------
+	-- Chaos Rounds --
+	------------------
+	if chaos_effect == 5 then
+		db.actor.health = clamp(db.actor.health + (0.1 * s_hit.power), 0, 1)
+	end
 	
 	if surrender_bonus == 1 then
 		npc:set_health_ex(0.0)

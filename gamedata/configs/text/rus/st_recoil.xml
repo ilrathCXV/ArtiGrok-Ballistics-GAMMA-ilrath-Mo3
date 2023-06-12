@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+    <string id="ui_mcm_menu_recoil">
+        <text>Отдача</text>
+    </string>
+    <string id="ui_mcm_recoil_title">
+        <text>Улучшенная отдача</text>
+    </string>
+    <string id="ui_mcm_recoil_enabled">
+        <text>Включить</text>
+    </string>
+    <string id="ui_mcm_recoil_enabled_desc">
+        <text>Включает улучшенные эффекты отдачи.</text>
+    </string>
+    <string id="ui_mcm_recoil_camera">
+        <text>Включить движние камеры</text>
+    </string>
+    <string id="ui_mcm_recoil_camera_desc">
+        <text>Двигает камеру, для создания схем разброса. Может быть отключено.</text>
+    </string>
+    <string id="ui_mcm_recoil_stance">
+        <text>Стойка влияет на отдачу</text>
+    </string>
+    <string id="ui_mcm_recoil_stance_desc">
+        <text>Стрельба в движении повышает отдачу, стоя на месте отдача ниже.</text>
+    </string>
+</string_table>

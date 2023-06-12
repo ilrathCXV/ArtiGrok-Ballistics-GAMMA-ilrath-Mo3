@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+<string id="ui_mcm_menu_ballistics">
+	<text>Баллистика</text>
+</string>
+<string id="ui_mcm_ballistics_title">
+	<text>Фреймворк Баллистики</text>
+</string>
+
+<string id="ui_mcm_ballistics_debug">
+	<text>Логи для разработчиков</text>
+</string>
+<string id="ui_mcm_ballistics_impair">
+	<text>Свои значения Ослабления</text>
+</string>
+<string id="ui_mcm_ballistics_impair_desc">
+	<text>Применить значения Ослабления в собственном файле.</text>
+</string>
+<string id="ui_mcm_ballistics_cost">
+	<text>Свои Цены</text>
+</string>
+<string id="ui_mcm_ballistics_cost_desc">
+	<text>Применить базовую цену из собственного файла.</text>
+</string>
+<string id="ui_mcm_ballistics_mutant">
+	<text>Увеличить здоровье мутантов</text>
+</string>
+<string id="ui_mcm_ballistics_mutant_desc">
+	<text>Исскуственно завышает здоровье некоторых мутантов(химеры, контроллёры, кровососы) меняя параметр ballistics_utils.mutant_prot_values. Заметьте, что зомби имеют на порядок (в 10 раз) больше здоровья, для эмуляции определённого скрипта.</text>
+</string>
+<string id="ui_mcm_ballistics_incoming">
+	<text>Ballistics работает против Игрока</text>
+</string>
+<string id="ui_mcm_ballistics_incoming_desc">
+	<text>Применяет собственные значения получаемого игроком урона от пуль. Для предотвращения этого, возможна проверка Actor ID (в разработке).</text>
+</string>
+<string id="ui_mcm_ballistics_burer">
+	<text>Устойчивость бюреров</text>
+</string>
+<string id="ui_mcm_ballistics_burer_desc">
+	<text>Изменяет количество здоровья у бюреров. Варианты таковы:
+		\n \n Обычные: Такие, как есть(много брони, убиваются винтовочными патронами).
+		\n \n Мясные: Защита как у псевдособаки, но в 3 раза больше здоровья. Экспансивые патроны будут полезны.
+		\n \n Ситхи: Защиты как у псевдособаки, но отражают всй, кроме высокоскоростных или бронебойных пуль.</text>
+</string>
+<string id="ui_mcm_lst_bclassic">
+	<text>Обычные</text>
+</string>
+<string id="ui_mcm_lst_bmeaty">
+	<text>Мясные</text>
+</string>
+<string id="ui_mcm_lst_bsith">
+	<text>Ситхи</text>
+</string>
+<string id="ui_mcm_ballistics_legs">
+	<text>Стрельба по конечностям</text>
+</string>
+<string id="ui_mcm_ballistics_legs_desc">
+	<text>Режет вдвое урон по рукам и ногам. Режет эффективность бронебойных,но усиливает экспансивные патроны. Заставаляет чаще менять тип патронов, в зависимости от цели.</text>
+</string>
+</string_table>

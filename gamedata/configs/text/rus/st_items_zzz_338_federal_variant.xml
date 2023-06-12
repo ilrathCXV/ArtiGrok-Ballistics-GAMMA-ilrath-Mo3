@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	<string id="ammo_338_fed_cloudkill">
+		<text>Патроны .338 Federal "Cloudkill"</text>
+	</string>
+	<string id="ammo_338_fed_cloudkill_descr">
+		<text>В этом снайперском патроне использована сила химических артефактов. При попадании в цель пуля выпускает облако ядовитого вещества, губительно действующее на нервную систему любых живых организмов, контактирующих с ним. Любая цель в пределах досигаемости облака станет ослабленной и уязвимой. Несмотря на специфичный способ применения патрона, он смертоносен и сам по себе.</text>
+	</string>
+	<string id="ammo_338_fed_cloudkill_s">
+		<text>.338 Federal "Cloudkill"</text>
+	</string>
+
+</string_table>
