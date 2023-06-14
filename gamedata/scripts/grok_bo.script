@@ -1125,7 +1125,8 @@ function npc_on_before_hit(npc,shit,bone_id)
 
 	if tonumber(bone_id) >= 3 and tonumber(bone_id) <= 9 then -- leg meta, bullets ap boost in legs
 		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_23x75_shrapnel" then
+		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_23x75_shrapnel" or
+		   ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
 			k_ap = ( k_ap + 0.013 )
 		else
 			k_ap = ( k_ap + (0.075 * leg_meta_sniper_null) )
@@ -1134,7 +1135,8 @@ function npc_on_before_hit(npc,shit,bone_id)
 
 	if tonumber(bone_id) >= 16 and tonumber(bone_id) <= 18 then -- headshot bonus on unprotected parts
 		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_23x75_shrapnel" then
+		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_23x75_shrapnel" or
+		   ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
 			k_ap = ( k_ap + 0.017 )
 		else
 			k_ap = k_ap + 0.1
@@ -1299,17 +1301,22 @@ function npc_on_before_hit(npc,shit,bone_id)
 
 	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult * cloudkill_mult * fragment_mult
 	
-	-- ilrathCXV (05/08/23) - Dragon's Breath/Napalm melts armor by 2.5 (0.025), Armor Buster removes armor by 1.0 (0.01), and Acid melts armor by 5 (0.05)
+	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
+	
+	-- ilrathCXV (06/13/23) - Dragon's Breath/Napalm melts armor by 2.5 (0.025), Armor Buster removes armor by 1.0 (0.01), and Acid melts armor by 5 (0.05)
 	--						- Additionaly, Armor Buster multiplies armor lost by 30%, and Acid multiplies armor lost by 75% after damage calulations
 	--						- Extra effects only take place if they have the respective ammo type
-	local armor_loss_increment = tonumber(((k_ap * 0.60) + armor_break_bonus) * armor_break_mult) -- reduce bone armor depending on k_ap
-
+		
+	armor_loss_increment = tonumber((armor_loss_increment + armor_break_bonus) * armor_break_mult)
+	
 	local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
 	custom_bone_value[custom_bone_id] = new_bone_armor
 	
 	if k_ap < custom_bone_armor then
-		local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
-		custom_bone_value[custom_bone_id] = new_bone_armor
+	
+		--local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
+		--custom_bone_value[custom_bone_id] = new_bone_armor
+		
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * custom_bone_hitfraction
 		else
