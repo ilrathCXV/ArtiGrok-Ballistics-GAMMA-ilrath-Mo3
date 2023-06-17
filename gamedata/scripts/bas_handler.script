@@ -2,6 +2,18 @@ play_sound_on_location = ballistics_utils.play_sound_on_location
 play_particle       = ballistics_utils.play_particle
 
 weakened = {}
+local weakened_timer = {}
+
+local mutant_anim_table = {
+    [clsid.bloodsucker_s] = "stand_scared_0",
+    [clsid.boar_s] ="lie_sleep_0",
+    [clsid.flesh_s] = "lie_idle_0",
+    [clsid.pseudodog_s] = "lie_sleep_0",
+    [clsid.cat_s] = "stand_look_around_0",
+    [clsid.psy_dog_s] = "lie_sleep_0",
+    [clsid.zombie_s] = "stand_die_0",
+    [clsid.controller_s] = "critical_hit_torso_0",
+}
 
 function corrosive_cloud(npc, bone_id)
     local effect = particles_object("artefact\\effects\\af_acidic_idle_color")
@@ -13,6 +25,11 @@ function corrosive_cloud(npc, bone_id)
 				weakened[obj:id()] = weakened[obj:id()] + 1
 			else
 				weakened[obj:id()] = 1
+				if not IsStalker(obj) and not weakened[obj:id()] then
+					weakened_timer[obj:id()] = {
+						time_blind = game.get_game_time()
+					}
+				end
 			end
             effect:play_at_pos(obj:position())
         end
@@ -30,9 +47,29 @@ end
 --]]
 
 function actor_on_before_hit(s_hit, bone_id, flags)
-    if weakened[s_hit.draftsman:id()] and s_hit.type == hit.wound then
-        s_hit.power = s_hit.power * (0.7 / weakened[s_hit.draftsman:id()])
+    if weakened[s_hit.draftsman:id()] and (not IsStalker(s_hit.draftsman)) and s_hit.draftsman:alive() then
+		local damage_reduction = 0.7 / weakened[s_hit.draftsman:id()]
+        s_hit.power = s_hit.power * damage_reduction
+		printf("Cloudkill Mutant Damage reduction: %s%", tonumber(100 * (-damage_reduction + 1)))
     end
+end
+
+function check_stun()
+	for j, _ in pairs(weakened_timer) do
+        local monster = level.object_by_id(j)
+		local current_time = game.get_game_time()
+        if (monster and mutant_anim_table[monster:clsid()]) then
+			local monster_id = monster:id()
+            local animation = mutant_anim_table[monster:clsid()]
+            if (not animation) then return end
+
+            if (current_time:diffSec(weakened_timer[monster_id].time_blind) < 40) then
+                monster:set_override_animation(animation)
+			else
+				weakened_timer[monster_id] = nil
+			end
+       end
+	end
 end
 
 
@@ -51,4 +88,5 @@ function on_game_start()
     --RegisterScriptCallback("npc_on_before_hit", on_before_hit)
     --RegisterScriptCallback("monster_on_before_hit", on_before_hit)
     RegisterScriptCallback("server_entity_on_unregister", se_on_unregister)
+	RegisterScriptCallback("actor_on_update", check_stun)
 end

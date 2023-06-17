@@ -33,7 +33,10 @@
 
 	
 	<string id="st_prop_k_hp">
-		<text>Flesh/full-AP bonus</text>
+		<text>Full-AP/Humanoid DMG+</text>
+	</string>
+	<string id="st_prop_k_mp">
+		<text>Non-humanoid DMG+</text>
 	</string>
 	<string id="st_prop_k_vel">
 		<text>Velocity modifier</text>
@@ -49,6 +52,9 @@
 	</string>
 	<string id="st_prop_special">
 		<text>Special</text>
+	</string>
+	<string id="st_prop_extra">
+		<text>2nd Special</text>
 	</string>
 	
 	<string id="st_prop_armor_0">

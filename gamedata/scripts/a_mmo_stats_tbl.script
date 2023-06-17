@@ -26,8 +26,6 @@ function inject_stats()
         index= 8 , typ= "float",   name= "st_prop_impair",       icon_p= "ui_wp_prop_nadezhnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",   compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_wear"} } ,
     ["special"]={ 
         index= 9 , typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } 
-    }
-end
 --]]
 
 function inject_stats()
@@ -38,14 +36,18 @@ function inject_stats()
         index= 2, typ= "string",  name= "st_prop_k_ap",         icon_p= "ui_am_propery_01",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_ap"} },
     ["hp"]= { 
         index= 3, typ= "float",   name= "st_prop_k_hp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
+    ["mp"]= { 
+        index= 3, typ= "float",   name= "st_prop_k_mp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_mp"} },
     ["projectiles"] = { 
-        index= 4, typ= "float",   name= "st_prop_projectiles",  icon_p= "ui_wp_prop_skorostrelnost",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
+        index= 5, typ= "float",   name= "st_prop_projectiles",  icon_p= "ui_wp_prop_skorostrelnost",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
     ["accuracy"] ={ 
-        index= 5, typ= "float",   name= "st_prop_k_disp",       icon_p= "ui_wp_prop_tochnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",       compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
+        index= 6, typ= "float",   name= "st_prop_k_disp",       icon_p= "ui_wp_prop_tochnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",       compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
     ["velocity"]={ 
-        index= 6, typ= "float",   name= "st_prop_k_vel",       icon_p= "ui_wp_prop_nastilnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",      compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
+        index= 7, typ= "float",   name= "st_prop_k_vel",       icon_p= "ui_wp_prop_nastilnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",      compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
 	["special"]={ 
-        index= 7, typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } 
+        index= 8, typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } ,
+    ["special_2"]={ 
+        index= 9 , typ= "float",   name= "st_prop_extra",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_extra_special"} } ,
     }
 end
 
@@ -148,6 +150,23 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 					end
                 end
             end
+			if self.stats[i].cap:GetText() == game.translate_string("st_prop_extra") then    
+                local str_spec = ini_ammo:r_string_ex(sec, "special_2")
+                if str_spec then
+					if str_spec == "frag" then
+						local frag_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(frag_str)
+					elseif str_spec == "fire" then
+						local fire_str = ini_ammo:r_float_ex(sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(fire_str)
+					elseif str_spec == "flinch" then
+						local flinch_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(flinch_str)
+					else
+						self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec))
+					end
+                end
+            end
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") and ini_ammo:r_string_ex(sec, "special") == "chaos" then
                 self.stats[i].txt:SetText("60-160%")
             end
@@ -169,6 +188,11 @@ end
 function prop_hp(obj, sec)
     local hp = ini_ammo:r_float_ex(sec, "k_hp") or 1
     return hp > 1.01 and math.floor(100 * (hp - 1)) or 0
+end
+
+function prop_mp(obj, sec)
+    local mp = ini_ammo:r_float_ex(sec, "k_mp") or 1
+    return mp > 1.01 and math.floor(100 * (mp - 1)) or 0
 end
 
 function prop_projectiles(obj, sec)
@@ -211,7 +235,13 @@ function prop_wear(obj, sec)
     else return 0
     end
 end
+
 function prop_special(obj, sec)
     local str_spec = ini_ammo:r_string_ex(sec, "special")
+    if str_spec then return 1 else return 0 end
+end
+
+function prop_extra_special(obj, sec)
+    local str_spec = ini_ammo:r_string_ex(sec, "special_2")
     if str_spec then return 1 else return 0 end
 end

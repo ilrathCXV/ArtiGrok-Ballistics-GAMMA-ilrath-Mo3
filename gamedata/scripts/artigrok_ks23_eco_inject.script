@@ -1,0 +1,39 @@
+local eco_trade_table = {
+	[3] = {
+		["wpn_ks23_ecolog"] = 1,
+		["ammo_23_eco"] = 4
+	},
+	[5] = {
+		["ammo_23_eco"] = 6
+	},
+}
+
+
+function spawn_ks23_eco(npc)
+	local is_trader = trader_autoinject.get_trader_type(npc) == trader_autoinject.SUPPLIER
+	if not is_trader then
+		return
+	end
+	
+	local community = 
+        (trader_autoinject.get_real_community and trader_autoinject.get_real_community(npc))
+        or ((furniture[npc:section()] or furniture[npc:name()]) and "stalker")
+        or character_community(npc)
+    if not community then return end
+	
+	if community ~= "ecolog" then return end
+	
+	local supply_level = clamp(trader_autoinject.supply_level(npc, true) or 0, 0, 5)
+	for k,v in pairs(eco_trade_table) do
+		if supply_level >= k then
+			trader_autoinject.spawn_items(npc, eco_trade_table[k], true)
+		end
+	end
+end
+
+
+TraderAuto = trader_autoinject.update
+function trader_autoinject.update(npc)
+    TraderAuto(npc)
+    spawn_ks23_eco(npc)
+end
