@@ -1,7 +1,6 @@
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
--- EDITED BY ilrathCXV for .357 FMJ + 9x21 FMJ/HP 	(last edit: 11/26/22)
--- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: 01/17/23)
+-- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: 06/25/23)
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
@@ -302,12 +301,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 	------------------------- Arti's Bonuses ------------------------------
 	-----------------------------------------------------------------------
 	
+	local special_effect = get_special(ammo_section) or 0
+	local special_effect_2 = get_special_2(ammo_section) or 0
+	
 	------------------------
 	-- Varmageddon Rounds --
 	------------------------
 	-- Mult. damage bonus to mutants
 	local varma_mult = 1.0
-	if (get_special(ammo_section) == "varma") or (get_special_2(ammo_section) == "varma") then
+	if (special_effect == "varma") or (special_effect_2 == "varma") then
 		varma_mult = 1.60
 	end
 	
@@ -438,7 +440,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Cover Piercing --
 	--------------------
 	-- Corrects ammo's AP to allow for cover piercing w/o going overkill in its AP/BR + mimic "piercing" mutant armor/skin
-	if (get_special(ammo_section) == "pierce") or (get_special_2(ammo_section) == "pierce") then
+	if (special_effect == "pierce") or (special_effect_2 == "pierce") then
 		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
 		mutant_mult = 1.0
 	end
@@ -648,7 +650,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-------------------------
 	-- Grants 20% stacking mult. damage bonus to targets both hit and affected by the Cloud
 	cloudkill_mult = 1.0
-	if (get_special(ammo_section) == "toxic") or (get_special_2(ammo_section) == "toxic") or (chaos_effect == 10) then
+	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 		bas_handler.corrosive_cloud(monster, bone_id)
 	end
 	
@@ -675,7 +677,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Chaos Rounds --
 	------------------
 	-- bone_mult mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
-	if (get_special(ammo_section) == "chaos") or (get_special_2(ammo_section) == "chaos") then
+	if (special_effect == "chaos") or (special_effect_2 == "chaos") then
 		chaos_effect = arti_handlers.chaos_damage(monster,bone_id)
 		
 		random = math.random(60, 160)
@@ -687,7 +689,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Acid Rounds --
 	-----------------
 	-- Changes hit to chemical damage + multiplies bone_mult by 75%
-	if (get_special(ammo_section) == "acid") or (get_special_2(ammo_section) == "acid") or (chaos_effect == 7) then
+	if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
 		shit.type = hit.chemical_burn
 		bone_mult = bone_mult * 1.75
 	end
@@ -696,7 +698,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- JHP/Headhunter Rounds --
 	---------------------------
 	-- Ignores mutant resistances + double bone_mult
-	if (get_special(ammo_section) == "head") or (get_special_2(ammo_section) == "head") or (chaos_effect == 6) then
+	if (special_effect == "head") or (special_effect_2 == "head") or (chaos_effect == 6) then
 		spec_monster_mult = 1.00
 		bone_mult = bone_mult * 2
 	end
@@ -705,7 +707,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Ambush Rounds --
 	-------------------
 	-- 20% mult. damag and bone_mult bonus on unaware targets
-	if (get_special(ammo_section) == "ambush") or (get_special_2(ammo_section) == "ambush") then
+	if (special_effect == "ambush") or (special_effect_2 == "ambush") then
 		if arti_handlers.ambush(monster,shit,wpn) then
 			ambush_mult = 1.20
 			bone_mult = bone_mult * 1.2
@@ -716,7 +718,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Dragon's Breath --
 	---------------------
 	-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult
-	if (get_special(ammo_section) == "fire_melt") or (get_special_2(ammo_section) == "fire_melt") then
+	if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
 		spec_monster_mult = 1.00
 		bone_mult = 1.00
 		ammo_mult = 0.85
@@ -728,7 +730,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Mini Napalm --
 	-----------------
 	-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult + spreads light burn to nearby targets
-	if (get_special(ammo_section) == "napalm") or (get_special_2(ammo_section) == "napalm") then
+	if (special_effect == "napalm") or (special_effect_2 == "napalm") then
 		spec_monster_mult = 1.00
 		bone_mult = 1.00
 		ammo_mult = 1.00
@@ -740,7 +742,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Lightning Rounds --
 	----------------------
 	-- Changes hit to Shock damage + standardizes bone_/ammo_mult
-	if (get_special(ammo_section) == "shock") or (get_special_2(ammo_section) == "shock") or (chaos_effect == 9) then
+	if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
 		spec_monster_mult = 1.00
 		bone_mult = 1.00
 		ammo_mult = 0.85
@@ -751,7 +753,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- [NEW] Armor Buster --
 	-------------------------
 	-- Multiplies bone_mult by 30%, increases ammo_mult by 0.3, and nullifies monster resistance
-	if (get_special(ammo_section) == "armorbuster") or (get_special_2(ammo_section) == "armorbuster") then
+	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") then
 		spec_monster_mult = 1.00
 		bone_mult = bone_mult * 1.3
 		ammo_mult = ammo_mult + 0.30
@@ -761,7 +763,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	-- Chance to deal 30% increased damage on hit
-	if (get_special(ammo_section) == "frag") or (get_special_2(ammo_section) == "frag") then
+	if (special_effect == "frag") or (special_effect_2 == "frag") then
 		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
 		if math.random(100) <= frag_chance then
 			fragment_mult = 1.3
@@ -789,7 +791,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Incendiary/API --
 	--------------------
 	-- Chance to burn target for slight damage
-	if (get_special(ammo_section) == "fire") or (get_special_2(ammo_section) == "fire") then
+	if (special_effect == "fire") or (special_effect_2 == "fire") then
 		local ignite_chance = ini_ammo:r_float_ex(ammo_section, "ignite") or 30
 		arti_handlers.fire_damage(monster,bone_id,ignite_chance)
 	end
@@ -798,7 +800,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Explosive Rounds --
 	----------------------
 	-- Self-explanatory
-	if (get_special(ammo_section) == "explodes") or (get_special_2(ammo_section) == "explodes") then
+	if (special_effect == "explodes") or (special_effect_2 == "explodes") then
 		arti_handlers.explode_handler()
 	end
 	
@@ -806,7 +808,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- RIP Rounds --
 	----------------
 	-- Grants healing on successful hits
-	if (get_special(ammo_section) == "rip") or (get_special_2(ammo_section) == "rip") then 
+	if (special_effect == "rip") or (special_effect_2 == "rip") then 
 		arti_handlers.rip(monster,shit,false)
 	end
 	
@@ -814,7 +816,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Soulripper --
 	----------------
 	-- Grants healing on "critical" hits
-	if (get_special(ammo_section) == "soulripper") or (get_special_2(ammo_section) == "soulripper") and (bone_mult > 1.00) then 
+	if (special_effect == "soulripper") or (special_effect_2 == "soulripper") and (bone_mult > 1.00) then 
 		arti_handlers.rip(monster,shit,true)
 	end
 	
@@ -822,7 +824,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Chaos Rounds (if healing proc) --
 	------------------------------------
 	if chaos_effect == 5 then
-		db.actor.health = clamp(db.actor.health + (0.1 * s_hit.power), 0, 1)
+		db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 	end
 	
 	return
@@ -890,6 +892,9 @@ function npc_on_before_hit(npc,shit,bone_id)
 	------------------------- Arti's Bonuses ------------------------------
 	-----------------------------------------------------------------------
 	
+	local special_effect = get_special(ammo_section) or 0
+	local special_effect_2 = get_special_2(ammo_section) or 0
+	
 	armor_break_mult = 1.0
 	armor_break_bonus = 0
 	
@@ -947,7 +952,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Cover Piercing --
 	--------------------
 	-- Corrects ammo's AP to allow for cover piercing w/o going overkill in its AP/BR
-	if (get_special(ammo_section) == "pierce") or (get_special_2(ammo_section) == "pierce") then
+	if (special_effect == "pierce") or (special_effect_2 == "pierce") then
 		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
 	end
 
@@ -1196,7 +1201,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Chaos Rounds --
 	------------------
 	-- AP/BR mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
-	if (get_special(ammo_section) == "chaos") or (get_special_2(ammo_section) == "chaos") then
+	if (special_effect == "chaos") or (special_effect_2 == "chaos") then
 		chaos_effect = arti_handlers.chaos_damage(npc,bone_id)
 		
 		printf("Old AP: %s", k_ap)
@@ -1227,7 +1232,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Acid Rounds --
 	-----------------
 	-- Changes hit to chemical damage + multiplies armor lost on hit by 75% + removes 5 BR/armor per hit
-	if (get_special(ammo_section) == "acid") or (get_special_2(ammo_section) == "acid") or (chaos_effect == 7) then
+	if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
 		shit.type = hit.chemical_burn
 		armor_break_mult = armor_break_mult * 1.75
 		armor_break_bonus = armor_break_bonus + 0.05
@@ -1237,7 +1242,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Ambush Rounds --
 	-------------------
 	-- Increases AP/BR by one level + 20% mult. damage bonus on unaware targets
-	if (get_special(ammo_section) == "ambush") or (get_special_2(ammo_section) == "ambush") then
+	if (special_effect == "ambush") or (special_effect_2 == "ambush") then
 		if arti_handlers.ambush(npc,shit,wpn) then
 			k_ap = k_ap + 0.1
 			ambush_mult = 1.20
@@ -1249,7 +1254,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-------------------------
 	-- Grants 20% mult. damage bonus targets both hit and affected by the Cloud
 	cloudkill_mult = 1.0
-	if (get_special(ammo_section) == "toxic") or (get_special_2(ammo_section) == "toxic") or (chaos_effect == 10) then
+	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 		bas_handler.corrosive_cloud(npc, bone_id)
 	end
 	
@@ -1261,7 +1266,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- JHP/Headhunter Rounds --
 	---------------------------
 	-- Nullifies any armor + faction resistances & removes any damage penalty from overpenetration
-	if (get_special(ammo_section) == "head") or (get_special_2(ammo_section) == "head") then
+	if (special_effect == "head") or (special_effect_2 == "head") then
 		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
 			if k_ap < 1.0 then
 				k_ap = 1.0
@@ -1276,7 +1281,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Dragon's Breath --
 	---------------------
 	-- Burns target for moderate damage + changes hit to Fire damage + removes additional 2.5 BR/armor value on hit
-	if (get_special(ammo_section) == "fire_melt") or (get_special_2(ammo_section) == "fire_melt") then
+	if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
 		shit.type = hit.burn
 		armor_break_bonus = armor_break_bonus + 0.025
 		arti_handlers.dragonsbreath(npc,bone_id)
@@ -1286,7 +1291,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Mini Napalm --
 	-----------------
 	-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult + spreads light burn to nearby targets
-	if (get_special(ammo_section) == "napalm") or (get_special_2(ammo_section) == "napalm") then
+	if (special_effect == "napalm") or (special_effect_2 == "napalm") then
 		shit.type = hit.burn
 		armor_break_bonus = armor_break_bonus + 0.025
 		arti_handlers.napalm_damage(npc,bone_id)
@@ -1296,7 +1301,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- [NEW] Armor Buster --
 	-------------------------
 	-- Multiplies armor lost on hit by 30% + removes 1.0 BR/armor on hit
-	if (get_special(ammo_section) == "armorbuster") or (get_special_2(ammo_section) == "armorbuster") then
+	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") then
 		armor_break_mult = armor_break_mult * 1.3
 		armor_break_bonus = armor_break_bonus + 0.01
 	end
@@ -1305,7 +1310,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Lightning Rounds --
 	----------------------
 	-- Changes hit to Shock damage + deals AoE damage to other targets (includes balance for going against Eidelon + allows for AoE on headshots on low-armor targets)
-	if (get_special(ammo_section) == "shock") or (get_special_2(ammo_section) == "shock") or (chaos_effect == 9) then
+	if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
 		shit.type = hit.shock
 		if (custom_bone_armor == 4) then
 			arti_handlers.shock_damage(npc,bone_id, custom_bone_armor * 0.25)
@@ -1321,7 +1326,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-----------------------
 	-- Chance to force-stun target + increase in residual concussion damage based on chance (10% chance = 10% bonus to concussion damage)
 	flinch_stun_chance = 0
-	if (get_special(ammo_section) == "flinch") or (get_special_2(ammo_section) == "flinch") then
+	if (special_effect == "flinch") or (special_effect_2 == "flinch") then
 		flinch_stun_chance = ini_ammo:r_float_ex(ammo_section, "flinch") or 10
 		arti_handlers.stun_npc(npc,flinch_stun_chance)
 		flinch_stun_chance = flinch_stun_chance * 0.01
@@ -1332,7 +1337,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	-- Chance to deal 30% increased damage on hit
-	if (get_special(ammo_section) == "frag") or (get_special_2(ammo_section) == "frag") then
+	if (special_effect == "frag") or (special_effect_2 == "frag") then
 		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
 		if math.random(100) <= frag_chance then
 			fragment_mult = 1.3
@@ -1360,8 +1365,8 @@ function npc_on_before_hit(npc,shit,bone_id)
 	
 	if k_ap < custom_bone_armor then
 	
-		--local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
-		--custom_bone_value[custom_bone_id] = new_bone_armor
+		local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
+		custom_bone_value[custom_bone_id] = new_bone_armor
 		
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * custom_bone_hitfraction
@@ -1414,7 +1419,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Incendiary/API --
 	--------------------
 	-- Chance to burn target for slight damage
-	if (get_special(ammo_section) == "fire") or (get_special_2(ammo_section) == "fire") then
+	if (special_effect == "fire") or (special_effect_2 == "fire") then
 		local ignite_chance = ini_ammo:r_float_ex(ammo_section, "ignite") or 0.3
 		-- printf("Ignite Chance: %s", ignite_chance)
 		arti_handlers.fire_damage(npc,bone_id,ignite_chance)
@@ -1424,7 +1429,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Explosive Rounds --
 	----------------------
 	-- Self-explanatory
-	if (get_special(ammo_section) == "explodes") or (get_special_2(ammo_section) == "explodes") then
+	if (special_effect == "explodes") or (special_effect_2 == "explodes") then
 		arti_handlers.explode_handler()
 	end
 	
@@ -1432,7 +1437,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- RIP Rounds --
 	----------------
 	-- Grants healing on successful hits
-	if (get_special(ammo_section) == "rip") or (get_special_2(ammo_section) == "rip") then 
+	if (special_effect == "rip") or (special_effect_2 == "rip") then 
 		arti_handlers.rip(npc,shit,false)
 	end
 	
@@ -1440,7 +1445,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Soulripper --
 	----------------
 	-- Grants healing on headshots
-	if (get_special(ammo_section) == "soulripper") or (get_special_2(ammo_section) == "soulripper") then 
+	if (special_effect == "soulripper") or (special_effect_2 == "soulripper") then 
 		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
 			arti_handlers.rip(npc,shit,true)
 		end
@@ -1450,7 +1455,7 @@ function npc_on_before_hit(npc,shit,bone_id)
 	-- Chaos Rounds --
 	------------------
 	if chaos_effect == 5 then
-		db.actor.health = clamp(db.actor.health + (0.1 * s_hit.power), 0, 1)
+		db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 	end
 	
 	if surrender_bonus == 1 then
