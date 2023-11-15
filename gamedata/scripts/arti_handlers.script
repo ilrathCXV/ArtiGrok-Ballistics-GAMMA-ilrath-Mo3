@@ -9,7 +9,6 @@ add_effect          = arti_timed_events.add_effect
 play_sound_on_location = ballistics_utils.play_sound_on_location
 math_random         = math.random
 
--- Bone_IDs            = ballistics_utils.Bone_IDs
 head_bones          = ballistics_utils.head_bones
 ini_ammo            = ballistics_utils.ini_ammo
 ini_damage          = ballistics_utils.ini_damage
@@ -19,22 +18,17 @@ local anims = {
     "norm_1_critical_hit_head_0", -- good
 }
 
-
--- pulls custom ap and hit power values from code
-function get_ammo_data(ammo_sec)
+function get_special(ammo_sec)
     if ini_ammo:section_exist(ammo_sec) then
-        return {
-            sec     = ammo_sec,
-			
-			-- Arti's damage values (will be ignoring in this case)
-            -- k_hit   = ini_ammo:r_float_ex(ammo_sec, "k_hit") or SYS_GetParam(2, ammo_sec, "k_hit") or 1,
-			
-			k_hit = ini_sys:r_float_ex(ammo_sec, "k_hit") or 1,
-			
-            k_ap    = ini_ammo:r_float_ex(ammo_sec, "k_ap") or SYS_GetParam(2, ammo_sec, "k_ap") or 0,
-            k_pen   = ini_ammo:r_float_ex(ammo_sec, "k_pen") or 0,
-            k_imp   = ini_ammo:r_float_ex(ammo_sec, "k_imp") or 0
-        }
+        local proc = ini_ammo:r_string_ex(ammo_sec, "special") or nil
+        return proc
+    end
+end
+
+function get_special_2(ammo_sec)
+    if ini_ammo:section_exist(ammo_sec) then
+        local proc = ini_ammo:r_string_ex(ammo_sec, "special_2") or nil
+        return proc
     end
 end
 
@@ -134,7 +128,7 @@ function rip(npc, s_hit, headshot)
 
 end
 
-function ignite_npc(npc, bone_id, stack, duration)
+function ignite_npc(npc, bone_id, wpn_id, stack, duration)
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
     duration = duration or 5
@@ -144,25 +138,18 @@ function ignite_npc(npc, bone_id, stack, duration)
     function()
         play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
         if not npc:alive() then return end
-        local h = hit()
-        h.type = hit.burn
-        h.draftsman = db.actor
-        h.power = math_random(5, 15) * 0.01
-        h.bone = "bip01_spine"
-        npc:hit(h)
+		if IsStalker(npc) then
+			damage_npc_grok(npc,(math_random(5, 15) * 0.01 ))
+		else
+			local h = hit()
+			h.type = hit.burn
+			h.draftsman = db.actor
+			h.power = math_random(5, 15) * 0.01
+			h.bone = "bip01_spine"
+			h.weapon_id = wpn_id
+			npc:hit(h)
+		end
     end)
-end
-
--- ignite + reduce armor
-function dragonsbreath(npc, bone_id)
-    ignite_npc(npc, bone_id, 10, 10)
-end
-
--- ignite
-function fire_damage(npc, bone_id, ignite_chance)
-    if math_random(100) < ignite_chance then
-        ignite_npc(npc, bone_id, 3, 10)
-    end
 end
 
 -- for corrosive ammo
@@ -175,12 +162,12 @@ function acid_damage(npc, bone_id)
 end
 
 -- for 5.7 chaos sx
-function chaos_damage(npc, bone_id)
+function chaos_damage(npc, bone_id, wpn_id)
     
     local extra_effect = math_random(26)
     if not is_actor(npc) then
         if extra_effect >= 3 and extra_effect < 5 then			-- Moderate ignite (stronger than API but less than Dragon's Breath)
-            ignite_npc(npc, 11, 5, 5)
+            ignite_npc(npc, 11, wpn_id, 5, 5)
 			extra_effect = 3
         elseif extra_effect >= 5 and extra_effect < 9 then		-- Stun NPC for 1 second
             stun_npc(npc, 1.0)
@@ -217,7 +204,7 @@ end
 
 local shock_effect = particles_object("artefact\\effects\\af_electra_show_flash_00")
 -- for shock anti armor
-function shock_damage(npc, bone_id, armor_amount)
+function shock_damage(npc, bone_id, wpn_id, armor_amount)
 	
 	local armor_tier = get_tier(armor_amount)
     local lightning_bonus = 1 + (armor_tier * 0.6)
@@ -225,17 +212,33 @@ function shock_damage(npc, bone_id, armor_amount)
     if armor_tier >= 3 then
         snd = "electric_big"
         play_particle(npc, bone_id, "amik\\anomaly\\electra\\electra_dust_distort")
-        local h = hit()
-        h.type = hit.shock
-        h.draftsman = db.actor
-        h.power = armor_tier * 0.15
-        h.bone = "bip01_spine"
-        radius = armor_tier
+		shock_effect:play_at_pos(npc:position())
+        if not npc:alive() then return end
+		
+		local shock_power = armor_tier * 0.15
+		
+		local h = hit()
+		h.type = hit.shock
+		h.draftsman = db.actor
+		h.power = shock_power
+		h.bone = "bip01_spine"
+		h.weapon_id = wpn_id
+		
+		if IsStalker(npc) then
+			damage_npc_grok(npc,shock_power)
+		else
+			npc:hit(h)
+		end
+		
+		radius = armor_tier
 
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:alive() and obj:id() ~= AC_ID then
-                obj:hit(h)
-                shock_effect:play_at_pos(obj:position())
+				if IsStalker(obj) then
+					damage_npc_grok(obj, shock_power)
+				else
+					obj:hit(h)
+				end
             end
         end)
     end
@@ -244,16 +247,21 @@ function shock_damage(npc, bone_id, armor_amount)
     -- return s_hit
 end
 
+function damage_npc_grok(npc, power)
+	npc:set_health_ex(npc.health - power)
+end
+
 local napalm_effect = particles_object("artefact\\af_thermal_show")
-function napalm_damage(npc)
+function napalm_damage(npc, wpn_id)
 	napalm_effect:play_at_pos(npc:position())
-	ignite_npc(npc, "bip01_spine", 10, 10)
-    level.iterate_nearest(npc:position(), 5, function(obj)
-        if obj and obj:alive() and obj:id() ~= AC_ID then
-            ignite_npc(obj,"bip01_spine",2,5)
-         end
-    end)
-    play_sound_on_location("anomaly\\fireball_blow", npc)
+	ignite_npc(npc, 11, wpn_id, 10, 10)
+	
+    --level.iterate_nearest(npc:position(), 5, function(obj)
+    --    if obj and obj:alive() and obj:id() ~= AC_ID then
+    --        ignite_npc(obj,11,wpn_id,2,5)
+    --     end
+    --end)
+	
 end
 
 -- get position of where actor is aiming
@@ -267,21 +275,105 @@ function get_point_of_aim()
     return {pos, lvid, gvid}
 end
 
+-- get position of bullet for create
+function get_bullet_pos(bullet_pos)
+    gvid = db.actor:game_vertex_id()
+    pos = vector():set(bullet_pos)
+    lvid = level.vertex_id(pos)
+    return {pos, lvid, gvid}
+end
+
+function aoe_handler(bullet)
+	if bullet.speed > 0 or bullet.speed < 0 then return end
+	if bullet.parent_id ~= db.actor:id() then return end
+	if not bullet.position then return end
+	
+	if not bullet.section then return end
+	
+	printf("[ArtiGrok - AoE] Bullet section: %s", bullet.section)
+	
+	napalm_handler(bullet)
+	explode_handler(bullet)
+end
+
+function napalm_handler(bullet)
+	ammo_sec = bullet.section
+	
+	if (get_special(ammo_sec) == "napalm") or (get_special_2(ammo_sec) == "napalm") then
+		wpn_id = bullet.weapon_id or db.actor:active_item()
+		level.iterate_nearest(bullet.position, 5, function(obj)
+			if obj and obj:alive() and obj:id() ~= AC_ID then
+				ignite_npc(obj,11,wpn_id,2,5)
+			end
+		end)
+		play_sound_on_location("anomaly\\fireball_blow", npc)
+	end
+end
+
 local mine_id = 0
-function explode_handler()
-    local aim_point = get_point_of_aim()
-    if not aim_point then return end
-    local explode_obj = alife_create_item("bullet_blow", aim_point)
-    CreateTimeEvent(explode_obj.id, explode_obj.id, 0, 
-    function(id)
-        local explode_obj = get_object_by_id(id)
-        if explode_obj then
-            explode_obj:explode(0)
-			explode_obj:destroy_object()
-            return true
-        end
-        return false
-    end, explode_obj.id)
+function explode_handler(bullet)
+    ammo_sec = bullet.section
+	
+	if (get_special(ammo_sec) == "explodes") or (get_special_2(ammo_sec) == "explodes") then
+		
+		local bullet_point = get_bullet_pos(bullet.position)
+		if not bullet_point then printf("[ArtiGrok - Exp] No aimpoint found") return end
+		local explode_obj = alife_create_item("bullet_blow", bullet_point)
+		if not explode_obj then printf("[ArtiGrok - Exp] No bullet_blow created") return end
+		
+		local frag_radius = ini_sys:r_float_ex("bullet_blow", "frags_r")
+		local frag_power = ini_sys:r_float_ex("bullet_blow", "frag_hit")
+		local frag_impulse = ini_sys:r_float_ex("bullet_blow", "frag_hit_impulse")
+		local blast_impulse = ini_sys:r_float_ex("bullet_blow", "blast_impulse")
+		local total_frags = ini_sys:r_float_ex("bullet_blow", "frags")
+		local blast_power = ini_sys:r_float_ex("bullet_blow", "blast")
+		local blast_radius = ini_sys:r_float_ex("bullet_blow", "blast_r")
+		local frags_temp = total_frags
+		
+		level.iterate_nearest(bullet.position, frag_radius, function(_obj)
+            if (IsStalker(_obj) or IsMonster(_obj)) and _obj:id() ~= AC_ID then
+				if _obj:alive() then
+					local npc_pos = _obj:position()
+					local dist = npc_pos:distance_to(bullet.position)
+					local blast_div_factor = (((blast_radius * ((IsMonster(_obj) and 2) or 1)) - dist)/blast_radius) or 0
+					blast_div_factor = clamp(blast_div_factor, 0, 1)
+					local is_frag_hit = false
+					local frag_hit_num = 0
+					if total_frags > 0 then
+						is_frag_hit = (frags_temp - total_frags) < math_random(total_frags, frags_temp)
+						if is_frag_hit then
+							frag_hit_num = math_random(1, total_frags) or 1
+							total_frags = total_frags - frag_hit_num
+						end
+					end
+					
+					printf("[ArtiGrok - Exp] %s is hit with %s fragments (blast damage mod.: %s)", _obj and _obj:name(), frag_hit_num, blast_div_factor)
+					
+					local h = hit()
+					h.type = (is_frag_hit and blast_div_factor < 0.3 and hit.fire_wound) or hit.explosion
+					h.power = ((is_frag_hit and frag_power * frag_hit_num) or 0) + (blast_power * blast_div_factor)
+					h.impulse = ((is_frag_hit and frag_impulse * frag_hit_num) or 0) + (blast_impulse * blast_div_factor)
+					h.direction = VEC_Y
+					h.bone = "bip01_spine"
+					h.draftsman = db.actor
+					h.weapon_id = explode_obj
+					_obj:hit(h)
+				end
+            end
+        end)
+		
+		CreateTimeEvent(explode_obj.id, explode_obj.id, 0, 
+        function(id)
+            local explode_obj = get_object_by_id(id)
+            if explode_obj then
+                explode_obj:explode(0)
+				explode_obj:destroy_object()
+                return true
+            end
+            return false
+        end, explode_obj.id)
+		
+	end
 end
 
 ------------------------------------------------------------------------------------
@@ -317,7 +409,7 @@ function play_fire_big()
 end
 
 local custom_proj_table = {
-    ["explodes"] = explode_handler,
+    ["explodes"] = play_grav,
     ["soulripper"] = play_grav_sound,
     ["chaos"] = play_grav,
     ["shock"] = play_shock,
@@ -330,11 +422,15 @@ local custom_proj_table = {
 function actor_on_weapon_fired(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
     local ammo_table = utils_item.get_ammo(wpn:section(), wpn:id())
     ammo_type = wpn:get_ammo_type()
-    if ammo_table[ammo_type + 1] and custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] then
+    if ammo_table[ammo_type + 1] and custom_proj_table[get_special(ammo_table[ammo_type + 1])] then
+        custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")]()
+	end
+	if ammo_table[ammo_type + 1] and custom_proj_table[get_special_2(ammo_table[ammo_type + 1])] then
         custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")]()
 	end
 	
-	if ammo_table[ammo_type + 1] and custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] then
+	if ammo_table[ammo_type + 1] and 
+	(custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] or custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special_2")]) then
 		condition_degrade_on_fire(0.0105, wpn, 4)			-- Lose 1.05% durability when firing these rounds on a 25% (un)lucky roll
     elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "bad") or string.find(ammo_table[ammo_type + 1], "_eco") then
 		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll
@@ -358,4 +454,6 @@ function on_game_start()
     RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
     RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
     RegisterScriptCallback("npc_on_death_callback", npc_on_death_callback)
+	
+	RegisterScriptCallback("bullet_on_remove", aoe_handler)
 end

@@ -1,20 +1,40 @@
 arti_crusher = {
-    af_pin = "powder_nightstar,3",
-    af_night_star = "powder_nightstar,5",
-    
-    af_medusa = "powder_gravi,3",
-    af_vyvert = "powder_gravi,4",
-    af_gravi = "powder_gravi,5",
-    
-    af_crystal = "powder_fireball,3",
-    af_fireball = "powder_fireball,5",
-    
-    af_blood = "powder_blood,3",
-    af_mincer_meat = "powder_blood,5",
-
-    af_electra_sparkler = "powder_battery,4",
-    af_dummy_battery = "powder_battery,5",
+	-- "Nightstar"/Volatile
+    af_pin 						= 4,
+    af_night_star 				= 7,
+	af_death_lamp 				= 20,
+	
+    -- "Gravi"/Gravitational
+    af_medusa 					= 4,
+    af_vyvert 					= 6,
+    af_gravi 					= 7,
+	
+    -- "Fireball"/Thermal
+    af_crystal 					= 4,
+    af_fireball 				= 7,
+	
+    -- "Blood"/Chemical
+    af_blood 					= 7,
+    af_mincer_meat 				= 4,
+	
+	-- "Battery"/Electrical
+    af_electra_sparkler 		= 6,
+    af_dummy_battery 			= 7,
+	
+	-- Omni/All fragments
+	af_monolith 				= 6,
 }
+
+--[[
+arti_crusher_mats =
+{
+	"powder_nightstar",
+	"powder_gravi",
+	"powder_fireball",
+	"powder_blood",
+	"powder_battery",
+}
+--]]
 
 gc = game.translate_string
 -- to powderize artifacts into crafting material
@@ -44,6 +64,55 @@ function crush(obj, bag, mode)
     end
 end
 
+-- Last edited: Nov. 7th, 2023
+-- CXVilrath - Created to allow the Volat Emerald to give multiple powders + condition affects amount of powder given (ceil is used to be more forgiving)
+function crush_new(obj, bag, mode)
+	local artefact = obj:section()
+    local amount = arti_crusher[artefact] or 1
+	amount = math.ceil(amount * obj:condition())
+	-- Volatile Fragments
+	if artefact == "af_pin" or artefact == "af_night_star" or artefact == "af_death_lamp" then
+		alife_release(obj)
+        for i=1,amount do
+            alife_create_item("powder_nightstar", db.actor)
+        end
+	-- Gravitational Fragments
+	elseif artefact == "af_medusa" or artefact == "af_vyvert" or artefact == "af_gravi" then
+		alife_release(obj)
+        for i=1,amount do
+            alife_create_item("powder_gravi", db.actor)
+        end
+	-- Thermal Fragments
+	elseif artefact == "af_crystal" or artefact == "af_fireball" then
+		alife_release(obj)
+        for i=1,amount do
+            alife_create_item("powder_fireball", db.actor)
+        end
+	-- Chemical Fragments
+	elseif artefact == "af_blood" or artefact == "af_mincer_meat" then
+		alife_release(obj)
+        for i=1,amount do
+            alife_create_item("powder_blood", db.actor)
+        end
+	-- Electrical Fragments
+	elseif artefact == "af_electra_sparkler" or artefact == "af_dummy_battery" then
+		alife_release(obj)
+        for i=1,amount do
+            alife_create_item("powder_battery", db.actor)
+        end
+	-- Omni/All Fragments
+	elseif artefact == "af_monolith" then
+		alife_release(obj)
+        for i=1,amount do
+			alife_create_item("powder_blood", db.actor)
+            alife_create_item("powder_battery", db.actor)
+			alife_create_item("powder_gravi", db.actor)
+			alife_create_item("powder_fireball", db.actor)
+			alife_create_item("powder_nightstar", db.actor)
+        end
+	end
+end
+
 function on_game_start()
-    custom_functor_autoinject.add_functor("arti_crush", try_crush, try_crush, nil, crush, true)
+    custom_functor_autoinject.add_functor("arti_crush", try_crush, try_crush, nil, crush_new, true)
 end

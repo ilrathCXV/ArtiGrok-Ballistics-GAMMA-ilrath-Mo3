@@ -13,16 +13,8 @@
 		<text>PROPERTIES:</text>
 	</string>
 	<string id="st_prop_k_hit">
-		<text>Damage multiplier</text>
+		<text>Damage mod.</text>
 	</string>
-<!--	
-	<string id="st_prop_armor">
-		<text>Defeats armor level: </text>
-	</string>
-	<string id="st_prop_k_ap">
-		<text>Defeats armor level</text>
-	</string>
-!-->
 
 	<string id="st_prop_armor">
 		<text>Armor penetration: </text>
@@ -33,22 +25,22 @@
 
 	
 	<string id="st_prop_k_hp">
-		<text>Full-AP/Humanoid DMG+</text>
+		<text>Pen./Humanoid DMG</text>
 	</string>
 	<string id="st_prop_k_mp">
-		<text>Non-humanoid DMG+</text>
+		<text>Non-humanoid DMG</text>
 	</string>
 	<string id="st_prop_k_vel">
-		<text>Velocity modifier</text>
+		<text>Velocity mod.</text>
 	</string>
 	<string id="st_prop_k_disp">
-		<text>Accuracy modifier</text>
+		<text>Accuracy mod.</text>
 	</string>
 	<string id="st_prop_impair">
 		<text>Wear multiplier</text>
 	</string>
 	<string id="st_prop_projectiles">
-		<text>Projectiles</text>
+		<text>Projectile Count</text>
 	</string>
 	<string id="st_prop_special">
 		<text>Special</text>
@@ -56,7 +48,30 @@
 	<string id="st_prop_extra">
 		<text>2nd Special</text>
 	</string>
+	<string id="st_ammo_cost">
+		<text>Base Cost</text>
+	</string>
+<!--
+	Momopate's Additions
+-->
+	<string id="st_mp_a_nopen">
+		<text>Concussion penalty</text>
+	</string>
 	
+	<string id="st_mp_a_airres">
+		<text>Falloff strength</text>
+	</string>
+
+	<string id="st_mp_a_dist">
+		<text>Range mod.</text>	
+	</string>
+
+<!--
+	BR Class Descriptors
+-->
+	<string id="st_prop_armor">
+		<text>BR</text>
+	</string>
 	<string id="st_prop_armor_0">
 		<text>BR0</text>
 	</string>
@@ -79,34 +94,8 @@
 		<text>BR6</text>
 	</string>
 	<string id="st_prop_armor_7">
-		<text>BR7+</text>
+		<text>Unlimited</text>
 	</string>
-<!-- Old Arti descriptors
-	<string id="st_prop_armor_0">
-		<text>none</text>
-	</string>
-	<string id="st_prop_armor_1">
-		<text>I</text>
-	</string>
-	<string id="st_prop_armor_2">
-		<text>IIA</text>
-	</string>
-	<string id="st_prop_armor_3">
-		<text>II</text>
-	</string>
-	<string id="st_prop_armor_4">
-		<text>III</text>
-	</string>
-	<string id="st_prop_armor_5">
-		<text>IV</text>
-	</string>
-	<string id="st_prop_armor_6">
-		<text>V</text>
-	</string>
-	<string id="st_prop_armor_7">
-		<text>VI+</text>
-	</string>
-!-->
  
 	<string id="st_ballistics_flinch">
 		<text>% chance to stagger human enemies</text>
@@ -130,13 +119,13 @@
 		<text>Explodes on impact</text>
 	</string>
 	<string id="st_ballistics_chaos">
-		<text>60%-160% damage/ap strength + random special effects</text>
+		<text>60%-160% DMG/AP + random effects</text>
 	</string>
 	<string id="st_ballistics_acid">
 		<text>Chemical hit, breaks armor much faster</text>
 	</string>
 	<string id="st_ballistics_ambush">
-		<text>20% bonus damage and AP vs. unaware targets</text>
+		<text>45% bonus damage and AP vs. unaware targets</text>
 	</string>
 	<string id="st_ballistics_impair">
 		<text>Rapidly degrades weapon</text>
@@ -168,6 +157,9 @@
 	<string id="st_ballistics_napalm">
 		<text>Fire hit, ignites initial target + light burn on surrounding targets</text>
 	</string>
+	<string id="st_ballistics_basher">
+		<text>Melee hits to the head ignore armor (faction resistances still mitigate damage)</text>
+	</string>
 
 	<string id="st_link">
 		<text>link to belt</text>
@@ -175,7 +167,6 @@
 	<string id="st_unlink">
 		<text>unlink belt</text>
 	</string>
-
 	
 	<!-- handgun -->
 	<string id="ammo_new_9x18_fmj">

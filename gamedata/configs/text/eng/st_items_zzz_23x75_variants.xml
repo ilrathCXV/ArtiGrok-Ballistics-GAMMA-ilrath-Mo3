@@ -9,7 +9,7 @@
 		<text>23x75mm "Pure Chaos" Buckshot shells</text>
 	</string>
 	<string id="ammo_23x75_chaos_descr">
-		<text>Whether created by Sin to cleanse the Zone or by some hooligan shoving grounded-up artefacts into a shotgun shell, these monsterous shells exemplify the pure chaos of the Zone. Each pellet has a various suite of effects that the Zone grants, ranging from weakening the power of the pellet to setting the target on fire to creating a explosion on contact. The power of this special buckshot is most-fitting that it used in weapons that are able to withstand 4-gauge ammunition.</text>
+		<text>Whether created by Sin to cleanse the Zone or by some hooligan shoving grounded-up artefacts into a cartridge, these monsterous rounds exemplify the pure chaos of the Zone. Each pellet has a various suite of effects granted by the Zone, ranging from randomizing the stopping power of the pellet, to setting the target on fire, to creating a explosion on contact. Its power is most-fitting in that it is used in weapons able to withstand 4-gauge ammunition.</text>
 	</string>
 	<string id="ammo_23x75_chaos_s">
 		<text>23x75mm "Pure Chaos"</text>
@@ -19,7 +19,7 @@
 		<text>23x75mm "Mini Napalm" shells</text>
 	</string>
 	<string id="ammo_23x75_mini_napalm_descr">
-		<text>This "slug" is a very potent crowd-control round. The shell contains a mixture of fire-based artefact powder with strong propellant that, when contact is made, erupts into a firey bomb. Not only is the initial target hit for devastating damage, but any target within a 5-meter radius is also set ablaze to a lesser extent. Although not containing actual napalm, the name given to this round does indeed leave firey destruction in its wake.</text>
+		<text>This "slug" is a very potent crowd-control round. The shell contains a mixture of fire-based artefact powders with strong propellant. When hitting an enemy or surface, it erupts into a firey bomb, setting any target within a 5-meter radius is ablaze. Direct impact with to a target results in devastating power. Although not containing actual napalm, the name given to this cartridge matches the destructive power it leaves in its wake.</text>
 	</string>
 	<string id="ammo_23x75_mini_napalm_s">
 		<text>23x75mm "Mini Napalm"</text>

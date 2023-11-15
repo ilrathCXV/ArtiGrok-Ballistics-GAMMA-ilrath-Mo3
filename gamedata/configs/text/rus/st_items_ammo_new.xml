@@ -69,6 +69,9 @@
 	<string id="st_prop_armor_7">
 		<text>Бр7</text>
 	</string>
+	<string id="st_ammo_cost">
+		<text>Базовая стоимость</text>
+	</string>
 
 	<string id="st_ballistics_flinch">
 		<text> Шанс ошеломить человека </text>

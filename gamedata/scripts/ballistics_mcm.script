@@ -38,26 +38,13 @@ function ui_item.build_short_name_first(obj, sec, str)
         return ShortName(obj, sec, str)
     end
 end
--- custom ammo desc, inject descriptions later
-BuildFooter = ui_item.build_desc_footer
-function ui_item.build_desc_footer(obj, sec, str)
-    if ini_ammo:section_exist(sec) and ini_ammo:r_string_ex(sec, "name") then
-        return gc(ini_ammo:r_string_ex(sec, "name") .. "_descr")
-    else
-        return BuildFooter(obj, sec, str)
-    end
-end
 
 
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
     ["debug"] = true,
-    --["incoming"] = false,
     ["cost"] = true,
     ["impair"] = false,
-    ["mutant"] = false,
-    --["burer"] = 0,
-    --["legs"] = true,
 }
 
 function get_config(key)
@@ -68,13 +55,8 @@ function on_mcm_load()
     op = { id= "ballistics",sh=true ,gr={
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_ballistics_title",size= {512,50},spacing= 20 },
             {id = "debug", type = "check", val = 1, def=true},
-            --{id = "incoming", type = "check", val = 1, def=false},
-            -- {id = "osp", type = "check", val = 1, def=false},
             {id = "cost", type = "check", val = 1, def=true},
             {id = "impair", type = "check", val = 1, def=false},
-            {id = "mutant", type = "check", val = 1, def=false},
-            --{id = "burer", type = "list", val = 2, def=0, content= {{0,"bclassic"} , {1,"bmeaty"} , {2,"bsith"}}},
-            --{id = "legs", type = "check", val = 1, def=true},
         }
     }
     return op

@@ -10,8 +10,7 @@
 		<text>20x70 Devastator slugs</text>
 	</string>
 	<string id="ammo_20x70_devastator_descr">
-		<text>20-caliber solid lead slug designed to be shot by smoothbore weapons. Nicknamed the "Devastator" due to being really heavy and mean. \n 
-		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power: %c[ui_gray_1]BR2 (25)\n%c[ui_gray_2] - %c[ui_gray_2] Flesh damage power: %c[ui_gray_1]Very high</text>
+		<text>20-caliber solid lead slug designed to be shot by smoothbore weapons. Nicknamed the "Devastator" due to being really heavy and mean.</text>
 	</string>
 	<string id="ammo_20x70_devastator_s">
 		<text>20x70 slug</text>
@@ -21,8 +20,7 @@
 		<text>20x70 Star AP slug</text>
 	</string>
 	<string id="ammo_20x70_star_descr">
-		<text>20-caliber dart round designed specifially to punch through the most robust armor while also mantaining an affordable manufacturing and commercial price point. \n
-		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power: %c[ui_gray_1]BR5 (50)\n%c[ui_gray_2] - %c[ui_gray_2] Flesh damage power: %c[ui_gray_1]High - Very high</text>
+		<text>20-caliber dart round designed specifially to punch through the most robust armor while also mantaining an affordable manufacturing and commercial price point.</text>
 	</string>
 	<string id="ammo_20x70_star_s">
 		<text>20x70 AP slug</text>

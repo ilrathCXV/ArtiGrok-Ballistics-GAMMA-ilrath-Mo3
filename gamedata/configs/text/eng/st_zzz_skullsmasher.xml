@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	"Skullsmasher" Text
+-->
+
+<string_table>
+
+	<!-- "Skullsmasher" -->
+	<string id="st_skull_smasher">
+		<text>"Skullsmasher"</text>
+	</string>
+
+	<string id="st_skull_smasher_descr">
+		<text>A sledgehammer born from the purest form of bloodlust. Infused with the power of a "Compass", this weapon ensures that any enemy quickly finds it end - so long as the user swings true. Where this weapon loses in raw power compared to its predecessor, it makes up for thorough it anomalous properties.\n \n
+		Rumors are that this weapon only came to existence after a master stalker sought a new way to conquer the Zone.\n \n
+		%c[0,255,255,255]PROPERTIES:\n
+		%c[d_red] • %c[ui_gray_2] infused with anomalous strength\n
+		%c[d_cyan] • %c[ui_gray_2] melee weapon\n
+		%c[d_cyan] • %c[ui_gray_2] greater reach compared to knives\n
+		</text>
+	</string>
+	
+</string_table>

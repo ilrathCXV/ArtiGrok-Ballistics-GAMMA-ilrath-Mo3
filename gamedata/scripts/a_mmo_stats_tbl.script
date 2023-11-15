@@ -1,54 +1,46 @@
 ----------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (01/17/23) -----
+-- EDIT for ArtiGrok - ilrathCXV (01/17/23) 
+-- Added Knife Stat Compat. (credit to Momopate) - ilrathCXV (11/13/23)
 ----------------------------------------------------
-if zz_Cost_in_tool_tip then end
+if a_wpo_parts then end
+if momopate_knife_stats then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
-
---[[
-function inject_stats()
-    utils_ui.stats_table["ammo"] = {
-     ["damage"] = { 
-        index= 1, typ= "float",  name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",            compare= false, sign=false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_damage"} },
-    ["ap"] = { 
-        index= 2, typ= "string",  name= "st_prop_k_ap",         icon_p= "ui_am_propery_01",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_ap"} },
-    ["hp"]= { 
-        index= 3, typ= "float",   name= "st_prop_k_hp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
-    ["projectiles"] = { 
-        index= 4, typ= "float",   name= "st_prop_projectiles",  icon_p= "ui_wp_prop_skorostrelnost",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
-    ["accuracy"] ={ 
-        index= 5, typ= "float",   name= "st_prop_k_disp",       icon_p= "ui_wp_prop_tochnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",       compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
-    ["velocity"]={ 
-        index= 6, typ= "float",   name= "st_prop_k_vel",       icon_p= "ui_wp_prop_nastilnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",      compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
-    ["recoil"]={ 
-        index= 7 , typ= "float",   name= "st_prop_recoil",       icon_p= "ui_wp_prop_otdacha",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",   compare= false, sign= false, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_recoil"} } ,    
-    ["wear"]={ 
-        index= 8 , typ= "float",   name= "st_prop_impair",       icon_p= "ui_wp_prop_nadezhnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",   compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_wear"} } ,
-    ["special"]={ 
-        index= 9 , typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } 
---]]
 
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
     ["damage"] = { 
-        index= 1, typ= "float",  name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",            compare= false, sign=false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_damage"} },
+        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     unit= "st_perc", 		compare= false, sign=false,		sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_damage"} },
     ["ap"] = { 
-        index= 2, typ= "string",  name= "st_prop_k_ap",         icon_p= "ui_am_propery_01",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_ap"} },
-    ["hp"]= { 
-        index= 3, typ= "float",   name= "st_prop_k_hp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
-    ["mp"]= { 
-        index= 3, typ= "float",   name= "st_prop_k_mp",         icon_p= "ui_am_prop_restore_bleeding",             icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",              compare= false, sign= true, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_mp"} },
+        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,      unit= "",  				compare= false, sign= false,	sign_inverse = false, 	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_ap"} },
+
     ["projectiles"] = { 
-        index= 5, typ= "float",   name= "st_prop_projectiles",  icon_p= "ui_wp_prop_skorostrelnost",             icon_n= "", track= false,  magnitude= 1,    unit= "",             compare= false, sign= false, show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
+        index= 30, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
+
+
+    ["hp"]= { 
+        index= 40, typ= "float",   name= "st_prop_k_hp",          icon_p= "ui_am_prop_restore_bleeding",  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
+    ["mp"]= { 
+        index= 50, typ= "float",   name= "st_prop_k_mp",          icon_p= "ui_am_prop_wound",  			  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_mp"} },
+
+
     ["accuracy"] ={ 
-        index= 6, typ= "float",   name= "st_prop_k_disp",       icon_p= "ui_wp_prop_tochnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",       compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
+        index= 60, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
     ["velocity"]={ 
-        index= 7, typ= "float",   name= "st_prop_k_vel",       icon_p= "ui_wp_prop_nastilnost",           icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",      compare= false, sign= true, show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
+        index= 70, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
+
+	-- Momopate's Accurate Stats Addons
+	["range"]={
+		index = 80, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = false,	value_functor = { "a_mmo_stats_tbl", "prop_range" } },
+	["penalty"]={
+		index = 90,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "a_mmo_stats_tbl", "prop_nopen" } },
+	-- Addons end
+	
 	["special"]={ 
-        index= 8, typ= "float",   name= "st_prop_special",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } ,
+        index= 100, typ= "float",  name= "st_prop_special",       icon_p= "ui_am_condition",              icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } ,
     ["special_2"]={ 
-        index= 9 , typ= "float",   name= "st_prop_extra",       icon_p= "ui_am_condition",           icon_n= "", track= false,  magnitude= 1,    unit= "",   compare= false, sign= false, show_always=false, value_functor= {"a_mmo_stats_tbl","prop_extra_special"} } ,
-    }
+        index= 110, typ= "float",  name= "st_prop_extra",         icon_p= "ui_am_condition",           	  icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"a_mmo_stats_tbl","prop_extra_special"} } ,
+   	}
 end
 
 if ish_item_stats then
@@ -60,21 +52,19 @@ if ish_item_stats then
 end
 
 local function armor_to_class(val)
-    --val = clamp(math.floor(val * 20), 0, 7)
---------------------------------------------------------------------------------------------------------------
--- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22) --------------------------------------------
+-- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22)
+
 	val = val * 100
-	if (val < 10) then val = 0
-	elseif ( (val >= 10) and (val < 19) ) then val = 1
+	if (val < 11) then val = 0
+	elseif ( (val >= 11) and (val < 19) ) then val = 1
 	elseif ( (val >= 19) and (val < 30) ) then val = 2
-	elseif ( (val >= 30) and (val < 38) ) then val = 3
-	elseif ( (val >= 38) and (val < 45) ) then val = 4
-	elseif ( (val >= 45) and (val < 55) ) then val = 5
+	elseif ( (val >= 30) and (val < 39) ) then val = 3
+	elseif ( (val >= 39) and (val < 46) ) then val = 4
+	elseif ( (val >= 46) and (val < 55) ) then val = 5
 	elseif ( (val >= 55) and (val < 81) ) then val = 6
 	elseif (val >= 81) then val = 7
 	end
--- Match Grok End --------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+
 	return game.translate_string("st_prop_armor_"..val)		
 end
 
@@ -116,34 +106,36 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
     -- patch the armor val
     local sec = self.section
     local obj = self.id and level.object_by_id(self.id) or nil
-    if sec and ini_ammo:section_exist(sec) then
+	
+	local get_slot = SYS_GetParam(2, sec, "animation_slot") or 0
+	local is_knife = false
+    if (SYS_GetParam(0, sec, "kind") == "w_melee") and (get_slot ~= 13) then
+		knife_ammo_sec = SYS_GetParam(0, sec, "ammo_class") or "nil"
+		if knife_ammo_sec ~= "nil" then
+			is_knife = true
+		end
+	end
+	
+    if (sec and ini_ammo:section_exist(sec)) or (is_knife and knife_ammo_sec) then
         for i=1,#self.stats do
-            if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
+			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
                 local str
-				local special
-				if ini_ammo:section_exist(sec) then
-					special = ini_ammo:r_string_ex(sec, "special")
-				end
-                local ap = ini_sys:r_float_ex(sec, "k_ap") or 0
-				if (special and special == "pierce") or ap == 0 then 
-					ap = ini_ammo:r_float_ex(sec, "k_ap") or 0
-				else
-					ap = ap * 10
-				end
+                local ap = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_ap") or 0
+				ap = ap * 10
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_special") then    
-                local str_spec = ini_ammo:r_string_ex(sec, "special")
+                local str_spec = ini_ammo:r_string_ex(is_knife and knife_ammo_sec or sec, "special")
                 if str_spec then
 					if str_spec == "frag" then
-						local frag_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(frag_str)
 					elseif str_spec == "fire" then
-						local fire_str = ini_ammo:r_float_ex(sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(fire_str)
 					elseif str_spec == "flinch" then
-						local flinch_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(flinch_str)
 					else
 						self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec))
@@ -151,23 +143,23 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
                 end
             end
 			if self.stats[i].cap:GetText() == game.translate_string("st_prop_extra") then    
-                local str_spec = ini_ammo:r_string_ex(sec, "special_2")
-                if str_spec then
-					if str_spec == "frag" then
-						local frag_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+                local str_spec_2 = ini_ammo:r_string_ex(is_knife and knife_ammo_sec or sec, "special_2")
+                if str_spec_2 then
+					if str_spec_2 == "frag" then
+						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(frag_str)
-					elseif str_spec == "fire" then
-						local fire_str = ini_ammo:r_float_ex(sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+					elseif str_spec_2 == "fire" then
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(fire_str)
-					elseif str_spec == "flinch" then
-						local flinch_str = ini_ammo:r_float_ex(sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
+					elseif str_spec_2 == "flinch" then
+						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(flinch_str)
 					else
-						self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec))
+						self.stats[i].txt:SetText(game.translate_string("st_ballistics_"..str_spec_2))
 					end
                 end
             end
-            if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") and ini_ammo:r_string_ex(sec, "special") == "chaos" then
+            if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") and (ini_ammo:r_string_ex(sec, "special") == "chaos" or ini_ammo:r_string_ex(sec, "special_2") == "chaos") then
                 self.stats[i].txt:SetText("60-160%")
             end
         end
@@ -182,7 +174,7 @@ end
 
 -- pull from the armor classification
 function prop_ap(obj, sec)
-    return 1
+	return 1
 end
 
 function prop_hp(obj, sec)
@@ -244,4 +236,74 @@ end
 function prop_extra_special(obj, sec)
     local str_spec = ini_ammo:r_string_ex(sec, "special_2")
     if str_spec then return 1 else return 0 end
+end
+
+-- Momopate's Additions
+function prop_nopen(obj, sec)
+	local penalty = 0
+	
+	if grok_bo then
+		local ammo_sec = obj and obj:section() or sec
+		if grok_bo.hp_rounds and grok_bo.hp_rounds[ammo_sec] then
+			penalty = (1 / (grok_bo.hp_rounds[ammo_sec])) * 100
+		end
+	else
+		return 0
+	end
+	
+	local val = (penalty ~= 100) and penalty or 0
+	
+	if val > 100 then
+		val = val * -1
+	end
+	
+	if (penalty > 10) then
+		return round_idp(val, 1)
+	else
+		return round_idp(val, 2)
+	end
+	
+	return 0
+end
+
+function prop_falloff(obj, sec)
+	local perc = round_idp(100 * (SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
+	if perc >= 110 then
+		perc = (perc - 110) * -1
+	end
+	return (round_idp(((perc * 100) / 110), 1))
+end
+
+function prop_range(obj, sec)
+	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_dist") or 1)
+	if val > 1 then
+		val = val * -1
+	end
+	if val == 1 then 
+		return 0 
+	end
+	if (val < 0.1) then
+		return (round_idp(val * 100, 1))
+	else
+		return (round_idp(val * 100, 0))
+	end
+	return 0
+end
+
+function prop_cost(obj, sec)
+	local val = 1
+	local custom_cost = ballistics_mcm.get_config("cost") or false
+	if custom_cost then
+		val = ini_ammo:r_float_ex(sec, "cost") or  (SYS_GetParam(2, obj and obj:section() or sec, "cost")) or 1
+	end
+	if not custom_cost then
+		val = (SYS_GetParam(2, obj and obj:section() or sec, "cost")) or 1
+	end
+	if val <= 1 then 
+		return 0 
+	end
+	if val > 1 then
+		return val
+	end
+	return 0
 end

@@ -10,7 +10,7 @@
 		<text>23x75mm "Shrapnel-25" shells</text>
 	</string>
 	<string id="ammo_new_23x75_shrapnel_descr">
-		<text>23mm shell with 8 #00 pellets. Application range up to 25 meters. It is used for firing from the KS-23 carbine. Due to the fact that the barrel has rifling in the KS-23 carbine, the buckshot flies over a large area, which allows you to shoot offhand, practically without aiming. Fielded in limited quantities with the KS-23 as a hunting round for extremely tough mutants.\n</text>
+		<text>23mm shell utilizing #00 pellets. Application range up to 25 meters. It is used for firing from the KS-23 carbine. Due to the fact that the barrel has rifling in the KS-23 carbine, the buckshot flies over a large area, which allows you to shoot offhand, practically without aiming. Fielded in limited quantities with the KS-23 as a hunting round for extremely tough mutants.\n</text>
 	</string>
 	<string id="ammo_new_23x75_shrapnel_s">
 		<text>23x75mm Shrapnel</text>
@@ -50,7 +50,7 @@
 		<text>23x75 "Cloudkill" Cartridge</text>
 	</string>
 	<string id="ammo_new_23_eco_descr">
-		<text>Special use cartridge developed by the Ecologist faction, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. Against all targets it induces lethargy and weakness, making them more susceptible to impacts and other forms of damage. With mutants specifically, the round weakens their ability to exert force, reducing the strength of their attacks. Specially ordered by Duty to increase the chances of surviving highly dangerous mutant raids by weakening the stronger monsters.</text>
+		<text>Special use cartridge developed by the Ecologist faction, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. Against all targets it induces lethargy and weakness, making them more susceptible to impacts and other forms of damage. With mutants specifically, the round weakens their ability to exert force, reducing the strength of their attacks. Specially ordered by Duty to increase the chances of surviving highly dangerous mutant raids by weakening the stronger monsters or killing small mutants with a single shot from this cartridge.</text>
 	</string>
 	<string id="ammo_new_23_eco_s">
 		<text>23x75 Poison Cloud</text>

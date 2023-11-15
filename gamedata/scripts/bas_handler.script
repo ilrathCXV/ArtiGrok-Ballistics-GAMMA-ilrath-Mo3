@@ -36,16 +36,6 @@ function corrosive_cloud(npc, bone_id)
     end)
 end
 
-
---[[
-function on_before_hit(npc, s_hit, bone_id, flags)
-    if weakened[npc:id()] then
-        s_hit.power = s_hit.power * 1.2
-    end
-end
-
---]]
-
 function actor_on_before_hit(s_hit, bone_id, flags)
     if weakened[s_hit.draftsman:id()] and (not IsStalker(s_hit.draftsman)) and s_hit.draftsman:alive() then
 		local damage_reduction = 0.7 / weakened[s_hit.draftsman:id()]

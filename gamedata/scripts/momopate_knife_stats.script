@@ -1,0 +1,178 @@
+--------------------------------------------------------------------------------------------------------------
+-- To facilitate the new "Skullsmasher" - ilrathCXV (11/14/23)
+if half_damage then
+	half_damage.new_axes = {
+		wpn_axe = true,
+		wpn_axe2 = true,
+		wpn_axe3 = true,
+		wpn_desuria = true,				-- "Skullsmasher"
+	}
+end
+
+
+function inject_stats()
+    
+	if momopate_accurate_stats and (momopate_accurate_stats.enable_melee == 1) then
+		utils_ui.stats_table["knife"] =
+		{
+			["light_attack"]	= { index= 10, 	typ= "float",	name= "st_mp_knife_dmg_1",		icon_p= "ui_wp_prop_damage",		icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_dmg",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_damage", "hit_power" } },
+			["heavy_attack"]	= { index= 20, 	typ= "float",	name= "st_mp_knife_dmg_2",		icon_p= "ui_wp_propery_08",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_dmg",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_damage", "hit_power_2" } },
+			["reach"]			= { index= 30, 	typ= "float",	name= "st_mp_knife_range",		icon_p= "ui_wp_propery_05",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_meters",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_reach" } },
+			["reach_2"]			= { index= 40, 	typ= "float",	name= "st_mp_knife_range_2",	icon_p= "ui_wp_propery_13",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_meters",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_reach", "Heavy" } },
+			["ap"]				= { index= 50, 	typ= "float",	name= "st_prop_k_ap",			icon_p= "ui_wp_propery_04",			icon_n= "", track= false,	magnitude= 1,	unit= "",				compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_ap" } },
+			
+			["hp"] 				= { index= 60,  typ= "float",   name= "st_prop_k_hp",           icon_p= "ui_am_prop_restore_bleeding", icon_n= "", track= false, magnitude= 1,  unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"momopate_knife_stats","prop_hp"} },
+			["mp"] 				= { index= 70,  typ= "float",   name= "st_prop_k_mp",           icon_p= "ui_am_prop_wound",  		icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"momopate_knife_stats","prop_mp"} },
+			["special"] 		= { index= 80, typ= "float",  	name= "st_prop_special",       	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_special"} } ,
+			["special_2"] 		= { index= 90, typ= "float",  	name= "st_prop_extra",         	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_extra_special"} } ,
+
+		}
+	end
+	
+end
+
+if ish_item_stats then
+    override_stats_table= ish_item_stats.override_stats_table
+    ish_item_stats.override_stats_table= function()
+        override_stats_table()
+        inject_stats()
+    end
+end
+
+--------------------------------------------------------------------------------------------------------------
+
+prepare_stats_table= utils_ui.prepare_stats_table
+
+function utils_ui.prepare_stats_table()
+    prepare_stats_table()
+    inject_stats()
+end
+
+GetTable= utils_ui.get_stats_table
+function utils_ui.get_stats_table(sec)
+	local get_slot = SYS_GetParam(2, sec, "animation_slot") or 0
+    if (SYS_GetParam(0, sec, "kind") == "w_melee") and (get_slot ~= 13) then
+        if not utils_ui.stats_table["knife"] or is_empty(utils_ui.stats_table["knife"]) then 
+            inject_stats() 
+        end
+        return utils_ui.stats_table["knife"]
+    else
+        return GetTable(sec)
+    end
+end
+
+GetType= utils_ui.UIInfoItem.GetType
+function utils_ui.UIInfoItem:GetType(sec)
+    local get_slot = SYS_GetParam(2, sec, "animation_slot") or 0
+    if (SYS_GetParam(0, sec, "kind") == "w_melee") and (get_slot ~= 13) then
+		return "knife"
+	else 
+		return GetType(self, sec) 
+	end
+end
+
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+function prop_damage(obj, sec, name)
+	local hp_table = {}
+	local values = {}
+	local powers = {}
+	local hit_power = 0
+	
+	if (not name) then
+		return 0
+	end
+	
+	hp_table = SYS_GetParam(0, obj and obj:section() or sec, name) or nil
+	if hp_table ~= nil then
+		values = str_explode(hp_table, ",")
+		for i = 1, #values do
+			powers[#powers + 1] = tonumber(values[i])
+		end
+		
+		if powers ~= nil then
+			hit_power = powers[game_difficulties.get_game_factor("actor_immunities") or 3]
+		end
+	end
+	
+	return round_idp(hit_power * 100, 1)
+end
+
+function prop_ap(obj, sec)
+--[[
+	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
+	
+	printf(ammo_sec)
+	
+	if ammo_sec ~= "nil" then
+		printf(ammo_sec)
+		local ap = ini_sys:r_float_ex(ammo_sec, "k_ap") or 0
+		return (ap * 1000) or 0
+	end
+	
+	return 0
+--]]
+
+	return 1
+end
+
+function prop_reach(obj, sec, name)
+	local range_1 = SYS_GetParam(2, obj and obj:section() or sec, "spash1_dist") or 0
+	local range_2 = SYS_GetParam(2, obj and obj:section() or sec, "spash2_dist") or 0
+	
+	if (name == "Heavy") then
+		return ((range_2 ~= range_1) and round_idp(range_2, 2) or 0)
+	end
+	
+	return round_idp(range_1, 2)
+end
+
+local ini_ammo = ini_file("ammo\\importer.ltx")
+
+function prop_hp(obj, sec)
+	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
+	
+	printf(ammo_sec)
+	
+	if ammo_sec ~= "nil" then
+		printf(ammo_sec)
+		local hp = ini_ammo:r_float_ex(ammo_sec, "k_hp") or 1
+		return hp > 1.01 and math.floor(100 * (hp - 1)) or 0
+	end
+	
+end
+
+function prop_mp(obj, sec)
+	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
+	
+	printf(ammo_sec)
+	
+	if ammo_sec ~= "nil" then
+		printf(ammo_sec)
+		local mp = ini_ammo:r_float_ex(ammo_sec, "k_mp") or 1
+		return mp > 1.01 and math.floor(100 * (mp - 1)) or 0
+	end
+end
+
+function prop_special(obj, sec)
+	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
+	
+	printf(ammo_sec)
+	
+	if ammo_sec ~= "nil" then
+		local str_spec = ini_ammo:r_string_ex(ammo_sec, "special")
+		if str_spec then return 1 else return 0 end
+	end
+end
+
+function prop_extra_special(obj, sec)
+    local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
+	
+	printf(ammo_sec)
+	
+	if ammo_sec ~= "nil" then
+		local str_spec = ini_ammo:r_string_ex(ammo_sec, "special_2")
+		if str_spec then return 1 else return 0 end
+	end
+end
