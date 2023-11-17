@@ -53,7 +53,7 @@ function get_tier(val)
 	return val
 end
 ------------------------------------------------------------------------------------
------------------------------------------------------------------------------------- USE
+------------------------------------------------------------------------------------
 
 local npc_stun = {}
 function stun_npc(npc, flinch_stun_chance)
@@ -248,6 +248,7 @@ function shock_damage(npc, bone_id, wpn_id, armor_amount)
 end
 
 function damage_npc_grok(npc, power)
+	power = power * (1 + (bas_handler.weakened and bas_handler.weakened[npc:id()] or 0) * 0.2)
 	npc:set_health_ex(npc.health - power)
 end
 
@@ -389,8 +390,6 @@ function condition_degrade_on_fire(amount, wpn, chance)
     end
 end
 
-------------------------------------------------------------------------------------
------------------------------------------------------------------------------------- USE
 function play_acid()
     play_particle_firepoint("artefact\\effects\\af_acidic_idle_color_trail")
 end
@@ -456,4 +455,26 @@ function on_game_start()
     RegisterScriptCallback("npc_on_death_callback", npc_on_death_callback)
 	
 	RegisterScriptCallback("bullet_on_remove", aoe_handler)
+end
+
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+-- Attempt to ensure that "bullet_blow" (Explosive Ammo effect object) doesn't hurt the player
+
+local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
+_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
+	nullify_bullet_blow_sd(shit, bone_id)
+	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
+end
+
+function nullify_bullet_blow_sd(shit, bone_id)
+	if not shit.weapon_id then return end
+	
+	wpn = level.object_by_id(shit.weapon_id)
+	wpn_sec = wpn:section()
+	
+	if wpn_sec == "bullet_blow" then
+		printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
+		shit.power = 0
+	end
 end
