@@ -1,7 +1,7 @@
 
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
--- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Nov. 14, '23)
+-- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Oct. 22, '23)
 -----------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -185,7 +185,7 @@ hp_rounds = {
 	["ammo_5.56x45_ss190_bad"] = 1.33,
 	["ammo_5.56x45_ss190_verybad"] = 1.33,
 	["ammo_12x76_zhekan"] = 3.5,
-	--["ammo_12x76_zhekan_bad"] = 3.5,	-- Flechette (has Armorbuster)
+	["ammo_12x76_zhekan_bad"] = 3.5,	-- Flechette (has Armorbuster)
 	["ammo_12x76_zhekan_verybad"] = 3.5,
 	["ammo_12x76_dart"] = 1.5,
 	--["ammo_12x76_dart_bad"] = 1.5, -- Dragon's Breath

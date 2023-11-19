@@ -116,10 +116,10 @@
 		<text>60% bonus damage vs. mutants</text>
 	</string>
 	<string id="st_ballistics_explodes">
-		<text>Explodes on impact</text>
+		<text>Explodes at impact site</text>
 	</string>
 	<string id="st_ballistics_chaos">
-		<text>60%-160% DMG/AP + random effects</text>
+		<text>60-160% DMG/AP + random effects</text>
 	</string>
 	<string id="st_ballistics_acid">
 		<text>Chemical hit, breaks armor much faster</text>
@@ -155,7 +155,7 @@
 		<text>Breaks armor more effectively</text>
 	</string>
 	<string id="st_ballistics_napalm">
-		<text>Fire hit, ignites initial target + light burn on surrounding targets</text>
+		<text>Ignites surrounding targets at impact site</text>
 	</string>
 	<string id="st_ballistics_basher">
 		<text>Melee hits to the head ignore armor (faction resistances still mitigate damage)</text>

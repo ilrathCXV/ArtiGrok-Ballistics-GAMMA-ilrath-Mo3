@@ -51,7 +51,7 @@ function cloudkill_dmg_reduction(shit, bone_id)
     if weakened[shit.draftsman:id()] and shit.draftsman:alive() then
 		local damage_reduction = round_idp(0.7 / weakened[shit.draftsman:id()], 4)
         shit.power = shit.power * damage_reduction
-		display_reduction = tonumber(100 - (damage_mult * 100))
+		display_reduction = tonumber(100 - (damage_reduction * 100))
 		printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
     end
 end

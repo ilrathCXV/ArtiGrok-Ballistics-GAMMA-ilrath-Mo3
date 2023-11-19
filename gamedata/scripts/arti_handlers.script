@@ -1,5 +1,5 @@
 ----------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (01/17/23) -----
+----- EDIT for ArtiGrok - ilrathCXV (11/17/23) -----
 ----------------------------------------------------
 
 print_dbg           = ballistics_mcm.print_dbg
@@ -12,6 +12,23 @@ math_random         = math.random
 head_bones          = ballistics_utils.head_bones
 ini_ammo            = ballistics_utils.ini_ammo
 ini_damage          = ballistics_utils.ini_damage
+
+local rpg_hit_perks	= nil
+local fourth_times	= 0
+local shock_hits	= 0
+local napalm_hits	= 0
+local explode_hits	= 0
+
+if z_cxv_experience_perk_weapon_reload_hit_effects then
+	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
+	
+	function experience_skill_on_update(id, data)
+		if (id == "perk_fourth_times") then
+			fourth_times = data["curr_level"]
+		end
+	end
+	
+end
 
 local anims = {
     "norm_2_critical_hit_torso_0", -- good
@@ -236,11 +253,20 @@ function shock_damage(npc, bone_id, wpn_id, armor_amount)
             if obj and obj:alive() and obj:id() ~= AC_ID then
 				if IsStalker(obj) then
 					damage_npc_grok(obj, shock_power)
+					shock_hits = shock_hits + 1
 				else
 					obj:hit(h)
+					shock_hits = shock_hits + 1
 				end
             end
         end)
+		
+		if rpg_hit_perks and fourth_times > 0 then
+			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + round_idp((shock_hits/armor_tier), 4)
+			printf("[RPG - Arti Handlers - Shock] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
+		end
+		shock_hits = 0
+		
     end
     -- s_hit.power = tbl_reduce(calcs)
     play_sound_on_location(snd, npc)
@@ -305,9 +331,17 @@ function napalm_handler(bullet)
 		level.iterate_nearest(bullet.position, 5, function(obj)
 			if obj and obj:alive() and obj:id() ~= AC_ID then
 				ignite_npc(obj,11,wpn_id,2,5)
+				napalm_hits = napalm_hits + 1
 			end
 		end)
 		play_sound_on_location("anomaly\\fireball_blow", npc)
+		
+		if rpg_hit_perks and fourth_times > 0 then
+			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (napalm_hits * 0.2)	-- need at least 5 enemies burned to get one full stack
+			printf("[RPG - Arti Handlers - Napalm] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
+		end
+		napalm_hits = 0
+		
 	end
 end
 
@@ -350,18 +384,30 @@ function explode_handler(bullet)
 					
 					printf("[ArtiGrok - Exp] %s is hit with %s fragments (blast damage mod.: %s)", _obj and _obj:name(), frag_hit_num, blast_div_factor)
 					
+					local k_hit = ini_sys:r_float_ex(ammo_sec, "k_hit") or 1
+					if k_hit < 1 then k_hit = 1 end
+					
 					local h = hit()
 					h.type = (is_frag_hit and blast_div_factor < 0.3 and hit.fire_wound) or hit.explosion
 					h.power = ((is_frag_hit and frag_power * frag_hit_num) or 0) + (blast_power * blast_div_factor)
+					h.power = h.power * k_hit
 					h.impulse = ((is_frag_hit and frag_impulse * frag_hit_num) or 0) + (blast_impulse * blast_div_factor)
 					h.direction = VEC_Y
 					h.bone = "bip01_spine"
 					h.draftsman = db.actor
 					h.weapon_id = explode_obj
 					_obj:hit(h)
+					explode_hits = explode_hits + 1
 				end
             end
         end)
+		
+		if rpg_hit_perks and fourth_times > 0 then
+			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + round_idp((explode_hits / frags_temp), 4)
+			printf("[RPG - Arti Handlers - Explode] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
+		end
+		
+		explode_hits = 0
 		
 		CreateTimeEvent(explode_obj.id, explode_obj.id, 0, 
         function(id)
@@ -450,6 +496,14 @@ if enhanced_recoil then
 end
 
 function on_game_start()
+	if z_cxv_experience_perk_weapon_reload_hit_effects then
+		if experience_potions then
+			RegisterScriptCallback("experience_skill_on_update", experience_skill_on_update)
+		else
+			RegisterScriptCallback("experience_perk_on_update", experience_skill_on_update)
+		end	
+	end
+
     RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
     RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
     RegisterScriptCallback("npc_on_death_callback", npc_on_death_callback)

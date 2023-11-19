@@ -92,7 +92,7 @@ function prop_damage(obj, sec, name)
 		end
 		
 		if powers ~= nil then
-			hit_power = powers[game_difficulties.get_game_factor("actor_immunities") or 3]
+			hit_power = powers[game_difficulties.get_game_factor("actor_immunities") or 3] or 0
 		end
 	end
 	
