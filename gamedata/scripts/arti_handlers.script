@@ -310,12 +310,18 @@ function get_bullet_pos(bullet_pos)
     return {pos, lvid, gvid}
 end
 
+local bullet_check = {}
+
 function aoe_handler(bullet)
-	if bullet.speed > 0 or bullet.speed < 0 then return end
+	-- if bullet.speed > 0 or bullet.speed < 0 then return end
 	if bullet.parent_id ~= db.actor:id() then return end
 	if not bullet.position then return end
 	
 	if not bullet.section then return end
+	
+	-- in case of ricochet...?
+	if bullet.target_id == 65535 and bullet_check[bullet.bullet_id] then return end
+	if bullet.target_id == 65535 then bullet_check[bullet.bullet_id] = true end
 	
 	printf("[ArtiGrok - AoE] Bullet section: %s", bullet.section)
 	
@@ -356,21 +362,21 @@ function explode_handler(bullet)
 		local explode_obj = alife_create_item("bullet_blow", bullet_point)
 		if not explode_obj then printf("[ArtiGrok - Exp] No bullet_blow created") return end
 		
-		local frag_radius = ini_sys:r_float_ex("bullet_blow", "frags_r")
-		local frag_power = ini_sys:r_float_ex("bullet_blow", "frag_hit")
-		local frag_impulse = ini_sys:r_float_ex("bullet_blow", "frag_hit_impulse")
-		local blast_impulse = ini_sys:r_float_ex("bullet_blow", "blast_impulse")
-		local total_frags = ini_sys:r_float_ex("bullet_blow", "frags")
-		local blast_power = ini_sys:r_float_ex("bullet_blow", "blast")
-		local blast_radius = ini_sys:r_float_ex("bullet_blow", "blast_r")
-		local frags_temp = total_frags
+		local frag_radius 	= 36			--ini_sys:r_float_ex("bullet_blow", "frags_r")
+		local frag_power 	= 0.04			--ini_sys:r_float_ex("bullet_blow", "frag_hit")
+		local frag_impulse 	= 2 			--ini_sys:r_float_ex("bullet_blow", "frag_hit_impulse")
+		local blast_impulse = 60			--ini_sys:r_float_ex("bullet_blow", "blast_impulse")
+		local total_frags 	= 10			--ini_sys:r_float_ex("bullet_blow", "frags")
+		local blast_power 	= 3.14			--ini_sys:r_float_ex("bullet_blow", "blast")
+		local blast_radius 	= 1.2			--ini_sys:r_float_ex("bullet_blow", "blast_r")
+		local frags_temp 	= total_frags
 		
 		level.iterate_nearest(bullet.position, frag_radius, function(_obj)
             if (IsStalker(_obj) or IsMonster(_obj)) and _obj:id() ~= AC_ID then
-				if _obj:alive() then
+				if _obj.health > 0 then
 					local npc_pos = _obj:position()
 					local dist = npc_pos:distance_to(bullet.position)
-					local blast_div_factor = (((blast_radius * ((IsMonster(_obj) and 2) or 1)) - dist)/blast_radius) or 0
+					local blast_div_factor = ((blast_radius - (dist * 0.5))/blast_radius) or 0
 					blast_div_factor = clamp(blast_div_factor, 0, 1)
 					local is_frag_hit = false
 					local frag_hit_num = 0
@@ -508,7 +514,9 @@ function on_game_start()
     RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
     RegisterScriptCallback("npc_on_death_callback", npc_on_death_callback)
 	
+	
 	RegisterScriptCallback("bullet_on_remove", aoe_handler)
+	RegisterScriptCallback("bullet_on_impact", aoe_handler)
 end
 
 ------------------------------------------------------------------------------------

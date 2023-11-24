@@ -2,7 +2,7 @@
 -- EDIT for ArtiGrok - ilrathCXV (01/17/23) 
 -- Added Knife Stat Compat. (credit to Momopate) - ilrathCXV (11/13/23)
 ----------------------------------------------------
-if a_wpo_parts then end
+-- if a_wpo_parts then end
 if momopate_knife_stats then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
@@ -10,36 +10,36 @@ local ini_ammo = ini_file("ammo\\importer.ltx")
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
     ["damage"] = { 
-        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     unit= "st_perc", 		compare= false, sign=false,		sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_damage"} },
+        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     unit= "st_perc", 		compare= false, sign=false,		sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
     ["ap"] = { 
-        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,      unit= "",  				compare= false, sign= false,	sign_inverse = false, 	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_ap"} },
+        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,      unit= "",  				compare= false, sign= false,	sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
 
     ["projectiles"] = { 
-        index= 30, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_projectiles"} },
+        index= 30, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_projectiles"} },
 
 
     ["hp"]= { 
-        index= 40, typ= "float",   name= "st_prop_k_hp",          icon_p= "ui_am_prop_restore_bleeding",  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_hp"} },
+        index= 40, typ= "float",   name= "st_prop_k_hp",          icon_p= "ui_am_prop_restore_bleeding",  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_hp"} },
     ["mp"]= { 
-        index= 50, typ= "float",   name= "st_prop_k_mp",          icon_p= "ui_am_prop_wound",  			  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"a_mmo_stats_tbl","prop_mp"} },
+        index= 50, typ= "float",   name= "st_prop_k_mp",          icon_p= "ui_am_prop_wound",  			  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_mp"} },
 
 
     ["accuracy"] ={ 
-        index= 60, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"a_mmo_stats_tbl","prop_accuracy"} } ,
+        index= 60, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_accuracy"} } ,
     ["velocity"]={ 
-        index= 70, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"a_mmo_stats_tbl","prop_flatness"} } ,
+        index= 70, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_flatness"} } ,
 
 	-- Momopate's Accurate Stats Addons
 	["range"]={
-		index = 80, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = false,	value_functor = { "a_mmo_stats_tbl", "prop_range" } },
+		index = 80, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
 	["penalty"]={
-		index = 90,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "a_mmo_stats_tbl", "prop_nopen" } },
+		index = 90,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
 	
 	["special"]={ 
-        index= 100, typ= "float",  name= "st_prop_special",       icon_p= "ui_am_condition",              icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"a_mmo_stats_tbl","prop_special"} } ,
+        index= 100, typ= "float",  name= "st_prop_special",       icon_p= "ui_am_condition",              icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_special"} } ,
     ["special_2"]={ 
-        index= 110, typ= "float",  name= "st_prop_extra",         icon_p= "ui_am_condition",           	  icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"a_mmo_stats_tbl","prop_extra_special"} } ,
+        index= 110, typ= "float",  name= "st_prop_extra",         icon_p= "ui_am_condition",           	  icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_extra_special"} } ,
    	}
 end
 

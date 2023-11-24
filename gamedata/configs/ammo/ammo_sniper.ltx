@@ -50,8 +50,6 @@ k_hit		= 0.95 		;1.017 - Grok
 k_ap		= 0.8 		;0.305 - Arti
 recoil		= 1.05
 cost        = 9500
-dg_ammo     = ammo_7.62x54_7h1
-dg_chance   = 0.5
 
 [ammo_7.62x54_ap_bad]:ammo_7.62x54_ap; BZ API
 handler     = arti_handlers.fire_damage
@@ -133,7 +131,10 @@ cost        = 2250
 name		= ammo_new_7.92x33_match
 k_hit		= 1.1 		;1.23 - Grok+
 k_ap		= 0.275 	;0.215 - Arti
-cost        = 2830
+cost        = 3000
+k_hp        = 1.15
+k_mp        = 1.4
+special		= varma
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.4
 
@@ -142,8 +143,6 @@ name		= ammo_new_7.92x33_ap
 k_hit		= 0.9 		;1.13 - Grok
 k_ap		= 0.39 		;0.305 - Arti
 cost        = 7000
-dg_ammo     = ammo_7.92x33_fmj
-dg_chance   = 0.5
 
 [ammo_7.92x33_ap_bad]:ammo_7.92x33_ap ; lightning
 handler     = arti_handlers.shock_damage
@@ -170,7 +169,7 @@ special 	= flinch
 
 name		= ammo_new_12.7x55_fmjs
 k_hit		= 1.65 		;1.5 - Grok+
-k_ap		= 0.38 		;0.255 - Arti
+k_ap		= 0.45 		;0.255 - Arti
 cost        = 4350
 dg_ammo     = ammo_12.7x55_fmj
 dg_chance   = 0.25

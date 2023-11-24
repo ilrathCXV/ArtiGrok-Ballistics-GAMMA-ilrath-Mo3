@@ -12,7 +12,7 @@ end
 
 function inject_stats()
     
-	if momopate_accurate_stats and (momopate_accurate_stats.enable_melee == 1) then
+	--if momopate_accurate_stats and (momopate_accurate_stats.enable_melee == 1) then
 		utils_ui.stats_table["knife"] =
 		{
 			["light_attack"]	= { index= 10, 	typ= "float",	name= "st_mp_knife_dmg_1",		icon_p= "ui_wp_prop_damage",		icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_dmg",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_damage", "hit_power" } },
@@ -27,7 +27,7 @@ function inject_stats()
 			["special_2"] 		= { index= 90, typ= "float",  	name= "st_prop_extra",         	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_extra_special"} } ,
 
 		}
-	end
+	--end
 	
 end
 

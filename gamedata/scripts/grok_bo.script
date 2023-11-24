@@ -170,7 +170,7 @@ hp_rounds = {
 	["ammo_9x18_pmm_bad"] = 2,
 	["ammo_9x18_pmm_verybad"] = 2,
 	["ammo_9x19_pbp"] = 2,
-	["ammo_9x19_pbp_bad"] = 1.65,
+	["ammo_9x19_pbp_bad"] = 2,
 	["ammo_9x19_pbp_verybad"] = 2,
 	["ammo_7.62x25_p"] = 1.75,
 	["ammo_7.62x25_p_bad"] = 1.75,
@@ -188,7 +188,7 @@ hp_rounds = {
 	["ammo_12x76_zhekan_bad"] = 3.5,	-- Flechette (has Armorbuster)
 	["ammo_12x76_zhekan_verybad"] = 3.5,
 	["ammo_12x76_dart"] = 1.5,
-	--["ammo_12x76_dart_bad"] = 1.5, -- Dragon's Breath
+	["ammo_12x76_dart_bad"] = 1.5, -- Dragon's Breath
 	["ammo_12x76_dart_verybad"] = 1.5,
 	["ammo_12x70_buck"] = 3,
 	["ammo_12x70_buck_bad"] = 3,
@@ -428,7 +428,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	
 	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
-		ammo_mult = 1.00
+		ammo_mult = 0.95
 	end
 	
 	
@@ -522,11 +522,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 							-- ilrathCXV edits (11/26/22) + (01/19/23) --
 
 		if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-			ammo_mult = 1.1
+			ammo_mult = 1.15
 		end
 		
 		if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
-			ammo_mult = 1.2
+			ammo_mult = 1.00
 		end
 		
 		if ammo_section == "ammo_pkm_100_bad" then
@@ -577,9 +577,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Allow standard damage due to piercing the boar's thick hide w/o overpenetration  (BR2 - BR3)
 	if string.find(monster:name(), "boar") then
 		local boar_crit_ids = { [0] = true, [1] = true, [6] = true, [11] = true }
-		spec_monster_mult = 0.90
+		spec_monster_mult = 0.95
 		if boar_crit_ids[bone_id]  then
-			bone_mult = 1.25
+			bone_mult = 1.20
 			printf("Critical Hit!")
 		end
 	end
@@ -603,7 +603,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	end
 
 	if string.find(monster:name(), "flesh") then
-		spec_monster_mult = 0.90
+		spec_monster_mult = 0.95
 		if bone_id == 13 then
 			bone_mult = 1.30
 		end
@@ -647,7 +647,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	end
 	
 	if string.find(monster:name(), "burer")then
-		ammo_mult = ammo_mult * mp_expansion_mult
+		is_humanoid = true
 		if (bone_id >= 39 and bone_id < 43) or (bone_id >= 40 and bone_id < 49) then
 			bone_mult = 1.5
 			printf("Critical Hit!")
@@ -863,7 +863,7 @@ end
 
 
 
-function npc_on_before_hit(npc, shit, bone_id, flags)
+function npc_on_before_hit(npc, shit, bone_id)
 
 	if shit.draftsman:id() ~= db.actor:id() then
 		return
@@ -1251,9 +1251,9 @@ function npc_on_before_hit(npc, shit, bone_id, flags)
 		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_23x75_shrapnel" or
 		   ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
-			k_ap = ( k_ap + 0.017 )
+			k_ap = ( k_ap + 0.019 )
 		else
-			k_ap = ( k_ap + 0.035 )
+			k_ap = ( k_ap + 0.040 )
 		end
 	end
 
@@ -1419,12 +1419,8 @@ function npc_on_before_hit(npc, shit, bone_id, flags)
 			arti_handlers.fragment_sound(npc)
 		end
 	end
-	
-	
-	local k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
 
-	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * difficulty_multiplier[game_num]
-	
+	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update
 	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult * cloudkill_mult * fragment_mult
 	
 	-- etapomom: run pba before armor so that they actually feel like they're doing something.
