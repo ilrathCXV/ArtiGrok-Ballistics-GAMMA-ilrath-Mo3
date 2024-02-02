@@ -16,7 +16,6 @@ k_mp        = 1.18
 cost        = 2250
 
 [ammo_7.62x54_7h1_bad]:ammo_7.62x54_7h1; competition
-handler     = arti_handlers.headshot
 name		= ammo_new_7.62x54_fp
 k_hit		= 1.05 		;1.067 - Grok+
 k_ap		= 0.2 	;0.249 - Arti
@@ -52,11 +51,10 @@ recoil		= 1.05
 cost        = 9500
 
 [ammo_7.62x54_ap_bad]:ammo_7.62x54_ap; BZ API
-handler     = arti_handlers.fire_damage
 name		= ammo_new_7.62x54_api
 k_hit		= 1.2 		;1.267 - Grok+
 k_ap		= 0.95 		;0.335 - Arti
-ignite      = 90
+ignite      = 25
 special     = fire
 cost        = 11000
 recoil		= 1.05
@@ -72,7 +70,6 @@ k_ap		= 0.37 		;0.2 - Arti
 cost        = 2760
 
 [ammo_pkm_100_bad]:ammo_pkm_100 ; splitshot
-handler     = arti_handlers.buckshot_damage
 name		= ammo_new_7.62x54_split
 k_hit		= 0.7 		;1.2 - Grok+
 k_ap		= 0.307 	;0.155 - Arti
@@ -91,7 +88,6 @@ k_ap		= 0.34 		;0.225 - Arti
 cost        = 3000
 
 [ammo_7.62x51_fmj_bad]:ammo_7.62x51_fmj; mk316? 
-handler     = arti_handlers.fragment_sound
 frag        = 50
 special     = frag
 ;ilrathCXV - Additonal effects to separate it from regular FMJ
@@ -145,7 +141,6 @@ k_ap		= 0.39 		;0.305 - Arti
 cost        = 7000
 
 [ammo_7.92x33_ap_bad]:ammo_7.92x33_ap ; lightning
-handler     = arti_handlers.shock_damage
 name		= ammo_new_7.92x33_shock
 k_hit		= 0.4 		;0.53 - Grok+
 k_ap		= 0.78 		;0.399 - Arti
@@ -183,7 +178,6 @@ cost        = 6900
 
 [ammo_12.7x55_ap_bad]:ammo_12.7x55_ap; explosive
 name		= ammo_new_12.7x55_exp
-impact_h    = arti_handlers.explode_handler
 k_hit		= 0.5 		;0.35 - Grok+
 k_ap		= 0.58 	;0.049 - Arti
 cost        = 12000
@@ -200,26 +194,13 @@ k_ap		= 1.40 		;0.335 - Arti
 cost        = 17000
 
 [ammo_magnum_300_bad]:ammo_magnum_300; saboted DU 
-handler     = arti_handlers.soulripper
 name		= ammo_new_338_ap
 k_hit		= 1.3 		;1.94 - Grok+
 k_ap		= 1.705 	;0.399 - Arti
 cost        = 21000
 recoil		= 2
-special     = soulripper
+special     = rip
 dg_ammo     = ammo_magnum_300
 dg_chance   = 0.8
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-[ammo_7.92x33_fmj_verybad]:ammo_7.92x33_fmj_bad
-[ammo_7.92x33_ap_verybad]:ammo_7.92x33_ap_bad
-[ammo_7.62x51_fmj_verybad]:ammo_7.62x51_fmj_bad
-[ammo_7.62x51_ap_verybad]:ammo_7.62x51_ap_bad
-[ammo_pkm_100_verybad]:ammo_pkm_100_bad
-[ammo_7.62x54_7h1_verybad]:ammo_7.62x54_7h1_bad
-[ammo_7.62x54_ap_verybad]:ammo_7.62x54_ap_bad
-[ammo_7.62x54_7h14_verybad]:ammo_7.62x54_7h14_bad
-[ammo_12.7x55_fmj_verybad]:ammo_12.7x55_fmj_bad
-[ammo_12.7x55_ap_verybad]:ammo_12.7x55_ap_bad
-[ammo_magnum_300_verybad]:ammo_magnum_300_bad

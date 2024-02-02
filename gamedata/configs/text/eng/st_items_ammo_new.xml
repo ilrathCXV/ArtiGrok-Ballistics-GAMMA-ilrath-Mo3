@@ -110,7 +110,7 @@
 		<text>Headshots ignore some armor, center mass stuns</text>
 	</string>
 	<string id="st_ballistics_rip">
-		<text>Min. 5% lifesteal on hit</text>
+		<text>Heal for 25% of DMG dealt</text>
 	</string>
 	<string id="st_ballistics_varma">
 		<text>60% bonus damage vs. mutants</text>
@@ -134,7 +134,7 @@
 		<text>Headshots ignore armor and faction resistances</text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>Fire hit, ignites targets & reduces armor</text>
+		<text>Fire hit, 75% chance to burn targets</text>
 	</string>
 	<string id="st_ballistics_fire">
 		<text>% chance to burn targets</text>
@@ -149,7 +149,7 @@
 		<text>Cover piercing</text>
 	</string>
 	<string id="st_ballistics_soulripper">
-		<text>Min. 10% lifesteal on headshots</text>
+		<text>Heal for 15% HP on kill</text>
 	</string>
 	<string id="st_ballistics_armorbuster">
 		<text>Breaks armor more effectively</text>

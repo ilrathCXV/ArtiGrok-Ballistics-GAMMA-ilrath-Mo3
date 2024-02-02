@@ -158,37 +158,18 @@ function trader_autoinject.update(npc)
             powder_fire = 5
         }, true)
     end
-	
---[[	DISABLED TO AVOID TRADERS LOSING THE AMMO IF ASSIGNED TO TRADER TABLES
-    to_create = {}
-    npc:iterate_inventory(function(npc, item)
-        if not IsAmmo(item) then return end
-        local sec = item:section()
-        dg = downgrade_ammo(sec)
-        if sec ~= dg then
-            to_create[item:id()] = {
-                sec = dg,
-                cnt = item:ammo_get_count()
-            }
-        end
-    end)
-    for k,v in pairs(to_create) do
-        alife_release_id(k)
-        alife_create_item(v.sec, npc, {ammo = v.cnt})
-    end
---]]
     
     local level = trader_autoinject.supply_level(npc, true) or 1
-    local chance = clamp(30 * (level - 1), 0, 100)
+    local chance = clamp(45 * (level - 1), 0, 100)
     local comm = trader_autoinject.get_real_community(npc, "stalker")
     if not recipe_trader[comm] then return end
     for k,v in pairs(recipe_trader[comm]) do
-        if math.random(100) <= chance then
+        if math_random(100) <= chance then
             alife_create_item(v, npc)
         end
     end
 	local k = random_key_table(powder_list_weights)
-    if math.random(100) <= powder_list_weights[k] then
+    if math_random(100) <= powder_list_weights[k] then
 		if trader_autoinject.get_trader_type(npc) == 1 then
 			trader_autoinject.spawn_items(npc, {
 				k = 2
@@ -205,6 +186,7 @@ function death_manager.try_spawn_ammo(npc)
     SpawnAmmo(npc)
     downgrade = false
 end
+
 SetDrop = death_manager.set_weapon_drop_condition
 function death_manager.set_weapon_drop_condition(npc,itm)
     downgrade = true
@@ -239,16 +221,90 @@ function npc_on_net_spawn(npc)
 end
 
 -- spawn recipes with random weights
-local recipe_weights = {
-    recipe_ammo_ru1 = 20,
-    recipe_ammo_ru2 = 10,
-    recipe_ammo_pistol = 20,
-    recipe_ammo_shotgun = 15,
-    recipe_ammo_nato = 10,
-    recipe_ammo_arty1 = 5,
-    recipe_ammo_arty2 = 5,
-    recipe_ammo_fire = 5,
+local recipe_list = {
+    ["recipe_ammo_ru1"] = false,
+    ["recipe_ammo_ru2"] = false,
+    ["recipe_ammo_pistol"] = false,
+    ["recipe_ammo_shotgun"] = false,
+    ["recipe_ammo_nato"] = false,
+    ["recipe_ammo_arty1"] = false,
+    ["recipe_ammo_arty2"] = false,
+    ["recipe_ammo_fire"] = false,
 }
+
+local unknown_recipes = {}
+
+local knockout_count = 0
+local table_count = 0
+local is_list_done = false
+local workshop_autoinject_known_recipes = {}
+
+if workshop_autoinject and not workshop_autoinject.known_recipe then
+	base_wai_load = workshop_autoinject.load_state
+	function workshop_autoinject.load_state(mdata)
+		base_wai_load(mdata)
+		workshop_autoinject_known_recipes = mdata.known_recipe or {}
+	end
+end
+
+function update_recipe_list(item,string)
+	if not item then return end
+    local sec = item:section()
+	if not recipe_list[sec] then return end
+	
+	recipe_list[sec] = true
+end
+
+function check_knockout_list()
+
+	table_count = 0
+	knockout_count = 0
+	
+	if is_list_done then
+		-- printf("[Arti Ammo Utils] Picking a random recipe... [first check]")
+		return random_key_table(recipe_list)
+	end
+	
+	is_list_done = false
+	
+	if not z_item_icon_info then
+		workshop_autoinject_known_recipes = workshop_autoinject and workshop_autoinject.known_recipe or workshop_autoinject_known_recipes
+	else
+		workshop_autoinject_known_recipes = z_item_icon_info.workshop_autoinject_known_recipes
+	end
+		
+	for r,b in pairs(recipe_list) do
+		-- printf("[Arti Ammo Utils] Recipe being checked: %s", r)
+		recipe_list[r] = recipe_list[r] or workshop_autoinject_known_recipes[r] or ui_pda_encyclopedia_tab.is_unlocked_note("encyclopedia__notes_" .. r) or false
+		if recipe_list[r] == true then
+			knockout_count = knockout_count + 1
+			-- printf("[Arti Ammo Utils] Recipe is already known")
+		else
+			-- printf("[Arti Ammo Utils] Recipe is not known")
+			table.insert(unknown_recipes, r)
+		end
+		
+		table_count = table_count + 1
+	end
+	
+	if knockout_count == table_count then
+		-- printf("[Arti Ammo Utils] All recipes are known | Known count: %s | List count: %s", knockout_count, table_count)
+		is_list_done = true
+	end
+end
+
+function pick_from_knockout_list()
+
+	if not is_list_done and unknown_recipes[1] then
+		local picked_recipe = unknown_recipes[math_random(1, #unknown_recipes)]
+		-- printf("[Arti Ammo Utils] Recipe picked: %s", picked_recipe)
+		unknown_recipes = {}
+		return picked_recipe 
+	end
+	
+	-- printf("[Arti Ammo Utils] Picking a random recipe... [second check]")
+	return random_key_table(recipe_list)
+end
 
 SpawnTreasure = treasure_manager.try_spawn_treasure
 
@@ -261,11 +317,13 @@ function treasure_manager.try_spawn_treasure(box)
 		return
 	end
     SpawnTreasure(box)
-    local k = random_key_table(recipe_weights)
-    if math.random(100) <= recipe_weights[k] then
-        alife_create_item(k, box)
+    if math_random(100) <= 35 then
+		printf("[Arti Ammo Utils] Rolling for recipe book...")
+		check_knockout_list()
+        alife_create_item(pick_from_knockout_list(), box)
     end
 end
+
 if magazines then
     RollAmmo = magazines_loot.determine_ammo
     -- subject the ammo pop in mags to downgrade
@@ -282,5 +340,6 @@ end
 function on_game_start()
 	custom_functor_autoinject.add_functor("mg_link", try_mg_link, try_mg_link, nil, mg_link, true)
 	RegisterScriptCallback("npc_on_net_spawn",npc_on_net_spawn)
-
+	RegisterScriptCallback("actor_on_item_use", update_recipe_list)
+	RegisterScriptCallback("actor_on_update", show_shock_stack_effect)
 end

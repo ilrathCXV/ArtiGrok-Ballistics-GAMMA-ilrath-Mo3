@@ -1,7 +1,7 @@
 
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
--- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Oct. 22, '23)
+-- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Feb. 1, '24)
 -----------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -14,8 +14,6 @@ ini_damage		= ini_file("creatures\\damages.ltx")
 
 ini_ammo            = ini_file("ammo\\importer.ltx")
 ini_sounds 			= ini_file("ammo\\sounds.ltx")
-
-
 
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
@@ -34,6 +32,21 @@ snake_mult = 1
 leg_meta_sniper_null = 1
 sniper_bad_bone_shit_reduce = 1
 
+
+integrated_silencer = {
+	["wpn_dvl10_m1"] = true,
+	["wpn_vssk"] = true,
+	["wpn_val_tac"] = true,
+	["wpn_vintorez"] = true,
+	["wpn_val"] = true,
+	["wpn_val_modern"] = true,
+	["wpn_vintorez_m1"] = true,
+	["wpn_vintorez_m2"] = true,
+	["wpn_vintorez_isg"] = true,
+	["wpn_mp5sd"] = true,
+	["wpn_mp5sd_custom"] = true,
+	["wpn_mp5sd_new"] = true,
+}
 
 local difficulty_multiplier = {
 	[1]  = 1.3,
@@ -282,12 +295,12 @@ function monster_on_before_hit(monster,shit,bone_id)
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
-		snake_mult = 1.30
+		snake_mult = 1.50
 		printf('Close quarter combat hit detected')
 	end
 
 	if (string.match(sec, "axe") or string.match(sec, "desuria")) then
-		snake_mult = 1.30
+		snake_mult = 1.50
 		printf('Close quarter combat hit detected')
 	end
 
@@ -341,12 +354,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Ambush Rounds --
 	-------------------
 	ambush_mult = 1.0
-
-	---------------------
-	-- Expansion Bonus --
-	---------------------
-	-- Mult. ammo_mult bonus
-	mp_expansion_mult	= ini_ammo:r_float_ex(ammo_section, "k_mp") or 1
 	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
@@ -658,26 +665,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 		is_humanoid = true
 	end
 	
-	-------------------------
-	-- Cloudkill Eco Round --
-	-------------------------
-	-- Grants 20% stacking mult. damage bonus to targets both hit and affected by the Cloud
-	cloudkill_mult = 1.0
-	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
-		bas_handler.corrosive_cloud(monster, bone_id)
-	end
-	
-	if bas_handler.weakened[monster:id()] and bas_handler.weakened[monster:id()] > 0 then
-        cloudkill_mult = 1 + (.2 * bas_handler.weakened[monster:id()]) or 1.2
-    end
-	
-	-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
-	if ammo_section == "ammo_23_eco" and is_23_eco and wpn_hit_power < 2.9 then
-		monster:kill(db.actor)
-		printf("[ArtiGrok] KS-23 Eco Intercept: %s dead ", monster and monster:name())
-		return
-	end
-	
 	local gameplay = alife_storage_manager.get_state().diff_game
 	if not (type(gameplay) == "table") then -- for old saves
 		alife_storage_manager.get_state().diff_game = {}
@@ -687,131 +674,159 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	local game_num = gameplay["type"] or game_num
 	
-	------------------
-	-- Chaos Rounds --
-	------------------
-	-- bone_mult mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
-	if (special_effect == "chaos") or (special_effect_2 == "chaos") then
-		chaos_effect = arti_handlers.chaos_damage(monster,bone_id,shit.weapon_id)
+	if monster:alive() then
+	
+		-------------------------
+		-- Cloudkill Eco Round --
+		-------------------------
+		-- Grants 20% stacking mult. damage bonus to targets both hit and affected by the Cloud
+		cloudkill_mult = 1.0
+		if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
+			bas_handler.corrosive_cloud(monster, bone_id)
+		end
 		
-		random = math.random(60, 160)
-		chaos_mult = random * 0.01
-		bone_mult = bone_mult * chaos_mult
-	end
-	
-	-----------------
-	-- Acid Rounds --
-	-----------------
-	-- Changes hit to chemical damage + multiplies bone_mult by 75%
-	if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
-		shit.type = hit.chemical_burn
-		bone_mult = bone_mult * 1.75
-	end
-	
-	---------------------------
-	-- JHP/Headhunter Rounds --
-	---------------------------
-	-- Ignores mutant resistances + double bone_mult
-	if (special_effect == "head") or (special_effect_2 == "head") or (chaos_effect == 6) then
-		spec_monster_mult = 1.00
-		bone_mult = bone_mult * 2
-	end
-	
-	--------------------------
-	-- Basher: Melee Effect --
-	--------------------------
-	-- Doubles bone_mult
-	if (special_effect == "basher") or (special_effect_2 == "basher") then
-		bone_mult = bone_mult * 2
-	end
-	
-	-------------------
-	-- Ambush Rounds --
-	-------------------
-	-- 45% mult. damag and bone_mult bonus on unaware targets
-	if (special_effect == "ambush") or (special_effect_2 == "ambush") then
-		if arti_handlers.ambush(monster,shit,wpn) then
-			ambush_mult = 1.45
-			bone_mult = bone_mult * 1.45
+		if bas_handler.weakened[monster:id()] and bas_handler.weakened[monster:id()] > 0 then
+			cloudkill_mult = 1 + (.2 * bas_handler.weakened[monster:id()]) or 1.2
 		end
-	end
-	
-	---------------------
-	-- Dragon's Breath --
-	---------------------
-	-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult
-	if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
-		spec_monster_mult = 1.00
-		bone_mult = 1.00
-		ammo_mult = 0.85
-		shit.type = hit.burn
-		arti_handlers.ignite_npc(monster, bone_id, shit.weapon_id, 10, 10)
-	end
-	
-	-----------------
-	-- Mini Napalm --
-	-----------------
-	-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult + spreads light burn to nearby targets
-	if (special_effect == "napalm") or (special_effect_2 == "napalm") then
-		spec_monster_mult = 1.00
-		bone_mult = 1.00
-		ammo_mult = 1.00
-		shit.type = hit.burn
-		arti_handlers.napalm_damage(monster, shit.weapon_id)
-	end
-	
-	----------------------
-	-- Lightning Rounds --
-	----------------------
-	-- Changes hit to Shock damage + standardizes bone_/ammo_mult
-	if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
-		spec_monster_mult = 1.00
-		bone_mult = 1.00
-		ammo_mult = 0.85
-		shit.type = hit.shock
-	end
-	
-	-------------------------
-	-- [NEW] Armor Buster --
-	-------------------------
-	-- Multiplies bone_mult by 30%, increases ammo_mult by 0.3, and nullifies monster resistance
-	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") then
-		spec_monster_mult = 1.00
-		bone_mult = bone_mult * 1.3
-		ammo_mult = ammo_mult + 0.30
-	end
-	
-	--------------------------
-	-- Fragmentation Rounds --
-	--------------------------
-	-- Chance to deal 30% increased damage on hit
-	if (special_effect == "frag") or (special_effect_2 == "frag") then
-		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
-		if math.random(100) <= frag_chance then
-			fragment_mult = 1.3
-			arti_handlers.fragment_sound(npc)
+		
+		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
+		if ammo_section == "ammo_23_eco" and is_23_eco and wpn_hit_power < 2.9 then
+			monster:kill(db.actor)
+			printf("[ArtiGrok] KS-23 Eco Intercept: %s dead ", monster and monster:name())
+			return
 		end
-	end
+		
+		------------------
+		-- Chaos Rounds --
+		------------------
+		-- bone_mult mult. and damage mult. ranging from -40% to +60% + small chance to pull from most special affects
+		if (special_effect == "chaos") or (special_effect_2 == "chaos") then
+			chaos_effect = arti_handlers.chaos_damage(monster,bone_id,shit.weapon_id)
+			
+			random = math.random(60, 160)
+			chaos_mult = random * 0.01
+			bone_mult = bone_mult * chaos_mult
+		end
+		
+		-----------------
+		-- Acid Rounds --
+		-----------------
+		-- Changes hit to chemical damage + multiplies bone_mult by 75%
+		if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
+			arti_handlers.acid_damage(monster, bone_id)
+			shit.type = hit.chemical_burn
+			bone_mult = bone_mult * 1.75
+		end
+		
+		---------------------------
+		-- JHP/Headhunter Rounds --
+		---------------------------
+		-- Ignores mutant resistances + double bone_mult
+		if (special_effect == "head") or (special_effect_2 == "head") or (chaos_effect == 6) then
+			spec_monster_mult = 1.00
+			bone_mult = bone_mult * 2
+		end
+		
+		--------------------------
+		-- Basher: Melee Effect --
+		--------------------------
+		-- Doubles bone_mult
+		if (special_effect == "basher") or (special_effect_2 == "basher") then
+			bone_mult = bone_mult * 2
+		end
+		
+		-------------------
+		-- Ambush Rounds --
+		-------------------
+		-- 45% mult. damag and bone_mult bonus on unaware targets
+		if (special_effect == "ambush") or (special_effect_2 == "ambush") then
+			if arti_handlers.ambush(monster,shit,wpn) then
+				ambush_mult = 1.45
+				bone_mult = bone_mult * 1.45
+			end
+		end
+		
+		---------------------
+		-- Dragon's Breath --
+		---------------------
+		-- 75% chance to burn target for moderate damage + changes hit to Fire damage + standardizes bone_/ammo_mult
+		if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
+			spec_monster_mult = 1.00
+			bone_mult = 1.00
+			ammo_mult = 0.85
+			shit.type = hit.burn
+			if math.random(100) < 75 then
+				arti_handlers.ignite_npc(monster, bone_id, shit.weapon_id, 10, 10)
+			end
+		end
+		
+		-----------------
+		-- Mini Napalm --
+		-----------------
+		-- Burns target for moderate damage + changes hit to Fire damage + standardizes bone_mult + ignore ammo resist + spreads light burn to nearby targets
+		if (special_effect == "napalm") or (special_effect_2 == "napalm") then
+			spec_monster_mult = 1.00
+			bone_mult = 1.00
+			ammo_mult = 1.00
+			shit.type = hit.burn
+			arti_handlers.napalm_damage(monster, shit.weapon_id)
+		end
+		
+		----------------------
+		-- Lightning Rounds --
+		----------------------
+		-- Changes hit to Shock damage + standardizes bone_/ammo_mult
+		if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
+			spec_monster_mult = 1.00
+			bone_mult = 1.00
+			ammo_mult = 0.85
+			shit.type = hit.shock
+		end
+		
+		-----------------------------------
+		-- [NEW] Armor Buster/Acid Combo --
+		-----------------------------------
+		-- Multiplies bone_mult by 30%, increases ammo_mult by 0.3, and nullifies monster resistance
+		if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") or 
+			(arti_handlers.armorbuster_list[monster:id()] and arti_handlers.armorbuster_list[monster:id()] == true) then
+			spec_monster_mult = 1.00
+			bone_mult = bone_mult * 1.3
+			ammo_mult = ammo_mult + 0.30
+		end
+		
+		--------------------------
+		-- Fragmentation Rounds --
+		--------------------------
+		-- Chance to deal 30% increased damage on hit
+		if (special_effect == "frag") or (special_effect_2 == "frag") then
+			frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
+			if math.random(100) <= frag_chance then
+				fragment_mult = 1.3
+				arti_handlers.fragment_sound(npc)
+			end
+		end
+		
+		---------------------
+		-- Expansion Bonus --
+		---------------------
+		-- Lower expansion on non-humanoid mutants
+		if is_humanoid then
+			expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_hp") or 1
+			ammo_mult = ammo_mult * expansion_mult
+		else
+			expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_mp") or 1
+			ammo_mult = ammo_mult * expansion_mult
+		end
+		
+		----------------------
+		-- Explosive Rounds --
+		----------------------
+		-- Although the explosion is handled elsewhere, we need to increase the damage to match it hitting the target directly
+		-- Chaos Rounds' Explosive roll does not need the help
+		if (special_effect == "explodes") or (special_effect_2 == "explodes") then
+			-- ammo_mult = ammo_mult * 2
+		end
 	
-	---------------------
-	-- Expansion Bonus --
-	---------------------
-	-- Lower expansion on non-humanoid mutants
-	if is_humanoid then
-		expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_hp") or 1
-		ammo_mult = ammo_mult * expansion_mult
-	else
-		expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_mp") or 1
-		ammo_mult = ammo_mult * expansion_mult
-	end
-	
-	----------------------
-	-- Explosive Rounds --
-	----------------------
-	-- Although the explosion is handled elsewhere, we need to incrase the damage to match it hitting the target directly
-	-- Chaos Rounds' Explosive roll does not need the help
-	if (special_effect == "explodes") or (special_effect_2 == "explodes") then
-		-- ammo_mult = ammo_mult * 2
 	end
 	
 	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
@@ -822,7 +837,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Incendiary/API --
 	--------------------
 	-- Chance to burn target for slight damage
-	if (special_effect == "fire") or (special_effect_2 == "fire") then
+	if (special_effect == "fire") or (special_effect_2 == "fire") and monster:alive() then
 		local ignite_chance = ini_ammo:r_float_ex(ammo_section, "ignite") or 30
 		if math.random(100) < ignite_chance then
 			arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, 3, 10)
@@ -833,22 +848,14 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- RIP Rounds --
 	----------------
 	-- Grants healing on successful hits
-	if (special_effect == "rip") or (special_effect_2 == "rip") then 
-		arti_handlers.rip(monster,shit,false)
-	end
-	
-	----------------
-	-- Soulripper --
-	----------------
-	-- Grants healing on "critical" hits
-	if (special_effect == "soulripper") or (special_effect_2 == "soulripper") and (bone_mult > 1.00) then 
-		arti_handlers.rip(monster,shit,true)
+	if (special_effect == "rip") or (special_effect_2 == "rip") and monster:alive() then 
+		arti_handlers.lifesteal(monster, shit.power, false)
 	end
 	
 	------------------------------------
 	-- Chaos Rounds (if healing proc) --
 	------------------------------------
-	if chaos_effect == 5 then
+	if chaos_effect == 5 and monster:alive() then
 		db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 	end
 	
@@ -909,6 +916,15 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local ammo_list = utils_item.get_ammo(sec, wpn_id)
 	local ammo_section = ammo_list[ammo_type_number+1]
 	local wpn_hit_power = ui_wpn_params.read_float(sec, "", "hit_power")
+	if wpn and wpn:weapon_is_silencer() then
+		silencer_boost = 1.07
+	else
+		silencer_boost = 1
+	end
+	
+	if sec and integrated_silencer[sec] then
+		silencer_boost = 1.07
+	end
 
 	if string.find(sec, "wpn_toz106") then
 		wpn_hit_power = 0.8
@@ -1295,6 +1311,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------
 	-- Changes hit to chemical damage + multiplies armor lost on hit by 75% + removes 5 BR/armor per hit
 	if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
+		arti_handlers.acid_damage(npc, bone_id)
 		shit.type = hit.chemical_burn
 		armor_break_mult = armor_break_mult * 1.75
 		armor_break_bonus = armor_break_bonus + 0.05
@@ -1355,11 +1372,12 @@ function npc_on_before_hit(npc, shit, bone_id)
 	---------------------
 	-- Dragon's Breath --
 	---------------------
-	-- Burns target for moderate damage + changes hit to Fire damage + removes additional 2.5 BR/armor value on hit
+	-- 75% chance to burn target for moderate damage + changes hit to Fire damage
 	if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
 		shit.type = hit.burn
-		armor_break_bonus = armor_break_bonus + 0.025
-		arti_handlers.ignite_npc(npc, bone_id, shit.weapon_id, 10, 10)
+		if math.random(100) < 75 then
+			arti_handlers.ignite_npc(npc, bone_id, shit.weapon_id, 3, 10)
+		end
 	end
 	
 	-----------------
@@ -1372,11 +1390,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 		arti_handlers.napalm_damage(npc,shit.weapon_id)
 	end
 	
-	-------------------------
-	-- [NEW] Armor Buster --
-	-------------------------
+	-----------------------------------
+	-- [NEW] Armor Buster/Acid Combo --
+	-----------------------------------
 	-- Multiplies armor lost on hit by 30% + removes 1.0 BR/armor on hit
-	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") then
+	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") or
+		(arti_handlers.armorbuster_list[npc_id] and arti_handlers.armorbuster_list[npc_id] == true) then
+		printf("Armorbuster in effect")
 		armor_break_mult = armor_break_mult * 1.3
 		armor_break_bonus = armor_break_bonus + 0.01
 	end
@@ -1387,10 +1407,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Changes hit to Shock damage + deals AoE damage to other targets (includes balance for going against Eidelon + allows for AoE on headshots on low-armor targets)
 	if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
 		shit.type = hit.shock
-		if (custom_bone_armor == 4) then
+		if (custom_bone_armor >= 3) then
 			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.25)
-		elseif (tonumber(custom_bone_armor) < 0.3) and (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, 0.3)
+		elseif (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 1))
 		else
 			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, custom_bone_armor)
 		end
@@ -1420,8 +1440,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 		end
 	end
 
-	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * chaos_mult * ambush_mult * cloudkill_mult * fragment_mult
+	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * silencer_boost * chaos_mult * ambush_mult * cloudkill_mult * fragment_mult
 	
 	-- etapomom: run pba before armor so that they actually feel like they're doing something.
 	pbadamage = hit(shit)
@@ -1430,7 +1450,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
 	
-	-- ilrathCXV (06/13/23) - Dragon's Breath/Napalm melts armor by 2.5 (0.025), Armor Buster removes armor by 1.0 (0.01), and Acid melts armor by 5 (0.05)
+	-- ilrathCXV (12/24/23) - Armor Buster removes armor by 1 (0.01) and Acid melts armor by 5 (0.05)
 	--						- Additionaly, Armor Buster multiplies armor lost by 30%, and Acid multiplies armor lost by 75% after damage calulations
 	--						- Extra effects only take place if they have the respective ammo type
 		
@@ -1491,6 +1511,26 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- etapomom: fire on_death_callback and or on_hit_callback from pba
 	if npc.health <= 0 then
 		PBA_odc(npc, shit.draftsman)
+		
+		----------------
+		-- Soulripper --
+		----------------
+		-- Grants healing on kill
+		if (special_effect == "soulripper") or (special_effect_2 == "soulripper") then 
+			arti_handlers.lifesteal(npc, shit.power, true)
+		end
+		
+		arti_handlers.npc_stun[npc_id] = nil
+		arti_handlers.shock_stack_list[npc_id] = nil
+		arti_handlers.acid_stack_list[npc_id] = nil
+		arti_handlers.armorbuster_list[npc_id] = nil
+		
+		if arti_handlers.burn_stack_list[npc_id] and arti_handlers.burn_stack_list[npc_id] >= 20 then
+			arti_handlers.burn_ignition(npc, wpn_id, arti_handlers.burn_stack_list[npc_id])
+		end
+		
+		bas_handler.weakened[npc_id] = nil
+		
 	end
 	
 	PBA_ohc(npc, shit.power, shit.direction, shit.draftsman, bone_id)
@@ -1521,18 +1561,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 	----------------
 	-- Grants healing on successful hits
 	if (special_effect == "rip") or (special_effect_2 == "rip") then 
-		arti_handlers.rip(npc,shit,false)
+		arti_handlers.lifesteal(npc, shit.power, false)
 	end
-	
-	----------------
-	-- Soulripper --
-	----------------
-	-- Grants healing on headshots
-	if (special_effect == "soulripper") or (special_effect_2 == "soulripper") then 
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
-			arti_handlers.rip(npc,shit,true)
-		end
-	end	
 	
 	------------------
 	-- Chaos Rounds --
