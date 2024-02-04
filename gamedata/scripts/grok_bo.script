@@ -284,12 +284,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 		return
 	end
 	
-	mutant_mult		= 0.85
-	ammo_mult		= 0.85
+	mutant_mult			= 0.85
+	ammo_mult			= 0.85
 	spec_monster_mult	= 1.00
-	bone_mult		= 1.00
-	is_humanoid		= false
-	is_23_eco		= false
+	bone_mult			= 1.00
+	is_humanoid			= false
+	is_23_eco			= false
+	cloudkill_mult 		= 1.00
 	
 	printf("///////////   Mutant Hit registered: GBO v1.6.6   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
@@ -680,7 +681,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- Cloudkill Eco Round --
 		-------------------------
 		-- Grants 20% stacking mult. damage bonus to targets both hit and affected by the Cloud
-		cloudkill_mult = 1.0
 		if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 			bas_handler.corrosive_cloud(monster, bone_id)
 		end

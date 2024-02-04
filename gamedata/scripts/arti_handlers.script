@@ -169,7 +169,7 @@ end
 
 function lifesteal(npc, hit_power, is_soulripper_kill)
 
-    if is_actor(npc) then return s_hit end
+    if is_actor(npc) then return end
 	
 	if db.actor.health > 0.99 then return end
 	
@@ -180,7 +180,7 @@ function lifesteal(npc, hit_power, is_soulripper_kill)
 		s:play(db.actor, 0, sound_object.s2d)
 		heal_amt = 0.15
     else
-		heal_amt = s_hit.power * 0.25
+		heal_amt = hit_power * 0.25
 	end
 	
     db.actor.health = clamp(db.actor.health + heal_amt, 0, 1)
@@ -387,6 +387,9 @@ end
 function damage_npc_grok(npc, power)
 	power = power * (1 + (bas_handler.weakened and bas_handler.weakened[npc:id()] or 0) * 0.2)
 	npc:set_health_ex(npc.health - power)
+	if npc.health <= 0 then	-- double-check in case burn or alternate manual damage kills
+		npc_on_death_callback(npc, db.actor)
+	end
 end
 
 local napalm_effect = particles_object("artefact\\af_thermal_show")
