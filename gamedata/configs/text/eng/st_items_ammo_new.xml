@@ -66,6 +66,30 @@
 		<text>Range mod.</text>	
 	</string>
 
+	<string id="st_mp_damage">
+		<text>damage</text>
+	</string>
+	
+	<string id="st_mp_knife_dmg_1">
+		<text>Light attack</text>
+	</string>
+	
+	<string id="st_mp_knife_dmg_2">
+		<text>Heavy attack</text>
+	</string>
+	
+	<string id="st_mp_knife_range">
+		<text>Reach</text>
+	</string>
+	
+	<string id="st_mp_knife_range_2">
+		<text>Heavy atk. reach</text>
+	</string>
+	
+	<string id="st_mp_knife_ap">
+		<text>Armor penetration</text>
+	</string>
+
 <!--
 	BR Class Descriptors
 -->
