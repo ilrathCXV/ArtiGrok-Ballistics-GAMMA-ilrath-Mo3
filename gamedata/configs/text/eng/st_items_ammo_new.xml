@@ -125,7 +125,7 @@
 		<text>% chance to stagger human enemies</text>
 	</string>
 	<string id="st_ballistics_frag">
-		<text>% chance to fragment, dealing 30% bonus damage</text>
+		<text>% chance to fragment, dealing +30% DMG</text>
 	</string>
 	<string id="st_ballistics_hp">
 		<text>Extra DMG on full penetration only</text>
@@ -137,7 +137,7 @@
 		<text>Heal for 25% of DMG dealt</text>
 	</string>
 	<string id="st_ballistics_varma">
-		<text>60% bonus damage vs. mutants</text>
+		<text>+60% DMG vs. mutants</text>
 	</string>
 	<string id="st_ballistics_explodes">
 		<text>Explodes at impact site</text>
@@ -149,7 +149,7 @@
 		<text>Chemical hit, breaks armor much faster</text>
 	</string>
 	<string id="st_ballistics_ambush">
-		<text>45% bonus damage and AP vs. unaware targets</text>
+		<text>+45% DMG and AP vs. unaware targets</text>
 	</string>
 	<string id="st_ballistics_impair">
 		<text>Rapidly degrades weapon</text>
@@ -158,10 +158,10 @@
 		<text>Headshots ignore armor and faction resistances</text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>Fire hit, 75% chance to burn targets</text>
+		<text>Fire hit, 5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>% chance to burn targets</text>
+		<text> Burn stacks on hit</text>
 	</string>
 	<string id="st_ballistics_split">
 		<text>Fires three projectiles</text>
@@ -179,10 +179,13 @@
 		<text>Breaks armor more effectively</text>
 	</string>
 	<string id="st_ballistics_napalm">
-		<text>Ignites surrounding targets at impact site</text>
+		<text>2 Burn stacks to all targets near impact, 15 Burn stacks on hit</text>
 	</string>
 	<string id="st_ballistics_basher">
-		<text>Melee hits to the head ignore armor (faction resistances still mitigate damage)</text>
+		<text>Melee hits to the head ignore armor (faction resistances still in effect)</text>
+	</string>
+	<string id="st_ballistics_graze">
+		<text>Share 5% of hit DMG to nearby enemies, 30% if headshot</text>
 	</string>
 
 	<string id="st_link">

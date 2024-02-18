@@ -132,7 +132,7 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(frag_str)
 					elseif str_spec == "fire" then
-						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "burn_stacks") .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(fire_str)
 					elseif str_spec == "flinch" then
 						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
@@ -149,7 +149,7 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(frag_str)
 					elseif str_spec_2 == "fire" then
-						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec_2)
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "burn_stacks") .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(fire_str)
 					elseif str_spec_2 == "flinch" then
 						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
