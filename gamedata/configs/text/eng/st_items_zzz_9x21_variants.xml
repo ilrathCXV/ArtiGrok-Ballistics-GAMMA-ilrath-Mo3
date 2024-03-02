@@ -13,10 +13,10 @@
 	</string>
 
 	<string id="ammo_9x21_sp11_bad">
-		<text>9x21mm FMJ+ SP11 rounds</text>
+		<text>9x21mm SP11 Shock rounds</text>
 	</string>
 	<string id="ammo_9x21_sp11_bad_descr">
-		<text>Pistol cartridge with a bullet of increased penetration. This cartridge acts a midway point between the standard SP10 and SP11. These rounds boast great penetration power with the stopping power close to the standard SP12 rounds.</text>
+		<text>Experimental pistol cartridge utilizing an electric-based powder load. This round sacrifices some stopping power in exchange for an anomalous effect. They inflict a static charge to hit enemies; the static charge will erupt into a small lightning strike upon the target if hit enough time with similar ammo. However, the static charge cannot be stacked upon targets already affected by a lightning strike.</text>
 	</string>
 	
 	<string id="ammo_9x21_sp12_bad">

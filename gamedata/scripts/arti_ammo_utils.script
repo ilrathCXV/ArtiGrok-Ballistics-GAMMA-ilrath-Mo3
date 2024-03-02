@@ -141,25 +141,22 @@ local recipe_trader = {
 }
 
 local powder_list_weights = {
-	powder_nightstar = 5,
-	powder_gravi = 25,
-	powder_fireball = 20,
-	powder_blood = 15,
-	powder_battery = 25,
-	powder_medusa = 15,
+	["powder_nightstar"] = 15,
+	["powder_gravi"] = 25,
+	["powder_fireball"] = 20,
+	["powder_blood"] = 15,
+	["powder_battery"] = 25,
+	["powder_medusa"] = 15,
 }
 
 TraderAuto = trader_autoinject.update
 function trader_autoinject.update(npc)
     TraderAuto(npc)
-    
-    if trader_autoinject.get_trader_type(npc) == 1 then
-        trader_autoinject.spawn_items(npc, {
-            powder_fire = 5
-        }, true)
-    end
-    
+
     local level = trader_autoinject.supply_level(npc, true) or 1
+	
+	if level == 1 then return end
+	
     local chance = clamp(45 * (level - 1), 0, 100)
     local comm = trader_autoinject.get_real_community(npc, "stalker")
     if not recipe_trader[comm] then return end
@@ -169,7 +166,7 @@ function trader_autoinject.update(npc)
         end
     end
 	local k = random_key_table(powder_list_weights)
-    if math_random(100) <= powder_list_weights[k] then
+    if math_random(100) <= (powder_list_weights[k] * (level - 1)) then
 		if trader_autoinject.get_trader_type(npc) == 1 then
 			trader_autoinject.spawn_items(npc, {
 				k = 2

@@ -14,14 +14,16 @@ k_hit		= 1 		;0.6 - Grok
 k_ap		= 0.15 		;0.06 - Arti
 cost        = 560
 
-[ammo_9x18_fmj_bad]:ammo_9x18_fmj; +P
+[ammo_9x18_fmj_bad]:ammo_base; +P (NOW SHOCK)
 name		= ammo_new_9x18_plus
 k_hit		= 1.3 		;0.9 - Grok+
 k_ap		= 0.152 	;0.0625 - Arti
-cost        = 900
+cost        = 1800
 recoil      = 1.2
-special		= flinch
-flinch      = 50
+
+special			= shock
+shock_stacks	= 3
+
 dg_ammo     = ammo_9x18_fmj
 dg_chance   = 0.3
 
@@ -33,7 +35,7 @@ k_hp        = 1.45
 k_mp	    = 1.16
 cost        = 960
 
-[ammo_9x18_pmm_bad]:ammo_9x18_pmm; SP7 JHP
+[ammo_9x18_pmm_bad]:ammo_base; SP7 JHP
 name		= ammo_new_9x18_sp7
 k_hit		= 1.05 			;1.15 - Grok+
 k_ap		= 0.132 		;0.069 - Arti
@@ -50,7 +52,7 @@ k_hit		= 0.95 		;0.60 - Grok
 k_ap		= 0.3 		;0.135 - Arti
 cost        = 1200
 
-[ammo_9x18_ap_bad]:ammo_9x18_ap; 7N16 PMM, modern AP
+[ammo_9x18_ap_bad]:ammo_base; 7N16 PMM, modern AP
 name		= ammo_new_9x18_7n25
 k_hit		= 0.8		;0.75 - Grok+
 k_ap		= 0.425 	;0.2 - Arti
@@ -68,7 +70,7 @@ k_hit       = 1 		;0.70 - Grok
 k_ap		= 0.17 		;0.095 - Arti
 cost        = 645
 
-[ammo_9x19_fmj_bad]:ammo_9x19_fmj; +P+
+[ammo_9x19_fmj_bad]:ammo_base; +P+
 name		= ammo_new_9x19_plus
 k_hit		= 1.2 		;0.90 - Grok+
 k_ap		= 0.198 	;0.11 - Arti
@@ -87,18 +89,14 @@ k_hp        = 1.5
 k_mp	    = 1.18
 cost        = 1125
 
-[ammo_9x19_pbp_bad]:ammo_9x19_pbp; JSP +P
+[ammo_9x19_pbp_bad]:ammo_base; JSP +P (NOW RATSHOT)
 name		= ammo_new_9x19_pbps
-k_hit		= 1.2 		;1.55 - Grok+
-k_ap		= 0.17 		;0.099 - Arti
-k_hp        = 1.65
-k_mp	    = 1.23
-special		= frag
-frag		= 35
-cost        = 1750
-recoil		= 1.3
+k_hit		= 0.12
+k_ap		= 0.001
+cost        = 3500
+recoil		= 1.5
 dg_ammo     = ammo_9x19_pbp
-dg_chance   = 0.35
+dg_chance   = 0.5
 
 [ammo_9x19_ap]:ammo_base ; 7N21 overpressure
 name		= ammo_new_9x19_ap
@@ -106,13 +104,13 @@ k_hit		= 0.9 		;0.70 - Grok
 k_ap		= 0.38 		;0.195 - Arti
 cost        = 2350
 
-[ammo_9x19_ap_bad]:ammo_9x19_ap ; 7N31 overpressure AP
+[ammo_9x19_ap_bad]:ammo_base ; 7N31 overpressure AP
 name		= ammo_new_9x19_7n31
 k_hit		= 0.8 		;0.60 - Grok+
 k_ap		= 0.45 		;0.225 - Arti
 cost        = 2950
 recoil		= 1.05
-dg_ammo     = ammo_9x19_pbp
+dg_ammo     = ammo_9x19_ap
 dg_chance   = 0.7
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -122,7 +120,7 @@ k_hit       = 1.0 		;0.7 - Grok* (Baseline)
 k_ap        = 0.19 		;0.09 - Arti
 cost        = 950
 
-[ammo_11.43x23_fmj_bad]:ammo_11.43x23_fmj; +P
+[ammo_11.43x23_fmj_bad]:ammo_base; +P
 name		= ammo_new_11.43x23_fmjs
 k_hit		= 0.71 		;0.5 - Grok*+ (0.71 = 0.5/0.7)
 k_ap		= 0.3 		;0.15 - Arti
@@ -143,7 +141,7 @@ special		= frag
 frag		= 30
 cost        = 1750
 
-[ammo_11.43x23_hydro_bad]:ammo_11.43x23_hydro; RIP
+[ammo_11.43x23_hydro_bad]:ammo_base; RIP
 name		= ammo_new_11.43x23_hydro
 k_hit		= 2.57 		;1.8 - Grok*+ (2.57 = 1.8/0.7)
 k_ap        = 0.10 		;0.069 - Arti
@@ -167,7 +165,7 @@ cost        = 2600
 special     = frag
 frag		= 45
 
-[ammo_357_hp_mag_bad]:ammo_357_hp_mag; handload JFP
+[ammo_357_hp_mag_bad]:ammo_base; handload JFP
 name		= ammo_new_357_jfp
 k_hit		= 1.05 		;1.25 - Grok*+
 k_ap		= 0.23 		;0.199 - Arti
@@ -186,7 +184,7 @@ k_hit		= 1 		;0.70 - Grok
 k_ap        = 0.08 		;0.14 - Arti
 cost        = 875
 
-[ammo_7.62x25_p_bad]:ammo_7.62x25_p; hp
+[ammo_7.62x25_p_bad]:ammo_base; hp
 name		= ammo_new_7.62x25_hp
 k_hit		= 1 		;0.70 - Grok
 k_ap		= 0.13 		;0.075 - Arti
@@ -203,7 +201,7 @@ k_ap		= 0.25  	;0.165 - Arti
 cost        = 975
 recoil		= 1.05
 
-[ammo_7.62x25_ps_bad]:ammo_7.62x25_ps; acid
+[ammo_7.62x25_ps_bad]:ammo_base; acid
 i_handler   = ballistic_handlers.particle
 i_particle  = artefact\\effects\\af_acidic_idle_color
 name		= ammo_new_7.62x25_cor
@@ -221,7 +219,7 @@ k_hit		= 0.8 		;0.69 - Grok
 k_ap		= 0.42 		;0.125 - Arti
 cost        = 2600
 
-[ammo_5.7x28_ss190_bad]:ammo_5.7x28_ss190; ss190
+[ammo_5.7x28_ss190_bad]:ammo_base; ss190
 name		= ammo_new_5.7x28_ss190
 k_hit		= 0.8 		;0.69 - Grok
 k_ap		= 0.552 	;0.21 - Arti
@@ -238,7 +236,7 @@ k_hp        = 1.4
 k_mp	    = 1.14
 cost        = 3000
 
-[ammo_5.7x28_ss195_bad]:ammo_5.7x28_ss195 ; chaos
+[ammo_5.7x28_ss195_bad]:ammo_base ; chaos
 name		= ammo_new_5.7x28_chaos
 k_hit       = 0.8 		;0.49 - Grok
 k_ap        = 0.345 	;0.175 - Arti

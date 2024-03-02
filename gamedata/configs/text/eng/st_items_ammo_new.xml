@@ -158,16 +158,19 @@
 		<text>Headshots ignore armor and faction resistances</text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>Fire hit, 5 Burn stacks per pellet</text>
+		<text>5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
 		<text> Burn stacks on hit</text>
 	</string>
+	<string id="st_ballistics_shock">
+		<text> Shock stacks on hit (x2 on headshot/critical hit)</text>
+	</string>
 	<string id="st_ballistics_split">
 		<text>Fires three projectiles</text>
 	</string>
-	<string id="st_ballistics_shock">
-		<text>Shock hit + AoE that increases with target's BR-tier, headshots guarantee at least tier-3 AoE</text>
+	<string id="st_ballistics_lightning">
+		<text>Lightning Strike if target Stalker has BR3+ armor/hit is a headshot, higher BR = higher DMG</text>
 	</string>
 	<string id="st_ballistics_pierce">
 		<text>Cover piercing</text>
@@ -206,14 +209,14 @@
 		<text>9x18 FMJ</text>
 	</string>
 	
-	<string id="ammo_new_9x18_plus">
-		<text>9x18mm +P+ FMJ rounds</text>
+	<string id="ammo_new_9x18_shock">
+		<text>9x18mm Shock rounds</text>
 	</string>
-	<string id="ammo_new_9x18_plus_descr">
-		<text>Full metal jacket round with overpressure powder load. Provides a 30% increase in muzzle velocity and commensurately increased stopping power and effectiveness against armor, at the cost of increased wear on the weapon.</text>
+	<string id="ammo_new_9x18_shock_descr">
+		<text>Full metal jacket round with a electric-based powder load. These rounds inflict targets with a minor static shock. Hit enough times, they will release a lightning strike upon themselves and all near to them. However, these rounds lose their lightning strike capability to targets already struck by a strike before.</text>
 	</string>
-	<string id="ammo_new_9x18_plus_s">
-		<text>9x18 +P+</text>
+	<string id="ammo_new_9x18_shock_s">
+		<text>9x18 Shock</text>
 	</string>
 
 	<string id="ammo_new_9x18_hp">
@@ -287,13 +290,13 @@
 	</string>
 	
 	<string id="ammo_new_9x19_pbps">
-		<text>9x19mm JSP +P rounds</text>
+		<text>9x19mm Ratshot rounds</text>
 	</string>
 	<string id="ammo_new_9x19_pbps_descr">
-		<text>Match grade 9mm hand loaded JSP rounds. Soft Point rounds are semi-jacketed and expose the lead tip, and expand like hollowpoint rounds while retaining better armor penetration properties. These are custom-order rounds from folk craftsmen that have earned the nickname of 'Man stopper' due to their purported ability to stop men dead in their tracks.</text>
+		<text>9mm hand-loaded rounds originally meant for rats and snakes. These rounds do very little to stalkers, but they can provide some adequate protection against weaker mutants. Any attempt to use this against any type of armor will provide no benefit whatsoever.</text>
 	</string>
 	<string id="ammo_new_9x19_pbps_s">
-		<text>9x19 JSP</text>
+		<text>9x19 Ratshot</text>
 	</string>
 	<string id="ammo_new_9x19_ap">
 		<text>9x19mm AP rounds</text>
@@ -363,14 +366,14 @@
 	<string id="ammo_new_357_hp_s">
 		<text>.357 HP</text>
 	</string>
-	<string id="ammo_new_357_jfp">
-		<text>.357 JFP Hand loaded rounds</text>
+	<string id="ammo_new_357_rat">
+		<text>.357 "Suckershot" rounds</text>
 	</string>
-	<string id="ammo_new_357_jfp_descr">
-		<text>Hand loaded .357 round designed for hunters and target shooters. The bullet is flat and wrapped in a copper jacket. While lacking the sheer stopping power of hollow-point rounds, they fly straighter and penetrate armor to a much more effective degree. Transfers immense concussive force.</text>
+	<string id="ammo_new_357_rat_descr">
+		<text>These .357 rounds are filled with small pellets, similar to the standard ratshot. By using an artefact powder mix, this allows the round to travel well using a smaller volume of powder compared to use standard gunpowder. This results in more space, allowing for a larger capsule for the pellets. These rounds are perfect for dealing with any mutant found in the Zone, and unarmored Stalkers won't know what hit 'em.</text>
 	</string>
-	<string id="ammo_new_357_jfp_s">
-		<text>.357 JFP</text>
+	<string id="ammo_new_357_rat_s">
+		<text>.357 "Suckershot"</text>
 	</string>
 	
 	<string id="ammo_new_7.62x25_p">
@@ -865,14 +868,14 @@
 		<text>7.92x57 AP</text>
 	</string>
 	
-	<string id="ammo_new_7.92x33_shock">
+	<string id="ammo_new_7.92x33_lightning">
 		<text>7.92x57mm Lightning rounds</text>
 	</string>
-	<string id="ammo_new_7.92x33_shock_descr">
+	<string id="ammo_new_7.92x33_lightning_descr">
 		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. While this has limited stopping power against lightly armored targets, on heavily armored targets and powered armor the effect is devastating to both the target and the area around the target. Deals minimal damage to mutants and unarmored targets.</text>
 	</string>
-	<string id="ammo_new_7.92x33_shock_s">
-		<text>7.92x57 Shock</text>
+	<string id="ammo_new_7.92x33_Lightning_s">
+		<text>7.92x57 Lightning</text>
 	</string>
 	
 	<string id="ammo_new_12.7x55_fmj">

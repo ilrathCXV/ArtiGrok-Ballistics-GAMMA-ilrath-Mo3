@@ -26,13 +26,14 @@ local burn_effect_buffer = 0	-- should check once every second
 local time_g_burn = 0
 local time_g_shock = 0
 
-npc_stun = {}
-shock_stack_list = {}
-burn_stack_list = {}
-burn_check_list = {}
-acid_stack_list = {}
-armorbuster_list = {}
-graze_mutant_list = {}
+npc_stun 			= {}
+grounded_stack_list = {}
+shock_stack_list 	= {}
+burn_stack_list 	= {}
+burn_check_list 	= {}
+acid_stack_list 	= {}
+armorbuster_list 	= {}
+graze_mutant_list 	= {}
 
 if z_cxv_experience_perk_weapon_reload_hit_effects then
 	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
@@ -157,14 +158,16 @@ function burn_tick_on_update()
 	burn_effect_buffer = time_global() + 1000
 end
 
--- Show electric static effect if hit by Lightning AoE
-function lightning_effect_on_update()
+-- Show electric static effect if target currently has Shock stacks
+function shock_effect_on_update()
 	time_g_shock = time_global()
 	if shock_effect_buffer < time_g_shock then
 		for k, v in pairs(shock_stack_list) do
-			play_particle(level.object_by_id(k), 15, "anomaly2\\effects\\electra_entrance_small")
+			if shock_stack_list[k] and shock_stack_list[k] < 20 then
+				play_particle(level.object_by_id(k), 15, "anomaly2\\effects\\electra_entrance_small")
+			end
 		end
-		shock_effect_buffer = time_global() + 1000
+		shock_effect_buffer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
 	end
 end
 
@@ -175,12 +178,11 @@ function burn_ignition(npc, wpn_id, stacks)
 	local npc_id = npc:id()
 	level.iterate_nearest(npc:position(), 8, function(obj)
 		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 and obj:id() ~= npc_id and stack_amount > 0 then
-			if string.find(obj:name(), "legs") return end	-- First-person legs are being counted
+			if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
 			local stacks_taken = math_random(1, stack_amount)
 			ignite_npc(obj,11,wpn_id,stacks_taken,5)
-			burn_stack_list[obj:id()] = (burn_stack_list[obj:id()] and burn_stack_list[obj:id()] + stacks_taken) or stacks_taken
 			stack_amount = stack_amount - stacks_taken
 		end
 	end)
@@ -189,18 +191,21 @@ function burn_ignition(npc, wpn_id, stacks)
 	burn_check_list[npc_id] = nil
 end
 
-function npc_on_death_callback(victim, who)
+function enemy_on_death_callback(victim, who)
 	local victim_id = victim:id()
-    npc_stun[victim_id] = nil
-	shock_stack_list[victim_id] = nil
-	acid_stack_list[victim_id] = nil
-	armorbuster_list[victim_id] = nil
-	graze_mutant_list[victim_id] = nil
+	
+    npc_stun[victim_id] 			= nil
+	grounded_stack_list[victim_id] 	= nil
+	shock_stack_list[victim_id] 	= nil
+	acid_stack_list[victim_id] 		= nil
+	armorbuster_list[victim_id] 	= nil
+	graze_mutant_list[victim_id] 	= nil
+	
 	if burn_stack_list[victim_id] and burn_stack_list[victim_id] >= 20 then
 		burn_ignition(victim, db.actor:active_item(), burn_stack_list[victim_id])
 	elseif burn_stack_list[victim_id] then
-		burn_stack_list[victim_id] = nil
-		burn_check_list[victim_id] = nil
+		burn_stack_list[victim_id] 	= nil
+		burn_check_list[victim_id] 	= nil
 	end
 end
 
@@ -225,9 +230,9 @@ function lifesteal(npc, hit_power, is_soulripper_kill)
 	
 	if db.actor.health > 0.99 then return end
 	
-	local heal_amt = 0.050
+	local heal_amt = 0
 	
-    if enemy_killed then
+    if is_soulripper_kill then
     	local s = xr_sound.get_safe_sound_object("Soul_"..math.random(5))
 		s:play(db.actor, 0, sound_object.s2d)
 		heal_amt = 0.15
@@ -274,11 +279,29 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
-    print_dbg("Ignited %s", npc:id())
+    -- print_dbg("Ignited %s", npc:id())
     play_sound_on_location("incendiary", npc)
 	npc_id = npc:id()
 	burn_stack_list[npc_id] = (burn_stack_list[npc_id] and burn_stack_list[npc_id] + stack) or stack
 	burn_check_list[npc_id] = 0
+end
+
+-- Adds shock stacks to target (does not decay)
+function shock_npc(npc, bone_id, wpn_id, stack)
+	
+	if npc:has_info("npcx_is_companion") then return end
+	npc_id = npc:id()
+	
+    stack = stack or 1
+    -- print_dbg("Shocked %s", npc:id())
+	
+	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
+	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
+	if shock_stack_list[npc_id] >= 20 then
+		printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
+		shock_stack_list[npc_id] = clamp(shock_stack_list[npc_id] - 20, 0, 19)
+		lightning_damage(npc, bone_id, wpn_id, 0.3)	-- 0.3 is the minimum armor amount to trigger an AoE
+	end
 end
 
 -- for corrosive ammo
@@ -296,7 +319,7 @@ function acid_damage(npc, bone_id)
 		printf("[Arti Handlers] Acid Stacking proc'd!!!")
 		level.iterate_nearest(npc:position(), 8, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
-				if string.find(obj:name(), "legs") return end	-- Avoid First-person legs from being checked (remove error spam) 
+				if string.find(obj:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam) 
 				if not obj:alive() then return end
 				armorbuster_list[obj:id()] = true
             end
@@ -319,7 +342,7 @@ function chaos_damage(npc, bone_id, wpn_id)
 			extra_effect = 4
         elseif extra_effect >= 9 and extra_effect < 11 then		-- RIP Lifesteal (25% of hit power)
 			extra_effect = 5
-        elseif extra_effect == 11 then 							-- Headhunter (no ignoring faction resistances)
+        elseif extra_effect == 11 then 							-- Basher
 			extra_effect = 6
         elseif extra_effect >= 12 and extra_effect < 16 then 	-- Acid Rounds
 			extra_effect = 7
@@ -347,7 +370,7 @@ end
 
 local shock_effect = particles_object("artefact\\effects\\af_electra_show_flash_00")
 -- for shock anti armor
-function shock_damage(npc, bone_id, wpn_id, armor_amount)
+function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 	
 	local armor_tier = get_tier(armor_amount)
     snd = "electric"
@@ -378,10 +401,18 @@ function shock_damage(npc, bone_id, wpn_id, armor_amount)
 		
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
-				if string.find(obj:name(), "legs") return end	-- First-person legs are being counted
+				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if not obj:alive() then return end
 				if obj:has_info("npcx_is_companion") then return end
 				
+				grounded_stack_list[obj:id()] = (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] + 1) or 1
+				shock_stack_list[obj:id()] = (shock_stack_list[obj:id()] and shock_stack_list[obj:id()] + (radius - 2)) or 1
+				
+				-- [Lightning Stacking Effect] If enemy has taken 3 Shock AoEs, they become "Grounded" and cannot move
+				if (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] > 2) then
+					grounded_stack_list[obj:id()] = nil
+					obj:movement_enabled(false)
+				end
 				
 				if IsStalker(obj) then
 					-- take into account NPC's "Cloudkill" stacks
@@ -395,13 +426,6 @@ function shock_damage(npc, bone_id, wpn_id, armor_amount)
 					shock_hits = shock_hits + 1
 				end
 				
-				shock_stack_list[obj:id()] = (shock_stack_list[obj:id()] and shock_stack_list[obj:id()] + 1) or 1
-				
-				-- [Lightning Stacking Effect] If enemy has taken 3 Shock AoEs, they become "Grounded" and cannot move
-				if (shock_stack_list[obj:id()] and shock_stack_list[obj:id()] > 2) then
-					shock_stack_list[obj:id()] = nil
-					obj:movement_enabled(false)
-				end
             end
         end)
 		
@@ -493,7 +517,7 @@ function napalm_handler(bullet)
 		wpn_id = bullet.weapon_id or db.actor:active_item()
 		level.iterate_nearest(bullet.position, 5, function(obj)
 			if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
-				if string.find(obj:name(), "legs") return end	-- First-person legs are being counted
+				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if not obj:alive() then return end
 				ignite_npc(obj,11,wpn_id,2)
 				napalm_hits = napalm_hits + 1
@@ -510,14 +534,14 @@ function napalm_handler(bullet)
 	end
 end
 
--- Graze: Spreads 75% of original damage on headshots in a 8m radius OR 15% of original damage on non-headshots in a 5m radius
+-- Graze: Spreads 30% of original damage on headshots in a 8m radius OR 5% of original damage on non-headshots in a 5m radius
 function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in grok_bo; needs shit.power to be adjusted)
 	
 	printf("[Arti Handlers - Graze] Starting Graze...")	
 	
 	level.iterate_nearest(npc:position(), radius, function(obj)
 		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 and obj:id() ~= npc:id() then
-			if string.find(obj:name(), "legs") return end	-- First-person legs are being counted
+			if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
 			
@@ -568,7 +592,7 @@ function explode_handler(bullet)
 		
 		level.iterate_nearest(bullet.position, frag_radius, function(_obj)
             if (IsStalker(_obj) or IsMonster(_obj)) and _obj:id() ~= AC_ID and _obj:id() ~= 65535 then
-				if string.find(obj:name(), "legs") return end	-- First-person legs are being counted as an object
+				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted as an object
 				if _obj:alive() then
 					local npc_pos = _obj:position()
 					local dist = npc_pos:distance_to(bullet.position)
@@ -659,14 +683,18 @@ local custom_proj_table = {
     ["explodes"] = play_grav,
     ["soulripper"] = play_grav_sound,
     ["chaos"] = play_grav,
-    ["shock"] = play_shock,
+    ["lightning"] = play_shock,
     ["fire_melt"] = play_fire_big,
 	["napalm"] = play_fire_big,
     ["acid"] = play_acid,
 	["head"] = play_grav
 }
 
-function actor_on_weapon_fired(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
+function particle_effects(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
+	
+	local particles_enabled = ballistics_mcm.get_config("particles") or true
+	if not particles_enabled then return end
+	
     local ammo_table = utils_item.get_ammo(wpn:section(), wpn:id())
     ammo_type = wpn:get_ammo_type()
     if ammo_table[ammo_type + 1] and custom_proj_table[get_special(ammo_table[ammo_type + 1])] then
@@ -675,6 +703,12 @@ function actor_on_weapon_fired(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_typ
 	if ammo_table[ammo_type + 1] and custom_proj_table[get_special_2(ammo_table[ammo_type + 1])] then
         custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")]()
 	end
+	
+end
+
+function custom_impair_special_effects(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
+	local ammo_table = utils_item.get_ammo(wpn:section(), wpn:id())
+    ammo_type = wpn:get_ammo_type()
 	
 	if ammo_table[ammo_type + 1] and 
 	(custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] or custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special_2")]) then
@@ -709,16 +743,19 @@ function on_game_start()
 		end	
 	end
 
-    RegisterScriptCallback("actor_on_weapon_fired", actor_on_weapon_fired)
+    RegisterScriptCallback("actor_on_weapon_fired", particle_effects)
+	RegisterScriptCallback("actor_on_weapon_fired", custom_impair_special_effects)
+	
     RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
-    RegisterScriptCallback("npc_on_death_callback", npc_on_death_callback)
+    RegisterScriptCallback("npc_on_death_callback", enemy_on_death_callback)
+	RegisterScriptCallback("monster_on_death_callback", enemy_on_death_callback)
 	
 	
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
 	RegisterScriptCallback("bullet_on_impact", bullet_on_impact)
 	RegisterScriptCallback("monster_on_death_callback", monster_on_death_heal_check)
 	
-	RegisterScriptCallback("actor_on_update", lightning_effect_on_update)
+	RegisterScriptCallback("actor_on_update", shock_effect_on_update)
 	RegisterScriptCallback("actor_on_update", burn_tick_on_update)
 
 end

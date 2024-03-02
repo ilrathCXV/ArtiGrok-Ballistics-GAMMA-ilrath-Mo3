@@ -179,7 +179,7 @@ hp_rounds = {
 	["ammo_9x18_pmm_bad"] = 2,
 	["ammo_9x18_pmm_verybad"] = 2,
 	["ammo_9x19_pbp"] = 2,
-	["ammo_9x19_pbp_bad"] = 2,
+	["ammo_9x19_pbp_bad"] = 5,			-- Ratshot
 	["ammo_9x19_pbp_verybad"] = 2,
 	["ammo_7.62x25_p"] = 1.75,
 	["ammo_7.62x25_p_bad"] = 1.75,
@@ -197,7 +197,7 @@ hp_rounds = {
 	["ammo_12x76_zhekan_bad"] = 3.5,	-- Flechette (has Armorbuster)
 	["ammo_12x76_zhekan_verybad"] = 3.5,
 	["ammo_12x76_dart"] = 1.5,
-	["ammo_12x76_dart_bad"] = 1.5, -- Dragon's Breath
+	["ammo_12x76_dart_bad"] = 1.5, 		-- Dragon's Breath
 	["ammo_12x76_dart_verybad"] = 1.5,
 	["ammo_12x70_buck"] = 3,
 	["ammo_12x70_buck_bad"] = 3,
@@ -384,7 +384,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 	   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-	   ammo_section == "ammo_20x70_devastator_bad" then
+	   ammo_section == "ammo_20x70_devastator_bad" or ammo_section == "ammo_9x19_pbp_bad" then
 		ammo_mult = 0.90
 	end
 	
@@ -401,7 +401,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 1.00
 	end
 
-	if ammo_section == "ammo_9x19_pbp" or ammo_section == "ammo_9x19_pbp_bad" 
+	if ammo_section == "ammo_9x19_pbp" --[[ or ammo_section == "ammo_9x19_pbp_bad" --]]
 	or ammo_section == "ammo_9x18_pmm" or ammo_section == "ammo_9x18_pmm_bad" 
 	or ammo_section == "ammo_5.45x39_ep" or ammo_section == "ammo_5.45x39_ep_bad" 
 	or ammo_section == "ammo_5.56x45_ss190" or ammo_section == "ammo_5.56x45_ss190_bad"  then
@@ -506,7 +506,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		
 		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 			ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-			ammo_section == "ammo_20x70_devastator_bad" then
+			ammo_section == "ammo_20x70_devastator_bad" or ammo_section == "ammo_9x19_pbp_bad" then
 			ammo_mult = 1.4
 		end
 
@@ -738,7 +738,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- JHP/Headhunter Rounds --
 		---------------------------
 		-- Ignores mutant resistances + double bone_mult
-		if (special_effect == "head") or (special_effect_2 == "head") or (chaos_effect == 6) then
+		if (special_effect == "head") or (special_effect_2 == "head") then
 			spec_monster_mult = 1.00
 			bone_mult = bone_mult * 2
 		end
@@ -747,7 +747,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- Basher: Melee Effect --
 		--------------------------
 		-- Doubles bone_mult
-		if (special_effect == "basher") or (special_effect_2 == "basher") then
+		if (special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6) then
 			bone_mult = bone_mult * 2
 		end
 		
@@ -760,6 +760,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 				ambush_mult = 1.45
 				bone_mult = bone_mult * 1.45
 			end
+		end
+		
+		--------------------
+		-- Incendiary/API --
+		--------------------
+		-- Ammo-specific burn stacks to target
+		if (special_effect == "fire") or (special_effect_2 == "fire") and monster:alive() then
+			local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
+			arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, burn_stacks)
 		end
 		
 		---------------------
@@ -790,7 +799,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- Lightning Rounds --
 		----------------------
 		-- Changes hit to Shock damage + standardizes bone_/ammo_mult
-		if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
+		if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
 			spec_monster_mult = 1.00
 			bone_mult = 1.00
 			ammo_mult = 0.85
@@ -841,9 +850,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 			-- ammo_mult = ammo_mult * 2
 		-- end
 		
-		------------------
-		-- Graze Rounds --
-		------------------
+		------------------------
+		-- [NEW] Graze Rounds --
+		------------------------
 		-- Pass a portion of damage to nearby targets (75% to all within 8m on headshot/crits, or 15% in 5m on non-headshots/crits)
 		if (special_effect == "graze") or (special_effect_2 == "graze") then
 			if (arti_handlers[monster:id()]) and (arti_handlers[monster:id()] == true) then
@@ -856,21 +865,22 @@ function monster_on_before_hit(monster,shit,bone_id)
 				arti_handlers.graze_handler(monster, new_hit, radius)
 			end
 		end
+		
+		------------------------
+		-- [NEW] Shock Rounds --
+		------------------------
+		-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE (2x stacks on crits)
+		if (special_effect == "shock") or (special_effect_2 == "shock") then
+			local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
+			shock_stacks = (is_critical and (shock_stacks * 2)) or shock_stacks
+			arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
+		end
 	
 	end
 	
 	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
 
 	printf("Barrel condition: %s, GBO output damage: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, cloudkill_mult, snake_mult)
-	
-	--------------------
-	-- Incendiary/API --
-	--------------------
-	-- Ammo-specific burn stacks to target
-	if (special_effect == "fire") or (special_effect_2 == "fire") and monster:alive() then
-		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
-		arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, burn_stacks)
-	end
 	
 	----------------
 	-- RIP Rounds --
@@ -1392,8 +1402,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Basher: Melee Effect --
 	--------------------------
 	-- Increases AP to 100 to basically ignore armor of normal enemies (ensures Eidolon or similar special enemies don't get one-shot)
-	if (special_effect == "basher") or (special_effect_2 == "basher") then
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
+	if (special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6) then
+		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) or (chaos_effect == 6) then -- headshot/Chaos
 			if k_ap < 1.0 then
 				k_ap = 1.0
 			end
@@ -1435,14 +1445,14 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Lightning Rounds --
 	----------------------
 	-- Changes hit to Shock damage + deals AoE damage to other targets (includes balance for going against Eidelon + allows for AoE on headshots on low-armor targets)
-	if (special_effect == "shock") or (special_effect_2 == "shock") or (chaos_effect == 9) then
+	if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
 		shit.type = hit.shock
 		if (custom_bone_armor >= 3) then
-			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.25)
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.25)
 		elseif (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 1))
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 1))
 		else
-			arti_handlers.shock_damage(npc,bone_id, shit.weapon_id, custom_bone_armor)
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor)
 		end
 	end
 	
@@ -1550,19 +1560,20 @@ function npc_on_before_hit(npc, shit, bone_id)
 			arti_handlers.lifesteal(npc, shit.power, true)
 		end
 		
-		arti_handlers.npc_stun[npc_id] = nil
-		arti_handlers.shock_stack_list[npc_id] = nil
-		arti_handlers.acid_stack_list[npc_id] = nil
-		arti_handlers.armorbuster_list[npc_id] = nil
+		arti_handlers.npc_stun[npc_id] 				= nil
+		arti_handlers.grounded_stack_list[npc_id] 	= nil
+		arti_handlers.shock_stack_list[npc_id] 		= nil
+		arti_handlers.acid_stack_list[npc_id] 		= nil
+		arti_handlers.armorbuster_list[npc_id] 		= nil
 		
 		if arti_handlers.burn_stack_list[npc_id] and arti_handlers.burn_stack_list[npc_id] >= 20 then
 			arti_handlers.burn_ignition(npc, wpn_id, arti_handlers.burn_stack_list[npc_id])
 		elseif arti_handlers.burn_stack_list[npc_id] then
-			arti_handlers.burn_stack_list[npc_id] = nil
-			arti_handlers.burn_check_list[npc_id] = nil
+			arti_handlers.burn_stack_list[npc_id] 	= nil
+			arti_handlers.burn_check_list[npc_id] 	= nil
 		end
 		
-		bas_handler.weakened[npc_id] = nil
+		bas_handler.weakened[npc_id] 				= nil
 		
 	end
 	
@@ -1577,6 +1588,18 @@ function npc_on_before_hit(npc, shit, bone_id)
 	if (special_effect == "fire") or (special_effect_2 == "fire") then
 		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
 		arti_handlers.ignite_npc(npc,bone_id, shit.weapon_id, burn_stacks)
+	end
+	
+	--------------------
+	-- Shock Rounds --
+	--------------------
+	-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE
+	if (special_effect == "shock") or (special_effect_2 == "shock") then
+		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
+		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+			shock_stacks = shock_stacks * 2
+		end
+		arti_handlers.shock_npc(npc,bone_id, shit.weapon_id, shock_stacks)
 	end
 	
 	----------------------

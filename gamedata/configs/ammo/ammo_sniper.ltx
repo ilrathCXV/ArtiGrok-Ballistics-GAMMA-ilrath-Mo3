@@ -15,7 +15,7 @@ k_hp        = 1.5
 k_mp        = 1.18
 cost        = 2250
 
-[ammo_7.62x54_7h1_bad]:ammo_7.62x54_7h1; competition
+[ammo_7.62x54_7h1_bad]:ammo_base; competition
 name		= ammo_new_7.62x54_fp
 k_hit		= 1.05 		;1.067 - Grok+
 k_ap		= 0.2 	;0.249 - Arti
@@ -33,7 +33,7 @@ k_hit		= 1 		;1.017 - Grok
 k_ap		= 0.45 		;0.155 - Arti
 cost        = 4000
 
-[ammo_7.62x54_7h14_bad]:ammo_7.62x54_7h14 ; 7N1
+[ammo_7.62x54_7h14_bad]:ammo_base ; 7N1
 name		= ammo_new_7.62x54_7n1
 k_hit		= 1.1 		;1.117 - Grok+
 k_ap		= 0.509 		;0.199 - Arti
@@ -50,7 +50,7 @@ k_ap		= 0.8 		;0.305 - Arti
 recoil		= 1.05
 cost        = 9500
 
-[ammo_7.62x54_ap_bad]:ammo_7.62x54_ap; BZ API
+[ammo_7.62x54_ap_bad]:ammo_base; BZ API
 name		= ammo_new_7.62x54_api
 k_hit		= 1.2 		;1.267 - Grok+
 k_ap		= 0.95 		;0.335 - Arti
@@ -69,7 +69,7 @@ k_hit		= 1 		;1.5 - Grok
 k_ap		= 0.37 		;0.2 - Arti
 cost        = 2760
 
-[ammo_pkm_100_bad]:ammo_pkm_100 ; splitshot
+[ammo_pkm_100_bad]:ammo_base ; splitshot
 name		= ammo_new_7.62x54_split
 k_hit		= 0.7 		;1.2 - Grok+
 k_ap		= 0.307 	;0.155 - Arti
@@ -87,7 +87,7 @@ k_hit		= 1 		;1.065 - Grok
 k_ap		= 0.34 		;0.225 - Arti
 cost        = 3000
 
-[ammo_7.62x51_fmj_bad]:ammo_7.62x51_fmj; mk316? 
+[ammo_7.62x51_fmj_bad]:ammo_base; mk316? 
 frag        = 50
 special     = frag
 ;ilrathCXV - Additonal effects to separate it from regular FMJ
@@ -106,7 +106,7 @@ k_hit		= 0.9 		;1.065 - Grok
 k_ap		= 0.62 		;0.305 - Arti
 cost        = 7500
 
-[ammo_7.62x51_ap_bad]:ammo_7.62x51_ap ; slap
+[ammo_7.62x51_ap_bad]:ammo_base ; slap
 name		= ammo_new_7.62x51_slap
 k_hit		= 0.75 		;0.915 - Grok+
 k_ap		= 0.9 		;0.395 - Arti
@@ -123,7 +123,7 @@ k_hit		= 1 		;1.13 - Grok
 k_ap		= 0.25 		;0.195 - Arti
 cost        = 2250
 
-[ammo_7.92x33_fmj_bad]:ammo_7.92x33_fmj ;match
+[ammo_7.92x33_fmj_bad]:ammo_base ;match
 name		= ammo_new_7.92x33_match
 k_hit		= 1.1 		;1.23 - Grok+
 k_ap		= 0.275 	;0.215 - Arti
@@ -140,14 +140,14 @@ k_hit		= 0.9 		;1.13 - Grok
 k_ap		= 0.39 		;0.305 - Arti
 cost        = 7000
 
-[ammo_7.92x33_ap_bad]:ammo_7.92x33_ap ; lightning
-name		= ammo_new_7.92x33_shock
+[ammo_7.92x33_ap_bad]:ammo_base ; lightning
+name		= ammo_new_7.92x33_lightning
 k_hit		= 0.4 		;0.53 - Grok+
 k_ap		= 0.78 		;0.399 - Arti
 cost        = 8400
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.7
-special     = shock
+special     = lightning
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -157,7 +157,7 @@ k_hit		= 1.5 		;1.35 - Grok
 k_ap		= 0.38 		;0.225 - Arti
 cost        = 3000
 
-[ammo_12.7x55_fmj_bad]:ammo_12.7x55_fmj; pt2
+[ammo_12.7x55_fmj_bad]:ammo_base; pt2
 flinch 		= 95
 special 	= flinch
 ;ilrathCXV - Giving an additonal effect (basically same as normal FMJ ammo the way Arti had it)
@@ -176,7 +176,7 @@ k_ap		= 0.75 		;0.305 - Arti
 recoil		= 1.05
 cost        = 6900
 
-[ammo_12.7x55_ap_bad]:ammo_12.7x55_ap; explosive
+[ammo_12.7x55_ap_bad]:ammo_base; explosive
 name		= ammo_new_12.7x55_exp
 k_hit		= 0.5 		;0.35 - Grok+
 k_ap		= 0.58 	;0.049 - Arti
@@ -193,7 +193,7 @@ k_hit		= 1 		;1.64 - Grok
 k_ap		= 1.40 		;0.335 - Arti
 cost        = 17000
 
-[ammo_magnum_300_bad]:ammo_magnum_300; saboted DU 
+[ammo_magnum_300_bad]:ammo_base; saboted DU 
 name		= ammo_new_338_ap
 k_hit		= 1.3 		;1.94 - Grok+
 k_ap		= 1.705 	;0.399 - Arti

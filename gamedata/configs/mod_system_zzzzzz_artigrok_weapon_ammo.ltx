@@ -4,11 +4,11 @@ inv_name = ammo_new_9x18_fmj
 inv_name_short = ammo_new_9x18_fmj_s
 
 ![ammo_9x18_fmj_bad]
-description = ammo_new_9x18_plus_descr
-cost = 900
-inv_name = ammo_new_9x18_plus
-inv_name_short = ammo_new_9x18_plus_s
-k_hit = 0.9
+description = ammo_new_9x18_shock_descr
+cost = 1800
+inv_name = ammo_new_9x18_shock
+inv_name_short = ammo_new_9x18_shock_s
+k_hit = 0.8
 k_ap = 0.0152
 impair                                   = 0.40
 
@@ -61,12 +61,19 @@ inv_name_short = ammo_new_9x19_pbp_s
 
 ![ammo_9x19_pbp_bad]
 description = ammo_new_9x19_pbps_descr
-cost = 1750
+cost = 3500
 inv_name = ammo_new_9x19_pbps
 inv_name_short = ammo_new_9x19_pbps_s
-k_hit = 1.75
-k_ap = 0.017
-impair                                   = 0.40
+k_hit 				= 0.12
+k_ap 				= 0.0001
+buck_shot	 		= 15
+k_disp				= 2.5
+k_bullet_speed		= 1.00
+k_impulse			= 0.075
+k_air_resistance 	= 1.0
+k_cam_dispersion 	= 1.35
+wm_size         	= 0.0075
+impair              = 0.40
 
 ![ammo_9x19_ap]
 description = ammo_new_9x19_ap_descr
@@ -407,10 +414,10 @@ inv_name = ammo_new_7.92x33_ap
 inv_name_short = ammo_new_7.92x33_ap_s
 
 ![ammo_7.92x33_ap_bad]
-description = ammo_new_7.92x33_shock_descr
+description = ammo_new_7.92x33_lightning_descr
 cost = 8400
-inv_name = ammo_new_7.92x33_shock
-inv_name_short = ammo_new_7.92x33_shock_s
+inv_name = ammo_new_7.92x33_lightning
+inv_name_short = ammo_new_7.92x33_lightning_s
 k_disp = 0.5
 k_hit = 0.53
 k_ap = 0.078
@@ -576,13 +583,19 @@ inv_name = ammo_new_357_hp
 inv_name_short = ammo_new_357_hp_s
 
 ![ammo_357_hp_mag_bad]
-description = ammo_new_357_jfp_descr
-cost = 20000
-inv_name = ammo_new_357_jfp
-inv_name_short = ammo_new_357_jfp_s
-k_hit = 2.65
-impair                                   = 0.40
-wm_size = 0.075
+description = ammo_new_357_rat_descr
+cost = 6250
+inv_name = ammo_new_357_rat
+inv_name_short = ammo_new_357_rat_s
+k_hit 				= 0.35
+k_ap 				= 0.0003
+buck_shot	 		= 15
+k_disp				= 2.75
+k_bullet_speed		= 1.00
+k_impulse			= 0.09
+k_air_resistance 	= 1.0
+k_cam_dispersion 	= 1.6
+wm_size         	= 0.01
 
 ![ammo_50_bmg]
 description = ammo_new_50_bmg_descr
