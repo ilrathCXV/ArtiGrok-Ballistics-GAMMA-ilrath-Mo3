@@ -445,7 +445,7 @@ function damage_npc_grok(npc, power)
 	printf("[Arti Handlers - DMG NPC Grok] Special Damage: %s | NPC being hit: %s", power, npc:name())
 	npc:set_health_ex(npc.health - power)
 	if npc.health <= 0 then	-- double-check in case burn or alternate manual damage kills
-		npc_on_death_callback(npc, db.actor)
+		enemy_on_death_callback(npc, db.actor)
 	end
 end
 

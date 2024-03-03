@@ -384,11 +384,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 	   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-	   ammo_section == "ammo_20x70_devastator_bad" or ammo_section == "ammo_9x19_pbp_bad" then
+	   or ammo_section == "ammo_9x19_pbp_bad" then
 		ammo_mult = 0.90
 	end
 	
-	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
+	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
 		ammo_mult = 1.00
 	end
 
@@ -433,17 +433,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 										-- ilrathCXV edits --
 	if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
 		ammo_mult = 1.00
-	end							
-	
-	if ammo_section == "ammo_20x70_devastator" or ammo_section == "ammo_20x70_devastator_bad" then
-		ammo_mult = 0.95
-	end
-	
+	end					
 	
 	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
 		ammo_mult = 0.95
 	end
-	
 	
 	-- ARTI PKM BAD
 	if ammo_section == "ammo_pkm_100_bad" then
@@ -510,11 +504,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 			ammo_mult = 1.4
 		end
 
-        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
+        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
 			ammo_mult = 2.2
 		end
 		
-		if ammo_section == "ammo_23x75_barrikada"then
+		if ammo_section == "ammo_23x75_barrikada" then
 			ammo_mult = 2.3
 		end
 		
