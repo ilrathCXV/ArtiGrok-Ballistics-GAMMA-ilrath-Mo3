@@ -384,7 +384,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 	   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-	   or ammo_section == "ammo_9x19_pbp_bad" then
+	   ammo_section == "ammo_9x19_pbp_bad" then
 		ammo_mult = 0.90
 	end
 	

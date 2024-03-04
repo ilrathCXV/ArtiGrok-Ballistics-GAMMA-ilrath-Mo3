@@ -213,7 +213,7 @@
 		<text>9x18mm Shock rounds</text>
 	</string>
 	<string id="ammo_new_9x18_shock_descr">
-		<text>Full metal jacket round with a electric-based powder load. These rounds inflict targets with a minor static shock. Hit enough times, they will release a lightning strike upon themselves and all near to them. However, these rounds lose their lightning strike capability to targets already struck by a strike before.</text>
+		<text>Full metal jacket round with a electric-based powder load. These rounds inflict targets with a minor static shock. Hit enough times, they will release a lightning strike upon themselves and all near to them. Hitting vital areas allows the round to inflict a shock twice as powerful.</text>
 	</string>
 	<string id="ammo_new_9x18_shock_s">
 		<text>9x18 Shock</text>

@@ -16,7 +16,7 @@
 		<text>9x21mm SP11 Shock rounds</text>
 	</string>
 	<string id="ammo_9x21_sp11_bad_descr">
-		<text>Experimental pistol cartridge utilizing an electric-based powder load. This round sacrifices some stopping power in exchange for an anomalous effect. They inflict a static charge to hit enemies; the static charge will erupt into a small lightning strike upon the target if hit enough time with similar ammo. However, the static charge cannot be stacked upon targets already affected by a lightning strike.</text>
+		<text>Experimental pistol cartridge utilizing an electric-based powder load. This round sacrifices some stopping power in exchange for an anomalous effect. They inflict a static charge to hit enemies; the static charge will erupt into a small lightning strike upon the target if hit enough time with similar ammo. Hitting vital areas allows the round to inflict a shock twice as powerful.</text>
 	</string>
 	
 	<string id="ammo_9x21_sp12_bad">

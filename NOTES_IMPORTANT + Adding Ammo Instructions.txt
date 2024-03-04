@@ -71,11 +71,11 @@ i_handler   = ballistic_handlers.particle				-- Used by Arti's system to call th
 i_particle  = artefact\\effects\\af_acidic_idle_color 	-- The particle effect used by the function called by the line above
 special 	= acid										-- Special tag needed by the damage system to make use of this ammo's special effects
 
-Shock	- This special effect will apply Shock stacks to a target. Once an enemy reaches 20 or more Shock stacks, they will release a weak Lightning AoE.
-Enemies hit by the Lightning AoE will count towards the Grounded counter. Recommended on small calibers.
+Shock Rounds - This special effect will apply Shock stacks to a target. Once an enemy reaches 25 or more Shock stacks, they will release a weak Lightning AoE.
+Critical hits or headshots will DOUBLE the amount of stacks given by the round. Enemies hit by the Lightning AoE will count towards the Grounded counter. Recommended on small calibers.
 
 special		 = shock							-- Special tag needed by the damage system to make use of this ammo's special effects
-shock_stacks = 3								-- The amount of Shock stacks given on hit. I recommend staying within 2-6 Shock stacks (harder-hitting rounds should give more Burn)								
+shock_stacks = 3								-- The amount of Shock stacks given on hit. I recommend staying within 2-6 Shock stacks (harder-hitting rounds should give more Shock)								
 
 Lightning Rounds - This ammo creates an AoE damaging field when striking a target with at least BR3 armor OR landing a Stalker headshot. AoE deals higher damage the higher the armor tier on hit, up to 70HP ( 70% of a Stalker's total max health).
 Headshots will release at the weakest possible AoE burst UNLESS the armor value on the helmet is higher than BR3 on hit. Changes the damage type to shock damage. No AoE is created from hitting mutants with these. Recommended for large-caliber/sniper rounds.

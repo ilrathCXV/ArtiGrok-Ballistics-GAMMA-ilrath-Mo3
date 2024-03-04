@@ -15,7 +15,7 @@ ini_damage          = ballistics_utils.ini_damage
 
 local rpg_hit_perks	= nil
 local fourth_times	= 0
-local shock_hits	= 0
+local lightning_hits = 0
 local napalm_hits	= 0
 local graze_hits	= 0 
 local explode_hits	= 0
@@ -297,9 +297,9 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
 	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
-	if shock_stack_list[npc_id] >= 20 then
+	if shock_stack_list[npc_id] >= 25 then
 		printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
-		shock_stack_list[npc_id] = clamp(shock_stack_list[npc_id] - 20, 0, 19)
+		shock_stack_list[npc_id] = clamp(shock_stack_list[npc_id] - 25, 0, 24)
 		lightning_damage(npc, bone_id, wpn_id, 0.3)	-- 0.3 is the minimum armor amount to trigger an AoE
 	end
 end
@@ -418,22 +418,22 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 					-- take into account NPC's "Cloudkill" stacks
 					shock_power = shock_power * (1 + ((bas_handler.weakened and bas_handler.weakened[obj:id()] or 0) * 0.2))
 					damage_npc_grok(obj, shock_power)
-					shock_hits = shock_hits + 1
+					lightning_hits = lightning_hits + 1
 				else
 					-- take into account NPC's "Cloudkill" stacks
 					h.power = h.power * (1 + ((bas_handler.weakened and bas_handler.weakened[obj:id()] or 0) * 0.2))
 					obj:hit(h)
-					shock_hits = shock_hits + 1
+					lightning_hits = lightning_hits + 1
 				end
 				
             end
         end)
 		
 		if rpg_hit_perks and fourth_times > 0 then
-			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + round_idp((shock_hits/armor_tier), 4)
+			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + round_idp((lightning_hits/armor_tier), 4)
 			-- printf("[RPG - Arti Handlers - Shock] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
 		end
-		shock_hits = 0
+		lightning_hits = 0
 		
     end
 
