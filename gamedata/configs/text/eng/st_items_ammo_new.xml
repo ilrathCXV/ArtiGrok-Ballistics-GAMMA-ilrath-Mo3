@@ -164,7 +164,7 @@
 		<text> Burn stacks on hit</text>
 	</string>
 	<string id="st_ballistics_shock">
-		<text> Shock stacks on hit (x2 on headshot/critical hit)</text>
+		<text> Shock stacks on hit (x2 on Stalker headshots)</text>
 	</string>
 	<string id="st_ballistics_split">
 		<text>Fires three projectiles</text>

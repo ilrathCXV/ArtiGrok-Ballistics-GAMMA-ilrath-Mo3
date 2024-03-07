@@ -890,10 +890,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 		------------------------
 		-- [NEW] Shock Rounds --
 		------------------------
-		-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE (2x stacks on crits)
+		-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE
 		if (special_effect == "shock") or (special_effect_2 == "shock") then
 			local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
-			shock_stacks = (is_critical and (shock_stacks * 2)) or shock_stacks
 			arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
 		end
 		

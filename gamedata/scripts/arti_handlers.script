@@ -163,7 +163,7 @@ function shock_effect_on_update()
 	time_g_shock = time_global()
 	if shock_effect_buffer < time_g_shock then
 		for k, v in pairs(shock_stack_list) do
-			if shock_stack_list[k] and shock_stack_list[k] < 20 then
+			if shock_stack_list[k] and shock_stack_list[k] < 25 then
 				play_particle(level.object_by_id(k), 15, "anomaly2\\effects\\electra_entrance_small")
 			end
 		end
@@ -297,9 +297,14 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
 	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
-	if shock_stack_list[npc_id] >= 25 then
+	if shock_stack_list[npc_id] > 24 then
 		printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
-		shock_stack_list[npc_id] = clamp(shock_stack_list[npc_id] - 25, 0, 24)
+		shock_stack_list[npc_id] = shock_stack_list[npc_id] - 25
+		
+		if shock_stack_list[npc_id] < 0 then
+			shock_stack_list[npc_id] = 0
+		end
+		
 		lightning_damage(npc, bone_id, wpn_id, 0.3)	-- 0.3 is the minimum armor amount to trigger an AoE
 	end
 end
@@ -324,7 +329,7 @@ function acid_damage(npc, bone_id)
 				armorbuster_list[obj:id()] = true
             end
         end)
-		acid_stack_list[npc:id()] = nil
+		acid_stack_list[npc:id()] = 0
 	end
 	
 end

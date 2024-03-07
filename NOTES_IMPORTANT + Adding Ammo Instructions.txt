@@ -59,7 +59,7 @@ i_particle  = artefact\\effects\\af_acidic_idle_color 	-- The particle effect us
 special 	= acid										-- Special tag needed by the damage system to make use of this ammo's special effects
 
 Shock Rounds - This special effect will apply Shock stacks to a target. Once an enemy reaches 25 or more Shock stacks, they will release a weak Lightning AoE.
-Critical hits or headshots will DOUBLE the amount of stacks given by the round. Enemies hit by the Lightning AoE will count towards the Grounded counter. Recommended on small calibers.
+Stalker headshots will DOUBLE the amount of stacks given by the round. Enemies hit by the Lightning AoE will count towards the Grounded counter. Recommended on small calibers.
 
 special		 = shock							-- Special tag needed by the damage system to make use of this ammo's special effects
 shock_stacks = 3								-- The amount of Shock stacks given on hit. I recommend staying within 2-6 Shock stacks (harder-hitting rounds should give more Shock)								
