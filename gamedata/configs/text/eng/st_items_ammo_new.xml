@@ -586,13 +586,13 @@
 	</string>
 
 	<string id="ammo_new_5.56x45_fmjs">
-		<text>5.56x45mm Mk318 FMJ rounds</text>
+		<text>5.56x45mm Shock rounds</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmjs_descr">
-		<text>Match-grade 5.56x45 FMJ round that is standard issue with U.S. Marines and other elite task groups. Developed in response to M855's reported ineffectiveness at reliably putting down targets, the Mk318 roundprovides tight groupings out of short barrels, penetrates barriers reliably and offers fragmentation potential exceeding that of the M193. These combined properties make the round unmatched in close-range modern warfare. A reasonably rare find, however members of Freedom maintain an unusually high stock of these rounds, the origin of which is a well-guarded secret.</text>
+		<text>Experimental 5.56x45 ammunition utilizing a weak electrical anomalous payload. These rounds emit a small shock through the target's body, leaving them electrically charged. Hitting vital areas will administer the electrical charge twice as effectively. If hit enough times with these or similar rounds, the target will release a lightning strike, hurting nearby targets.</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmjs_s">
-		<text>5.56x45 FMJ+</text>
+		<text>5.56x45 Shock FMJ+</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_hp">
@@ -616,13 +616,13 @@
 	</string>
 	
 	<string id="ammo_new_5.56x45_ap">
-		<text>5.56x45mm AP rounds</text>
+		<text>5.56x45mm Quad-shot AP+ Rounds</text>
 	</string>
 	<string id="ammo_new_5.56x45_ap_descr">
-		<text>The latest NATO military 5.56x45 caliber enhanced penetration round, known as M855A1, used by the US armed forces. The failure of the M855 round led to the development of both the Mk318 and this round, which offers both increased armor penetrating capabilities but also increased stopping power fired out of standard rifles. Difficult to find but extremely effective, especially against exosuit-level protection. Imported in bulk by unknown suppliers of the Mercenary group, and forms one of the bulk import items (alongside marijuana) that Freedom trades for.</text>
+		<text>Experimental rounds created by the Mercenaries for their multiple 5.56x45 platforms. These rounds trade some firepower for shredding armor. Utilizing an anomalous gunpowder mixture, it allows the armor-piercing round to split into 4 projectiles to destroy any armor protecting the impact site without losing much of its overall performance down range.</text>
 	</string>
 	<string id="ammo_new_5.56x45_ap_s">
-		<text>5.56x45 AP</text>
+		<text>5.56x45 Quad-shot AP+</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_ss190">
@@ -787,13 +787,13 @@
 	</string>
 	
 	<string id="ammo_new_7.62x54_split">
-		<text>7.62x54mm Split Shot rounds</text>
+		<text>7.62x54mm Tri-shot rounds</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_descr">
 		<text>7.62x54mm machine gun rounds that split into three projectiles in flight. These projectiles have a short effective range comparable to handguns and some shotguns, but make up for it in sheer volume of fire. The rounds are anomalously tampered with to be extremely frangible at certain places, enough so that the stress of firing out of a barrel is enough to fracture the round into pieces. While seemingly counterintuitive, these rounds are used to great effect by members of Duty to provide a huge amount of short-range firepower in taking down mutant hordes, acting as a sort of heavy automatic shotgun. Due to the round's short range, there is no reason to fire this out of a rifle.</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_s">
-		<text>7.62x54 Split</text>
+		<text>7.62x54 Tri-shot</text>
 	</string>
 	
 

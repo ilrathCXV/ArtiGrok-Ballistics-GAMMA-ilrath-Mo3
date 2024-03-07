@@ -173,31 +173,31 @@ bip01_r_toe0	 	 		= 0.3,
 
 hp_rounds = {
 	["ammo_357_hp_mag"] = 2,
-	["ammo_357_hp_mag_bad"] = 2,
+	["ammo_357_hp_mag_bad"] = 5,			-- Ratshot
 	["ammo_357_hp_mag_verybad"] = 2,
 	["ammo_9x18_pmm"] = 2,
 	["ammo_9x18_pmm_bad"] = 2,
 	["ammo_9x18_pmm_verybad"] = 2,
 	["ammo_9x19_pbp"] = 2,
-	["ammo_9x19_pbp_bad"] = 5,			-- Ratshot
+	["ammo_9x19_pbp_bad"] = 5,				-- Ratshot
 	["ammo_9x19_pbp_verybad"] = 2,
 	["ammo_7.62x25_p"] = 1.75,
 	["ammo_7.62x25_p_bad"] = 1.75,
 	["ammo_7.62x25_p_verybad"] = 1.75,
 	["ammo_11.43x23_hydro"] = 2.7,
-	["ammo_11.43x23_hydro_bad"] = 2.7,
+	["ammo_11.43x23_hydro_bad"] = 3,
 	["ammo_11.43x23_hydro_verybad"] = 2.7,
 	["ammo_5.45x39_ep"] = 1.45,
-	["ammo_5.45x39_ep_bad"] = 1.45,
+	-- ["ammo_5.45x39_ep_bad"] = 1.45,		-- Soft-point (should not receive concussion penalty)
 	["ammo_5.45x39_ep_verybad"] = 1.45,
 	["ammo_5.56x45_ss190"] = 1.33,
-	["ammo_5.56x45_ss190_bad"] = 1.33,
+	["ammo_5.56x45_ss190_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers
 	["ammo_5.56x45_ss190_verybad"] = 1.33,
 	["ammo_12x76_zhekan"] = 3.5,
-	["ammo_12x76_zhekan_bad"] = 3.5,	-- Flechette (has Armorbuster)
+	["ammo_12x76_zhekan_bad"] = 3.5,		-- Flechette (has Armorbuster)
 	["ammo_12x76_zhekan_verybad"] = 3.5,
 	["ammo_12x76_dart"] = 1.5,
-	["ammo_12x76_dart_bad"] = 1.5, 		-- Dragon's Breath
+	["ammo_12x76_dart_bad"] = 1.5, 			-- Dragon's Breath
 	["ammo_12x76_dart_verybad"] = 1.5,
 	["ammo_12x70_buck"] = 3,
 	["ammo_12x70_buck_bad"] = 3,
@@ -213,17 +213,21 @@ hp_rounds = {
 	["ammo_5.7x28_ss195"] = 1.5,
 	["ammo_300blackout_fjm_bad"] = 1.33,
 	["ammo_44_mag"] = 2,
-	["ammo_20x70_buck_bad"] = 3,		-- #3BK
-	["ammo_20x70_devastator"] = 2.5,	-- standard slug
-	["ammo_20x70_devastator_bad"] = 5, 	-- glass slug
-	["ammo_20x70_star"] = 1.33,			-- AP Dart
-	-- ["ammo_20x70_star_bad"] = 1.33,	-- Lightning Slug
-	["ammo_23x75_shrapnel_bad"] = 2,	-- Chaos Buckshot
-	-- ["ammo_23x75_barrikada_bad"] = 3.5,		-- Napalm Slug
-	["ammo_23_eco"] = 5,				-- Cloudkill Syringe
-	["ammo_9x21_sp12"] = 1.5,			-- "Shrimp" HP Ammo 
-	["ammo_9x21_sp12_bad"] = 1.5,		-- "Shrimp" Zonemade HP
-	["ammo_11.43x23_fmj_bad"] = 1.5,	-- "FMJ+" .45 ACP (to offset not penetrating armor - that is .45 Behemoth's job)
+	["ammo_20x70_buck_bad"] = 3,			-- #3BK
+	["ammo_20x70_devastator"] = 2.5,		-- standard slug
+	["ammo_20x70_devastator_bad"] = 50, 	-- glass slug
+	["ammo_20x70_star"] = 1.33,				-- AP Dart
+	-- ["ammo_20x70_star_bad"] = 1.33,		-- Lightning Slug
+	["ammo_23x75_shrapnel_bad"] = 2,		-- Chaos Buckshot
+	-- ["ammo_23x75_barrikada_bad"] = 3.5,	-- Napalm Slug
+	["ammo_23_eco"] = 5,					-- Cloudkill Syringe
+	["ammo_9x21_sp12"] = 1.5,				-- "Shrimp" HP Ammo 
+	["ammo_9x21_sp12_bad"] = 1.5,			-- "Shrimp" Zonemade HP
+	["ammo_11.43x23_fmj_bad"] = 1.5,		-- "FMJ+" .45 ACP (to offset not penetrating armor - that is .45 Behemoth's job)
+	["ammo_pkm_100_bad"] = 1.11,			-- PKM Tri-shot
+	["ammo_5.56x45_ap_bad"] = 1.33,			-- Quad-shot (meant to shred armor, less for pure damage)
+	["ammo_7.62x54_7h1_bad"] = 5,			-- Headhunter (should do little damage if not hitting a headshot)
+	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
 
 }
 
@@ -290,11 +294,10 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	mutant_mult			= 0.85
 	ammo_mult			= 0.85
-	spec_monster_mult	= 1.00
-	bone_mult			= 1.00
-	is_humanoid			= false
+	spec_monster_mult	= 1
+	bone_mult			= 1
 	is_23_eco			= false
-	cloudkill_mult 		= 1.00
+	cloudkill_mult 		= 1
 	is_critical			= false
 	
 	printf("///////////   Mutant Hit registered: GBO v1.6.6   //////////////////")
@@ -388,7 +391,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 0.90
 	end
 	
-	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
+	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
 		ammo_mult = 1.00
 	end
 
@@ -420,7 +423,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 1.00
 	end
 
- 	if ammo_section == "ammo_11.43x23_hydro"  or ammo_section == "ammo_11.43x23_hydro_bad"  then
+ 	if ammo_section == "ammo_11.43x23_hydro"  then
 		ammo_mult = 1.00
 	end
 
@@ -432,38 +435,59 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-----------------------------------------------------------------------------------------------------
 										-- ilrathCXV edits --
 	if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-		ammo_mult = 1.00
+		ammo_mult = 1.25
 	end					
 	
 	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
 		ammo_mult = 0.95
 	end
 	
-	-- ARTI PKM BAD
-	if ammo_section == "ammo_pkm_100_bad" then
+	-- "Split-shot" Rounds (doesn't count Ratshot)
+	if ammo_section == "ammo_pkm_100_bad" or ammo_section == "ammo_5.56x45_ap_bad" then
 		ammo_mult = 0.90
 	end
 	
 	-- Yeehaw Ammo
 	if ammo_section == "ammo_44_mag" or ammo_section == "ammo_44_mag_bad" then
-		ammo_mult = 1.25
+		ammo_mult = 1.35
 	end
 	
 	if ammo_section == "ammo_45-70_Gov" or ammo_section == "ammo_45-70_Gov_bad" then
-		ammo_mult = 2.0
+		ammo_mult = 1.75
 	end
-
+	
+	-- 20ga. Glass Slug
+	if ammo_section == "ammo_20x70_devastator_bad" then
+		ammo_mult = 5.00
+	end
+	
+	-- .45 RIP Rounds
+	if ammo_section == "ammo_11.43x23_hydro_bad" then
+		ammo_mult = 1.5
+	end
+	
+	-- Knifes
+	if ammo_section == "ammo_knife_3" or ammo_section == "ammo_knife_4" or ammo_section == "ammo_knife_5" then
+		ammo_mult = 1.15
+	end
+	
+	-- Skullsmasher
+	if ammo_section == "ammo_knife_7" then
+		ammo_mult = 1.3
+	end
+	
+	-- .300BLK FMJ+ (VMAX) Rounds
+	if ammo_section == "ammo_300blackout_fjm_bad" then
+		ammo_mult = 1.2
+	end
+	
+	-- Varmageddon Rounds
+	if ammo_section == "ammo_7.92x33_fmj_bad" then
+		ammo_mult = 1.0
+	end
+	
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
-
-	--------------------
-	-- Cover Piercing --
-	--------------------
-	-- Corrects ammo's AP to allow for cover piercing w/o going overkill in its AP/BR + mimic "piercing" mutant armor/skin
-	if (special_effect == "pierce") or (special_effect_2 == "pierce") then
-		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
-		mutant_mult = 1.0
-	end
 
 	-- /// save gun barrel data ///
 	if (IsWeapon(wpn) and (not IsItem("fake_ammo_wpn",wpn:section()))) or (wpn:parent() and wpn:parent():id() ~= 0) then
@@ -495,16 +519,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	-- /// mutants body parts multipliers ///
 	if string.find(monster:name(), "gigant") then
-		is_humanoid = true
 		spec_monster_mult = 0.85
 		
 		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
 			ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-			ammo_section == "ammo_20x70_devastator_bad" or ammo_section == "ammo_9x19_pbp_bad" then
+			ammo_section == "ammo_9x19_pbp_bad" then
 			ammo_mult = 1.4
 		end
 
-        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
+        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
 			ammo_mult = 2.2
 		end
 		
@@ -529,24 +552,50 @@ function monster_on_before_hit(monster,shit,bone_id)
 							-- ilrathCXV edits (11/26/22) + (01/19/23) --
 
 		if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-			ammo_mult = 1.15
+			ammo_mult = 1.4
 		end
 		
 		if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
 			ammo_mult = 1.00
 		end
 		
-		if ammo_section == "ammo_pkm_100_bad" then
+		-- "Split-shot" Rounds (doesn't count Ratshot)
+		if ammo_section == "ammo_pkm_100_bad" or ammo_section == "ammo_5.56x45_ap_bad" then
 			ammo_mult = 1.4
 		end
 		
 		if ammo_section == "ammo_44_mag" or ammo_section == "ammo_44_mag_bad" then
-			ammo_mult = 1.8
+			ammo_mult = 2.00
 		end
 		
 		if ammo_section == "ammo_45-70_Gov" or ammo_section == "ammo_45-70_Gov_bad" then
-			ammo_mult = 2.8
-		end	
+			ammo_mult = 2.4
+		end
+		
+		-- 20ga. Glass Slug
+		if ammo_section == "ammo_20x70_devastator_bad" then
+			ammo_mult = 6.50
+		end
+		
+		-- .45 RIP Rounds
+		if ammo_section == "ammo_11.43x23_hydro_bad" then
+			ammo_mult = 1.8
+		end
+		
+		-- Knifes
+		if ammo_section == "ammo_knife_3" or ammo_section == "ammo_knife_4" or ammo_section == "ammo_knife_5" then
+			ammo_mult = 1.20
+		end
+		
+		-- Skullsmasher
+		if ammo_section == "ammo_knife_7" then
+			ammo_mult = 1.45
+		end
+		
+		-- Varmageddon Rounds
+		if ammo_section == "ammo_7.92x33_fmj_bad" or ammo_section == "ammo_5.56x45_ss190_bad" then
+			ammo_mult = 1.3
+		end
 	
 		if ammo_section == "ammo_23_eco" and is_23_eco then
 			wpn_hit_power = 8
@@ -596,7 +645,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(monster:name(), "bloodsucker") then
 		spec_monster_mult = 0.85
-		is_humanoid = true
 		if bone_id == 14 then
 			bone_mult = 1.40
 			printf("Critical Hit!")
@@ -606,7 +654,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(monster:name(), "psysucker") then
 		spec_monster_mult = 0.85
-		is_humanoid = true
 		if bone_id == 14 then
 			bone_mult = 1.60
 			printf("Critical Hit!")
@@ -624,7 +671,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(monster:name(), "zombi") then
 		spec_monster_mult = 0.80
-		is_humanoid = true
 		if bone_id == 12 then
 			bone_mult = 2.00
 			printf("Critical Hit!")
@@ -634,7 +680,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(monster:name(), "snork") then
 		spec_monster_mult = 1.10
-		is_humanoid = true
 		if bone_id == 4 or bone_id == 5 then
 			bone_mult = 2.00
 			printf("Critical Hit!")
@@ -655,7 +700,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(monster:name(), "fracture") then
 		spec_monster_mult = 0.60
-		is_humanoid = true
 		if (bone_id == 12 or bone_id == 13) then
 			bone_mult = 2.20
 			printf("Critical Hit!")
@@ -664,16 +708,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 	end
 	
 	if string.find(monster:name(), "burer")then
-		is_humanoid = true
 		if (bone_id >= 39 and bone_id < 43) or (bone_id >= 40 and bone_id < 49) then
 			bone_mult = 1.5
 			printf("Critical Hit!")
 			is_critical = true
 		end
-	end
-	
-	if string.find(monster:name(), "karlik") or string.find(monster:name(), "controller") then
-		is_humanoid = true
 	end
 	
 	local gameplay = alife_storage_manager.get_state().diff_game
@@ -732,8 +771,8 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- JHP/Headhunter Rounds --
 		---------------------------
 		-- Ignores mutant resistances + double bone_mult
-		if (special_effect == "head") or (special_effect_2 == "head") then
-			spec_monster_mult = 1.00
+		if (special_effect == "head") or (special_effect_2 == "head") and is_critical then
+			spec_monster_mult = spec_monster_mult * 2
 			bone_mult = bone_mult * 2
 		end
 		
@@ -823,18 +862,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 			end
 		end
 		
-		---------------------
-		-- Expansion Bonus --
-		---------------------
-		-- Lower expansion on non-humanoid mutants
-		if is_humanoid then
-			expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_hp") or 1
-			ammo_mult = ammo_mult * expansion_mult
-		else
-			expansion_mult = ini_ammo:r_float_ex(ammo_section, "k_mp") or 1
-			ammo_mult = ammo_mult * expansion_mult
-		end
-		
 		----------------------
 		-- Explosive Rounds --
 		----------------------
@@ -869,26 +896,26 @@ function monster_on_before_hit(monster,shit,bone_id)
 			shock_stacks = (is_critical and (shock_stacks * 2)) or shock_stacks
 			arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
 		end
-	
-	end
-	
-	shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
+		
+		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
 
-	printf("Barrel condition: %s, GBO output damage: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, cloudkill_mult, snake_mult)
-	
-	----------------
-	-- RIP Rounds --
-	----------------
-	-- Grants healing on successful hits
-	if (special_effect == "rip") or (special_effect_2 == "rip") and monster:alive() then 
-		arti_handlers.lifesteal(monster, shit.power, false)
-	end
-	
-	------------------------------------
-	-- Chaos Rounds (if healing proc) --
-	------------------------------------
-	if chaos_effect == 5 and monster:alive() then
-		db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
+		printf("Barrel condition: %s, GBO output damage: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, cloudkill_mult, snake_mult)
+		
+		----------------
+		-- RIP Rounds --
+		----------------
+		-- Grants healing on successful hits
+		if (special_effect == "rip") or (special_effect_2 == "rip") then 
+			arti_handlers.lifesteal(monster, shit.power, false)
+		end
+		
+		------------------------------------
+		-- Chaos Rounds (if healing proc) --
+		------------------------------------
+		if chaos_effect == 5 then
+			db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
+		end
+		
 	end
 	
 	return
@@ -989,12 +1016,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-------------------
 	ambush_mult = 1.0
 	
-	---------------------
-	-- Expansion Bonus --
-	---------------------
-	-- Mult. damage bonus with full penetration OR after full armor break
-	hp_expansion_mult	= ini_ammo:r_float_ex(ammo_section, "k_hp") or 1
-	
 	------------------
 	-- Graze Rounds --
 	------------------
@@ -1022,14 +1043,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	end
 	
 	wpn_hit_power = wpn_hit_power * snake_mult
-	
-	--------------------
-	-- Cover Piercing --
-	--------------------
-	-- Corrects ammo's AP to allow for cover piercing w/o going overkill in its AP/BR
-	if (special_effect == "pierce") or (special_effect_2 == "pierce") then
-		k_ap = ini_ammo:r_float_ex(ammo_section, "k_ap") or k_ap
-	end
 
 	-- /// save gun barrel data ///
 
@@ -1502,7 +1515,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 			shit.power = shit.power * custom_bone_hitfraction
 		else
 			-- ilrathCXV (10/30/23) - Experimenting with increase to concussion damage by using the CQC modifier (snake_mult)
-			shit.power = 0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) / hp_no_penetration_penalty * (1 + (flinch_stun_chance)) * snake_mult
+			shit.power = (0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) * (1 + (flinch_stun_chance)) * snake_mult) / hp_no_penetration_penalty
 			pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
 			fxdir = shit.direction
@@ -1518,7 +1531,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	else
 		custom_bone_value[custom_bone_id] = custom_bone_armor
 		
-		shit.power = shit.power * hp_expansion_mult	
 	end
 	
 	-- Add even more feedback on headshots

@@ -30,25 +30,12 @@ Example of an ammo type that has nearly all the elements involoved in the system
 name		= ammo_new_9x39_spp					-- This is no longer needed.
 k_hit		= 1.3 								-- This is the "k_hit" parameter of the ammo. This isn't used by the system anymore as of Update 7. This value is pulled straight from the file the ammo is found in.
 k_ap		= 0.348								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
-k_hp        = 1.4								-- This is the "Humanoid" Expansion multiplier (EXPLAINED BELOW)
-k_mp        = 1.14								-- This is the "Mutant" Expansion multiplier (EXPLAINED BELOW)
 cost        = 2850								-- This is the "cost" parameter of the ammo. It was used by Arti's system to modify the cost of ammo. Pull the value from ammo's file or change it if the ammo is old ammo you are looking to change  (changes in here only take effect is the "Cost" option in this mod's MCM settings are turned on).
 dg_ammo     = ammo_9x39_pab9					-- This parameter takes in another ammo that this ammo can degrade/convert to when looting (in order to offset the fact bad ammo - now special ammo - is more common to find on enemies). Highly recommended.
 dg_chance   = 0.5								-- This parameter is the chance that this ammo will degrade/convert into the ammo in the above line. This MUST be used in combo with the above line if you choose to use this conversion system.
 special     = ambush							-- Special: EXPLAINED LATER
 special_2   = flinch							-- Special: EXPLAINED LATER
 flinch      = 60								-- Special: EXPLAINED LATER
-
-
-Now, to explain the two variables shown above that do no require a special effect: Expansion
-
-k_hp		= ...
-k_mp		= ...
-
-These paramters are damage multipliers that takes effect when either (1) a mutant is hit or (2) the ammo penetrates a Stalker's armor fully or (3) the armor in that area is broken.
-"k_hp" is the Expansion bonus against Stalkers and humanoid mutants (suckers, karliks, controllers, zombies, fractures, pesudogiants).
-"k_mp" is the Expansion bonus against all other mutants.
-I suggest keeping the value within the range of 1.15 - 1.75, and always have "k_mp" lower than "k_hp" for balance purposes.
 
 Now, to explain Special effects. I will show the Special effects, explain what they do and how to in corporate them into your ammo.
 NOTE: Only TWO Special effects can be applied to a single ammo type (special = ... | special_2 = ...)

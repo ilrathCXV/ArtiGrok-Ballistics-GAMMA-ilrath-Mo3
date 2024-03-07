@@ -1,59 +1,52 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Keys for comments (additive): (ilrathCXV 12/12/22)                                           ;
-; Grok: Original value from Grok                                                               ;
-; Grok+: Adapted from Grok to match differences from Arti's                                    ;
-; Grok++: Adapted baseline from Grok to match differences from Arti's                          ;
-; Grok*: Original value from Grok + affected in GBOOBS script                                  ;
-; Arti: Original value from Arti                                                               ;
+;;;;;;;;;;;;;;;
+; SNIPER AMMO ;
+;;;;;;;;;;;;;;;
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [ammo_7.62x54_7h1]:ammo_base; hunting
 name		= ammo_new_7.62x54_hp
-k_hit		= 1 		;1.017 - Grok
-k_ap		= 0.30 		;0.2 - Arti
-k_hp        = 1.5
-k_mp        = 1.18
+k_hit		= 0.85
+k_ap		= 0.30
 cost        = 2250
 
 [ammo_7.62x54_7h1_bad]:ammo_base; competition
 name		= ammo_new_7.62x54_fp
-k_hit		= 1.05 		;1.067 - Grok+
-k_ap		= 0.2 	;0.249 - Arti
-k_hp        = 1.15
-k_mp        = 1.05
+k_hit		= 1.117
+k_ap		= 0.2
 cost        = 40000
-dg_ammo     = ammo_7.62x54_7h14
+dg_ammo     = ammo_7.62x54_7h1
 dg_chance   = 0.9
 special     = head
 
 
 [ammo_7.62x54_7h14]:ammo_base; 57-N-323S
 name		= ammo_new_7.62x54r
-k_hit		= 1 		;1.017 - Grok
-k_ap		= 0.45 		;0.155 - Arti
+k_hit		= 0.85
+k_ap		= 0.45
 cost        = 4000
 
 [ammo_7.62x54_7h14_bad]:ammo_base ; 7N1
 name		= ammo_new_7.62x54_7n1
-k_hit		= 1.1 		;1.117 - Grok+
-k_ap		= 0.509 		;0.199 - Arti
+k_hit		= 1.17
+k_ap		= 0.509
 cost        = 4800
-dg_ammo     = ammo_7.62x54_7h1
+dg_ammo     = ammo_7.62x54_7h14
 dg_chance   = 0.5
 
 
 
 [ammo_7.62x54_ap]:ammo_base; 7N13
 name		= ammo_new_7.62x54_ap
-k_hit		= 0.95 		;1.017 - Grok
-k_ap		= 0.8 		;0.305 - Arti
+k_hit		= 0.85
+k_ap		= 0.8
 recoil		= 1.05
 cost        = 9500
 
 [ammo_7.62x54_ap_bad]:ammo_base; BZ API
 name		= ammo_new_7.62x54_api
-k_hit		= 1.2 		;1.267 - Grok+
-k_ap		= 0.95 		;0.335 - Arti
+k_hit		= 1.31
+k_ap		= 0.95
 special     = fire
 burn_stacks = 12
 cost        = 11000
@@ -65,16 +58,14 @@ dg_chance   = 0.8
 
 [ammo_pkm_100]:ammo_base ;57-N-323S belt
 name		= ammo_new_7.62x54_ppr
-k_hit		= 1 		;1.5 - Grok
-k_ap		= 0.37 		;0.2 - Arti
+k_hit		= 0.85
+k_ap		= 0.37
 cost        = 2760
 
 [ammo_pkm_100_bad]:ammo_base ; splitshot
 name		= ammo_new_7.62x54_split
-k_hit		= 0.7 		;1.2 - Grok+
-k_ap		= 0.307 	;0.155 - Arti
-k_hp        = 1.1
-k_mp        = 1.04
+k_hit		= 0.55
+k_ap		= 0.307
 cost        = 7260
 dg_ammo     = ammo_pkm_100
 dg_chance   = 0.6
@@ -83,8 +74,8 @@ dg_chance   = 0.6
 
 [ammo_7.62x51_fmj]:ammo_base; ball
 name		= ammo_new_7.62x51_fmj
-k_hit		= 1 		;1.065 - Grok
-k_ap		= 0.34 		;0.225 - Arti
+k_hit		= 0.89
+k_ap		= 0.34
 cost        = 3000
 
 [ammo_7.62x51_fmj_bad]:ammo_base; mk316? 
@@ -93,8 +84,8 @@ special     = frag
 ;ilrathCXV - Additonal effects to separate it from regular FMJ
 
 name		= ammo_new_7.62x51_fmjs
-k_hit		= 1.05 		;1.105 - Grok+
-k_ap		= 0.34 		;0.225 - Arti
+k_hit		= 1.105
+k_ap		= 0.34
 cost        = 4750
 dg_ammo     = ammo_7.62x51_fmj
 dg_chance   = 0.4
@@ -102,14 +93,14 @@ dg_chance   = 0.4
 
 [ammo_7.62x51_ap]:ammo_base ; ap
 name		= ammo_new_7.62x51_ap
-k_hit		= 0.9 		;1.065 - Grok
-k_ap		= 0.62 		;0.305 - Arti
+k_hit		= 0.89
+k_ap		= 0.62
 cost        = 7500
 
-[ammo_7.62x51_ap_bad]:ammo_base ; slap
+[ammo_7.62x51_ap_bad]:ammo_base
 name		= ammo_new_7.62x51_slap
-k_hit		= 0.75 		;0.915 - Grok+
-k_ap		= 0.9 		;0.395 - Arti
+k_hit		= 0.915
+k_ap		= 0.9
 cost        = 8750
 dg_ammo     = ammo_7.62x51_ap
 dg_chance   = 0.6
@@ -119,31 +110,29 @@ special     = armorbuster
 
 [ammo_7.92x33_fmj]:ammo_base ;fmj
 name		= ammo_new_7.92x33_fmj
-k_hit		= 1 		;1.13 - Grok
-k_ap		= 0.25 		;0.195 - Arti
+k_hit		= 1
+k_ap		= 0.27
 cost        = 2250
 
 [ammo_7.92x33_fmj_bad]:ammo_base ;match
 name		= ammo_new_7.92x33_match
-k_hit		= 1.1 		;1.23 - Grok+
-k_ap		= 0.275 	;0.215 - Arti
+k_hit		= 1.5
+k_ap		= 0.225
 cost        = 3000
-k_hp        = 1.15
-k_mp        = 1.4
 special		= varma
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.4
 
 [ammo_7.92x33_ap]:ammo_base ; ap
 name		= ammo_new_7.92x33_ap
-k_hit		= 0.9 		;1.13 - Grok
-k_ap		= 0.39 		;0.305 - Arti
-cost        = 7000
+k_hit		= 1
+k_ap		= 0.39
+cost        = 4500
 
 [ammo_7.92x33_ap_bad]:ammo_base ; lightning
 name		= ammo_new_7.92x33_lightning
-k_hit		= 0.4 		;0.53 - Grok+
-k_ap		= 0.78 		;0.399 - Arti
+k_hit		= 0.85
+k_ap		= 0.78
 cost        = 8400
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.7
@@ -153,8 +142,8 @@ special     = lightning
 
 [ammo_12.7x55_fmj]:ammo_base; normal
 name		= ammo_new_12.7x55_fmj
-k_hit		= 1.5 		;1.35 - Grok
-k_ap		= 0.38 		;0.225 - Arti
+k_hit		= 1.2
+k_ap		= 0.38
 cost        = 3000
 
 [ammo_12.7x55_fmj_bad]:ammo_base; pt2
@@ -163,23 +152,23 @@ special 	= flinch
 ;ilrathCXV - Giving an additonal effect (basically same as normal FMJ ammo the way Arti had it)
 
 name		= ammo_new_12.7x55_fmjs
-k_hit		= 1.65 		;1.5 - Grok+
-k_ap		= 0.45 		;0.255 - Arti
+k_hit		= 1.65
+k_ap		= 0.45
 cost        = 4350
 dg_ammo     = ammo_12.7x55_fmj
 dg_chance   = 0.25
 
 [ammo_12.7x55_ap]:ammo_base; ap
 name		= ammo_new_12.7x55_ap
-k_hit		= 1.5 		;1.35 - Grok
-k_ap		= 0.75 		;0.305 - Arti
+k_hit		= 1.2
+k_ap		= 0.75 
 recoil		= 1.05
 cost        = 6900
 
 [ammo_12.7x55_ap_bad]:ammo_base; explosive
 name		= ammo_new_12.7x55_exp
-k_hit		= 0.5 		;0.35 - Grok+
-k_ap		= 0.58 	;0.049 - Arti
+k_hit		= 0.9
+k_ap		= 0.58
 cost        = 12000
 special     = explodes
 dg_ammo     = ammo_12.7x55_ap
@@ -189,14 +178,14 @@ dg_chance   = 0.65
 
 [ammo_magnum_300]:ammo_base; fmj
 name		= ammo_new_338_lapua
-k_hit		= 1 		;1.64 - Grok
-k_ap		= 1.40 		;0.335 - Arti
+k_hit		= 1.45
+k_ap		= 1.40
 cost        = 17000
 
 [ammo_magnum_300_bad]:ammo_base; saboted DU 
 name		= ammo_new_338_ap
-k_hit		= 1.3 		;1.94 - Grok+
-k_ap		= 1.705 	;0.399 - Arti
+k_hit		= 1.94
+k_ap		= 1.705
 cost        = 21000
 recoil		= 2
 special     = rip
