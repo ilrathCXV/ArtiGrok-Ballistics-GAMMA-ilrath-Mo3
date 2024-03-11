@@ -19,7 +19,7 @@ local black_loot =
 
 function monster_on_net_destroy(npc)
 	if not (string.find(npc:section(), "poltergeist")) then
-		printf("[ArtiGrok - Polter] Creature not a poltergeist: %s, %s, %s", npc:section(), npc:name())
+		-- printf("[ArtiGrok - Polter] Creature not a poltergeist: %s, %s, %s", npc:section(), npc:name())
 		return
 	end
 	
@@ -37,26 +37,23 @@ function monster_on_net_destroy(npc)
 	
 	if polter_type > 0 and npc.health <= 0 then
 		-- spawn powders
-		local powder_drop
-		
-		if polter_type == 1 then -- Tele/Electro
-			powder_drop = (tele_loot and tele_loot[math.random(1, #tele_loot)]) --or "powder_gravi"
-		elseif polter_type == 2 then -- Flame
-			powder_drop = (flame_loot and flame_loot[math.random(1, #flame_loot)]) --or "powder_gravi"
-		elseif polter_type == 3 then -- Black
-			powder_drop = (black_loot and black_loot[math.random(1, #black_loot)]) --or "powder_gravi"
-		end
-		
-		if not powder_drop then				-- default to Gravi Powder if error occurs
-			printf("[ArtiGrok - Polter] No loot detected - defaulting to powder_gravi")
-			powder_drop = "powder_gravi"
-		end
 		
 		local lvid = npc:level_vertex_id()
 		local pos = lvid and level.vertex_position(lvid)
-		if powder_drop and pos then
+		
+		if not pos then return end
+		
+		if polter_type == 1 then -- Tele/Electro
 			for i=1, math.random(1,3) do
-				alife_create(powder_drop, vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+				alife_create((tele_loot and tele_loot[math.random(1, #tele_loot)] or "powder_gravi"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+			end
+		elseif polter_type == 2 then -- Flame
+			for i=1, math.random(2,4) do
+				alife_create((flame_loot and flame_loot[math.random(1, #flame_loot)] or "powder_gravi"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+			end
+		elseif polter_type == 3 then -- Black
+			for i=1, math.random(3,5) do
+				alife_create((black_loot and black_loot[math.random(1, #black_loot)] or "powder_gravi"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
 			end
 		end
 
