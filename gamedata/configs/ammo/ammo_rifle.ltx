@@ -44,16 +44,16 @@ k_ap		= 0.47
 recoil		= 1.05
 cost        = 5100
 
-[ammo_5.45x39_ap_bad]:ammo_base ; 7N39 super AP
-name		= ammo_new_5.45x39_aps
-k_hit		= 1
-k_ap		= 0.576
+[ammo_5.45x39_ap_bad]:ammo_base ; Acid
+i_handler   = ballistic_handlers.particle
+i_particle  = artefact\\effects\\af_acidic_idle_color
+name		= ammo_new_5.45x39_cor
+k_hit		= 0.8
+k_ap		= 0.5
 cost        = 5840
-special		= frag
-frag		= 30
-recoil		= 1.2
+special		= acid
 dg_ammo     = ammo_5.45x39_ap
-dg_chance   = 0.5
+dg_chance   = 0.7
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

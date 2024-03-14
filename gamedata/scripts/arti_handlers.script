@@ -321,8 +321,8 @@ function acid_damage(npc, bone_id)
 		acid_stack_list[npc:id()] = (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] + 1) or 1
 	end
 	
-	-- [Acid Stacking Effect] If hit enemy has taken 5 Acid hits, they apply the "Armorbuster" effect to any enemy within 5m
-	if (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] > 4) then
+	-- [Acid Stacking Effect] If hit enemy has taken 3 Acid hits, they apply the "Armorbuster" effect to any enemy within 8m
+	if (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] > 2) then
 		printf("[Arti Handlers] Acid Stacking proc'd!!!")
 		level.iterate_nearest(npc:position(), 8, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then

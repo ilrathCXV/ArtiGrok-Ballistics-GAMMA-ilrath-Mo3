@@ -1,7 +1,7 @@
 
 ------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------
--- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Feb. 17, '24 - Graze Effect + Code cleanup)
+-- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Mar. 14, '24 - Grav Rounds)
 ------------------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -299,7 +299,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 	is_23_eco			= false
 	cloudkill_mult 		= 1
 	is_critical			= false
-	is_grav				= false
 	
 	printf("///////////   Mutant Hit registered: GBO v1.6.6   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
@@ -365,21 +364,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-------------------
 	ambush_mult = 1.0
 	
-	-----------------
-	-- Grav Rounds --
-	-----------------
-	-- Grants full 15% CQC damage bonus, regardless of range + will travel straight as possible
-	if (special_effect == "grav") or (special_effect_2 == "grav") then
-		is_grav = true
-	end
-	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
 	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
 	local monster_pos = monster:position()
 	local shooter_pos = shooter:position()
-	local dist = (is_grav and 1) or (monster_pos:distance_to(shooter_pos))
+	local dist = (monster_pos:distance_to(shooter_pos))
 	
 	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 	
@@ -906,6 +897,17 @@ function monster_on_before_hit(monster,shit,bone_id)
 			arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
 		end
 		
+		-----------------
+		-- Grav Rounds --
+		-----------------
+		-- Grants bonus bone_mult if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
+		if (special_effect == "grav") or (special_effect_2 == "grav") then
+			if dist >= 100 then
+				bone_mult = bone_mult * (1 + clamp((dist - 99) * 0.00498, 0, 1))
+			end
+			dist = 1
+		end
+		
 		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * varma_mult * fragment_mult * ambush_mult * cloudkill_mult
 
 		printf("Barrel condition: %s, GBO output damage: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, cloudkill_mult, snake_mult)
@@ -1031,16 +1033,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Need in order to properly give correct damage and radius values
 	is_critical = false
 	
-	-----------------
-	-- Grav Rounds --
-	-----------------
-	is_grav = false
-	-- Grants full 15% CQC damage bonus, regardless of range + will travel straight as possible
-	if (special_effect == "grav") or (special_effect_2 == "grav") then
-		is_grav = true
-	end
-	
-	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
@@ -1048,7 +1040,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local wm_size = ini_sys:r_float_ex(ammo_section, "wm_size") or 0.05
 	local npc_pos = npc:position()
 	local shooter_pos = shooter:position()
-	local dist = (is_grav and 1) or npc_pos:distance_to(shooter_pos)
+	local dist = npc_pos:distance_to(shooter_pos)
 	
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC"
@@ -1503,6 +1495,17 @@ function npc_on_before_hit(npc, shit, bone_id)
 			fragment_mult = 1.3
 			arti_handlers.fragment_sound(npc)
 		end
+	end
+	
+	-----------------
+	-- Grav Rounds --
+	-----------------
+	-- Grants bonus AP if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
+	if (special_effect == "grav") or (special_effect_2 == "grav") then
+		if dist >= 100 then
+			k_ap = k_ap * (1 + clamp((dist - 99) * 0.00498, 0, 1))		-- At 300m, bonus will be capped to 2x (1 + 1)x
+		end
+		dist = 1
 	end
 
 	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update

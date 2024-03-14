@@ -170,7 +170,7 @@
 		<text>Fires three projectiles</text>
 	</string>
 	<string id="st_ballistics_lightning">
-		<text>Lightning Strike if target Stalker has BR3+ armor/hit is a headshot, higher BR = higher DMG</text>
+		<text>Lightning Strike on BR3+ armor or headshots, higher BR = higher DMG</text>
 	</string>
 	<string id="st_ballistics_pierce">
 		<text>Cover piercing</text>
@@ -191,7 +191,7 @@
 		<text>Share 5% of hit DMG to nearby enemies, 30% if headshot</text>
 	</string>
 	<string id="st_ballistics_grav">
-		<text>High-velocity, receives CQC DMG mult.</text>
+		<text>No range DMG dropoff + extra AP past 100m (up to 2x)</text>
 	</string>
 
 	<string id="st_link">
@@ -225,14 +225,14 @@
 	</string>
 	
 	<!-- AP+ -->
-	<string id="ammo_new_9x18_7n25">
-		<text>9x18mm AP+ rounds</text>
+	<string id="ammo_new_9x18_grav">
+		<text>9x18mm 'Grav' AP+ rounds</text>
 	</string>
-	<string id="ammo_new_9x18_7n25_descr">
-		<text>Modern 9x18 armor-piercing handgun round with a carbon steel core and increased powder load. Unlike its predecessor RG028, this round is able to reliably defeat soft body armor and deal some damage to even rifle plates, but due to the powder charge and shape of the penetrator it suffers from reduced stopping power and increased wear on the weapon's internal components.</text>
+	<string id="ammo_new_9x18_grav_descr">
+		<text>Experimental 9x18mm cartridge utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, reaching levels unseen from all known pistol rounds.</text>
 	</string>
-	<string id="ammo_new_9x18_7n25_s">
-		<text>9x18 AP+</text>
+	<string id="ammo_new_9x18_grav_s">
+		<text>9x18 'Grav' (AP+)</text>
 	</string>
 
 	<!-- FMJ+ -->
@@ -421,14 +421,14 @@
 	</string>
 
 	<!-- AP+ -->
-	<string id="ammo_new_5.45x39_aps">
-		<text>5.45x39mm AP+ rounds</text>
+	<string id="ammo_new_5.45x39_cor">
+		<text>5.45x39mm Acid rounds</text>
 	</string>
-	<string id="ammo_new_5.45x39_aps_descr">
-		<text>Classified, extremely rare 5.45x39 caliber 7N39 'super' armour-piercing round for automatic rifles of Warsaw Pact countries. The bullet contains a hardened tungsten penetrator and the cartridge packs a high-pressure load, conferring extreme penetration capability against most types of armor. Extremely difficult to find outside of Russian Special Forces armories - it has long been rumored that the Russian Federation is aware of the activities in the Zone and is conducting clandestine activities under the guise of cooperation with the Ukrainian Armed Forces, likely serving their own agenda. No matter the origin, these rounds are likely the best intermediate rifle rounds you can find.</text>
+	<string id="ammo_new_5.45x39_cor_descr">
+		<text>Experimental 5.45x39mm "armor-eating" round utilizing Chemical Artefact Fragments. The bullet contains a chemical payload that corrodes any armor it touches, making Exosuits almost as protective as a simple leather jacket. Enough hits from this round will cause the fragments to erupt into a corrosive cloud, weakening all nearby armor and its integrity against all other arms fire. This allows for excellent crowd control against groups of heavily-armored targets.</text>
 	</string>
-	<string id="ammo_new_5.45x39_aps_s">
-		<text>5.45x39 AP+</text>
+	<string id="ammo_new_5.45x39_cor_s">
+		<text>5.45x39 Acid (AP+)</text>
 	</string>
 	
 	<!-- FMJ+ -->

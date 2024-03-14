@@ -52,7 +52,7 @@ Recommended ONLY for shotguns.
 special     = fire_melt							-- Special tag needed by the damage system to make use of this ammo's special effects
 
 Acid Rounds - These rounds increases the amount of armor you take away from a Stalker who has a higher AP than the round's capabilities, and mutants will take 75% more damage from Acid Rounds. It changes the damage type to chemical burn.
-Enemies that take 5 Acid hits from any combination of Acid rounds will apply the Armorbuster effect (EXPLAINED LATER) to itself and all targets within a 5m radius.
+Enemies that take 3 Acid hits from any combination of Acid rounds will apply the Armorbuster effect (EXPLAINED LATER) to itself and all targets within an 8m radius.
 
 i_handler   = ballistic_handlers.particle				-- Used by Arti's system to call the particle function
 i_particle  = artefact\\effects\\af_acidic_idle_color 	-- The particle effect used by the function called by the line above
@@ -142,10 +142,11 @@ Recommended on sniper rounds, or on rounds that typically are used in bolt-actio
 
 special		= graze								-- Special tag needed by the damage system to make use of this ammo's special effects
 
-Grav Rounds - These rounds travel fast and have nearly no air resistance/bullet drop.
-On hit, the rounds will ALWAYS benefit from the 15% CQC damage multiplier + will act as if the round was fired point-blank.
+Grav Rounds - These rounds travel fast and have nearly no air resistance/bullet drop, and receive an AP multiplier if the target is more than 100m away.
+The AP bonus goes up to a 2x multiplier. The AP multipler is simply a damage multipler against mutants (but I wouldn't advise using AP on them).
+In the calculations, the distance is changed to 1m to ensure there is no range damage or AP penalty.
 To acheive the former, you must at least double the "k_bullet_speed" value and make the "k_air_resistance" value be 0.01 at the lowest inside the 
 rounds actual stats (not talking about the ammo_*.ltx file).
 Recommended on FMJ+ or AP+ rounds.
 
-special		= grav								-- Special tag needed by the damage system to grant the CQC bonus
+special		= grav								-- Special tag needed by the damage system to make use of this ammo's special effects
