@@ -38,13 +38,6 @@ end
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
-local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
-_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
-	cloudkill_dmg_reduction(shit, bone_id)
-	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
-end
-
-
 function cloudkill_dmg_reduction(shit, bone_id)
 	if not shit.draftsman then return end
 	
@@ -55,6 +48,12 @@ function cloudkill_dmg_reduction(shit, bone_id)
 		display_reduction = tonumber(100 - (damage_reduction * 100))
 		printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
     end
+end
+
+local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
+_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
+	cloudkill_dmg_reduction(shit, bone_id)
+	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
 end
 
 function check_stun()
@@ -87,7 +86,6 @@ end
 function on_game_start()
     RegisterScriptCallback("npc_on_death_callback", on_death_callback)
     RegisterScriptCallback("monster_on_death_callback", on_death_callback)
-    RegisterScriptCallback("actor_on_before_hit", actor_on_before_hit)
     RegisterScriptCallback("server_entity_on_unregister", se_on_unregister)
 	RegisterScriptCallback("actor_on_update", check_stun)
 end

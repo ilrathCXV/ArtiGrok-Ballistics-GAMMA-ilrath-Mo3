@@ -38,7 +38,7 @@ special_2   = flinch							-- Special: EXPLAINED LATER
 flinch      = 60								-- Special: EXPLAINED LATER
 
 Now, to explain Special effects. I will show the Special effects, explain what they do and how to in corporate them into your ammo.
-NOTE: Only TWO Special effects can be applied to a single ammo type (special = ... | special_2 = ...)
+NOTE: Only TWO Special effects can be applied to a single ammo type (special = ... | special_2 = ...) and they CANNOT be the same special effect
 
 Varmaggedon - This Special type increase the damage against mutants by 60% (does no additional damage against Stalkers). Recommended for use with HP/hunting rounds.
 
@@ -95,8 +95,7 @@ RIP Rounds - These rounds heal the player equal to 25% of the damage dealt. Thes
 
 special     = rip								-- Special tag needed by the damage system to make use of this ammo's special effects
 
-Soulripper - These rounds heal the player for 15% of their total HP on a kill. Recommended for hard-hitting sniper rounds.
-Recommended for smaller calibers.
+Soulripper - These rounds heal the player for 15% of their total HP on a kill. Recommended for smaller calibers.
 
 special     = soulripper						-- Special tag needed by the damage system to make use of this ammo's special effects
 
@@ -109,7 +108,7 @@ Recommended for rifle/sniper AP rounds.
 special		= fire 								-- Special tag needed by the damage system to make use of this ammo's special effects (not to be confused with Dragon's Breath's "fire_melt" Special tag)
 burn_stacks = 2									-- The amount of Burn stacks given on hit. I recommend staying within 2-6 Burn stacks (harder-hitting rounds should give more Burn)
 
-Flinch/Stun Capability - This Special is meant to help give some character to rounds that don't have an special capabilities or giving them some would break the game. It has a chance to stun a target on hit.
+Flinch/Stun Capability - This Special has a chance to stun a human target/stalker on hit, as well as jamming/unloading their weapon's ammo. It is on a 1 second cooldown.
 
 special     = flinch							-- Special tag needed by the damage system to make use of this ammo's special effects
 flinch      = 0.5								-- Flinch/stun chance. Recommended to be set between (0.5 - 0.95).
@@ -141,4 +140,12 @@ If the target is hit in the head or in a critical area (i.e boars on their stoma
 Else, targets within 5m will receive 5% of the original damage dealt to the hit target.
 Recommended on sniper rounds, or on rounds that typically are used in bolt-action/pump-action weapons.
 
-special		= graze
+special		= graze								-- Special tag needed by the damage system to make use of this ammo's special effects
+
+Grav Rounds - These rounds travel fast and have nearly no air resistance/bullet drop.
+On hit, the rounds will ALWAYS benefit from the 15% CQC damage multiplier + will act as if the round was fired point-blank.
+To acheive the former, you must at least double the "k_bullet_speed" value and make the "k_air_resistance" value be 0.01 at the lowest inside the 
+rounds actual stats (not talking about the ammo_*.ltx file).
+Recommended on FMJ+ or AP+ rounds.
+
+special		= grav								-- Special tag needed by the damage system to grant the CQC bonus

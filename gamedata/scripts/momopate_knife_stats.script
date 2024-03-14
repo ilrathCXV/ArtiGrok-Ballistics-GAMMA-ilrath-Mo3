@@ -19,12 +19,10 @@ function inject_stats()
 			["heavy_attack"]	= { index= 20, 	typ= "float",	name= "st_mp_knife_dmg_2",		icon_p= "ui_wp_propery_08",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_dmg",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_damage", "hit_power_2" } },
 			["reach"]			= { index= 30, 	typ= "float",	name= "st_mp_knife_range",		icon_p= "ui_wp_propery_05",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_meters",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_reach" } },
 			["reach_2"]			= { index= 40, 	typ= "float",	name= "st_mp_knife_range_2",	icon_p= "ui_wp_propery_13",			icon_n= "", track= false,	magnitude= 1,	unit= "st_stat_meters",	compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_reach", "Heavy" } },
-			["ap"]				= { index= 50, 	typ= "float",	name= "st_prop_k_ap",			icon_p= "ui_wp_propery_04",			icon_n= "", track= false,	magnitude= 1,	unit= "",				compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_ap" } },
+			["ap"]				= { index= 50, 	typ= "float",	name= "st_mp_knife_ap",			icon_p= "ui_wp_propery_04",			icon_n= "", track= false,	magnitude= 1,	unit= "st_mp_ap",		compare= false,	sign= false,	show_always= true,		value_functor= { "momopate_knife_stats", "prop_ap" } },
 			
-			["hp"] 				= { index= 60,  typ= "float",   name= "st_prop_k_hp",           icon_p= "ui_am_prop_restore_bleeding", icon_n= "", track= false, magnitude= 1,  unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"momopate_knife_stats","prop_hp"} },
-			["mp"] 				= { index= 70,  typ= "float",   name= "st_prop_k_mp",           icon_p= "ui_am_prop_wound",  		icon_n= "", track= false,  magnitude= 1,    unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"momopate_knife_stats","prop_mp"} },
-			["special"] 		= { index= 80, typ= "float",  	name= "st_prop_special",       	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_special"} } ,
-			["special_2"] 		= { index= 90, typ= "float",  	name= "st_prop_extra",         	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_extra_special"} } ,
+			["special"] 		= { index= 60, typ= "float",  	name= "st_prop_special",       	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_special"} } ,
+			["special_2"] 		= { index= 70, typ= "float",  	name= "st_prop_extra",         	icon_p= "ui_am_condition",          icon_n= "", track= false,   magnitude= 1,   unit= "",   			compare= false, sign= false, 	show_always=false, 		value_functor= { "momopate_knife_stats","prop_extra_special"} } ,
 
 		}
 	--end
@@ -100,21 +98,17 @@ function prop_damage(obj, sec, name)
 end
 
 function prop_ap(obj, sec)
---[[
 	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
 	
 	printf(ammo_sec)
 	
 	if ammo_sec ~= "nil" then
 		printf(ammo_sec)
-		local ap = ini_sys:r_float_ex(ammo_sec, "k_ap") or 0
-		return (ap * 1000) or 0
+		printf(SYS_GetParam(2, ammo_sec, "k_ap"))
+		return round_idp((SYS_GetParam(2, ammo_sec, "k_ap") or 0) * 1000, 0)
 	end
 	
 	return 0
---]]
-
-	return 1
 end
 
 function prop_reach(obj, sec, name)
@@ -129,31 +123,6 @@ function prop_reach(obj, sec, name)
 end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
-
-function prop_hp(obj, sec)
-	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
-	
-	printf(ammo_sec)
-	
-	if ammo_sec ~= "nil" then
-		printf(ammo_sec)
-		local hp = ini_ammo:r_float_ex(ammo_sec, "k_hp") or 1
-		return hp > 1.01 and math.floor(100 * (hp - 1)) or 0
-	end
-	
-end
-
-function prop_mp(obj, sec)
-	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"
-	
-	printf(ammo_sec)
-	
-	if ammo_sec ~= "nil" then
-		printf(ammo_sec)
-		local mp = ini_ammo:r_float_ex(ammo_sec, "k_mp") or 1
-		return mp > 1.01 and math.floor(100 * (mp - 1)) or 0
-	end
-end
 
 function prop_special(obj, sec)
 	local ammo_sec = SYS_GetParam(0, obj and obj:section() or sec, "ammo_class") or "nil"

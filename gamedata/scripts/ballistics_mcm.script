@@ -23,8 +23,8 @@ gc = game.translate_string
 
 GetFirstName = ui_item.build_name_first
 function ui_item.build_name_first(obj, sec, str)
-    if ini_ammo:section_exist(sec) and ini_ammo:r_string_ex(sec, "name") then
-        return gc(ini_ammo:r_string_ex(sec, "name"))
+    if ini_ammo:section_exist(sec) and ini_ammo:r_string_ex(sec, "name") and string.find(sec, "_bad") then
+        return gc(ini_sys:r_string_ex(sec, "inv_name"))
     else
         return GetFirstName(obj, sec, str)
     end
@@ -32,8 +32,8 @@ end
 
 ShortName = ui_item.build_short_name_first
 function ui_item.build_short_name_first(obj, sec, str)
-    if ini_ammo:section_exist(sec) and ini_ammo:r_string_ex(sec, "name") then
-        return gc(ini_ammo:r_string_ex(sec, "name") .. "_s")
+    if ini_ammo:section_exist(sec) and ini_ammo:r_string_ex(sec, "name") and string.find(sec, "_bad") then
+        return gc(ini_sys:r_string_ex(sec, "inv_name_short"))
     else
         return ShortName(obj, sec, str)
     end
@@ -58,7 +58,7 @@ function on_mcm_load()
             {id = "debug", type = "check", val = 1, def=true},
             {id = "cost", type = "check", val = 1, def=true},
             {id = "impair", type = "check", val = 1, def=false},
-			{id = "particles", type = "check", val = 1, def=false},
+			{id = "particles", type = "check", val = 1, def=true},
         }
     }
     return op

@@ -299,6 +299,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	is_23_eco			= false
 	cloudkill_mult 		= 1
 	is_critical			= false
+	is_grav				= false
 	
 	printf("///////////   Mutant Hit registered: GBO v1.6.6   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
@@ -364,18 +365,27 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-------------------
 	ambush_mult = 1.0
 	
+	-----------------
+	-- Grav Rounds --
+	-----------------
+	-- Grants full 15% CQC damage bonus, regardless of range + will travel straight as possible
+	if (special_effect == "grav") or (special_effect_2 == "grav") then
+		is_grav = true
+	end
+	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
 	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
 	local monster_pos = monster:position()
 	local shooter_pos = shooter:position()
-	local dist = monster_pos:distance_to(shooter_pos)
+	local dist = (is_grav and 1) or (monster_pos:distance_to(shooter_pos))
+	
+	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 	
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC."
 	if snake_mult == 1 then -- only if it is bullet damage (melee was done above)
-		local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 		if dist <= 3.0 then
 			snake_mult = trim_dec_3places(1 + (0.15 / pellet_count))
 		elseif dist <= 15.0 then
@@ -1021,6 +1031,15 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Need in order to properly give correct damage and radius values
 	is_critical = false
 	
+	-----------------
+	-- Grav Rounds --
+	-----------------
+	is_grav = false
+	-- Grants full 15% CQC damage bonus, regardless of range + will travel straight as possible
+	if (special_effect == "grav") or (special_effect_2 == "grav") then
+		is_grav = true
+	end
+	
 	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
@@ -1029,7 +1048,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local wm_size = ini_sys:r_float_ex(ammo_section, "wm_size") or 0.05
 	local npc_pos = npc:position()
 	local shooter_pos = shooter:position()
-	local dist = npc_pos:distance_to(shooter_pos)
+	local dist = (is_grav and 1) or npc_pos:distance_to(shooter_pos)
 	
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC"

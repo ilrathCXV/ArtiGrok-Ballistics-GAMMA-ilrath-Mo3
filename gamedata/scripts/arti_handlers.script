@@ -92,6 +92,8 @@ function stun_npc(npc, flinch_stun_chance)
     if not is_actor(npc) and IsStalker(npc) then
 		if math_random(100) < flinch_stun_chance and (not npc_stun[npc:id()] or npc_stun[npc:id()] == false) then
 			play_anim(npc)
+			local npc_weapon = npc:active_item()
+			if npc_weapon then npc_weapon:unload_magazine(false) end
 			npc_stun[npc:id()] = time_global() + 1000
 		end
     end
@@ -136,7 +138,7 @@ function burn_tick_on_update()
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
 					local burn_dmg = (clamp((v * 0.005), 0, 0.10) * (1 + ((bas_handler.weakened and bas_handler.weakened[k] or 0) * 0.2))) or 0.005
-					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmgs)
+					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
 					if IsStalker(npc) then
 						damage_npc_grok(npc, burn_dmg)
 					else
@@ -450,7 +452,7 @@ function damage_npc_grok(npc, power)
 	printf("[Arti Handlers - DMG NPC Grok] Special Damage: %s | NPC being hit: %s", power, npc:name())
 	npc:set_health_ex(npc.health - power)
 	if npc.health <= 0 then	-- double-check in case burn or alternate manual damage kills
-		enemy_on_death_callback(npc, db.actor)
+		SendScriptCallback("npc_on_death_callback", npc, db.actor)
 	end
 end
 
@@ -718,7 +720,7 @@ function custom_impair_special_effects(obj, wpn, ammo_elapsed, grenade_elapsed, 
 	if ammo_table[ammo_type + 1] and 
 	(custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] or custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special_2")]) then
 		condition_degrade_on_fire(0.0105, wpn, 4)			-- Lose 1.05% durability when firing these rounds on a 25% (un)lucky roll
-    elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "bad") or string.find(ammo_table[ammo_type + 1], "_eco") then
+    elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "_bad") or string.find(ammo_table[ammo_type + 1], "_eco") then
 		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll
 	end
 end

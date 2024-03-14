@@ -98,13 +98,16 @@ k_ap		= 0.62
 cost        = 7500
 
 [ammo_7.62x51_ap_bad]:ammo_base
-name		= ammo_new_7.62x51_slap
-k_hit		= 0.915
-k_ap		= 0.9
-cost        = 8750
-dg_ammo     = ammo_7.62x51_ap
-dg_chance   = 0.6
-special     = armorbuster
+name			= ammo_new_7.62x51_duplex
+k_hit			= 0.53
+k_ap			= 0.37
+cost        	= 8750
+dg_ammo     	= ammo_7.62x51_ap
+dg_chance   	= 0.85
+special			= fire
+burn_stacks 	= 4
+special_2     	= shock
+shock_stacks	= 2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -146,15 +149,12 @@ k_hit		= 1.2
 k_ap		= 0.38
 cost        = 3000
 
-[ammo_12.7x55_fmj_bad]:ammo_base; pt2
-flinch 		= 95
-special 	= flinch
-;ilrathCXV - Giving an additonal effect (basically same as normal FMJ ammo the way Arti had it)
-
+[ammo_12.7x55_fmj_bad]:ammo_base; 'Grav" Rounds
 name		= ammo_new_12.7x55_fmjs
 k_hit		= 1.65
 k_ap		= 0.45
-cost        = 4350
+cost        = 5350
+special		= grav
 dg_ammo     = ammo_12.7x55_fmj
 dg_chance   = 0.25
 
@@ -162,7 +162,6 @@ dg_chance   = 0.25
 name		= ammo_new_12.7x55_ap
 k_hit		= 1.2
 k_ap		= 0.75 
-recoil		= 1.05
 cost        = 6900
 
 [ammo_12.7x55_ap_bad]:ammo_base; explosive
@@ -187,7 +186,6 @@ name		= ammo_new_338_ap
 k_hit		= 1.94
 k_ap		= 1.705
 cost        = 21000
-recoil		= 2
 special     = rip
 dg_ammo     = ammo_magnum_300
 dg_chance   = 0.8
