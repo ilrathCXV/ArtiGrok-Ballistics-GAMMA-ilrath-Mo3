@@ -258,14 +258,14 @@
 	</string>
 
 	<!-- AP+ -->	
-	<string id="ammo_new_9x19_7n31">
-		<text>9x19mm AP+ rounds</text>
+	<string id="ammo_new_9x19_fire">
+		<text>9x19mm Incendiary rounds</text>
 	</string>
-	<string id="ammo_new_9x19_7n31_descr">
-		<text>Enhanced Russian AP round with a stronger powder charge and lighter bullet. Provides much better peak performance and armor defeating capability than its predecessor, at the cost of higher wear. Extremely rare in the Zone and issued only to Spetsnaz or Russian Mercenaries.</text>
+	<string id="ammo_new_9x19_fire_descr">
+		<text>Handloaded armor-piercing incendiary round for 9x19mm platforms. Through the use of Thermal Artefact Fragments, this round is able to punch through armor much more effectively than standard 9x19mm AP ammunition. It lacks raw power but will burn struck targets with each hit. The burn can be quick to burn out, but it will continue to persist if the target is struck with this or other incendaiary ammunition. This brun will slowly hurt the target, and, if suffered a strong enough burn, will cause them to ignite, spreading the heat to nearby enemies will also suffer from burns.</text>
 	</string>
-	<string id="ammo_new_9x19_7n31_s">
-		<text>9x19 AP+</text>
+	<string id="ammo_new_9x19_fire_s">
+		<text>9x19 Incendiary (AP+)</text>
 	</string>
 
 	<!-- FMJ+ -->
@@ -302,14 +302,14 @@
 	</string>
 
 	<!-- HP+ -->
-	<string id="ammo_new_7.62x25_hp">
-		<text>7.62x25mm HP rounds</text>
+	<string id="ammo_new_7.62x25_cloud">
+		<text>7.62x25mm 'Cloudkill' rounds</text>
 	</string>
-	<string id="ammo_new_7.62x25_hp_descr">
-		<text>7.62x25mm cartridge in hollowpoint sporting configuration. Still possesses respectable armor defeating capabilities due to the narrow bullet, and offers a respectable increase in stopping power.</text>
+	<string id="ammo_new_7.62x25_cloud_descr">
+		<text>7.62x25mm special use cartridge developed by the Ecologists, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. All affected targets will become more susceptible to all future damage it may take on. Additionally, they will have their strength and/or equipment impaired, severely reducing any damage they may inflict on others. However, this round is made for crowd control and does very little damage to targets themselves. The concentration of the toxic mixture is not strong enough to do enough extra damage against mutants to be useful as a defense round, unlike the 23x75mm 'Cloudkill' Cartridge.</text>
 	</string>
-	<string id="ammo_new_7.62x25_hp_s">
-		<text>7.62x25 HP+</text>
+	<string id="ammo_new_7.62x25_cloud_s">
+		<text>7.62x25 'Cloudkill' (HP+)</text>
 	</string>
 	
 	<!-- FMJ+ -->

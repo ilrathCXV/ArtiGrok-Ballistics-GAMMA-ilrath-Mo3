@@ -55,7 +55,7 @@ special     = grav
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; 9x19
-[ammo_9x19_fmj]:ammo_base ; standard FMJ
+[ammo_9x19_fmj]:ammo_base
 name		= ammo_new_9x19_fmj
 k_hit       = 1
 k_ap		= 0.17
@@ -72,7 +72,7 @@ flinch		= 15
 dg_ammo     = ammo_9x19_fmj
 dg_chance   = 0.3
 
-[ammo_9x19_pbp]:ammo_base ; JHP
+[ammo_9x19_pbp]:ammo_base
 name		= ammo_new_9x19_pbp
 k_hit       = 1
 k_ap		= 0.1
@@ -87,18 +87,19 @@ recoil		= 1.5
 dg_ammo     = ammo_9x19_pbp
 dg_chance   = 0.5
 
-[ammo_9x19_ap]:ammo_base ; 7N21 overpressure
+[ammo_9x19_ap]:ammo_base
 name		= ammo_new_9x19_ap
 k_hit		= 0.9
 k_ap		= 0.38
 cost        = 2350
 
-[ammo_9x19_ap_bad]:ammo_base ; 7N31 overpressure AP
-name		= ammo_new_9x19_7n31
-k_hit		= 0.8
-k_ap		= 0.45
-cost        = 2950
-recoil		= 1.05
+[ammo_9x19_ap_bad]:ammo_base ; API Rounds
+name		= ammo_new_9x19_fire
+k_hit		= 0.65
+k_ap		= 0.5
+cost        = 3950
+special     = fire
+burn_stacks	= 3
 dg_ammo     = ammo_9x19_ap
 dg_chance   = 0.7
 
@@ -157,15 +158,15 @@ k_hit		= 1
 k_ap        = 0.08
 cost        = 875
 
-[ammo_7.62x25_p_bad]:ammo_base; hp
-name		= ammo_new_7.62x25_hp
-k_hit		= 1.35
-k_ap		= 0.13
-cost        = 1345
-special		= frag
-frag		= 25
+[ammo_7.62x25_p_bad]:ammo_base; cloudkill
+name		= ammo_new_7.62x25_cloud
+k_hit		= 0.3
+k_ap		= 0.1
+cost        = 3000
+special     = toxic
+special_2	= varma
 dg_ammo     = ammo_7.62x25_p
-dg_chance   = 0.5
+dg_chance   = 0.75
 
 [ammo_7.62x25_ps]:ammo_base ; pst
 name		= ammo_new_7.62x25_ps

@@ -71,8 +71,9 @@ end
 
 function get_tier(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22) --------------------------------------------
-
+	
 	val = val * 100
+	
 	if (val < 10) then val = 0
 	elseif ( (val >= 10) and (val < 19) ) then val = 1
 	elseif ( (val >= 19) and (val < 30) ) then val = 2
@@ -588,18 +589,22 @@ function explode_handler(bullet)
 		local explode_obj = alife_create_item("bullet_blow", bullet_point)
 		if not explode_obj then printf("[ArtiGrok - Exp] No bullet_blow created") return end
 		
-		local frag_radius 	= 36			--ini_sys:r_float_ex("bullet_blow", "frags_r")
-		local frag_power 	= 0.04			--ini_sys:r_float_ex("bullet_blow", "frag_hit")
-		local frag_impulse 	= 2 			--ini_sys:r_float_ex("bullet_blow", "frag_hit_impulse")
-		local blast_impulse = 60			--ini_sys:r_float_ex("bullet_blow", "blast_impulse")
-		local total_frags 	= 10			--ini_sys:r_float_ex("bullet_blow", "frags")
-		local blast_power 	= 3.14			--ini_sys:r_float_ex("bullet_blow", "blast")
-		local blast_radius 	= 1.2			--ini_sys:r_float_ex("bullet_blow", "blast_r")
+		-- each bullet has a "explosion multiplier" that will affect individual performance
+		local exp_mult = ini_ammo:r_string_ex(ammo_sec, "exp_mult") or 1
+		
+		local frag_radius 	= 36					--ini_sys:r_float_ex("bullet_blow", "frags_r")
+		local frag_power 	= 0.04 * exp_mult		--ini_sys:r_float_ex("bullet_blow", "frag_hit")
+		local frag_impulse 	= 2 * exp_mult			--ini_sys:r_float_ex("bullet_blow", "frag_hit_impulse")
+		local blast_impulse = 60 * exp_mult			--ini_sys:r_float_ex("bullet_blow", "blast_impulse")
+		local total_frags 	= 10 * exp_mult			--ini_sys:r_float_ex("bullet_blow", "frags")
+		local blast_power 	= 3.14 * exp_mult		--ini_sys:r_float_ex("bullet_blow", "blast")
+		local blast_radius 	= 1.2 * exp_mult		--ini_sys:r_float_ex("bullet_blow", "blast_r")
 		local frags_temp 	= total_frags
 		
 		level.iterate_nearest(bullet.position, frag_radius, function(_obj)
             if (IsStalker(_obj) or IsMonster(_obj)) and _obj:id() ~= AC_ID and _obj:id() ~= 65535 then
-				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted as an object
+				if string.find(_obj:name(), "legs") then return end	-- First-person legs are being counted as an object
+				if _obj:has_info("npcx_is_companion") then return end
 				if _obj:alive() then
 					local npc_pos = _obj:position()
 					local dist = npc_pos:distance_to(bullet.position)
@@ -617,13 +622,9 @@ function explode_handler(bullet)
 					
 					-- printf("[ArtiGrok - Exp] %s is hit with %s fragments (blast damage mod.: %s)", _obj and _obj:name(), frag_hit_num, blast_div_factor)
 					
-					local k_hit = ini_sys:r_float_ex(ammo_sec, "k_hit") or 1
-					if k_hit < 1 then k_hit = 1 end
-					
 					local h = hit()
 					h.type = (is_frag_hit and blast_div_factor < 0.3 and hit.fire_wound) or hit.explosion
 					h.power = ((is_frag_hit and frag_power * frag_hit_num) or 0) + (blast_power * blast_div_factor)
-					h.power = h.power * k_hit
 					h.impulse = ((is_frag_hit and frag_impulse * frag_hit_num) or 0) + (blast_impulse * blast_div_factor)
 					h.direction = VEC_Y
 					h.bone = "bip01_spine"

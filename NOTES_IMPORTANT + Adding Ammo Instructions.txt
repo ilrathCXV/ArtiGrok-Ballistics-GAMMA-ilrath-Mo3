@@ -76,9 +76,12 @@ Recommended for subsonic ammunition.
 
 special		= ambush							-- Special tag needed by the damage system to make use of this ammo's special effects
 
-Explosive - Self-explanatory. Releases a explosion on contact with a surface or an enemy (can hurt the player). Recommended for large-calbier/sniper rounds. Reduce the k_hit and k_ap of the round to compensate (below 0.5 and 0.3 respectively).
+Explosive - Self-explanatory. Releases a explosion on contact with a surface or an enemy (can hurt the player).
+Each round will have a variable that will allow each explosive round to have unique performance on the explosion power, radius, number of fragments, etc.
+Recommended for large-calbier/sniper rounds. Reduce the k_hit and k_ap of the round to compensate (below 0.5 and 0.3 respectively).
 
 special     = explodes							-- Special tag needed by the damage system to make use of this ammo's special effects
+exp_mult	= 1									-- Multipler for frag/explosion damage, explosion radius, and amount of frags released
 
 Headhunter - One of the strongest effects in the game. This effect is only applied to headshots. It (1) increases the ammo's k_ap to 1.00 (max), (2) loses no damage on overpentration, and (3) negates Sin and ISG resistances.
 Eidelon will still put up a good fight against the round. Recommended for large-caliber/sniper rounds + make the round stupid expensive to craft and to buy.

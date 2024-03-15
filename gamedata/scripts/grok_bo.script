@@ -182,7 +182,7 @@ hp_rounds = {
 	["ammo_9x19_pbp_bad"] = 5,				-- Ratshot
 	["ammo_9x19_pbp_verybad"] = 2,
 	["ammo_7.62x25_p"] = 1.75,
-	["ammo_7.62x25_p_bad"] = 1.75,
+	["ammo_7.62x25_p_bad"] = 3.5,			-- "Cloudkill" Mini-Syringe
 	["ammo_7.62x25_p_verybad"] = 1.75,
 	["ammo_11.43x23_hydro"] = 2.7,
 	["ammo_11.43x23_hydro_bad"] = 3,
@@ -228,6 +228,7 @@ hp_rounds = {
 	["ammo_5.56x45_ap_bad"] = 1.33,			-- Quad-shot (meant to shred armor, less for pure damage)
 	["ammo_7.62x54_7h1_bad"] = 5,			-- Headhunter (should do little damage if not hitting a headshot)
 	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
+	["ammo_7.62x25_ps_bad"] = 2,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
 
 }
 
@@ -1329,7 +1330,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		end
 	end
 
-	local k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
+	k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
 
 	------------------
 	-- Chaos Rounds --

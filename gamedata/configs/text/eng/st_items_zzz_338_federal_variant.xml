@@ -5,14 +5,14 @@
 -->
 
 <string_table>
-	<string id="ammo_338_fed_cloudkill">
-		<text>.338 Federal "Cloudkill" rounds</text>
+	<string id="ammo_338_fed_exp">
+		<text>.338 Federal Explosive rounds</text>
 	</string>
-	<string id="ammo_338_fed_cloudkill_descr">
-		<text>This sniper round utilizes the power of chemical artefacts. When coming into contact with a target, the round releases a cloud of chemical poison. Any target within range of the cloud when it is released will be more vulnerable to any incoming damage and will have less power when fighting other targets. Despite the volatile makeup of the round, it still is a very deadly round on its own.</text>
+	<string id="ammo_338_fed_exp_descr">
+		<text>This sniper round utilizes Volatile Artefact Fragments to create a makeshift "explosive payload". When striking either a target or a surface, it hurt any enemies near the blast. If not close enough to the blast, enemies still have a chance to catch shrapnel from the round itself. However, due to its anomalous nature, these explosions pose no threat to the user.</text>
 	</string>
-	<string id="ammo_338_fed_cloudkill_s">
-		<text>.338 Federal "Cloudkill"</text>
+	<string id="ammo_338_fed_exp_s">
+		<text>.338 Federal Explosive</text>
 	</string>
 
 </string_table>

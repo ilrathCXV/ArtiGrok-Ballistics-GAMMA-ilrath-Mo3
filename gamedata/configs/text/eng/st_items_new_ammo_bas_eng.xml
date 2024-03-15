@@ -47,13 +47,13 @@
 	</string>
 
 	<string id="ammo_new_23_eco">
-		<text>23x75 "Cloudkill" Cartridge</text>
+		<text>23x75 'Cloudkill' Cartridge</text>
 	</string>
 	<string id="ammo_new_23_eco_descr">
-		<text>Special use cartridge developed by the Ecologist faction, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. Against all targets it induces lethargy and weakness, making them more susceptible to impacts and other forms of damage. With mutants specifically, the round weakens their ability to exert force, reducing the strength of their attacks. Specially ordered by Duty to increase the chances of surviving highly dangerous mutant raids by weakening the stronger monsters or killing small mutants with a single shot from this cartridge.</text>
+		<text>Special use cartridge developed by the Ecologists, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. Against all targets it induces lethargy and weakness, making them more susceptible to impacts and other forms of damage, and it reduces the strength of their attacks. Specially ordered by Duty to increase the chances of surviving highly dangerous mutant raids by weakening the stronger monsters or killing small mutants with a single shot from this cartridge.</text>
 	</string>
 	<string id="ammo_new_23_eco_s">
-		<text>23x75 Poison Cloud</text>
+		<text>23x75 'Cloudkill'</text>
 	</string>
 	
 	<string id="st_ballistics_toxic">

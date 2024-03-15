@@ -44,6 +44,14 @@ if ish_item_stats then
     end
 end
 
+-- needed since GAMMA adjusts k_ap based on difficulty
+local difficulty_multiplier = {
+	[1]  = 1.3,
+	[2]  = 1.05,
+	[3]  = 0.90,		--[3]  = 1.0,
+	[4]  = 0.80,		--[4]  = 1.0,
+}
+
 local function armor_to_class(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22)
 
@@ -114,7 +122,17 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
                 local str
                 local ap = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_ap") or 0
-				ap = ap * 10
+				
+				local gameplay = alife_storage_manager.get_state().diff_game
+				if not (type(gameplay) == "table") then -- for old saves
+					alife_storage_manager.get_state().diff_game = {}
+					alife_storage_manager.get_state().diff_game["type"] = game_num
+					gameplay = alife_storage_manager.get_state().diff_game
+				end
+			
+				local game_num = gameplay["type"] or game_num
+				if game_num > 4 then game_num = 4 end 				-- in case someone is using a custom difficulty
+				ap = ap * 10 * difficulty_multiplier[game_num]
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end
