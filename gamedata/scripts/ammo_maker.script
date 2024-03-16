@@ -64,7 +64,7 @@ function do_breakdown(ammo_list, tool)
             for i=1,box_size do 
                 if math.random() < salvage_coef then
                     new_box_size = new_box_size + base_amt
-                end
+				end
             end
             if new_box_size > 0 then
                 if tbl[box_to_make] then 

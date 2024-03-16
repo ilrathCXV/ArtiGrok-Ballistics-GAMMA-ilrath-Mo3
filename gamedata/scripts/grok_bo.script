@@ -229,6 +229,7 @@ hp_rounds = {
 	["ammo_7.62x54_7h1_bad"] = 5,			-- Headhunter (should do little damage if not hitting a headshot)
 	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
 	["ammo_7.62x25_ps_bad"] = 2,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
+	["ammo_5.7x28_ss190_bad"] = 2.5,		-- 5.7 Fragmenting Round
 
 }
 
@@ -297,7 +298,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 	ammo_mult			= 0.85
 	spec_monster_mult	= 1
 	bone_mult			= 1
-	is_23_eco			= false
 	cloudkill_mult 		= 1
 	is_critical			= false
 	
@@ -322,10 +322,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 
 	if string.find(sec, "wpn_toz106") then
 		wpn_hit_power = 0.8
-	end
-	
-	if string.find(sec, "wpn_ks23_ecolog") then
-		is_23_eco = true
 	end
 	
 	if not ammo_section then
@@ -393,7 +389,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 0.90
 	end
 	
-	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
+	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_357_hp_mag_bad" then
 		ammo_mult = 1.00
 	end
 
@@ -402,14 +398,14 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 1.00
 	end
 
-	if ammo_section == "ammo_23x75_barrikada" then
+	if ammo_section == "ammo_23x75_barrikada" or ammo_section == "ammo_23x75_barrikada_bad" then
 		ammo_mult = 1.00
 	end
 
 	if ammo_section == "ammo_9x19_pbp" --[[ or ammo_section == "ammo_9x19_pbp_bad" --]]
 	or ammo_section == "ammo_9x18_pmm" or ammo_section == "ammo_9x18_pmm_bad" 
-	or ammo_section == "ammo_5.45x39_ep" or ammo_section == "ammo_5.45x39_ep_bad" 
-	or ammo_section == "ammo_5.56x45_ss190" or ammo_section == "ammo_5.56x45_ss190_bad"  then
+	or ammo_section == "ammo_5.45x39_ep" or ammo_section == "ammo_5.45x39_ep_bad" or ammo_section == "ammo_5.45x39_fmj_bad"
+	or ammo_section == "ammo_5.56x45_ss190" or ammo_section == "ammo_5.56x45_ss190_bad" or ammo_section == "ammo_5.7x28_ss190_bad" then
 		ammo_mult = 1.00
 	end
 
@@ -421,11 +417,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 		ammo_mult = 1.75
 	end
 
-	if ammo_section == "ammo_357_hp_mag" or ammo_section == "ammo_357_hp_mag_bad" then
+	if ammo_section == "ammo_357_hp_mag" --[[or ammo_section == "ammo_357_hp_mag_bad"--]] then
 		ammo_mult = 1.00
 	end
 
- 	if ammo_section == "ammo_11.43x23_hydro"  then
+ 	if ammo_section == "ammo_11.43x23_hydro" then
 		ammo_mult = 1.00
 	end
 
@@ -437,7 +433,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-----------------------------------------------------------------------------------------------------
 										-- ilrathCXV edits --
 	if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-		ammo_mult = 1.25
+		ammo_mult = 1.00
 	end					
 	
 	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
@@ -485,9 +481,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	-- Varmageddon Rounds
 	if ammo_section == "ammo_7.92x33_fmj_bad" then
-		ammo_mult = 1.0
+		ammo_mult = 1.8
 	end
 	
+	-- 10mm HP Rounds
+	if ammo_section == "ammo_10x25_hydrashok" then
+		ammo_mult = 1.0
+	end
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
 
@@ -529,15 +529,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 			ammo_mult = 1.4
 		end
 
-        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" then
+        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_357_hp_mag_bad" then
 			ammo_mult = 2.2
 		end
 		
-		if ammo_section == "ammo_23x75_barrikada" then
+		if ammo_section == "ammo_23x75_barrikada" or ammo_section == "ammo_23x75_barrikada_bad" then
 			ammo_mult = 2.3
 		end
 		
-		if ammo_section == "ammo_357_hp_mag" or ammo_section == "ammo_357_hp_mag_bad" then
+		if ammo_section == "ammo_357_hp_mag" --[[or ammo_section == "ammo_357_hp_mag_bad"--]] then
 			ammo_mult = 1.3
 		end
 		
@@ -551,10 +551,10 @@ function monster_on_before_hit(monster,shit,bone_id)
 		
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
-							-- ilrathCXV edits (11/26/22) + (01/19/23) --
+										-- ilrathCXV edits --
 
 		if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-			ammo_mult = 1.4
+			ammo_mult = 1.3
 		end
 		
 		if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
@@ -595,19 +595,24 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 		
 		-- Varmageddon Rounds
-		if ammo_section == "ammo_7.92x33_fmj_bad" or ammo_section == "ammo_5.56x45_ss190_bad" then
-			ammo_mult = 1.3
+		if ammo_section == "ammo_7.92x33_fmj_bad" then
+			ammo_mult = 2.25
 		end
 	
-		if ammo_section == "ammo_23_eco" and is_23_eco then
+		if ammo_section == "ammo_23_eco" then
 			wpn_hit_power = 8
 			ammo_mult = 8
+		end
+		
+		-- 10mm HP Rounds
+		if ammo_section == "ammo_10x25_hydrashok" then
+			ammo_mult = 1.6
 		end
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
 		
 		if (bone_id == 1) then
-			if ammo_section == "ammo_23_eco" and is_23_eco then
+			if ammo_section == "ammo_23_eco" then
 				wpn_hit_power = 15
 				ammo_mult = ammo_mult * 1.875 
 			end
@@ -619,12 +624,12 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	if string.find(monster:name(), "chimera") then
 		spec_monster_mult = 0.75
-		if ammo_section == "ammo_23_eco" and is_23_eco then
+		if ammo_section == "ammo_23_eco" then
 			wpn_hit_power = 3
 			ammo_mult = 3
 		end
 		if (bone_id == 33 or bone_id == 24 or bone_id == 25 or bone_id == 23 or bone_id == 28) then
-			if ammo_section == "ammo_23_eco" and is_23_eco then
+			if ammo_section == "ammo_23_eco" then
 				wpn_hit_power = 8
 				ammo_mult = 8
 			end
@@ -634,14 +639,15 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 	end
 
-	-- Allow standard damage due to piercing the boar's thick hide w/o overpenetration  (BR2 - BR3)
 	if string.find(monster:name(), "boar") then
-		local boar_crit_ids = { [0] = true, [1] = true, [6] = true, [11] = true }
 		spec_monster_mult = 0.95
-		if boar_crit_ids[bone_id]  then
+		if bone_id == 1 or bone_id == 6 or bone_id == 15 or bone_id == 33 then	-- upper legs
 			bone_mult = 1.20
 			printf("Critical Hit!")
 			is_critical = true
+		end
+		if bone_id == 20 or bone_id == 23 then
+			bone_mult = 0.75
 		end
 	end
 
@@ -741,9 +747,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 		
 		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
-		if ammo_section == "ammo_23_eco" and is_23_eco and wpn_hit_power < 2.9 then
+		if ammo_section == "ammo_23_eco" then
 			monster:kill(db.actor)
-			printf("[ArtiGrok] KS-23 Eco Intercept: %s dead ", monster and monster:name())
+			printf("[ArtiGrok] 23mm Eco Intercept: %s dead ", monster and monster:name())
 			return
 		end
 		
@@ -774,8 +780,9 @@ function monster_on_before_hit(monster,shit,bone_id)
 		---------------------------
 		-- Ignores mutant resistances + double bone_mult
 		if (special_effect == "head") or (special_effect_2 == "head") and is_critical then
-			spec_monster_mult = spec_monster_mult * 2
+			spec_monster_mult = 1
 			bone_mult = bone_mult * 2
+			ammo_mult = ammo_mult * 2
 		end
 		
 		--------------------------
@@ -789,7 +796,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-------------------
 		-- Ambush Rounds --
 		-------------------
-		-- 45% mult. damag and bone_mult bonus on unaware targets
+		-- 45% mult. damage and bone_mult bonus on unaware targets
 		if (special_effect == "ambush") or (special_effect_2 == "ambush") then
 			if arti_handlers.ambush(monster,shit,wpn) then
 				ambush_mult = 1.45

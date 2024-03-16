@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	
+	<string id="ammo_9x21_sp11">
+		<text>9x21 mm SP11</text>
+	</string>
+	<string id="ammo_9x21_sp11_descr">
+		<text>Pistol cartridge with a lead-cored bullet is designed to engage unprotected enemy manpower, in protective equipment without metal protective plates. The cartridge consists of a lead core in a bimetallic sheath.\n
+		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power (AP): %c[ui_gray_1]BR2 (23)
+		\n%c[ui_gray_2] - %c[ui_gray_2] Nominal stopping power (DMG): %c[ui_gray_1]32</text>
+	</string>
+	
+	<string id="ammo_9x21_sp12">
+		<text>9x21 mm SP12</text>
+	</string>
+	<string id="ammo_9x21_sp12_descr">
+		<text>Pistol cartridge with an expansive bullet designed to destroy unprotected enemy manpower and to fire in confined spaces.\n
+		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power (AP): %c[ui_gray_1]BR1 (15)
+		\n%c[ui_gray_2] - %c[ui_gray_2] Nominal stopping power (DMG): %c[ui_gray_1]60</text>
+	</string>
+
+</string_table>

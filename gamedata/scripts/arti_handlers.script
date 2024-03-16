@@ -218,12 +218,16 @@ end
 
 function ambush(npc, s_hit, wpn)
     
-    -- hitting distracted npc with suppressed weapon confers 20% damage bonus and ups pen one class (SP6 eq)
-    if (wpn:weapon_is_silencer() and (not npc:best_enemy() or npc:best_enemy():id() ~= 0)) or (IsMelee(wpn)) then
+    -- hitting distracted npc or with suppressed weapon adds 20% damage bonus and ups AP by one class
+    if wpn:weapon_is_silencer() or (IsMelee(wpn)) then
 		return true
-	else
-		return false
 	end
+	
+	if (not npc:best_enemy() or npc:best_enemy():id() ~= 0) then
+		return true
+	end
+	
+	return false
 end
 
 

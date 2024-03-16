@@ -1,0 +1,43 @@
+[ammo_357_fmj_mono]:identity_immunities,default_weapon_params,ammo_base ; FMJ equivalent
+GroupControlSection	= spawn_group
+discovery_dependency =
+$spawn			= "weapons\wpn_ammo\ammo_357_hp_mag" ; option for Level Editor
+class			= AMMO
+cform                   = skeleton
+visual                  = dynamics\weapons\wpn_ammo\ammo_357_jhp.ogf
+$prefetch 		= 64
+
+cost					= 4150
+box_size				= 13
+
+inv_name				= ammo_357_fmj_mono
+inv_name_short			= ammo_357_fmj_mono_s
+description				= ammo_357_fmj_mono_descr
+inv_weight				= .23
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_357_fmj_mono
+
+k_disp			= 0.5
+k_hit			= 1.25	;2.0 ;  1.25
+k_impulse		= 0.75
+k_ap			= 0.040
+wm_size        	= 0.048
+k_air_resistance = 0.8
+k_cam_dispersion          = 1.1
+tracer_color_ID	= 1
+k_bullet_speed	= 1.5
+
+tier                                     = 2
+
+====================================================================================
+[ammo_357_fmj_mono_bad]:ammo_357_fmj_mono
+cost = 350
+tier = 1
+
+[ammo_357_fmj_mono_verybad]:ammo_357_fmj_mono
+cost = 100
+tier = 1

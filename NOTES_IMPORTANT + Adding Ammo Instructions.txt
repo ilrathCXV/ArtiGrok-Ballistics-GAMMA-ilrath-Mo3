@@ -71,7 +71,7 @@ Enemies hit by a Lightning AoE will receive Shock stacks based on the armor tier
 
 special 	= lightning							-- Special tag needed by the damage system to make use of this ammo's special effects
 
-Ambush - If the hit target is (1) not aggro'd to/is unaware of the player and (2) the used weapon is suppressed/equipped with a silencer, this causes the ammo type to jump a whole BR/AP class in most cases, and does 20% more damage.
+Ambush - If the hit target is (1) not aggro'd to/is unaware of the player or (2) the used weapon is suppressed/equipped with a silencer, this causes the ammo type to jump a whole BR/AP class in most cases and do 20% more damage.
 Recommended for subsonic ammunition.
 
 special		= ambush							-- Special tag needed by the damage system to make use of this ammo's special effects

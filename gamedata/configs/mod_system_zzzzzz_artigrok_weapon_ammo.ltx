@@ -8,10 +8,10 @@ k_ap 				= 0.0152
 impair              = 0.40
 
 ![ammo_9x18_pmm_bad]
-description 		= ammo_new_9x18_sp7_descr
-cost 				= 2020
-inv_name 			= ammo_new_9x18_sp7
-inv_name_short 		= ammo_new_9x18_sp7_s
+description 		= ammo_new_9x18_varma_descr
+cost 				= 2820
+inv_name 			= ammo_new_9x18_varma
+inv_name_short 		= ammo_new_9x18_varma_s
 k_hit 				= 1.15
 k_ap 				= 0.0132
 impair              = 0.40
@@ -63,25 +63,30 @@ k_ap 				= 0.05
 impair              = 0.40
 
 ![ammo_5.7x28_ss190]
-description 		= ammo_new_5.7x28_fmj_descr
-inv_name 			= ammo_new_5.7x28_fmj
-inv_name_short 		= ammo_new_5.7x28_fmj_s
-k_hit 				= 0.80
+; To move to the "correct" icon
+inv_grid_width		= 2
+inv_grid_height		= 1
+inv_grid_x			= 57
+inv_grid_y			= 7
 
 ![ammo_5.7x28_ss190_bad]
-description 		= ammo_new_5.7x28_ss190_descr
-cost 				= 4000
-inv_name 			= ammo_new_5.7x28_ss190
-inv_name_short 		= ammo_new_5.7x28_ss190_s
-k_ap 				= 0.0552
+description 		= ammo_new_5.7x28_frag_descr
+inv_name 			= ammo_new_5.7x28_frag
+inv_name_short 		= ammo_new_5.7x28_frag_s
+cost 				= 3250
+k_hit				= 1.1
+k_ap 				= 0.015
+tracer_color_ID		= 0
+k_air_resistance 	= 0.55
+k_bullet_speed		= 1.30
+k_cam_dispersion 	= 1.0
 impair              = 0.40
 
-![ammo_5.7x28_ss195]
-description 		= ammo_new_5.7x28_ss195_descr
-inv_name 			= ammo_new_5.7x28_ss195
-inv_name_short 		= ammo_new_5.7x28_ss195_s
-k_hit 				= 1.00
-k_bullet_speed 		= 1.7
+; To move to the "correct" icon
+inv_grid_width		= 2
+inv_grid_height		= 1
+inv_grid_x			= 55
+inv_grid_y			= 7
 
 ![ammo_5.7x28_ss195_bad]
 description 		= ammo_new_5.7x28_chaos_descr
@@ -224,19 +229,19 @@ wm_size         	= 0.0174
 impair              = 0.40
 
 ![ammo_9x39_pab9_bad]
-description 		= ammo_new_9x39_spp_descr
+description 		= ammo_new_9x39_ambush_descr
 cost 				= 2850
-inv_name 			= ammo_new_9x39_spp
-inv_name_short 		= ammo_new_9x39_spp_s
+inv_name 			= ammo_new_9x39_ambush
+inv_name_short 		= ammo_new_9x39_ambush_s
 k_hit 				= 1.025
 k_ap 				= 0.0348
 impair              = 0.40
 
 ![ammo_9x39_ap_bad]
-description 		= ammo_new_9x39_ap_descr
+description 		= ammo_new_9x39_graze_descr
 cost 				= 7800
-inv_name 			= ammo_new_9x39_ap
-inv_name_short 		= ammo_new_9x39_ap_s
+inv_name 			= ammo_new_9x39_graze
+inv_name_short 		= ammo_new_9x39_graze_s
 k_ap 				= 0.0521
 k_disp				= 0.35
 impair              = 0.40
@@ -303,12 +308,12 @@ k_ap 				= 0.060
 impair              = 0.40
 
 ![ammo_7.92x33_fmj_bad]
-description 		= ammo_new_7.92x33_match_descr
-cost 				= 3000
-inv_name 			= ammo_new_7.92x33_match
-inv_name_short 		= ammo_new_7.92x33_match_s
+description 		= ammo_new_7.92x33_varma_descr
+cost 				= 5000
+inv_name 			= ammo_new_7.92x33_varma
+inv_name_short 		= ammo_new_7.92x33_varma_s
 k_disp				= 0.7
-k_hit 				= 1.5
+k_hit 				= 1.2
 k_ap 				= 0.0225
 impair              = 0.40
 
@@ -323,10 +328,10 @@ k_ap 				= 0.078
 impair              = 0.40
 
 ![ammo_7.62x51_fmj_bad]
-description 		= ammo_new_7.62x51_fmjs_descr
+description 		= ammo_new_7.62x51_frag_descr
 cost 				= 4750
-inv_name 			= ammo_new_7.62x51_fmjs
-inv_name_short 		= ammo_new_7.62x51_fmjs_s
+inv_name 			= ammo_new_7.62x51_frag
+inv_name_short 		= ammo_new_7.62x51_frag_s
 k_hit 				= 1.105
 impair              = 0.40
 
@@ -356,11 +361,6 @@ k_ap 				= 0.0307
 impair              = 0.40
 buck_shot 			= 3
 
-![ammo_7.62x54_7h1]
-description 		= ammo_new_7.62x54_hp_descr
-inv_name 			= ammo_new_7.62x54_hp
-inv_name_short 		= ammo_new_7.62x54_hp_s
-
 ![ammo_7.62x54_7h1_bad]
 description 		= ammo_new_7.62x54_fp_descr
 cost 				= 40000
@@ -385,10 +385,10 @@ description 		= ammo_new_4.6x30_fmj_descr
 inv_name_short 		= ammo_new_4.6x30_fmj_s
 
 ![ammo_7.62x54_7h14_bad]
-description 		= ammo_new_7.62x54_7n1_desc
-cost 				= 4800
-inv_name 			= ammo_new_7.62x54_7n1
-inv_name_short 		= ammo_new_7.62x54_7n1_s
+description 		= ammo_new_7.62x54_graze_descr
+cost 				= 6000
+inv_name 			= ammo_new_7.62x54_graze
+inv_name_short 		= ammo_new_7.62x54_graze_s
 k_hit 				= 1.17
 k_ap 				= 0.0509
 impair              = 0.40
