@@ -23,7 +23,7 @@
 		<text>20x70 Lightning slugs</text>
 	</string>
 	<string id="ammo_20x70_star_lightning_descr">
-		<text>Zone-made slugs made with fragments of various electric-based artefacts. This anomalous round reacts chaotically with critical hit points and armored targets. When coming into contact with such areas, it summons a lightning strike, damaging anyone within a small radius of the struck target. However, this summoned lightning strike will not damage the user. Reasons of this is unknown, but some stalkers assume that it is the Zone that chooses to protect wielders of such power.</text>
+		<text>Zone-made slugs made with fragments of various electric-based artefacts. This anomalous round reacts chaotically with critical hit points and armored targets. When coming into contact with such areas, it summons a lightning strike, damaging both the target hit initially and anyone nearby. The lightning strike's power and area-of-effect increases the more heavily armored a target is or the tougher a mutant is. However, this summoned lightning strike will not damage the user.</text>
 	</string>
 
 </string_table>

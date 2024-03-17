@@ -1,17 +1,17 @@
-----------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (11/17/23) -----
-----------------------------------------------------
+---------------------------------------------------------------
+----- EDIT for ArtiGrok - ilrathCXV (last edit: 03/16/24) -----
+---------------------------------------------------------------
 
-print_dbg           = ballistics_mcm.print_dbg
+-- print_dbg           = ballistics_mcm.print_dbg
 play_particle       = ballistics_utils.play_particle
 play_particle_firepoint = ballistics_utils.play_particle_firepoint
-add_effect          = arti_timed_events.add_effect
+-- add_effect          = arti_timed_events.add_effect
 play_sound_on_location = ballistics_utils.play_sound_on_location
 math_random         = math.random
 
-head_bones          = ballistics_utils.head_bones
+-- head_bones          = ballistics_utils.head_bones
 ini_ammo            = ballistics_utils.ini_ammo
-ini_damage          = ballistics_utils.ini_damage
+-- ini_damage          = ballistics_utils.ini_damage
 
 local rpg_hit_perks	= nil
 local fourth_times	= 0
@@ -129,7 +129,7 @@ function burn_tick_on_update()
 	time_g_burn = time_global()
 	if burn_effect_buffer >= time_g_burn then return end
 
-	-- Burn damage (capped to 10 DMG before Cloudkill modifier)
+	-- Burn damage (capped to 25 DMG before Cloudkill modifier)
 	for k,v in pairs(burn_stack_list) do
 		if burn_stack_list[k] > 0 then
 			if (burn_check_list[k] < 5) then	-- if no stacks have been added in 5 seconds...
@@ -138,7 +138,7 @@ function burn_tick_on_update()
 				if npc then
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
-					local burn_dmg = (clamp((v * 0.005), 0, 0.10) * (1 + ((bas_handler.weakened and bas_handler.weakened[k] or 0) * 0.2))) or 0.005
+					local burn_dmg = (clamp((v * 0.01), 0, 0.25) * (1 + ((bas_handler.weakened and bas_handler.weakened[k] or 0) * 0.2))) or 0.01
 					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
 					if IsStalker(npc) then
 						damage_npc_grok(npc, burn_dmg)
@@ -166,7 +166,7 @@ function shock_effect_on_update()
 	time_g_shock = time_global()
 	if shock_effect_buffer < time_g_shock then
 		for k, v in pairs(shock_stack_list) do
-			if shock_stack_list[k] and shock_stack_list[k] < 25 then
+			if shock_stack_list[k] and shock_stack_list[k] < 20 then
 				play_particle(level.object_by_id(k), 15, "anomaly2\\effects\\electra_entrance_small")
 			end
 		end
@@ -204,7 +204,7 @@ function enemy_on_death_callback(victim, who)
 	armorbuster_list[victim_id] 	= nil
 	graze_mutant_list[victim_id] 	= nil
 	
-	if burn_stack_list[victim_id] and burn_stack_list[victim_id] >= 20 then
+	if burn_stack_list[victim_id] and burn_stack_list[victim_id] > 19 then
 		burn_ignition(victim, db.actor:active_item(), burn_stack_list[victim_id])
 	elseif burn_stack_list[victim_id] then
 		burn_stack_list[victim_id] 	= nil
@@ -216,14 +216,12 @@ function fragment_sound(npc)
     play_sound_on_location("elite", npc)
 end
 
-function ambush(npc, s_hit, wpn)
+function ambush(npc, wpn)
     
-    -- hitting distracted npc or with suppressed weapon adds 20% damage bonus and ups AP by one class
-    if wpn:weapon_is_silencer() or (IsMelee(wpn)) then
-		return true
-	end
+    -- hitting distracted npc with a suppressed weapon or with a melee adds 20% damage bonus and ups AP by one class
+	if (npc:best_enemy() or npc:best_enemy():id() == 0) then return false end
 	
-	if (not npc:best_enemy() or npc:best_enemy():id() ~= 0) then
+	if (IsMelee(wpn)) or wpn:weapon_is_silencer() then
 		return true
 	end
 	
@@ -304,9 +302,9 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
 	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
-	if shock_stack_list[npc_id] > 24 then
+	if shock_stack_list[npc_id] > 19 then
 		printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
-		shock_stack_list[npc_id] = shock_stack_list[npc_id] - 25
+		shock_stack_list[npc_id] = shock_stack_list[npc_id] - 20
 		
 		if shock_stack_list[npc_id] < 0 then
 			shock_stack_list[npc_id] = 0
@@ -521,7 +519,7 @@ function bullet_on_remove(bullet)
 end
 
 
--- Gives 2 burn stacks to all affected AoE targets
+-- Gives 3 burn stacks to all affected AoE targets
 function napalm_handler(bullet)
 	ammo_sec = bullet.section
 	
@@ -531,7 +529,7 @@ function napalm_handler(bullet)
 			if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if not obj:alive() then return end
-				ignite_npc(obj,11,wpn_id,2)
+				ignite_npc(obj,11,wpn_id,3)
 				napalm_hits = napalm_hits + 1
 			end
 		end)

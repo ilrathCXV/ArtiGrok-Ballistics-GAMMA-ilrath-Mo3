@@ -339,7 +339,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Varmageddon Rounds --
 	------------------------
 	-- Mult. damage bonus to mutants
-	local varma_mult = 1.0
+	local varma_mult = 1
 	if (special_effect == "varma") or (special_effect_2 == "varma") then
 		varma_mult = 1.60
 	end
@@ -348,18 +348,18 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	-- Chance to deal 30% increased damage on hit
-	local fragment_mult = 1.0
+	local fragment_mult = 1
 	
 	------------------
 	-- Chaos Rounds --
 	------------------
 	chaos_effect = 0
-	chaos_mult = 1.0
+	chaos_mult = 1
 	
 	-------------------
 	-- Ambush Rounds --
 	-------------------
-	ambush_mult = 1.0
+	ambush_mult = 1
 	
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
@@ -405,7 +405,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 	if ammo_section == "ammo_9x19_pbp" --[[ or ammo_section == "ammo_9x19_pbp_bad" --]]
 	or ammo_section == "ammo_9x18_pmm" or ammo_section == "ammo_9x18_pmm_bad" 
 	or ammo_section == "ammo_5.45x39_ep" or ammo_section == "ammo_5.45x39_ep_bad" or ammo_section == "ammo_5.45x39_fmj_bad"
-	or ammo_section == "ammo_5.56x45_ss190" or ammo_section == "ammo_5.56x45_ss190_bad" or ammo_section == "ammo_5.7x28_ss190_bad" then
+	or ammo_section == "ammo_5.56x45_ss190" --[[or ammo_section == "ammo_5.56x45_ss190_bad"--]] or ammo_section == "ammo_5.7x28_ss190_bad" then
 		ammo_mult = 1.00
 	end
 
@@ -476,12 +476,16 @@ function monster_on_before_hit(monster,shit,bone_id)
 	
 	-- .300BLK FMJ+ (VMAX) Rounds
 	if ammo_section == "ammo_300blackout_fjm_bad" then
-		ammo_mult = 1.2
+		ammo_mult = 1.1
 	end
 	
 	-- Varmageddon Rounds
 	if ammo_section == "ammo_7.92x33_fmj_bad" then
 		ammo_mult = 1.8
+	end
+	
+	if ammo_section == "ammo_5.56x45_ss190_bad" then
+		ammo_mult = 1.1
 	end
 	
 	-- 10mm HP Rounds
@@ -598,10 +602,19 @@ function monster_on_before_hit(monster,shit,bone_id)
 		if ammo_section == "ammo_7.92x33_fmj_bad" then
 			ammo_mult = 2.25
 		end
+		
+		if ammo_section == "ammo_5.56x45_ss190_bad" then
+			ammo_mult = 1.2
+		end
 	
 		if ammo_section == "ammo_23_eco" then
 			wpn_hit_power = 8
 			ammo_mult = 8
+		end
+		
+		-- .300BLK FMJ+ (VMAX) Rounds
+		if ammo_section == "ammo_300blackout_fjm_bad" then
+			ammo_mult = 1.2
 		end
 		
 		-- 10mm HP Rounds
@@ -646,8 +659,8 @@ function monster_on_before_hit(monster,shit,bone_id)
 			printf("Critical Hit!")
 			is_critical = true
 		end
-		if bone_id == 20 or bone_id == 23 then
-			bone_mult = 0.75
+		if (bone_id == 20 or bone_id == 23) and ammo_section == "ammo_23_eco" then
+			spec_monster_mult = 0.75
 		end
 	end
 
@@ -715,11 +728,30 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 	end
 	
-	if string.find(monster:name(), "burer")then
+	if string.find(monster:name(), "burer") then
 		if (bone_id >= 39 and bone_id < 43) or (bone_id >= 40 and bone_id < 49) then
 			bone_mult = 1.5
 			printf("Critical Hit!")
 			is_critical = true
+		end
+		
+		if ammo_section == "ammo_23_eco" then
+			spec_monster_mult = 0.85
+		end
+	end
+	
+	-- ilrathCXV: Extra to avoid Eco from instakilling the below mutants
+	
+	if string.find(monster:name(), "controller") then
+		if ammo_section == "ammo_23_eco" then
+			spec_monster_mult = 0.85
+		end
+	end
+	
+	if string.find(monster:name(), "biblotekar") then
+		if ammo_section == "ammo_23_eco" then
+			spec_monster_mult = 0.85
+			wpn_hit_power = 4
 		end
 	end
 	
@@ -747,7 +779,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 		
 		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
-		if ammo_section == "ammo_23_eco" then
+		if ammo_section == "ammo_23_eco" and spec_monster_mult > 0.85 then
 			monster:kill(db.actor)
 			printf("[ArtiGrok] 23mm Eco Intercept: %s dead ", monster and monster:name())
 			return
@@ -798,7 +830,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-------------------
 		-- 45% mult. damage and bone_mult bonus on unaware targets
 		if (special_effect == "ambush") or (special_effect_2 == "ambush") then
-			if arti_handlers.ambush(monster,shit,wpn) then
+			if arti_handlers.ambush(monster, wpn) then
 				ambush_mult = 1.45
 				bone_mult = bone_mult * 1.45
 			end
@@ -835,17 +867,6 @@ function monster_on_before_hit(monster,shit,bone_id)
 			ammo_mult = 1.00
 			shit.type = hit.burn
 			arti_handlers.napalm_damage(monster, shit.weapon_id)
-		end
-		
-		----------------------
-		-- Lightning Rounds --
-		----------------------
-		-- Changes hit to Shock damage + standardizes bone_/ammo_mult
-		if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
-			spec_monster_mult = 1.00
-			bone_mult = 1.00
-			ammo_mult = 0.85
-			shit.type = hit.shock
 		end
 		
 		-----------------------------------
@@ -896,6 +917,24 @@ function monster_on_before_hit(monster,shit,bone_id)
 			end
 		end
 		
+		----------------------
+		-- Lightning Rounds --
+		----------------------
+		-- Changes hit to Shock damage + deals AoE damage to other targets on crits + standardizes other multipliers afterwards
+		if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
+			shit.type = hit.shock
+			
+			if is_critical and spec_monster_mult > 0.8 then
+				arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.5)
+			elseif is_critical then
+				arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.3)
+			end
+			
+			spec_monster_mult = 1
+			bone_mult = 1
+			ammo_mult = 1
+		end
+		
 		------------------------
 		-- [NEW] Shock Rounds --
 		------------------------
@@ -910,8 +949,14 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-----------------
 		-- Grants bonus bone_mult if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
 		if (special_effect == "grav") or (special_effect_2 == "grav") then
-			if dist >= 100 then
+			if dist >= 75 then
+				if ini_sys:r_string(wpn:section(), "kind") == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis") then
+					bone_mult = bone_mult * (1 + clamp((dist - 74) * 0.004425, 0, 1))
+					printf("Grav in effect @ distance of %s meters", dist)
+				end
+			elseif dist >= 100 then
 				bone_mult = bone_mult * (1 + clamp((dist - 99) * 0.00498, 0, 1))
+				printf("Grav in effect @ distance of %s meters", dist)
 			end
 			dist = 1
 		end
@@ -1021,19 +1066,19 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Fragmentation Rounds --
 	--------------------------
 	-- Chance to deal increased damage on hit
-	fragment_mult	= 1.0
+	fragment_mult	= 1
 	
 	
 	------------------
 	-- Chaos Rounds --
 	------------------
 	chaos_effect = 0
-	chaos_mult = 1.0
+	chaos_mult = 1
 	
 	-------------------
 	-- Ambush Rounds --
 	-------------------
-	ambush_mult = 1.0
+	ambush_mult = 1
 	
 	------------------
 	-- Graze Rounds --
@@ -1389,7 +1434,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-------------------
 	-- Increases AP/BR by one level + 45% mult. damage bonus on unaware targets
 	if (special_effect == "ambush") or (special_effect_2 == "ambush") then
-		if arti_handlers.ambush(npc,shit,wpn) then
+		if arti_handlers.ambush(npc, wpn) then
 			k_ap = k_ap + 0.1
 			ambush_mult = 1.45
 		end
@@ -1466,18 +1511,42 @@ function npc_on_before_hit(npc, shit, bone_id)
 		armor_break_bonus = armor_break_bonus + 0.01
 	end
 	
+	--------------------
+	-- Incendiary/API --
+	--------------------
+	-- Ammo-specific burn stacks to a target
+	if (special_effect == "fire") or (special_effect_2 == "fire") then
+		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
+		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+			burn_stacks = burn_stacks * 3
+		end
+		arti_handlers.ignite_npc(npc,bone_id, shit.weapon_id, burn_stacks)
+	end
+	
+	--------------------
+	-- Shock Rounds --
+	--------------------
+	-- Ammo-specific shock stacks to a target; 20 or more stacks results in weakest Lightning AoE
+	if (special_effect == "shock") or (special_effect_2 == "shock") then
+		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
+		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+			shock_stacks = shock_stacks * 2
+		end
+		arti_handlers.shock_npc(npc,bone_id, shit.weapon_id, shock_stacks)
+	end
+	
 	----------------------
 	-- Lightning Rounds --
 	----------------------
-	-- Changes hit to Shock damage + deals AoE damage to other targets (includes balance for going against Eidelon + allows for AoE on headshots on low-armor targets)
+	-- Changes hit to Shock damage + deals AoE damage to other targets
 	if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
 		shit.type = hit.shock
 		if (custom_bone_armor >= 3) then
-			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.25)
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.5)
 		elseif (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 1))
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 2))
 		else
-			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor)
+			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor, 0.3, 1))
 		end
 	end
 	
@@ -1508,12 +1577,22 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------
 	-- Grav Rounds --
 	-----------------
-	-- Grants bonus AP if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
+	-- Grants bonus AP and DMG if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
+	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
+	-- For pistols, they start at 75m (will have around 11% mult at 100m)
 	if (special_effect == "grav") or (special_effect_2 == "grav") then
-		if dist >= 100 then
-			k_ap = k_ap * (1 + clamp((dist - 99) * 0.00498, 0, 1))		-- At 300m, bonus will be capped to 2x (1 + 1)x
+		if dist >= 75 then
+			if ini_sys:r_string(wpn:section(), "kind") == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis") then
+				k_ap = k_ap * (1 + clamp((dist - 74) * 0.004425, 0, 1))
+				wpn_hit_power = wpn_hit_power * (1 + clamp((dist - 74) * 0.004425, 0, 1))
+				printf("Grav in effect @ distance of %s meters", dist)
+			end
+		elseif dist >= 100 then
+			k_ap = k_ap * (1 + clamp((dist - 99) * 0.00498, 0, 1))
+			wpn_hit_power = wpn_hit_power * (1 + clamp((dist - 99) * 0.00498, 0, 1))
+			printf("Grav in effect @ distance of %s meters", dist)
 		end
-		dist = 1
+		dist = 0
 	end
 
 	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update
@@ -1601,7 +1680,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		arti_handlers.acid_stack_list[npc_id] 		= nil
 		arti_handlers.armorbuster_list[npc_id] 		= nil
 		
-		if arti_handlers.burn_stack_list[npc_id] and arti_handlers.burn_stack_list[npc_id] >= 20 then
+		if arti_handlers.burn_stack_list[npc_id] and arti_handlers.burn_stack_list[npc_id] > 19 then
 			arti_handlers.burn_ignition(npc, wpn_id, arti_handlers.burn_stack_list[npc_id])
 		elseif arti_handlers.burn_stack_list[npc_id] then
 			arti_handlers.burn_stack_list[npc_id] 	= nil
@@ -1615,27 +1694,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	PBA_ohc(npc, shit.power, shit.direction, shit.draftsman, bone_id)
 
 	printf("Real AP power= %s, Bone armor after hit= %s, Cloudkill multiplier= %s, Damages inflicted= %s, Remaining health= %s", k_ap, custom_bone_value[custom_bone_id], cloudkill_mult, life_remove, npc.health)
-	
-	--------------------
-	-- Incendiary/API --
-	--------------------
-	-- Ammo-specific burn stacks to a target
-	if (special_effect == "fire") or (special_effect_2 == "fire") then
-		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
-		arti_handlers.ignite_npc(npc,bone_id, shit.weapon_id, burn_stacks)
-	end
-	
-	--------------------
-	-- Shock Rounds --
-	--------------------
-	-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE
-	if (special_effect == "shock") or (special_effect_2 == "shock") then
-		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			shock_stacks = shock_stacks * 2
-		end
-		arti_handlers.shock_npc(npc,bone_id, shit.weapon_id, shock_stacks)
-	end
 	
 	----------------------
 	-- Explosive Rounds --

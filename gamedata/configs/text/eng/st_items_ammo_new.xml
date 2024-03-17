@@ -161,7 +161,7 @@
 		<text>5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>Burn stacks on hit</text>
+		<text>Burn stacks on hit (x2 on Stalker headshots)</text>
 	</string>
 	<string id="st_ballistics_shock">
 		<text>Shock stacks on hit (x2 on Stalker headshots)</text>
@@ -170,7 +170,7 @@
 		<text>Fires three projectiles</text>
 	</string>
 	<string id="st_ballistics_lightning">
-		<text>Lightning Strike on BR3+ armor or headshots, higher BR = higher DMG</text>
+		<text>Lightning AoE on hits, higher BR = higher DMG</text>
 	</string>
 	<string id="st_ballistics_pierce">
 		<text>Cover piercing</text>
@@ -182,7 +182,7 @@
 		<text>Breaks armor more effectively</text>
 	</string>
 	<string id="st_ballistics_napalm">
-		<text>2 Burn stacks to all targets near impact, 15 Burn stacks on hit</text>
+		<text>3 Burn stacks to targets near impact, 15 on direct hit</text>
 	</string>
 	<string id="st_ballistics_basher">
 		<text>Melee hits to the head ignore armor (faction resistances still in effect)</text>
@@ -191,7 +191,7 @@
 		<text>Share 5% of hit DMG to nearby enemies, 30% if headshot</text>
 	</string>
 	<string id="st_ballistics_grav">
-		<text>No range DMG dropoff + extra AP past 100m (up to 2x)</text>
+		<text>No DMG dropoff + extra AP past 100m (up to 2x)</text>
 	</string>
 
 	<string id="st_link">
@@ -574,7 +574,7 @@
 		<text>7.92x57mm Lightning rounds</text>
 	</string>
 	<string id="ammo_new_7.92x33_lightning_descr">
-		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. While this has limited stopping power against lightly armored targets, on heavily armored targets and powered armor the effect is devastating to both the target and the area around the target. Deals minimal damage to mutants and unarmored targets.</text>
+		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. This round's true power is shown on heavily armored targets, powered armor, or striking mutants in their weak points: a lightning strike is called down upon the target, dealing damage to it and all other targets nearby. The lightning's strength grows proportionally to the armor of the target, or the hardiness of the mutant.</text>
 	</string>
 	<string id="ammo_new_7.92x33_Lightning_s">
 		<text>7.92x57 Lightning</text>
