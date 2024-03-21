@@ -142,7 +142,7 @@ Recommended for FMJ/AP rounds due to the need for an "unstable core"
 special     = chaos								-- Special tag needed by the damage system to make use of this ammo's special effects
 
 Graze Rounds - These rounds will share a portion of the damage to adjacent targets.
-If the target is hit in the head or in a critical area (i.e boars on their stomachs), targets within 8m will receive 30% of the original damage dealt to the hit target.
+If the target is hit in the head or in a critical area (i.e boars on their stomachs), targets within 8m will receive 25% of the original damage dealt to the hit target.
 Else, targets within 5m will receive 5% of the original damage dealt to the hit target.
 Recommended on sniper rounds, or on rounds that typically are used in bolt-action/pump-action weapons.
 

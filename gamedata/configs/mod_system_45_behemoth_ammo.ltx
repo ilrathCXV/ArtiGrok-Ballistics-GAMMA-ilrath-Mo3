@@ -1,0 +1,73 @@
+[ammo_11.43x23_ap]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency	=
+$spawn					= "weapons\ammo\ammo_11.43x23_ap"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_fmj.ogf
+$prefetch				= 64
+
+cost					= 8220
+box_size				= 14
+
+inv_name				= ammo_11.43x23_ap
+inv_name_short			= ammo_11.43x23_ap_s
+description				= ammo_11.43x23_ap_descr
+inv_weight				= .38
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_45behemoth
+
+k_disp					= 0.66
+k_hit					= 2.00
+k_impulse				= 0.70
+k_ap					= 0.28
+wm_size					= 0.1143
+k_air_resistance		= 0.7
+k_bullet_speed			= 1.875
+
+tracer					= on
+tracer_color_ID			= 2
+
+tier					= 4
+
+[ammo_11.43x23_ap_bad]:ammo_11.43x23_ap
+GroupControlSection		= spawn_group
+discovery_dependency	=
+$spawn					= "weapons\ammo\ammo_11.43x23_ap_bad"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_fmj.ogf
+$prefetch				= 64
+
+cost					= 4110
+box_size				= 14
+
+inv_name				= ammo_11.43x23_ap
+inv_name_short			= ammo_11.43x23_ap_s
+description				= ammo_11.43x23_ap_descr
+inv_weight				= .38
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_45behemoth_old
+
+k_disp					= 0.66
+k_hit					= 2.00
+k_impulse				= 0.70
+k_ap					= 0.28
+wm_size					= 0.1143
+k_air_resistance		= 0.7
+k_bullet_speed			= 1.875
+
+tracer					= on
+tracer_color_ID			= 2
+
+tier					= 4
+
+[ammo_11.43x23_ap_verybad]:ammo_11.43x23_ap_bad

@@ -161,10 +161,10 @@
 		<text>5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>Burn stacks on hit (x2 on Stalker headshots)</text>
+		<text>Burn stacks (x2 on Stalker headshots)</text>
 	</string>
 	<string id="st_ballistics_shock">
-		<text>Shock stacks on hit (x2 on Stalker headshots)</text>
+		<text>Shock stacks (x2 on Stalker headshots)</text>
 	</string>
 	<string id="st_ballistics_split">
 		<text>Fires three projectiles</text>

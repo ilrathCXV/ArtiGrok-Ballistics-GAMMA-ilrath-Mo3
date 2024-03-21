@@ -2,10 +2,8 @@
 ----- EDIT for ArtiGrok - ilrathCXV (last edit: 03/16/24) -----
 ---------------------------------------------------------------
 
--- print_dbg           = ballistics_mcm.print_dbg
 play_particle       = ballistics_utils.play_particle
 play_particle_firepoint = ballistics_utils.play_particle_firepoint
--- add_effect          = arti_timed_events.add_effect
 play_sound_on_location = ballistics_utils.play_sound_on_location
 math_random         = math.random
 
@@ -217,14 +215,15 @@ function fragment_sound(npc)
 end
 
 function ambush(npc, wpn)
-    
-    -- hitting distracted npc with a suppressed weapon or with a melee adds 20% damage bonus and ups AP by one class
-	if (npc:best_enemy() or npc:best_enemy():id() == 0) then return false end
+	-- printf("[Ambush] NPC: %s | Weapon: %s", npc and npc:name(), wpn and wpn:section())
 	
-	if (IsMelee(wpn)) or wpn:weapon_is_silencer() then
-		return true
+    -- hitting distracted npc with a suppressed weapon or with a melee adds 20% damage bonus and ups AP by one class
+	if ((IsMelee(wpn)) or wpn:weapon_is_silencer()) and (not npc:best_enemy() or npc:best_enemy():id() ~= 0) then
+		printf("Ambush in effect!!")
+		return true 
 	end
 	
+	printf("Ambush not in effect...")
 	return false
 end
 
@@ -284,7 +283,7 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
-    -- print_dbg("Ignited %s", npc:id())
+    -- printf("[Arti Handlers] Ignited %s", npc:id())
     play_sound_on_location("incendiary", npc)
 	npc_id = npc:id()
 	burn_stack_list[npc_id] = (burn_stack_list[npc_id] and burn_stack_list[npc_id] + stack) or stack
@@ -298,7 +297,7 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	npc_id = npc:id()
 	
     stack = stack or 1
-    -- print_dbg("Shocked %s", npc:id())
+    -- printf([Arti Handlers] "Shocked %s", npc:id())
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
 	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
@@ -342,7 +341,7 @@ end
 -- for 5.7 chaos sx
 function chaos_damage(npc, bone_id, wpn_id)
     
-    local extra_effect = math_random(26)
+    local extra_effect = math_random(30)
     if not is_actor(npc) then
         if extra_effect >= 3 and extra_effect < 5 then			-- 4 burn stacks (slightly less than Dragon's Breath)
             ignite_npc(npc, 11, wpn_id, 4)
@@ -372,6 +371,8 @@ function chaos_damage(npc, bone_id, wpn_id)
 			extra_effect = 9
 		elseif extra_effect >= 21  and extra_effect < 24 then		-- Cloudkill Effect
 			extra_effect = 10
+		elseif extra_effect == 30 then
+			extra_effect = 11										-- Graze
         end
     end
 
@@ -729,20 +730,6 @@ function custom_impair_special_effects(obj, wpn, ammo_elapsed, grenade_elapsed, 
 end
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------ END USE
-
--- enhanced recoil patch
--- [[ Disabling as it is very unpolished
-if enhanced_recoil then
-    RecoilMult = enhanced_recoil.recoil_multiplier
-    function enhanced_recoil.recoil_multiplier(wpn, shotc)
-        local sect = wpn:section()
-        local ammo_list = utils_item.get_ammo(sect, wpn:id())
-        local ammo_type = ammo_list[wpn:get_ammo_type() + 1]
-        return RecoilMult(wpn, shotc) * (ini_ammo:r_float_ex(ammo_type, "recoil") or 1)
-    end
-end
-
---]]
 
 function on_game_start()
 	if z_cxv_experience_perk_weapon_reload_hit_effects then

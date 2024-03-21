@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<string_table>
+	
+	<string id="ammo_11.43x23_ap">
+		<text>.45 ACP Behemoth rounds</text>
+	</string>
+	<string id="ammo_11.43x23_ap_descr">
+		<text>Zone-made custom .45 ACP bullets, once thought to be just a myth. While keeping a similar appearance to regular bullets, the Behemoths are subject to obscure Zone antics and experiments, providing them with vastly increased stopping power while also having unusually potent armor piercing capabilities. Their weird color and glow can't be explained and rumor around the Zone tells that it's just pure evil. \n 
+		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power: %c[ui_gray_1]BR2 (28)\n%c[ui_gray_2] - %c[ui_gray_2] Flesh damage power: %c[ui_gray_1]very high</text>
+	</string>
+	<string id="ammo_11.43x23_ap_s">
+		<text>.45 Behemoth</text>
+	</string>
+
+</string_table>

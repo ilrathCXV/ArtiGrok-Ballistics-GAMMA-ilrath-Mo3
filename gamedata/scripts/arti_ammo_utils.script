@@ -3,8 +3,6 @@ math_random         = math.random
 math_floor          = math.floor
 gc                  = game.translate_string
 ini_ammo            = ballistics_utils.ini_ammo
-get_ammo_data       = arti_handlers.get_ammo_data
-print_dbg           = ballistics_mcm.print_dbg
 
 local modes = {
 	["inventory"] = true,
@@ -55,9 +53,9 @@ function downgrade_ammo(sec, bypass, mult)
     local dg_ammo = ini_ammo:r_string_ex(sec, "dg_ammo")
     local dg_chance = ini_ammo:r_float_ex(sec, "dg_chance") or 0
     dg_chance = dg_chance * mult
-    -- print_dbg("Attempt downgrade ammo %s to %s", sec, dg_ammo)
+    -- printf("[Arti Ammo Utils] Attempt downgrade ammo %s to %s", sec, dg_ammo)
     if dg_ammo and (math_random() < (dg_chance) or bypass) then
-        -- print_dbg("Downgrading ammo %s to %s", sec, dg_ammo)
+        -- printf("[Arti Ammo Utils] Downgrading ammo %s to %s", sec, dg_ammo)
         return dg_ammo
     else 
         return sec
@@ -72,7 +70,7 @@ function process_wpn(wpn, bypass)
     local dg_ammo = ini_ammo:r_string_ex(ammo_type, "dg_ammo") or ""
     local dg_chance = ini_ammo:r_float_ex(ammo_type, "dg_chance") or 0
     if ammo_data_inv[dg_ammo] and (bypass or math_random() < dg_chance) then
-        -- print_dbg("Downgrading ammo for weapon %s", wpn:section())
+        -- printf("[Arti Ammo Utils] Downgrading ammo for weapon %s", wpn:section())
         local cnt = wpn:get_ammo_in_magazine()
         wpn:unload_magazine(true)
         wpn:set_ammo_type(ammo_data_inv[dg_ammo] - 1)
@@ -80,6 +78,7 @@ function process_wpn(wpn, bypass)
     end
 end
 
+--[[
 local recipe_trader = {
     killer = {
        "recipe_ammo_nato",
@@ -140,6 +139,8 @@ local recipe_trader = {
     },
 }
 
+--]]
+
 local powder_list_weights = {
 	["powder_nightstar"] = 15,
 	["powder_gravi"] = 25,
@@ -157,14 +158,6 @@ function trader_autoinject.update(npc)
 	
 	if level == 1 then return end
 	
-    local chance = clamp(45 * (level - 1), 0, 100)
-    local comm = trader_autoinject.get_real_community(npc, "stalker")
-    if not recipe_trader[comm] then return end
-    for k,v in pairs(recipe_trader[comm]) do
-        if math_random(100) <= chance then
-            alife_create_item(v, npc)
-        end
-    end
 	local k = random_key_table(powder_list_weights)
     if math_random(100) <= (powder_list_weights[k] * (level - 1)) then
 		if trader_autoinject.get_trader_type(npc) == 1 then
@@ -217,6 +210,7 @@ function npc_on_net_spawn(npc)
     end)
 end
 
+--[[
 -- spawn recipes with random weights
 local recipe_list = {
     ["recipe_ammo_ru1"] = false,
@@ -308,7 +302,6 @@ SpawnTreasure = treasure_manager.try_spawn_treasure
 function treasure_manager.try_spawn_treasure(box)
     local id = box:id()
 
-	--printf("try_spawn_treasure [%s]",caches[id])
     -- no spawn if the cache is already looted
 	if not (treasure_manager.caches[id]) then
 		return
@@ -321,12 +314,14 @@ function treasure_manager.try_spawn_treasure(box)
     end
 end
 
+--]]
+
 if magazines then
     RollAmmo = magazines_loot.determine_ammo
     -- subject the ammo pop in mags to downgrade
     function magazines_loot.determine_ammo(ammo_to_pick, mag_sec, rank)
         if RollAmmo then
-            print_dbg("Roll to downgrade %s in %s", ammo_to_pick, mag_sec)
+            -- printf("[Arti Ammo Utils] Roll to downgrade %s in %s", ammo_to_pick, mag_sec)
             ammo_to_pick = RollAmmo(ammo_to_pick, mag_sec, rank)
             ammo_to_pick = downgrade_ammo(ammo_to_pick)
         end
@@ -337,6 +332,5 @@ end
 function on_game_start()
 	custom_functor_autoinject.add_functor("mg_link", try_mg_link, try_mg_link, nil, mg_link, true)
 	RegisterScriptCallback("npc_on_net_spawn",npc_on_net_spawn)
-	RegisterScriptCallback("actor_on_item_use", update_recipe_list)
-	RegisterScriptCallback("actor_on_update", show_shock_stack_effect)
+	-- RegisterScriptCallback("actor_on_item_use", update_recipe_list)
 end

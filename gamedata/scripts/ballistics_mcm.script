@@ -2,22 +2,6 @@
 
 ini_ammo = ini_file("ammo\\importer.ltx")
 
-local dbg_log
-function print_dbg( text , ...)
-	if get_config("debug") or false then
-		dbg_log = dbg_log or mcm_log and mcm_log.new("DBG")
-		if dbg_log then
-			dbg_log.enabled = true
-			dbg_log:log( text , ...)
-		else
-			printf( "ballistics: | %s |  "..text ,time_global(), ...)
-		end
-	end
-	return nil
-end
-
-
-
 local ini_ammo = ini_file("ammo\\importer.ltx")
 gc = game.translate_string
 
@@ -42,7 +26,6 @@ end
 
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
-    ["debug"] = true,
     ["cost"] = true,
     ["impair"] = false,
 	["particles"] = true,
@@ -55,7 +38,6 @@ end
 function on_mcm_load()
     op = { id= "ballistics",sh=true ,gr={
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_ballistics_title",size= {512,50},spacing= 20 },
-            {id = "debug", type = "check", val = 1, def=true},
             {id = "cost", type = "check", val = 1, def=true},
             {id = "impair", type = "check", val = 1, def=false},
 			{id = "particles", type = "check", val = 1, def=true},

@@ -218,15 +218,6 @@ function prop_flatness(obj, sec)
     end
 end
 
-function prop_recoil(obj, sec)
-    if not enhanced_recoil_mcm then return 0 end
-    local recoil = SYS_GetParam(2, sec, "recoil")
-    if recoil ~= 1 then
-        return recoil
-    else return 0
-    end
-end
-
 function prop_wear(obj, sec)
     local impair = ini_ammo:r_float_ex(sec, "impair") or 1
     if impair ~= 1 then

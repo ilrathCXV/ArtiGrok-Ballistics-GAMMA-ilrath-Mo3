@@ -5,7 +5,6 @@
 -- Utility scripts to help calculate things.
 
 get_config = ballistics_mcm.get_config
-print_dbg = ballistics_mcm.print_dbg
 
 ini_ammo = ini_file("ammo\\importer.ltx")
 ini_damage = ini_file("creatures\\damages.ltx")
@@ -163,7 +162,7 @@ function play_sound_distance(snd, distance)
     snd_to_play = snd_to_play .. math.random(ini_sounds:r_float_ex(snd, to_use.."_amt") or 1)
 	local s = xr_sound.get_safe_sound_object(snd_to_play)
 	if s then
-        -- print_dbg("Playing %s", snd_to_play)
+        -- printf("[Ballistics Utils] Playing %s", snd_to_play)
 		s:play(db.actor, 0, sound_object.s2d)
         -- snd.volume = 1
 		s.volume = (distance > 10) and 0.3 + (0.7 * (1 - (clamp(distance, 2, 100) - 2)/98)) or 1
