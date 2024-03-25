@@ -187,36 +187,37 @@ dg_ammo     = ammo_7.62x25_ps
 dg_chance   = 0.7
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-[ammo_5.7x28_ss190]:ammo_base
+[ammo_5.7x28_ss190]:ammo_base	;AP+
 name		= ammo_new_5.7x28_ss190
 k_hit		= 0.8
 k_ap		= 0.42
 cost        = 2600
 
-[ammo_5.7x28_ss190_bad]:ammo_base; Frag
+[ammo_5.7x28_ss190_bad]:ammo_base; chaos
+name		= ammo_new_5.7x28_chaos
+k_hit       = 0.8
+k_ap        = 0.345
+cost        = 9500
+special     = chaos
+dg_ammo     = ammo_5.7x28_ss190
+dg_chance   = 0.85
+
+
+[ammo_5.7x28_ss195]:ammo_base ; HP/FMJ
+name		= ammo_new_5.7x28_ss195
+k_hit       = 0.69
+k_ap        = 0.21
+cost        = 3000
+
+[ammo_5.7x28_ss195_bad]:ammo_base ; Frag
 name		= ammo_new_5.7x28_frag
 k_hit		= 1.1
 k_ap		= 0.15
 cost        = 3250
 special		= frag
 frag		= 30
-dg_ammo     = ammo_5.7x28_ss190
+dg_ammo     = ammo_5.7x28_ss195
 dg_chance   = 0.5
 
-
-[ammo_5.7x28_ss195]:ammo_base ; ss195
-name		= ammo_new_5.7x28_ss195
-k_hit       = 0.69
-k_ap        = 0.21
-cost        = 3000
-
-[ammo_5.7x28_ss195_bad]:ammo_base ; chaos
-name		= ammo_new_5.7x28_chaos
-k_hit       = 0.8
-k_ap        = 0.345
-cost        = 9500
-special     = chaos
-dg_ammo     = ammo_5.7x28_ss195
-dg_chance   = 0.85
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

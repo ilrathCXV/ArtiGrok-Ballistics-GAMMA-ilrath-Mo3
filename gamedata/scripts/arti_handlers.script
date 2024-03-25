@@ -692,13 +692,15 @@ end
 
 local custom_proj_table = {
     ["explodes"] = play_grav,
-    ["soulripper"] = play_grav_sound,
+    ["soulripper"] = play_grav,
+	["rip"] = play_grav_sound,
     ["chaos"] = play_grav,
     ["lightning"] = play_shock,
     ["fire_melt"] = play_fire_big,
 	["napalm"] = play_fire_big,
     ["acid"] = play_acid,
-	["head"] = play_grav
+	["head"] = play_grav,
+	["grav"] = play_grav,
 }
 
 function particle_effects(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)

@@ -26,7 +26,6 @@ end
 
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
-    ["cost"] = true,
     ["impair"] = false,
 	["particles"] = true,
 }
@@ -38,7 +37,6 @@ end
 function on_mcm_load()
     op = { id= "ballistics",sh=true ,gr={
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_ballistics_title",size= {512,50},spacing= 20 },
-            {id = "cost", type = "check", val = 1, def=true},
             {id = "impair", type = "check", val = 1, def=false},
 			{id = "particles", type = "check", val = 1, def=true},
         }

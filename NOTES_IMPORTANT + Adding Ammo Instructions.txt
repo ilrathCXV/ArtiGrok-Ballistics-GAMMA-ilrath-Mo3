@@ -30,7 +30,7 @@ Example of an ammo type that has nearly all the elements involoved in the system
 name		= ammo_new_9x39_spp					-- This is no longer needed.
 k_hit		= 1.3 								-- This is the "k_hit" parameter of the ammo. This isn't used by the system anymore as of Update 7. This value is pulled straight from the file the ammo is found in.
 k_ap		= 0.348								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
-cost        = 2850								-- This is the "cost" parameter of the ammo. It was used by Arti's system to modify the cost of ammo. Pull the value from ammo's file or change it if the ammo is old ammo you are looking to change  (changes in here only take effect is the "Cost" option in this mod's MCM settings are turned on).
+cost        = 2850								-- This is the "cost" parameter of the ammo. This isn't used by the system anymore as of the Rework (3/22 build). This value is pulled straight from the file the ammo is found in or the DLTX file for the variants.
 dg_ammo     = ammo_9x39_pab9					-- This parameter takes in another ammo that this ammo can degrade/convert to when looting (in order to offset the fact bad ammo - now special ammo - is more common to find on enemies). Highly recommended.
 dg_chance   = 0.5								-- This parameter is the chance that this ammo will degrade/convert into the ammo in the above line. This MUST be used in combo with the above line if you choose to use this conversion system.
 special     = ambush							-- Special: EXPLAINED LATER
