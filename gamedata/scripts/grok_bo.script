@@ -403,10 +403,17 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
 										-- ilrathCXV edits --
+	-- Personal adjustments (since they are described as used for hunting in the descriptions)
+	if ammo_section == "ammo_7.62x54_7h1" or ammo_section == "ammo_7.92x33_fmj_bad" then
+		ammo_mult = 1.025
+	end
+	
+	-- 9x21 HP	
 	if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
 		ammo_mult = 1.20
 	end					
 	
+	-- .357 FMJ
 	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
 		ammo_mult = 0.95
 	end
@@ -531,11 +538,18 @@ function monster_on_before_hit(monster,shit,bone_id)
 	-----------------------------------------------------------------------------------------------------
 	-----------------------------------------------------------------------------------------------------
 										-- ilrathCXV edits --
-
+		
+		-- Personal adjustments (since they are described as used for hunting in the descriptions)
+		if ammo_section == "ammo_7.62x54_7h1" or ammo_section == "ammo_7.92x33_fmj_bad" then
+			ammo_mult = 1.125
+		end
+		
+		-- 9x21 HP
 		if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
 			ammo_mult = 1.525
 		end
 		
+		-- .357 FMJ
 		if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
 			ammo_mult = 1.00
 		end

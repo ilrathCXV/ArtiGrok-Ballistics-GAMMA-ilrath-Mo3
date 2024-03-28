@@ -6,24 +6,24 @@
 
 <string_table>
 	<string id="ammo_11.43x23_ap">
-		<text>.45 ACP Behemoth rounds</text>
+		<text>.45 ACP Behemoth rounds (AP)</text>
 	</string>
 	<string id="ammo_11.43x23_ap_descr">
 		<text>Zone-made custom .45 ACP bullets, once thought to be just a myth. While keeping a similar appearance to regular bullets, the Behemoths are subject to obscure Zone antics and experiments, providing them with vastly increased stopping power while also having unusually potent armor piercing capabilities. Their weird color and glow can't be explained and rumor around the Zone tells that it's just pure evil.</text>
 	</string>
 	<string id="ammo_11.43x23_ap_s">
-		<text>.45 Behemoth</text>
+		<text>.45 Behemoth (AP)</text>
 	</string>
 	
 	
 	<string id="ammo_11.43x23_ap_bad">
-		<text>.45 ACP Ripper rounds</text>
+		<text>.45 ACP Ripper rounds (AP+)</text>
 	</string>
 	<string id="ammo_11.43x23_ap_bad_descr">
 		<text>This variant of the strange .45 Behemoth round is packed to the brim with crushed artefacts, increasing its armor piercing power. However, due to its instability, it loses some of its stopping power but makes up for it in its fragmentation due to the crude experimental powder.</text>
 	</string>
 	<string id="ammo_11.43x23_ap_bad_s">
-		<text>.45 Ripper</text>
+		<text>.45 Ripper (AP+)</text>
 	</string>
 
 

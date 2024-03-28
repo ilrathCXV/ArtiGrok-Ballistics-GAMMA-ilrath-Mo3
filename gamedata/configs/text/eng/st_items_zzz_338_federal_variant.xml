@@ -6,13 +6,13 @@
 
 <string_table>
 	<string id="ammo_338_fed_exp">
-		<text>.338 Federal Explosive rounds</text>
+		<text>.338 Federal Explosive rounds (AP+)</text>
 	</string>
 	<string id="ammo_338_fed_exp_descr">
 		<text>This sniper round utilizes Volatile Artefact Fragments to create a makeshift "explosive payload". When striking either a target or a surface, it hurt any enemies near the blast. If not close enough to the blast, enemies still have a chance to catch shrapnel from the round itself. However, due to its anomalous nature, these explosions pose no threat to the user.</text>
 	</string>
 	<string id="ammo_338_fed_exp_s">
-		<text>.338 Federal Explosive</text>
+		<text>.338 Federal Explosive (AP+)</text>
 	</string>
 
 </string_table>

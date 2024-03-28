@@ -204,7 +204,7 @@
 	<!-- handgun -->
 	<!-- FMJ+ -->
 	<string id="ammo_new_9x18_shock">
-		<text>9x18mm Shock rounds</text>
+		<text>9x18mm Shock rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_9x18_shock_descr">
 		<text>Full metal jacket round with a electric-based powder load. These rounds inflict targets with a minor static shock. Hit enough times, they will release a lightning strike upon themselves and all near to them. Hitting vital areas allows the round to inflict a shock twice as powerful.</text>
@@ -215,7 +215,7 @@
 
 	<!-- HP+ -->
 	<string id="ammo_new_9x18_varma">
-		<text>9x18mm 'Varmageddon' rounds</text>
+		<text>9x18mm 'Varmageddon' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_9x18_varma_descr">
 		<text>Experimental 9x18mm cartridge utilizing Chemical Artefact Fragments. The fragments cause the round to deal massive damage to mutants of any type. Although only doing massive damage to mutants, it still does respectable damage against non-armored stalkers.</text>
@@ -226,7 +226,7 @@
 	
 	<!-- AP+ -->
 	<string id="ammo_new_9x18_grav">
-		<text>9x18mm 'Grav' AP+ rounds</text>
+		<text>9x18mm 'Grav' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x18_grav_descr">
 		<text>Experimental 9x18mm cartridge utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, reaching levels unseen from all known pistol rounds.</text>
@@ -237,7 +237,7 @@
 
 	<!-- FMJ+ -->
 	<string id="ammo_new_9x19_plus">
-		<text>9x19mm FMJ+ rounds</text>
+		<text>9x19mm Plus rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_9x19_plus_descr">
 		<text>Standard 9x19 Parabellum round with an overpressure powder load. Overpressure loads shoot straighter and have increased stopping power compared to standard loads, but kick harder and wear on the weapon more.</text>
@@ -248,7 +248,7 @@
 	
 	<!-- HP+ -->
 	<string id="ammo_new_9x19_pbps">
-		<text>9x19mm Ratshot rounds</text>
+		<text>9x19mm Ratshot rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_9x19_pbps_descr">
 		<text>9mm hand-loaded rounds originally meant for rats and snakes. These rounds do very little to stalkers, but they can provide some adequate protection against weaker mutants. Any attempt to use this against any type of armor will provide no benefit whatsoever.</text>
@@ -259,10 +259,10 @@
 
 	<!-- AP+ -->	
 	<string id="ammo_new_9x19_fire">
-		<text>9x19mm Incendiary rounds</text>
+		<text>9x19mm Incendiary rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x19_fire_descr">
-		<text>Handloaded armor-piercing incendiary round for 9x19mm platforms. Through the use of Thermal Artefact Fragments, this round is able to punch through armor much more effectively than standard 9x19mm AP ammunition. It lacks raw power but will burn struck targets with each hit. The burn can be quick to burn out, but it will continue to persist if the target is struck with this or other incendaiary ammunition. This brun will slowly hurt the target, and, if suffered a strong enough burn, will cause them to ignite, spreading the heat to nearby enemies will also suffer from burns.</text>
+		<text>Handloaded armor-piercing incendiary round for 9x19mm platforms. Through the use of Thermal Artefact Fragments, this round is able to punch through armor much more effectively than standard 9x19mm AP ammunition. It lacks raw power but will burn struck targets with each hit. The burn can be quick to burn out, but it will continue to persist if the target is struck with this or other Incendiary ammunition. This brun will slowly hurt the target, and, if suffered a strong enough burn, will cause them to ignite, spreading the heat to nearby enemies will also suffer from burns.</text>
 	</string>
 	<string id="ammo_new_9x19_fire_s">
 		<text>9x19 Incendiary (AP+)</text>
@@ -270,7 +270,7 @@
 
 	<!-- FMJ+ -->
 	<string id="ammo_new_11.43x23_fmjs">
-		<text>.45 ACP FMJ+ rounds</text>
+		<text>.45 ACP Experimental rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_11.43x23_fmjs_descr">
 		<text>.45 ACP round with an overpressure load to bring the terminal performance of the .45 bullet up to modern standards. Carbon steel penetrator has been added to the large bullet, adding some effectiveness in armor penetration without losing too much stopping power. Recommended to use in a modern handgun that is capable of withstanding the increased pressure, otherwise the round poses a danger to the operator.</text>
@@ -281,7 +281,7 @@
 	
 	<!-- HP+ -->
 	<string id="ammo_new_11.43x23_hydro">
-		<text>.45 ACP 'RIP' rounds</text>
+		<text>.45 ACP 'RIP' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_descr">
 		<text>This experimental .45 ACP round is constructed from a chemical artifact fragment around which lead was 'grown' and molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter.</text>
@@ -292,7 +292,7 @@
 
 	<!-- HP+ -->
 	<string id="ammo_new_357_rat">
-		<text>.357 'Suckershot' rounds</text>
+		<text>.357 'Suckershot' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_357_rat_descr">
 		<text>These .357 rounds are filled with small pellets, similar to the standard ratshot. By using an artefact powder mix, this allows the round to travel well using a smaller volume of powder compared to use standard gunpowder. This results in more space, allowing for a larger capsule for the pellets. These rounds are perfect for dealing with any mutant found in the Zone, and unarmored Stalkers won't know what hit 'em.</text>
@@ -303,7 +303,7 @@
 
 	<!-- HP+ -->
 	<string id="ammo_new_7.62x25_cloud">
-		<text>7.62x25mm 'Cloudkill' rounds</text>
+		<text>7.62x25mm 'Cloudkill' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_7.62x25_cloud_descr">
 		<text>7.62x25mm special use cartridge developed by the Ecologists, part of an ongoing joint study with Duty. This cartridge contains a hollow metal ball filled with a liquid toxin derived from chemical anomalies. On impact with a target, the toxin vaporizes into a chemical cloud that severely weakens the targets and produces a similar effect on any nearby targets. All affected targets will become more susceptible to all future damage it may take on. Additionally, they will have their strength and/or equipment impaired, severely reducing any damage they may inflict on others. However, this round is made for crowd control and does very little damage to targets themselves. The concentration of the toxic mixture is not strong enough to do enough extra damage against mutants to be useful as a defense round, unlike the 23x75mm 'Cloudkill' Cartridge.</text>
@@ -314,7 +314,7 @@
 	
 	<!-- FMJ+ -->
 	<string id="ammo_new_7.62x25_cor">
-		<text>7.62x25mm Acid rounds</text>
+		<text>7.62x25mm Acid rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.62x25_cor_descr">
 		<text>Experimental rounds developed by a secret joint effort between elements of the Ukrainian Ministry of Science and members of the Clear Sky faction. These hollowpoint rounds are filled with a turquoise plug that feels like plastic to the touch. A certain treatment involving the use of Stone Blood artifacts and catalysis in the presence of aerosolized ammonia has resulted in the production of corrosive tips that, when exposed to the heat of a gunpowder explosion, reacts to form a substance that violently melts and consumes metal, fabric, wood, plastic, or stone. The material is safe to handle in its inert state and only reacts when fired out of a weapon.</text>
@@ -325,7 +325,7 @@
 
 	<!-- FMJ+/SS190+ -->
 	<string id="ammo_new_5.7x28_frag">
-		<text>5.7x28 Fragmetning rounds</text>
+		<text>5.7x28 Fragmetning rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_5.7x28_frag_descr">
 		<text>Hand-loaded 5.7x28 round. Unlike the SS190, this round is not rated to defeat body armor. However, it still can be used to combat poorly-equipped Stalkers and mutants with decent efficiency. Due to the composition of this round, it will fragment upon impact, leading to increased internal damage but reduced damage on armor it can't penetrate.</text>
@@ -336,64 +336,64 @@
 	
 	<!-- AP+/SS195+ -->
 	<string id="ammo_new_5.7x28_chaos">
-		<text>5.7x28 'Chaos' rounds</text>
+		<text>5.7x28 'Chaos' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_5.7x28_chaos_descr">
 		<text>5.7x28mm SS190 rounds with signs of unknown anomalous tampering. These are rarely found in the employ of Monolith and Sinners, and possess markers of treatment in the same vein as other experimental ammo types. These in particular have a bullet that destabilizes its presence in reality, randomly losing and gaining velocity, mass, and kinetic potential during flight. Performance is thus highly erratic, though if fired at high enough volume the overall potential seems to be higher than standard rounds. The exact nature and purpose of these rounds are unknown.</text>
 	</string>
 	<string id="ammo_new_5.7x28_chaos_s">
-		<text>5.7x28 Chaos</text>
+		<text>5.7x28 Chaos (AP+)</text>
 	</string>
 
 	<!-- shotgun -->
 	<!-- Buckshot+ -->
 	<string id="ammo_new_12x70_magnum">
-		<text>12x70 Magnum Buckshot</text>
+		<text>12x70 Magnum Buckshot (Buck+)</text>
 	</string>
 	<string id="ammo_new_12x70_magnum_descr">
 		<text>#00 Buckshot loaded with an increased powder charge. Provides a huge increase in stopping power and slightly better armor penetration at the cost of increased wear on the weapon. Excellent for hunting and the sheer force of the shot can seriously injure even protected limbs. If you're dropping monstrous mutants, better use some magnum buck.</text>
 	</string>
 	<string id="ammo_new_12x70_magnum_s">
-		<text>12ga. Buckshot+</text>
+		<text>12ga. Magnum (Buck+)</text>
 	</string>
 
 	<!-- Slug+ -->
 	<string id="ammo_new_12x70_flechette">
-		<text>12x70 Flechette shells</text>
+		<text>12x70 Flechette shells (Slug+)</text>
 	</string>
 	<string id="ammo_new_12x70_flechette_descr">
 		<text>12 gauge shotgun shell filled with 9 hardened steel spikes. Provides tight groupings, increased effective range and good armor penetration compared to buckshot, but lacks sheer stopping power. Suitable for defeating light body armor but ineffective against heavier armor, unless shots to the limbs are prioritized.</text>
 	</string>
 	<string id="ammo_new_12x70_flechette_s">
-		<text>12ga. Flechette</text>
+		<text>12ga. Flechette (Slug+)</text>
 	</string>
 	
 	<!-- Dart+ -->
 	<string id="ammo_new_12x70_dragon">
-		<text>12x70 'Dragon's Breath' shells</text>
+		<text>12x70 'Dragon's Breath' shells (AP+)</text>
 	</string>
 	<string id="ammo_new_12x70_dragon_descr">
 		<text>12 gauge shotgun shell loaded with small fragments of Fireball and Night Star artifacts. When fired, the gunpowder explosion sets off a runaway anomalous interaction that superheats the artifact pieces to temperatures equivalent to that of ignited thermite. The impact is devastating to flesh and melts most armors, but the extreme heat generated is hugely damaging to the weapon it is shot out of. Artifact fragments regrettably do not provide much armor defeating potential, so the primary source of damage comes from the ammo's ability to ignite targets.</text>
 	</string>
 	<string id="ammo_new_12x70_dragon_s">
-		<text>12ga. Dragonsbreath</text>
+		<text>12ga. Dragonsbreath (AP+)</text>
 	</string>
 	
 	<!-- small rifle -->
-	<!-- FMJ+ -->
-	<string id="ammo_new_5.45x39_fmjs">
-		<text>5.45x39mm Fragmenting rounds</text>
+	<!-- AP+ -->
+	<string id="ammo_new_5.45x39_grav">
+		<text>5.45x39mm 'Grav' rounds (AP+)</text>
 	</string>
-	<string id="ammo_new_5.45x39_fmjs_descr">
-		<text>Hand-loaded 5.45x39mm round with fragmenting capabilities. With only slightly better performance than your standard FMJ round, it does deal significantly more damage if the round penetrates flesh of any kind. Although not a substitute for HP ammo, it does give stalkers more wiggle room if they find themselves unable to create AP ammo.</text>
+	<string id="ammo_new_5.45x39_grav_descr">
+		<text>Anomalous 5.45x39mm round utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, making this a decent long-range option with the right rifle platform.</text>
 	</string>
-	<string id="ammo_new_5.45x39_fmjs_s">
-		<text>5.45x39 Frag (FMJ+)</text>
+	<string id="ammo_new_5.45x39_grav_s">
+		<text>5.45x39 'Grav' (AP+)</text>
 	</string>
 
 	<!-- HP+ -->
 	<string id="ammo_new_5.45x39_sp">
-		<text>5.45x39mm Soft-Point HP+ rounds</text>
+		<text>5.45x39mm Soft-Point rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_5.45x39_sp_descr">
 		<text>Special-issue 5.45x39mm Soft Point rounds used by law enforcement in response to armed and dangerous threats. The jacketed round is cut away at the top, exposing the inner lead core, and the powder charge is increased. Provides penetration capabilities comparable to that of 7N6, but also expands similarly to hollow-point rounds and imparts a stumbling effect on impact.</text>
@@ -402,20 +402,20 @@
 		<text>5.45x39 SP (HP+)</text>
 	</string>
 
-	<!-- AP+ -->
+	<!-- FMJ+ -->
 	<string id="ammo_new_5.45x39_cor">
-		<text>5.45x39mm Acid rounds</text>
+		<text>5.45x39mm Corrosion rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_5.45x39_cor_descr">
-		<text>Experimental 5.45x39mm "armor-eating" round utilizing Chemical Artefact Fragments. The bullet contains a chemical payload that corrodes any armor it touches, making Exosuits almost as protective as a simple leather jacket. Enough hits from this round will cause the fragments to erupt into a corrosive cloud, weakening all nearby armor and its integrity against all other arms fire. This allows for excellent crowd control against groups of heavily-armored targets.</text>
+		<text>Experimental 5.45x39mm multi-projectile round utilizing Chemical Artefact Fragments. The bullet contains a chemical payload that corrodes any armor it touches, making Exosuits almost as protective as a simple leather jacket. If all the projectiles land or enough hits from this round land on a single person, it will cause the fragments to erupt into a corrosive cloud, weakening all nearby armor and its integrity against all other arms fire. This allows for excellent crowd control against groups of heavily-armored targets.</text>
 	</string>
 	<string id="ammo_new_5.45x39_cor_s">
-		<text>5.45x39 Acid (AP+)</text>
+		<text>5.45x39 Acid (FMJ+)</text>
 	</string>
 	
 	<!-- FMJ+ -->
 	<string id="ammo_new_5.56x45_fmjs">
-		<text>5.56x45mm Shock rounds</text>
+		<text>5.56x45mm Shock rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_5.56x45_fmjs_descr">
 		<text>Experimental 5.56x45 ammunition utilizing a weak electrical anomalous payload. These rounds emit a small shock through the target's body, leaving them electrically charged. Hitting vital areas will administer the electrical charge twice as effectively. If hit enough times with these or similar rounds, the target will release a lightning strike, hurting nearby targets.</text>
@@ -426,7 +426,7 @@
 	
 	<!-- HP+ -->
 	<string id="ammo_new_5.56x45_varma">
-		<text>5.56x45mm 'Varmageddon' rounds</text>
+		<text>5.56x45mm 'Varmageddon' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_5.56x45_varma_descr">
 		<text>Imported 5.56x45 hunting cartridge specially designed to kill animals. The unique shape of the bullet enables projectiles to expand greatly in thick muscle and flesh of animals, inflicting catastrophic damage. The wounding effects in human targets are acceptable in comparison, but not as pronounced. These rounds enable Freedom fighters to stand toe to toe with the nastier mutants that are more prevalent up north.</text>
@@ -436,22 +436,22 @@
 	</string>
 	
 	<!-- AP+ -->
-	<string id="ammo_new_5.56x45_ap">
-		<text>5.56x45mm Quad-shot AP+ Rounds</text>
+	<string id="ammo_new_5.56x45_quad">
+		<text>5.56x45mm Quad-shot Rounds (AP+)</text>
 	</string>
-	<string id="ammo_new_5.56x45_ap_descr">
+	<string id="ammo_new_5.56x45_quad_descr">
 		<text>Experimental rounds created by the Mercenaries for their multiple 5.56x45 platforms. These rounds trade some firepower for shredding armor. Utilizing an anomalous gunpowder mixture, it allows the armor-piercing round to split into 4 projectiles to destroy any armor protecting the impact site without losing much of its overall performance down range.</text>
 	</string>
-	<string id="ammo_new_5.56x45_ap_s">
+	<string id="ammo_new_5.56x45_quad_s">
 		<text>5.56x45 Quadshot (AP+)</text>
 	</string>
 
 	<!-- FMJ+ -->
 	<string id="ammo_new_7.62x39_fmjs">
-		<text>7.62x39mm FMJ+ rounds</text>
+		<text>7.62x39mm Brass rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmjs_descr">
-		<text>Brass cased 7.62x39 originally developed in Yugoslavia, but now used as a catch-all for the more modern manufacture brass-cased ammo. The round still features a mild steel core and provides slightly better performance to the M43 round, but the main selling point is the better feeding and reduced wear on the weapon. Clear Sky faction maintains an agreement with an unknown party to supply these rounds through their faction.</text>
+		<text>Brass-cased 7.62x39 originally developed in Yugoslavia, but now used as a catch-all for the more modern manufacture brass-cased ammo. The round still features a mild steel core and provides slightly better performance to the M43 round, but the main selling point is the better feeding and reduced wear on the weapon. Clear Sky faction maintains an agreement with an unknown party to supply these rounds through their faction.</text>
 	</string>
 	<string id="ammo_new_7.62x39_fmjs_s">
 		<text>7.62x39 FMJ+</text>
@@ -459,7 +459,7 @@
 
 	<!-- AP+ -->
 	<string id="ammo_new_7.62x39_api">
-		<text>7.62x39mm Incendiary rounds</text>
+		<text>7.62x39mm Incendiary rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.62x39_api_descr">
 		<text>7.62x39 armor-piercing rounds with an incendiary component added to the base of the bullet. Designed to blow up vehicles by shooting the fuel tanks, the penetrator punches through any armor plating and the incendiary component creates sparks as they pass through, igniting fuel. While armored vehicles are an extreme shortage in the Zone, these rounds work extremely well as a means to inhumanely increase lethality against armored targets. Due to the incendiary component, the temperatures generated are high and increases heat generated in the weapon.</text>
@@ -470,7 +470,7 @@
 
 	
 	<string id="ammo_new_9x39_ambush">
-		<text>9x39mm 'Ambush' rounds</text>
+		<text>9x39mm 'Ambush' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_9x39_ambush_descr">
 		<text>Experimental 9x39mm round created by the Mercenaries. This round's design improves its performance, doing more damage to targets that are relaxed. When fired with a suppressed weapon, the effect still applies to all targets. The force from this round is also strong enough to rattle an enemy do the bone, causing them to unintentionally unload their weapon and forcing them to reload ammo back into it.</text>
@@ -479,7 +479,7 @@
 		<text>9x39 'Ambush' (FMJ+)</text>
 	</string>
 	<string id="ammo_new_9x39_graze">
-		<text>9x39mm 'Graze' rounds</text>
+		<text>9x39mm 'Graze' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x39_graze_descr">
 		<text>Experimental 9x39mm round created by the Monolith. Making use of artefact fragments in the powder load, the round is able to make enemies near the inital struck target expereince some of the pain felt by said target. Rounds that strike the head or vital areas will cause even more pain to be felt. Along with its damage-sharing properties, targets that are unaware of the shooter, or if the shooter is using a suppressed weapon, causes the round to much more damage that expected. These rounds were created to not only dispatch enemies of the Monolith, but to scare any future attacks on it with stories of people "dying from an invisible force".</text>
@@ -490,58 +490,48 @@
 	
 	<!-- large rifle -->
 
-	<string id="ammo_new_7.62x54r">
-		<text>7.62x54mm PP rounds</text>
-	</string>
-	<string id="ammo_new_7.62x54r_descr">
-		<text>Surplus 7.62x54mm 57-N-323S ammunition. The 7.62x54mm round is the second-oldest rifle cartridge still in use today, first produced in 1891 for the Mosin-Nagant rifle. The basic design of the bullet has not changed much since 1908, and remains very popular today amongst hunters and target shooters. These rounds are loose, but can be linked together for use in the PK machine gun.</text>
-	</string>
-	<string id="ammo_new_7.62x54r_s">
-		<text>7.62x54 PP</text>
-	</string>
-
 	<string id="ammo_new_7.62x54_graze">
-		<text>7.62x54mm 'Graze' rounds</text>
+		<text>7.62x54mm 'Graze' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.62x54_graze_descr">
 		<text>An anomalous 7.62x54mm sniper round for precision shooting at range. This is a very solid round for long-range usage, but its anomalous nature allows it to share its initial damage to those near the target who was initially struck by this round. When coming into contact with a stalekr's head or a mutant's key vitals, much more of the damage is shared.</text>
 	</string>
 	<string id="ammo_new_7.62x54_graze_s">
-		<text>7.62x54 'Graze'</text>
+		<text>7.62x54 'Graze' (FMJ+)</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_fp">
-		<text>7.62x54mm 'Headhunter' rounds</text>
+		<text>7.62x54mm 'Headhunter' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_7.62x54_fp_descr">
 		<text>High-precision variant of the 7.62x54mm round, with a flat nose that provides tight groupings at medium to long ranges. These rounds are used for competition shooting where accuracy and precision are key, and thus these rounds are all carefully built to be exactly the same. The flat nosed round is designed for superior weight distribution and to punch clean holes through targets, and is tipped with a plastic plug to retain maximal aerodynamic performance. While the armor penetrating capabilities are lacking, the sheer force of impact due to the flat nose is enough to cause deadly concussions. In practice, snipers report that headshots with these rounds will lethally concuss targets, almost always guaranteeing a kill. Proper use of such rounds demands high skill.</text>
 	</string>
 	<string id="ammo_new_7.62x54_fp_s">
-		<text>7.62x54 FP</text>
+		<text>7.62x54 'Headhunter' (HP+)</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_api">
-		<text>7.62x54mm BZAPI rounds</text>
+		<text>7.62x54mm Incendiary rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.62x54_api_descr">
 		<text>7.62x54 armor-piercing incendiary round designed to defeat light armor by penetrating external armor and igniting fuel tanks. Extremely and terrifyingly effective against mutants and men, as any and all protection is defeated by the armor piercing tip while the incendiary component causes catastrophic flesh damage. Generates a high temperature in the barrel, so frequent barrel changes are required when shooting out of a machine gun. In addition, this is nomally a machine gun round and thus it is not designed for precision - if using a rifle, be wary. </text>
 	</string>
 	<string id="ammo_new_7.62x54_api_s">
-		<text>7.62x54 API</text>
+		<text>7.62x54 Incendiary (AP+)</text>
 	</string>
 	
 	<string id="ammo_new_7.62x54_split">
-		<text>7.62x54mm Tri-shot rounds</text>
+		<text>7.62x54mm Tri-shot rounds (PKM+)</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_descr">
 		<text>7.62x54mm machine gun rounds that split into three projectiles in flight. These projectiles have a short effective range comparable to handguns and some shotguns, but make up for it in sheer volume of fire. The rounds are anomalously tampered with to be extremely frangible at certain places, enough so that the stress of firing out of a barrel is enough to fracture the round into pieces. While seemingly counterintuitive, these rounds are used to great effect by members of Duty to provide a huge amount of short-range firepower in taking down mutant hordes, acting as a sort of heavy automatic shotgun. Due to the round's short range, there is no reason to fire this out of a rifle.</text>
 	</string>
 	<string id="ammo_new_7.62x54_split_s">
-		<text>7.62x54 Tri-shot</text>
+		<text>7.62x54 Tri-shot (PKM+)</text>
 	</string>
 	
 	<string id="ammo_new_7.62x51_frag">
-		<text>7.62x51mm Fragmenting rounds</text>
+		<text>7.62x51mm Fragmenting rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.62x51_frag_descr">
 		<text>Experimental 7.62x51mm round designed for long-range sniping. The tip is slightly hollowed out and the bullet is shaped specifically for maximal aerodynamic performance when shot out of long barrel rifles. When coming into contact with flesh, it has a chance to fragment, dealing massive damage to the enemy's vitals.</text>
@@ -551,37 +541,37 @@
 	</string>
 
 	<string id="ammo_new_7.62x51_duplex">
-		<text>7.62x51mm Hot Shock rounds</text>
+		<text>7.62x51mm Hot Shock rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.62x51_duplex_descr">
 		<text>Specialty 7.62x51 rounds utilizing a mix of thermal and electric artefact fragments. These rounds causes the target to experience the pain of third-degree burns along with a shock down their spine. Enough hits from this round can cause the target to release a lightning strike that hurts themselves and nearby enemies, and, on death, the target will spread the thermal burn on its death. Due to the volatility of the special powder load, it causes the bullet to split into two.</text>
 	</string>
 	<string id="ammo_new_7.62x51_duplex_s">
-		<text>7.62x51 Hot Shock</text>
+		<text>7.62x51 Hot Shock (AP+)</text>
 	</string>
 
 	<string id="ammo_new_7.92x33_varma">
-		<text>7.92x57mm 'Varmageddon' rounds</text>
+		<text>7.92x57mm 'Varmageddon' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.92x33_varma_descr">
 		<text>Experimental 7.92x57mm round with a hollow tip and boat-tail base bullet. MBased on ammunition used typically for large game, this round has been enhanced with artefact fragments, allowing for even greater strength against mutants found in the Zone. However, these artefact fragments grant no extra benefits against stalkers.</text>
 	</string>
 	<string id="ammo_new_7.92x33_varma_s">
-		<text>7.92x57 'Varmageddon'</text>
+		<text>7.92x57 'Varmageddon' (FMJ+)</text>
 	</string>
 	
 	<string id="ammo_new_7.92x33_lightning">
-		<text>7.92x57mm Lightning rounds</text>
+		<text>7.92x57mm Lightning rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.92x33_lightning_descr">
 		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. This round's true power is shown on heavily armored targets, powered armor, or striking mutants in their weak points: a lightning strike is called down upon the target, dealing damage to it and all other targets nearby. The lightning's strength grows proportionally to the armor of the target, or the hardiness of the mutant.</text>
 	</string>
 	<string id="ammo_new_7.92x33_Lightning_s">
-		<text>7.92x57 Lightning</text>
+		<text>7.92x57 Lightning (AP+)</text>
 	</string>
 	
 	<string id="ammo_new_12.7x55_fmjs">
-		<text>12.7x55mm 'Grav' FMJ+ rounds</text>
+		<text>12.7x55mm 'Grav' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmjs_descr">
 		<text>Experimental 12.7x55mm cartridge utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity not seen from this subsonic caliber. The round will reach its target much quicker with nearly no bullet drop, and will allow the round to hit the target with a force equal to that of being shot at point-blank range.</text>
@@ -592,23 +582,23 @@
 
 
     <string id="ammo_new_12.7x55_exp">
-		<text>12.7x55mm Explosive rounds</text>
+		<text>12.7x55mm Explosive rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_12.7x55_exp_descr">
 		<text>A relatively new and restricted development, these experimental rounds have a small fragment of a destabilized thermal artifact wrapped in lead with a standard metal jacket. The round exhibits no anomalous effects when impacting most solid surfaces, but the artifact core releases a tremendous amount of energy on impacting a hard target. The lead casing and metal jacket become shrapnel for the explosion, like the outer case of a grenade. While the armor penetration is limited due to a majority of the energy being transferred radially outward, the force of the explosion will cause serious damage and disorientation to the target and anyone around them.</text>
 	</string>
 	<string id="ammo_new_12.7x55_exp_s">
-		<text>12.7x55 EXP</text>
+		<text>12.7x55 EXP (AP+)</text>
 	</string>
 	
 	<string id="ammo_new_338_ap">
-		<text>.338 'Soulripper' Sabot rounds</text>
+		<text>.338 'Soulripper' Sabot rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_338_ap_descr">
 		<text>.338 round consisting of a depleted uranium penetrator wrapped in a sabot and propelled with an anomalously powerful charge. Exhibits signs of anomalous tampering, as it is not physically possible for a projectile of this mass to fly with such velocity and deal as much damage as it does. Extremely rare, powerful, and dangerous to handle.</text>
 	</string>
 	<string id="ammo_new_338_ap_s">
-		<text>.338 DU AP</text>
+		<text>.338 'Soulripper' (AP+)</text>
 	</string>
 	
 	<!-- some leftovers -->

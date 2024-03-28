@@ -5,7 +5,7 @@ inv_name 			= ammo_new_9x18_shock
 inv_name_short 		= ammo_new_9x18_shock_s
 k_hit 				= 0.63
 k_ap 				= 0.0152
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_9x18_pmm_bad]
 description 		= ammo_new_9x18_varma_descr
@@ -14,7 +14,7 @@ inv_name 			= ammo_new_9x18_varma
 inv_name_short 		= ammo_new_9x18_varma_s
 k_hit 				= 1.15
 k_ap 				= 0.0132
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_9x18_ap_bad]
 description 		= ammo_new_9x18_grav_descr
@@ -26,7 +26,7 @@ k_hit 				= 0.8
 k_ap 				= 0.0425
 k_air_resistance 	= 0.01
 k_bullet_speed		= 5.625
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_9x19_fmj_bad]
 description 		= ammo_new_9x19_plus_descr
@@ -35,7 +35,8 @@ inv_name 			= ammo_new_9x19_plus
 inv_name_short 		= ammo_new_9x19_plus_s
 k_hit 				= 1.00
 k_ap 				= 0.0198
-impair              = 0.40
+k_impulse			= 0.506
+impair              = 0.4
 
 ![ammo_9x19_pbp_bad]
 description 		= ammo_new_9x19_pbps_descr
@@ -51,7 +52,7 @@ k_impulse			= 0.075
 k_air_resistance 	= 1.0
 k_cam_dispersion 	= 1.35
 wm_size         	= 0.0075
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_9x19_ap_bad]
 description 		= ammo_new_9x19_fire_descr
@@ -60,7 +61,7 @@ inv_name 			= ammo_new_9x19_fire
 inv_name_short 		= ammo_new_9x19_fire_s
 k_hit 				= 0.65
 k_ap 				= 0.05
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_5.7x28_ss190]	;AP
 ; To move to the "correct" icon
@@ -69,7 +70,22 @@ inv_grid_height		= 1
 inv_grid_x			= 57
 inv_grid_y			= 7
 
-![ammo_5.7x28_ss190_bad]	;FMJ+
+![ammo_5.7x28_ss190_bad]	;AP+
+description 		= ammo_new_5.7x28_chaos_descr
+cost 				= 9600
+inv_name 			= ammo_new_5.7x28_chaos
+inv_name_short 		= ammo_new_5.7x28_chaos_s
+k_hit 				= 0.49
+k_ap 				= 0.0345
+impair              = 0.4
+
+; To move to the "correct" icon
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 57
+inv_grid_y         = 6
+
+![ammo_5.7x28_ss195_bad]	;FMJ+
 description 		= ammo_new_5.7x28_frag_descr
 inv_name 			= ammo_new_5.7x28_frag
 inv_name_short 		= ammo_new_5.7x28_frag_s
@@ -80,28 +96,13 @@ tracer_color_ID		= 0
 k_air_resistance 	= 0.55
 k_bullet_speed		= 1.30
 k_cam_dispersion 	= 1.0
-impair              = 0.40
+impair              = 0.4
 
 ; To move to the "correct" icon
 inv_grid_width		= 2
 inv_grid_height		= 1
 inv_grid_x			= 55
 inv_grid_y			= 7
-
-![ammo_5.7x28_ss195_bad]	;AP+
-description 		= ammo_new_5.7x28_chaos_descr
-cost 				= 9600
-inv_name 			= ammo_new_5.7x28_chaos
-inv_name_short 		= ammo_new_5.7x28_chaos_s
-k_hit 				= 0.49
-k_ap 				= 0.0345
-impair              = 0.40
-
-; To move to the "correct" icon
-inv_grid_width     = 2
-inv_grid_height    = 1
-inv_grid_x         = 57
-inv_grid_y         = 6
 
 ![ammo_7.62x25_p_bad]
 description 		= ammo_new_7.62x25_cloud_descr
@@ -112,7 +113,7 @@ k_disp				= 0.75
 k_hit 				= 0.3
 k_impulse			= 0.25
 k_ap 				= 0.01
-impair              = 0.40
+impair              = 0.4
 k_cam_dispersion 	= 0.7
 wm_size        		= 0.035
 k_air_resistance 	= 0.8
@@ -125,7 +126,7 @@ inv_name 			= ammo_new_7.62x25_cor
 inv_name_short 		= ammo_new_7.62x25_cor_s
 k_impulse			= 0.4
 k_ap 				= 0.022
-impair              = 0.40
+impair              = 0.4
 tracer_color_ID 	= 1
 tier 				= 5
 
@@ -137,7 +138,8 @@ inv_name_short 		= ammo_new_11.43x23_fmjs_s
 k_disp				= 0.44
 k_hit 				= 0.95
 k_ap 				= 0.03
-impair              = 1.0
+k_impulse			= 0.66
+impair              = 0.4
 k_bullet_speed 		= 2.0
 tier 				= 3
 
@@ -148,7 +150,7 @@ inv_name 			= ammo_new_11.43x23_hydro
 inv_name_short 		= ammo_new_11.43x23_hydro_s
 k_hit 				= 2.57
 k_impulse 			= 0.9
-impair      		= 0.40
+impair              = 0.4
 tier 				= 4
 
 ![ammo_357_hp_mag_bad]
@@ -165,18 +167,21 @@ k_impulse			= 0.09
 k_air_resistance 	= 1.0
 k_cam_dispersion 	= 1.6
 wm_size         	= 0.01
+impair              = 0.4
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ![ammo_5.45x39_fmj_bad]
-description 		= ammo_new_5.45x39_fmjs_descr
-cost 				= 1650
-inv_name 			= ammo_new_5.45x39_fmjs
-inv_name_short 		= ammo_new_5.45x39_fmjs_s
-k_hit 				= 1.3
-k_ap 				= 0.0335
+description 		= ammo_new_5.45x39_cor_descr
+cost 				= 6545
+inv_name 			= ammo_new_5.45x39_cor
+inv_name_short 		= ammo_new_5.45x39_cor_s
+k_hit 				= 0.78
+k_disp				= 1.05
+buck_shot			= 3
+k_ap 				= 0.0225
 k_bullet_speed 		= 1.85
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_5.45x39_ep_bad]
 description 		= ammo_new_5.45x39_sp_descr
@@ -186,20 +191,24 @@ inv_name_short 		= ammo_new_5.45x39_sp_s
 k_hit 				= 1.75
 k_disp				= 0.33
 k_ap 				= 0.013
+k_impulse			= 0.715
 k_bullet_speed 		= 1.85
-impair              = 0.40
+impair              = 0.4
+
 
 ![ammo_5.45x39_ap_bad]
-description 		= ammo_new_5.45x39_cor_descr
-cost 				= 8940
-inv_name 			= ammo_new_5.45x39_cor
-inv_name_short 		= ammo_new_5.45x39_cor_s
-k_hit				= 0.8
+description 		= ammo_new_5.45x39_grav_descr
+cost 				= 9360
+inv_name 			= ammo_new_5.45x39_grav
+inv_name_short 		= ammo_new_5.45x39_grav_s
+k_hit				= 0.78
 k_impulse			= 0.55
-k_disp				= 0.6
+k_disp				= 0.33
 k_ap 				= 0.05
-impair              = 0.40
-k_bullet_speed		= 1.65
+k_air_resistance 	= 0.01
+impair              = 0.4
+k_bullet_speed		= 5.625
+
 
 ![ammo_5.56x45_fmj_bad]
 description 		= ammo_new_5.56x45_fmjs_descr
@@ -208,7 +217,8 @@ inv_name 			= ammo_new_5.56x45_fmjs
 inv_name_short 		= ammo_new_5.56x45_fmjs_s
 k_hit 				= 0.95
 k_ap 				= 0.0326
-impair              = 0.40
+impair              = 0.4
+
 
 ![ammo_5.56x45_ss190_bad]
 description 		= ammo_new_5.56x45_varma_descr
@@ -217,13 +227,14 @@ inv_name 			= ammo_new_5.56x45_varma
 inv_name_short 		= ammo_new_5.56x45_varma_s
 k_hit 				= 1.45
 k_ap 				= 0.019
-impair              = 0.40
+impair              = 0.4
+
 
 ![ammo_5.56x45_ap_bad]
-description 		= ammo_new_5.56x45_ap_descr
+description 		= ammo_new_5.56x45_quad_descr
 cost 				= 10750
-inv_name 			= ammo_new_5.56x45_ap
-inv_name_short 		= ammo_new_5.56x45_ap_s
+inv_name 			= ammo_new_5.56x45_quad
+inv_name_short 		= ammo_new_5.56x45_quad_s
 k_hit 				= 0.4
 k_ap 				= 0.036
 buck_shot			= 4
@@ -232,7 +243,7 @@ k_impulse			= 0.33
 k_air_resistance 	= 0.3
 k_cam_dispersion 	= 1.25
 wm_size         	= 0.0174
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_9x39_pab9_bad]
 description 		= ammo_new_9x39_ambush_descr
@@ -241,7 +252,8 @@ inv_name 			= ammo_new_9x39_ambush
 inv_name_short 		= ammo_new_9x39_ambush_s
 k_hit 				= 1.025
 k_ap 				= 0.0348
-impair              = 0.40
+k_impulse			= 0.715
+impair              = 0.4
 
 ![ammo_9x39_ap_bad]
 description 		= ammo_new_9x39_graze_descr
@@ -250,7 +262,7 @@ inv_name 			= ammo_new_9x39_graze
 inv_name_short 		= ammo_new_9x39_graze_s
 k_ap 				= 0.0521
 k_disp				= 0.35
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_12x70_buck_bad]
 description 		= ammo_new_12x70_magnum_descr
@@ -262,7 +274,7 @@ k_hit 				= 0.385
 k_impulse			= 0.5
 k_ap 				= 0.0015
 buck_shot 			= 12
-impair              = 1.05
+impair              = 1.0
 k_bullet_speed 		= 1.5
 k_cam_dispersion 	= 1.8
 tier 				= 4
@@ -276,7 +288,7 @@ k_disp				= 1.75
 k_hit 				= 0.6
 k_ap 				= 0.015
 buck_shot 			= 6
-impair              = 0.40
+impair              = 1.05
 k_bullet_speed 		= 1.5
 k_cam_dispersion 	= 1.15
 tier 				= 4
@@ -290,7 +302,7 @@ k_disp				= 3.8
 k_hit 				= 0.25
 k_ap 				= 0.01
 buck_shot 			= 9
-impair              = 0.40
+impair              = 1.1
 k_bullet_speed 		= 1.5
 
 ![ammo_7.62x39_fmj_bad]
@@ -300,8 +312,9 @@ inv_name 			= ammo_new_7.62x39_fmjs
 inv_name_short 		= ammo_new_7.62x39_fmjs_s
 k_hit 				= 1.5
 k_disp				= 0.66
+k_impulse			= 0.792
 k_ap 				= 0.038
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.62x39_ap_bad]
 description 		= ammo_new_7.62x39_api_descr
@@ -311,7 +324,7 @@ inv_name_short 		= ammo_new_7.62x39_api_s
 k_hit 				= 1.2
 k_disp				= 0.66
 k_ap 				= 0.060
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.92x33_fmj_bad]
 description 		= ammo_new_7.92x33_varma_descr
@@ -321,7 +334,7 @@ inv_name_short 		= ammo_new_7.92x33_varma_s
 k_disp				= 0.7
 k_hit 				= 1.2
 k_ap 				= 0.0225
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.92x33_ap_bad]
 description 		= ammo_new_7.92x33_lightning_descr
@@ -331,7 +344,7 @@ inv_name_short 		= ammo_new_7.92x33_lightning_s
 k_disp				= 0.5
 k_hit 				= 0.85
 k_ap 				= 0.078
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.62x51_fmj_bad]
 description 		= ammo_new_7.62x51_frag_descr
@@ -339,7 +352,7 @@ cost 				= 3600
 inv_name 			= ammo_new_7.62x51_frag
 inv_name_short 		= ammo_new_7.62x51_frag_s
 k_hit 				= 1.105
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.62x51_ap_bad]
 description 		= ammo_new_7.62x51_duplex_descr
@@ -355,7 +368,7 @@ k_air_resistance 	= 0.35
 k_cam_dispersion    = 1.68
 k_bullet_speed		= 1.25
 buck_shot			= 2
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_pkm_100_bad]
 description 		= ammo_new_7.62x54_split_descr
@@ -364,7 +377,7 @@ inv_name 			= ammo_new_7.62x54_split
 inv_name_short 		= ammo_new_7.62x54_split_s
 k_hit 				= 0.55
 k_ap 				= 0.0307
-impair              = 0.40
+impair              = 0.4
 buck_shot 			= 3
 
 ![ammo_7.62x54_7h1_bad]
@@ -374,7 +387,7 @@ inv_name 			= ammo_new_7.62x54_fp
 inv_name_short 		= ammo_new_7.62x54_fp_s
 k_hit 				= 0.8
 k_ap 				= 0.02
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_7.62x54_ap_bad]
 description 		= ammo_new_7.62x54_api_descr
@@ -384,7 +397,7 @@ inv_name_short 		= ammo_new_7.62x54_api_s
 k_hit 				= 1.0
 k_impulse			= 1.70
 k_ap 				= 0.095
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_4.6x30_fmj_bad]
 description 		= ammo_new_4.6x30_fmj_descr
@@ -397,7 +410,7 @@ inv_name 			= ammo_new_7.62x54_graze
 inv_name_short 		= ammo_new_7.62x54_graze_s
 k_hit 				= 1.17
 k_ap 				= 0.0509
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_12.7x55_fmj_bad]
 description 		= ammo_new_12.7x55_fmjs_descr
@@ -411,7 +424,7 @@ k_ap 				= 0.045
 wm_size 			= 0.133
 k_air_resistance 	= 0.01
 k_bullet_speed 		= 2.4
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_12.7x55_ap_bad]
 description 		= ammo_new_12.7x55_exp_descr
@@ -421,7 +434,7 @@ inv_name_short 		= ammo_new_12.7x55_exp_s
 k_disp				= 1.0
 k_hit				= 0.9
 k_ap 				= 0.058
-impair              = 0.40
+impair              = 0.4
 wm_size 			= 0.133
 
 ![ammo_magnum_300_bad]
@@ -431,7 +444,7 @@ inv_name 			= ammo_new_338_ap
 inv_name_short 		= ammo_new_338_ap_s
 k_hit 				= 1.94
 k_ap 				= 0.1705
-impair              = 0.40
+impair              = 0.4
 
 ![ammo_50_bmg_bad]
 description 		= ammo_new_50_bmg_descr
@@ -440,7 +453,7 @@ inv_name 			= ammo_new_50_bmg
 inv_name_short 		= ammo_new_50_bmg_s
 k_hit 				= 1.4
 k_ap 				= 0.22
-impair              = 0.40
+impair              = 0.4
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

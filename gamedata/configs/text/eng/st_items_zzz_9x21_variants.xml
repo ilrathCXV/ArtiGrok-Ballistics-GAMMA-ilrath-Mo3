@@ -6,21 +6,21 @@
 
 <string_table>
 	<string id="ammo_9x21_sp10_bad">
-		<text>9x21mm API SP10 rounds</text>
+		<text>9x21mm Incendiary rounds (AP+)</text>
 	</string>
 	<string id="ammo_9x21_sp10_bad_descr">
 		<text>Pistol cartridge with a bullet of increased penetration. Based off of the SP10 cartridge, this unique bullet has increased penetration due to the use of fire-based artefacts when crafted. Due to the volatility of artefacts, these rounds put slightly increased wear on the weapon.</text>
 	</string>
 
 	<string id="ammo_9x21_sp11_bad">
-		<text>9x21mm SP11 Shock rounds</text>
+		<text>9x21mm Shock rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_9x21_sp11_bad_descr">
 		<text>Experimental pistol cartridge utilizing an electric-based powder load. This round sacrifices some stopping power in exchange for an anomalous effect. They inflict a static charge to hit enemies; the static charge will erupt into a small lightning strike upon the target if hit enough time with similar ammo. Hitting vital areas allows the round to inflict a shock twice as powerful.</text>
 	</string>
 	
 	<string id="ammo_9x21_sp12_bad">
-		<text>9x21mm Zone-made SP12 rounds</text>
+		<text>9x21mm Zone-made rounds (HP+)</text>
 	</string>
 	<string id="ammo_9x21_sp12_bad_descr">
 		<text>"Homemade" variant of the standad SP12 rounds. Despite this cartridge's low penetration to body armor, it boasts devastating power to mutants and unprotected Stalkers. Due to the round not being tied to any specifications, the round fragments on impact which deals massive damage to any unprotected body parts. Great for mutant hunting or taking out lightly-armored thugs.</text>
