@@ -51,15 +51,15 @@ local anims = {
 
 function get_special(ammo_sec)
     if ini_ammo:section_exist(ammo_sec) then
-        local proc = ini_ammo:r_string_ex(ammo_sec, "special") or nil
-        return proc
+        local special = ini_ammo:r_string_ex(ammo_sec, "special") or nil
+        return special
     end
 end
 
 function get_special_2(ammo_sec)
     if ini_ammo:section_exist(ammo_sec) then
-        local proc = ini_ammo:r_string_ex(ammo_sec, "special_2") or nil
-        return proc
+        local special = ini_ammo:r_string_ex(ammo_sec, "special_2") or nil
+        return special
     end
 end
 
@@ -195,12 +195,12 @@ end
 function enemy_on_death_callback(victim, who)
 	local victim_id = victim:id()
 	
-    npc_stun[victim_id] 			= nil
-	grounded_stack_list[victim_id] 	= nil
-	shock_stack_list[victim_id] 	= nil
-	acid_stack_list[victim_id] 		= nil
-	armorbuster_list[victim_id] 	= nil
-	graze_mutant_list[victim_id] 	= nil
+    if npc_stun[victim_id] then npc_stun[victim_id] = nil end
+	if grounded_stack_list[victim_id] then grounded_stack_list[victim_id] = nil end
+	if shock_stack_list[victim_id] then shock_stack_list[victim_id] = nil end
+	if acid_stack_list[victim_id] then acid_stack_list[victim_id] = nil end
+	if armorbuster_list[victim_id] then armorbuster_list[victim_id] = nil end
+	if graze_mutant_list[victim_id] then graze_mutant_list[victim_id] = nil end
 	
 	if burn_stack_list[victim_id] and burn_stack_list[victim_id] > 19 then
 		burn_ignition(victim, db.actor:active_item(), burn_stack_list[victim_id])
@@ -216,6 +216,8 @@ end
 
 function ambush(npc, wpn)
 	-- printf("[Ambush] NPC: %s | Weapon: %s", npc and npc:name(), wpn and wpn:section())
+	
+	if npc:id() ~= AC_ID then return false end
 	
     -- hitting distracted npc with a suppressed weapon or with a melee adds 20% damage bonus and ups AP by one class
 	if ((IsMelee(wpn)) or wpn:weapon_is_silencer()) and (not npc:best_enemy() or npc:best_enemy():id() ~= 0) then
@@ -775,7 +777,7 @@ function nullify_bullet_blow_sd(shit, bone_id)
 	wpn = level.object_by_id(shit.weapon_id)
 	wpn_sec = wpn:section()
 	
-	if wpn_sec == "bullet_blow" then
+	if wpn_sec == "bullet_blow" and shit.draftsman == AC_ID then
 		-- printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
 		shit.power = 0
 	end

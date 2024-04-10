@@ -26,8 +26,11 @@ end
 
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
-    ["impair"] = false,
+    ["recycler"] = false,
 	["particles"] = true,
+	["npc_effect"] = false,
+	["true_falloff"] = true,
+	["difficulty_scaling"] = false,
 }
 
 function get_config(key)
@@ -37,8 +40,11 @@ end
 function on_mcm_load()
     op = { id= "ballistics",sh=true ,gr={
             { id= "title",type= "slide",link= "ui_options_slider_player",text="ui_mcm_ballistics_title",size= {512,50},spacing= 20 },
-            {id = "impair", type = "check", val = 1, def=false},
+            {id = "recycler", type = "check", val = 1, def=false},
 			{id = "particles", type = "check", val = 1, def=true},
+			{id = "npc_effect", type = "check", val = 1, def=false},
+			{id = "true_falloff", type = "check", val = 1, def=true},
+			{id = "difficulty_scaling", type = "check", val = 1, def=false},
         }
     }
     return op

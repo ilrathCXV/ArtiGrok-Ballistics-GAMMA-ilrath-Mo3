@@ -8,13 +8,13 @@
 name		= ammo_new_7.62x54_hp
 k_hit		= 0.85
 k_ap		= 0.30
-cost        = 2250
+mutant_mod  = 1.025
+gigant_mod  = 1.125
 
 [ammo_7.62x54_7h1_bad]:ammo_base; competition
 name		= ammo_new_7.62x54_fp
 k_hit		= 1.117
 k_ap		= 0.2
-cost        = 40000
 dg_ammo     = ammo_7.62x54_7h1
 dg_chance   = 0.9
 special     = head
@@ -24,13 +24,11 @@ special     = head
 name		= ammo_new_7.62x54r
 k_hit		= 0.85
 k_ap		= 0.45
-cost        = 4000
 
 [ammo_7.62x54_7h14_bad]:ammo_base ; Graze
 name		= ammo_new_7.62x54_graze
 k_hit		= 1.17
 k_ap		= 0.509
-cost        = 6000
 special		= graze
 dg_ammo     = ammo_7.62x54_7h14
 dg_chance   = 0.5
@@ -41,8 +39,6 @@ dg_chance   = 0.5
 name		= ammo_new_7.62x54_ap
 k_hit		= 0.85
 k_ap		= 0.8
-recoil		= 1.05
-cost        = 9500
 
 [ammo_7.62x54_ap_bad]:ammo_base; BZ API
 name		= ammo_new_7.62x54_api
@@ -50,8 +46,6 @@ k_hit		= 1.31
 k_ap		= 0.95
 special     = fire
 burn_stacks = 12
-cost        = 11000
-recoil		= 1.05
 dg_ammo     = ammo_7.62x54_ap
 dg_chance   = 0.8
 
@@ -61,13 +55,13 @@ dg_chance   = 0.8
 name		= ammo_new_7.62x54_ppr
 k_hit		= 0.85
 k_ap		= 0.37
-cost        = 2760
 
 [ammo_pkm_100_bad]:ammo_base ; splitshot
 name		= ammo_new_7.62x54_split
 k_hit		= 0.55
 k_ap		= 0.307
-cost        = 7260
+mutant_mod  = 0.9
+gigant_mod  = 1.4
 dg_ammo     = ammo_pkm_100
 dg_chance   = 0.6
 
@@ -77,7 +71,6 @@ dg_chance   = 0.6
 name		= ammo_new_7.62x51_fmj
 k_hit		= 0.89
 k_ap		= 0.34
-cost        = 3000
 
 [ammo_7.62x51_fmj_bad]:ammo_base; mk316? 
 frag        = 50
@@ -87,7 +80,6 @@ special     = frag
 name		= ammo_new_7.62x51_fmjs
 k_hit		= 1.105
 k_ap		= 0.34
-cost        = 4750
 dg_ammo     = ammo_7.62x51_fmj
 dg_chance   = 0.4
 
@@ -96,13 +88,11 @@ dg_chance   = 0.4
 name		= ammo_new_7.62x51_ap
 k_hit		= 0.89
 k_ap		= 0.62
-cost        = 7500
 
 [ammo_7.62x51_ap_bad]:ammo_base
 name			= ammo_new_7.62x51_duplex
 k_hit			= 0.53
 k_ap			= 0.37
-cost        	= 8750
 dg_ammo     	= ammo_7.62x51_ap
 dg_chance   	= 0.85
 special			= fire
@@ -116,13 +106,16 @@ shock_stacks	= 2
 name		= ammo_new_7.92x33_fmj
 k_hit		= 1
 k_ap		= 0.27
-cost        = 2250
+mutant_mod  = 1.025
+gigant_mod  = 1.125
 
 [ammo_7.92x33_fmj_bad]:ammo_base ;varma
 name		= ammo_new_7.92x33_varma
 k_hit		= 1.2
 k_ap		= 0.225
-cost        = 5000
+mutant_mod  = 1.8
+gigant_mod  = 2.25
+
 special		= varma
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.6
@@ -131,13 +124,11 @@ dg_chance   = 0.6
 name		= ammo_new_7.92x33_ap
 k_hit		= 1
 k_ap		= 0.39
-cost        = 4500
 
 [ammo_7.92x33_ap_bad]:ammo_base ; lightning
 name		= ammo_new_7.92x33_lightning
 k_hit		= 0.85
 k_ap		= 0.78
-cost        = 8400
 dg_ammo     = ammo_7.92x33_fmj
 dg_chance   = 0.7
 special     = lightning
@@ -148,13 +139,11 @@ special     = lightning
 name		= ammo_new_12.7x55_fmj
 k_hit		= 1.2
 k_ap		= 0.38
-cost        = 3000
 
 [ammo_12.7x55_fmj_bad]:ammo_base; 'Grav" Rounds
 name		= ammo_new_12.7x55_fmjs
 k_hit		= 1.65
 k_ap		= 0.45
-cost        = 5350
 special		= grav
 dg_ammo     = ammo_12.7x55_fmj
 dg_chance   = 0.25
@@ -163,13 +152,11 @@ dg_chance   = 0.25
 name		= ammo_new_12.7x55_ap
 k_hit		= 1.2
 k_ap		= 0.75 
-cost        = 6900
 
 [ammo_12.7x55_ap_bad]:ammo_base; explosive
 name		= ammo_new_12.7x55_exp
 k_hit		= 0.9
 k_ap		= 0.58
-cost        = 12000
 special     = explodes
 exp_mult	= 1
 dg_ammo     = ammo_12.7x55_ap
@@ -181,13 +168,11 @@ dg_chance   = 0.65
 name		= ammo_new_338_lapua
 k_hit		= 1.45
 k_ap		= 1.40
-cost        = 17000
 
 [ammo_magnum_300_bad]:ammo_base; saboted DU 
 name		= ammo_new_338_ap
 k_hit		= 1.94
 k_ap		= 1.705
-cost        = 21000
 special     = rip
 dg_ammo     = ammo_magnum_300
 dg_chance   = 0.8

@@ -3,6 +3,7 @@ local part_lookup
 
 local d_flag      = false
 local d_key       = "DIK_LSHIFT" -- Saftey key hold (Left Alt)
+local get_config  = ballistics_mcm.get_config
 
 -- break ammo down, returning an appropriate amount of items
 function breakdown(ammo, tool, batch)
@@ -48,7 +49,7 @@ function do_breakdown(ammo_list, tool)
     local parts_map = str_explode(parts, ",")
     local degrade = tonumber(part_lookup:r_value(sec, "degrade")) or 0.0001
     local name = ui_item.get_sec_name(sec)
-
+	
     local tbl = {}
 
     for k,v in pairs(ammo_list) do
@@ -63,7 +64,13 @@ function do_breakdown(ammo_list, tool)
             -- new 1 by 1 formula for consistency
             for i=1,box_size do 
                 if math.random() < salvage_coef then
-                    new_box_size = new_box_size + base_amt
+					if get_config("recycler") then
+						if (game_achievements.has_achievement("recycler")) then
+							new_box_size = new_box_size + ((math.random(100) > 34) and (base_amt * 2) or base_amt)
+						end
+					else
+						new_box_size = new_box_size + base_amt
+					end
 				end
             end
             if new_box_size > 0 then

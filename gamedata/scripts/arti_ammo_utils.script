@@ -323,7 +323,7 @@ if magazines then
         if RollAmmo then
             -- printf("[Arti Ammo Utils] Roll to downgrade %s in %s", ammo_to_pick, mag_sec)
             ammo_to_pick = RollAmmo(ammo_to_pick, mag_sec, rank)
-            ammo_to_pick = downgrade_ammo(ammo_to_pick)
+            ammo_to_pick = downgrade_ammo(ammo_to_pick, true)
         end
         return ammo_to_pick
     end

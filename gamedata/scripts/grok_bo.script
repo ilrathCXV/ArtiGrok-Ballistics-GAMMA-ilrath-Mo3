@@ -1,7 +1,6 @@
 
 ------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------
--- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: Mar. 20, '24 - Code fixes + cleanup)
+-- EDITED BY ilrathCXV for ArtiGrok Merge		 	(last edit: April. 01, '24 - True Falloff + NPC Effects)
 ------------------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -15,13 +14,10 @@ ini_damage		= ini_file("creatures\\damages.ltx")
 ini_ammo            = ini_file("ammo\\importer.ltx")
 ini_sounds 			= ini_file("ammo\\sounds.ltx")
 
------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------
-
-function trim_dec_3places(number)
-	return tonumber(string.format("%.3f", number))
-end
-
+get_config 		 	= ballistics_mcm.get_config
+npc_effects		 	= get_config("npc_effect") or false
+true_falloff		= get_config("true_falloff") or true
+difficulty_scaling 	= get_config("difficulty_scaling") or false
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
@@ -45,10 +41,18 @@ integrated_silencer = {
 }
 
 local difficulty_multiplier = {
-	[1]  = 1.3,
-	[2]  = 1.05,
-	[3]  = 0.90,		--[3]  = 1.0,
-	[4]  = 0.80,		--[4]  = 1.0,
+	[1]  = (difficulty_scaling and 1.3) or 1.0,
+	[2]  = (difficulty_scaling and 1.05) or 1.0,
+	[3]  = (difficulty_scaling and 0.90) or 1.0,
+	[4]  = (difficulty_scaling and 0.80) or 1.0,
+}
+
+-- ilrathCXV (04/05/2024): To have NPCs mimic doing less damage on different difficulties 
+local npc_difficulty_multiplier = {
+	[1]  = (difficulty_scaling and 0.80) or 1.0,
+	[2]  = (difficulty_scaling and 0.90) or 1.0,
+	[3]  = (difficulty_scaling and 1.05) or 1.0,
+	[4]  = (difficulty_scaling and 1.3) or 1.0,
 }
 
 Bone_IDs = {
@@ -225,11 +229,11 @@ hp_rounds = {
 	["ammo_9x21_sp12_bad"] = 1.5,			-- "Shrimp" Zonemade HP
 	["ammo_11.43x23_fmj_bad"] = 1.5,		-- "FMJ+" .45 ACP (to offset not penetrating armor - that is .45 Behemoth's job)
 	["ammo_pkm_100_bad"] = 1.11,			-- PKM Tri-shot
-	["ammo_5.56x45_ap_bad"] = 1.33,			-- Quad-shot (meant to shred armor, less for pure damage)
+	["ammo_5.56x45_ap_bad"] = 1.11,			-- Quad-shot (meant to shred armor, less for pure damage)
 	["ammo_7.62x54_7h1_bad"] = 5,			-- Headhunter (should do little damage if not hitting a headshot)
 	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
 	["ammo_7.62x25_ps_bad"] = 2,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
-	["ammo_5.7x28_ss190_bad"] = 2.5,		-- 5.7 Fragmenting Round
+	["ammo_5.7x28_ss195_bad"] = 2.5,		-- 5.7 Fragmenting Round
 
 }
 
@@ -255,8 +259,29 @@ end
 
 function monster_on_before_hit(monster,shit,bone_id)
 
-	if shit.draftsman:id() ~= db.actor:id() then
+	-- ilrathCXV (04/01/2024): Take MCM option into account
+	if not shit.draftsman:id() then
+		-- printf("GBO - No draftsman")
 		return
+	end
+	
+	if npc_effects then
+		if shit.draftsman:id() ~= db.actor:id() then
+			if not IsStalker(shit.draftsman) then 
+				-- printf("GBO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= db.actor:id(), not IsStalker(shit.draftsman))
+				return
+			end
+		end
+	else
+		if shit.draftsman:id() ~= db.actor:id() then
+			-- printf("GBO - Draftsman is not actor and NPC Effects is disabled (%s)", npc_effects)
+			return
+		end
+	end
+	
+	local is_actor = false
+	if shit.draftsman:id() == db.actor:id() then
+		is_actor = true
 	end
 
 	if bone_id == 65535 then
@@ -267,13 +292,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 		return
 	end
 	
-	-- Avoid Graze looping + no need to redo calculations (ilrathCXV)
+	-- ilrathCXV: Avoid Graze looping + no need to redo calculations
 	if arti_handlers.graze_mutant_list[monster:id()] then
 		arti_handlers.graze_mutant_list[monster:id()] = false
 		return
 	end
 	
-	-- Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings (ilrathCXV)
+	-- ilrathCXV: Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings
 	if shit.type == hit.shock or shit.type == hit.burn or shit.type == hit.chemical_burn then
 		return
 	end
@@ -342,140 +367,33 @@ function monster_on_before_hit(monster,shit,bone_id)
 	local shooter_pos = shooter:position()
 	local dist = (monster_pos:distance_to(shooter_pos))
 	
+	local silencer_boost = 1
+	
+	if true_falloff then
+		if sec and integrated_silencer[sec] then
+			silencer_boost = 1.03
+		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			if wpn and wpn:weapon_is_silencer() then
+				silencer_boost = 1.03
+			end
+		end
+	end
+	
+	
 	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 	
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC."
-	if snake_mult == 1 then -- only if it is bullet damage (melee was done above)
+	if snake_mult == 1 and not true_falloff then -- only if it is bullet damage + True Falloff is turned off (melee was done above)
 		if dist <= 3.0 then
-			snake_mult = trim_dec_3places(1 + (0.15 / pellet_count))
+			snake_mult = round_idp((1 + (0.15 / pellet_count)), 3)
 		elseif dist <= 15.0 then
-			snake_mult = trim_dec_3places(1 + ((0.1 * (3/dist)) / pellet_count))
+			snake_mult = round_idp((1 + ((0.1 * (3/dist)) / pellet_count)), 3)
 		end
 	end
 
-	if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-	   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-	   ammo_section == "ammo_9x19_pbp_bad" then
-		ammo_mult = 0.90
-	end
-	
-	if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_357_hp_mag_bad" then
-		ammo_mult = 1.00
-	end
-
-	if ammo_section == "ammo_12x76_zhekan" or ammo_section == "ammo_12x76_dart" or
-	   ammo_section == "ammo_20x70_star" or ammo_section == "ammo_20x70_star_bad" then
-		ammo_mult = 1.00
-	end
-
-	if ammo_section == "ammo_23x75_barrikada" or ammo_section == "ammo_23x75_barrikada_bad" then
-		ammo_mult = 1.00
-	end
-
-	if ammo_section == "ammo_9x19_pbp" --[[ or ammo_section == "ammo_9x19_pbp_bad" --]]
-	or ammo_section == "ammo_9x18_pmm" or ammo_section == "ammo_9x18_pmm_bad" 
-	or ammo_section == "ammo_5.45x39_ep" or ammo_section == "ammo_5.45x39_ep_bad" or ammo_section == "ammo_5.45x39_fmj_bad"
-	or ammo_section == "ammo_5.56x45_ss190" --[[or ammo_section == "ammo_5.56x45_ss190_bad"--]] or ammo_section == "ammo_5.7x28_ss190_bad" then
-		ammo_mult = 1.00
-	end
-
-	if ammo_section == "ammo_7.62x25_ps"  or ammo_section == "ammo_7.62x25_ps_bad" then
-		ammo_mult = 1.00
-	end
-
-	if ammo_section == "ammo_7.62x25_p"  or ammo_section == "ammo_7.62x25_p_bad" then
-		ammo_mult = 1.75
-	end
-
-	if ammo_section == "ammo_357_hp_mag" --[[or ammo_section == "ammo_357_hp_mag_bad"--]] then
-		ammo_mult = 1.00
-	end
-
- 	if ammo_section == "ammo_11.43x23_hydro" then
-		ammo_mult = 1.00
-	end
-
- 	if ammo_section == "ammo_11.43x23_fmj"  or ammo_section == "ammo_11.43x23_fmj_bad"  then
-		ammo_mult = 1.00
-	end
-	
-	-----------------------------------------------------------------------------------------------------
-	-----------------------------------------------------------------------------------------------------
-										-- ilrathCXV edits --
-	-- Personal adjustments (since they are described as used for hunting in the descriptions)
-	if ammo_section == "ammo_7.62x54_7h1" or ammo_section == "ammo_7.92x33_fmj_bad" then
-		ammo_mult = 1.025
-	end
-	
-	-- 9x21 HP	
-	if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-		ammo_mult = 1.20
-	end					
-	
-	-- .357 FMJ
-	if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
-		ammo_mult = 0.95
-	end
-	
-	-- "Split-shot" Rounds (doesn't count Ratshot)
-	if ammo_section == "ammo_pkm_100_bad" or ammo_section == "ammo_5.56x45_ap_bad" then
-		ammo_mult = 0.90
-	end
-	
-	-- Yeehaw Ammo
-	if ammo_section == "ammo_44_mag" or ammo_section == "ammo_44_mag_bad" then
-		ammo_mult = 1.35
-	end
-	
-	if ammo_section == "ammo_45-70_Gov" or ammo_section == "ammo_45-70_Gov_bad" then
-		ammo_mult = 1.75
-	end
-	
-	-- 20ga. Glass Slug
-	if ammo_section == "ammo_20x70_devastator_bad" then
-		ammo_mult = 5.00
-	end
-	
-	-- .45 RIP Rounds
-	if ammo_section == "ammo_11.43x23_hydro_bad" then
-		ammo_mult = 1.5
-	end
-	
-	-- Knifes
-	if ammo_section == "ammo_knife_3" or ammo_section == "ammo_knife_4" or ammo_section == "ammo_knife_5" then
-		ammo_mult = 1.15
-	end
-	
-	-- Skullsmasher
-	if ammo_section == "ammo_knife_7" then
-		ammo_mult = 1.3
-	end
-	
-	-- .300BLK FMJ+ (VMAX) Rounds
-	if ammo_section == "ammo_300blackout_fjm_bad" then
-		ammo_mult = 1.1
-	end
-	
-	-- Varmageddon Rounds
-	if ammo_section == "ammo_7.92x33_fmj_bad" then
-		ammo_mult = 1.8
-	end
-	
-	if ammo_section == "ammo_5.56x45_ss190_bad" then
-		ammo_mult = 1.1
-	end
-	
-	-- 10mm HP Rounds
-	if ammo_section == "ammo_10x25_hydrashok" then
-		ammo_mult = 1.0
-	end
-	
-	if ammo_section == "ammo_23_eco" then
-		ammo_mult = 2.2
-	end
-	-----------------------------------------------------------------------------------------------------
-	-----------------------------------------------------------------------------------------------------
+	-- ilrathCXV (04/01/2024): "Ammo Mult" is now controlled/catalogued in the ammo_*.ltx files
+	ammo_mult = ini_ammo:r_float_ex(ammo_section, "mutant_mod") or 0.85
 
 	-- /// save gun barrel data ///
 	if (IsWeapon(wpn) and (not IsItem("fake_ammo_wpn",wpn:section()))) or (wpn:parent() and wpn:parent():id() ~= 0) then
@@ -509,108 +427,11 @@ function monster_on_before_hit(monster,shit,bone_id)
 	if string.find(monster:name(), "gigant") then
 		spec_monster_mult = 0.85
 		
-		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-			ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_20x70_devastator" or
-			ammo_section == "ammo_9x19_pbp_bad" then
-			ammo_mult = 1.4
+		-- ilrathCXV (04/01/2024): "Ammo Mult" is now controlled/catalogued in the ammo_*.ltx files (also need to discern which is greater)
+		local gigant_mult = ini_ammo:r_float_ex(ammo_section, "gigant_mod") or 0.85
+		if (gigant_mult > ammo_mult) then
+			ammo_mult = gigant_mult
 		end
-
-        if ammo_section == "ammo_23x75_shrapnel" or ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_357_hp_mag_bad" then
-			ammo_mult = 2.2
-		end
-		
-		if ammo_section == "ammo_23x75_barrikada" or ammo_section == "ammo_23x75_barrikada_bad" then
-			ammo_mult = 2.3
-		end
-		
-		if ammo_section == "ammo_357_hp_mag" --[[or ammo_section == "ammo_357_hp_mag_bad"--]] then
-			ammo_mult = 1.3
-		end
-		
-		if ammo_section == "ammo_11.43x23_hydro"  or ammo_section == "ammo_11.43x23_hydro_bad"  then
-			ammo_mult = 1.3
-		end
-		
-		if ammo_section == "ammo_7.62x25_p"  or ammo_section == "ammo_7.62x25_p_bad" then
-			ammo_mult = 2.00
-		end
-		
-	-----------------------------------------------------------------------------------------------------
-	-----------------------------------------------------------------------------------------------------
-										-- ilrathCXV edits --
-		
-		-- Personal adjustments (since they are described as used for hunting in the descriptions)
-		if ammo_section == "ammo_7.62x54_7h1" or ammo_section == "ammo_7.92x33_fmj_bad" then
-			ammo_mult = 1.125
-		end
-		
-		-- 9x21 HP
-		if ammo_section == "ammo_9x21_sp12" or ammo_section == "ammo_9x21_sp12_bad"  then
-			ammo_mult = 1.525
-		end
-		
-		-- .357 FMJ
-		if ammo_section == "ammo_357_fmj_mono" or ammo_section == "ammo_357_fmj_mono_bad" then
-			ammo_mult = 1.00
-		end
-		
-		-- "Split-shot" Rounds (doesn't count Ratshot)
-		if ammo_section == "ammo_pkm_100_bad" or ammo_section == "ammo_5.56x45_ap_bad" then
-			ammo_mult = 1.4
-		end
-		
-		if ammo_section == "ammo_44_mag" or ammo_section == "ammo_44_mag_bad" then
-			ammo_mult = 2.00
-		end
-		
-		if ammo_section == "ammo_45-70_Gov" or ammo_section == "ammo_45-70_Gov_bad" then
-			ammo_mult = 2.4
-		end
-		
-		-- 20ga. Glass Slug
-		if ammo_section == "ammo_20x70_devastator_bad" then
-			ammo_mult = 6.50
-		end
-		
-		-- .45 RIP Rounds
-		if ammo_section == "ammo_11.43x23_hydro_bad" then
-			ammo_mult = 1.8
-		end
-		
-		-- Knifes
-		if ammo_section == "ammo_knife_3" or ammo_section == "ammo_knife_4" or ammo_section == "ammo_knife_5" then
-			ammo_mult = 1.20
-		end
-		
-		-- Skullsmasher
-		if ammo_section == "ammo_knife_7" then
-			ammo_mult = 1.45
-		end
-		
-		-- Varmageddon Rounds
-		if ammo_section == "ammo_7.92x33_fmj_bad" then
-			ammo_mult = 2.25
-		end
-		
-		if ammo_section == "ammo_5.56x45_ss190_bad" then
-			ammo_mult = 1.2
-		end
-	
-		if ammo_section == "ammo_23_eco" then
-			ammo_mult = 8.75
-		end
-		
-		-- .300BLK FMJ+ (VMAX) Rounds
-		if ammo_section == "ammo_300blackout_fjm_bad" then
-			ammo_mult = 1.2
-		end
-		
-		-- 10mm HP Rounds
-		if ammo_section == "ammo_10x25_hydrashok" then
-			ammo_mult = 1.6
-		end
-	-----------------------------------------------------------------------------------------------------
-	-----------------------------------------------------------------------------------------------------
 		
 		if (bone_id == 1) then
 			bone_mult = 2.00
@@ -737,14 +558,19 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 	end
 	
-	local gameplay = alife_storage_manager.get_state().diff_game
-	if not (type(gameplay) == "table") then -- for old saves
-		alife_storage_manager.get_state().diff_game = {}
-		alife_storage_manager.get_state().diff_game["type"] = game_num
-		gameplay = alife_storage_manager.get_state().diff_game
+	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
+	local game_num = 1
+	
+	if difficulty_scaling then
+		local gameplay = alife_storage_manager.get_state().diff_game
+		if not (type(gameplay) == "table") then -- for old saves
+			alife_storage_manager.get_state().diff_game = {}
+			alife_storage_manager.get_state().diff_game["type"] = game_num
+			gameplay = alife_storage_manager.get_state().diff_game
+		end
+	
+		game_num = gameplay["type"] or game_num
 	end
-
-	local game_num = gameplay["type"] or game_num
 	
 	if monster:alive() then
 		
@@ -794,7 +620,7 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
 		if ammo_section == "ammo_23_eco" and spec_monster_mult > 0.86 then
 			monster:kill(db.actor)
-			printf("[ArtiGrok] 23mm Eco Intercept: %s dead ", monster and monster:name())
+			printf("23mm Eco Intercept: %s dead ", monster and monster:name())
 			return
 		end
 		
@@ -941,9 +767,18 @@ function monster_on_before_hit(monster,shit,bone_id)
 			dist = 0
 		end
 		
-		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * difficulty_multiplier[game_num] * cloudkill_mult
-
-		printf("Barrel condition: %s, GBO output damage: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, cloudkill_mult, snake_mult)
+		-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
+		if true_falloff then
+			local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
+			local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
+			local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
+			local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
+			
+			shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * cloudkill_mult
+		else
+			shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * cloudkill_mult
+		end
+		printf("Barrel condition: %s, GBO output damage: %s, Ammo multiplier: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, cloudkill_mult, snake_mult)
 		
 		------------------------
 		-- [NEW] Graze Rounds --
@@ -965,14 +800,14 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-- RIP Rounds --
 		----------------
 		-- Grants healing on successful hits
-		if (special_effect == "rip") or (special_effect_2 == "rip") then 
+		if (special_effect == "rip") or (special_effect_2 == "rip") and is_actor then 
 			arti_handlers.lifesteal(monster, shit.power, false)
 		end
 		
 		------------------------------------
 		-- Chaos Rounds (if healing proc) --
 		------------------------------------
-		if chaos_effect == 5 then
+		if chaos_effect == 5 and is_actor then
 			db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 		end
 		
@@ -986,11 +821,29 @@ end
 
 function npc_on_before_hit(npc, shit, bone_id)
 
-	if shit.draftsman:id() ~= db.actor:id() then
-		return
+	-- ilrathCXV (04/01/2024): Take MCM option into account
+	if not shit.draftsman:id() then printf("GBO - No draftsman") return end
+	if npc_effects then
+		if shit.draftsman:id() ~= db.actor:id() then
+			if not IsStalker(shit.draftsman) then 
+				-- printf("GBO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= db.actor:id(), not IsStalker(shit.draftsman))
+				return
+			end
+		end
+	else
+		if shit.draftsman:id() ~= db.actor:id() then
+			-- printf("GBO - Draftsman is not actor and NPC Effects is disabled (%s)", npc_effects)
+			return
+		end
+	end
+	
+	local is_actor = false
+	if shit.draftsman:id() == db.actor:id() then
+		is_actor = true
 	end
 
 	if bone_id == 65535 then
+		-- printf("GBO - Bone 65535")
 		return
 	end
 
@@ -1010,10 +863,12 @@ function npc_on_before_hit(npc, shit, bone_id)
 	end
 
 	if IsGrenade(wpn) then
+		-- printf("GBO - Weapon is a grenade")
 		return
 	end
 
 	if wpn == nil then 
+		-- printf("GBO - Weapon is nil")
 		return 
 	end
 
@@ -1030,14 +885,25 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local ammo_list = utils_item.get_ammo(sec, wpn_id)
 	local ammo_section = ammo_list[ammo_type_number+1]
 	local wpn_hit_power = ui_wpn_params.read_float(sec, "", "hit_power")
-	if wpn and wpn:weapon_is_silencer() then
-		silencer_boost = 1.07
-	else
-		silencer_boost = 1
-	end
 	
-	if sec and integrated_silencer[sec] then
-		silencer_boost = 1.07
+	local silencer_boost = 1
+	
+	if true_falloff then
+		if sec and integrated_silencer[sec] then
+			silencer_boost = 1.03
+		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			if wpn and wpn:weapon_is_silencer() then
+				silencer_boost = 1.03
+			end
+		end
+	else
+		if sec and integrated_silencer[sec] then
+			silencer_boost = 1.07
+		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			if wpn and wpn:weapon_is_silencer() then
+				silencer_boost = 1.07
+			end
+		end
 	end
 
 	if string.find(sec, "wpn_toz106") then
@@ -1045,6 +911,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	end
 	
 	if not ammo_section then
+		-- printf("GBO - Ammo section is nil")
 		return
 	end
 
@@ -1081,14 +948,18 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC"
 	local snake_mult = 1
-	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
-	if dist <= 3.0 then
-		snake_mult = trim_dec_3places(1 + (0.15 / pellet_count))
-	elseif dist <= 15.0 then
-		snake_mult = trim_dec_3places(1 + ((0.1 * (3/dist)) / pellet_count))
+	if not true_falloff then
+		local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
+		if dist <= 3.0 then
+			snake_mult = round_idp((1 + (0.15 / pellet_count)), 3)
+		elseif dist <= 15.0 then
+			snake_mult = round_idp((1 + ((0.1 * (3/dist)) / pellet_count)), 3)
+		end
+		
+		wpn_hit_power = wpn_hit_power * snake_mult
 	end
 	
-	wpn_hit_power = wpn_hit_power * snake_mult
+	
 
 	-- /// save gun barrel data ///
 
@@ -1123,9 +994,9 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 	ammo_mult = 1.00
 
-	if ammo_section == "ammo_7.62x25_p"  --[[or ammo_section == "ammo_7.62x25_p_bad"--]] then
-		ammo_mult = 1.75
-	end
+	-- ilrathCXV (04/01/2024): "Ammo Mult" is now controlled/catalogued in the ammo_*.ltx files
+	-- Currently, only 7.62x25 LRNPC (HP) has increased Stalker modifier
+	ammo_mult = ini_ammo:r_float_ex(ammo_section, "stalker_mod") or 1.00
 
 --	/////// AMMO SPECIFIC BONES REDIRECTION //////
 
@@ -1326,18 +1197,23 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 --////////////// ACTUAL INTERESTING MATH PART ABOUT BALLISTICS //////////////
 	
-	local gameplay = alife_storage_manager.get_state().diff_game
-	if not (type(gameplay) == "table") then -- for old saves
-		alife_storage_manager.get_state().diff_game = {}
-		alife_storage_manager.get_state().diff_game["type"] = game_num
-		gameplay = alife_storage_manager.get_state().diff_game
+	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
+	local game_num = 1
+	
+	if difficulty_scaling then
+		local gameplay = alife_storage_manager.get_state().diff_game
+		if not (type(gameplay) == "table") then -- for old saves
+			alife_storage_manager.get_state().diff_game = {}
+			alife_storage_manager.get_state().diff_game["type"] = game_num
+			gameplay = alife_storage_manager.get_state().diff_game
+		end
+	
+		game_num = gameplay["type"] or game_num
 	end
-
-	local game_num = gameplay["type"] or game_num
 	
 	--printf("// Ammo data :")
 	--printf('game_num = %s', game_num)
-	printf('%s shot with %s, Weapon power= %s, AP power= %s, Hit multiplier= %s, Air res= %s, Distance= %s m, Barrel condition: %s, CQC Mult= %s', ammo_section, sec, wpn_hit_power, k_ap, k_hit, air_res, dist, barrel_condition, snake_mult)
+	printf('%s shot with %s, Weapon power= %s, AP power= %s, Hit multiplier= %s, Air res= %s, Distance= %s m, Barrel condition: %s', ammo_section, sec, wpn_hit_power, k_ap, k_hit, air_res, dist, barrel_condition)
 	printf('Bone hit= %s, Bone damage mult= %s, Bone AP scale= %s, Bone hit fraction= %s, Bone armor= %s', custom_bone_name, custom_bone_dmg[custom_bone_id], custom_bone_ap[custom_bone_id], custom_bone_hf[custom_bone_id], custom_bone_value[custom_bone_id])
 
 	local custom_bone_armor = custom_bone_value[custom_bone_id]
@@ -1458,7 +1334,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------
 	-- Mini Napalm --
 	-----------------
-	-- 15 burn stacks to target + changes hit to Fire damage + standardizes bone_/ammo_mult + spreads light burn to nearby targets
+	-- 15 burn stacks to target + changes hit to Fire damage + breaks slightly more armor + spreads light burn to nearby targets
 	if (special_effect == "napalm") or (special_effect_2 == "napalm") then
 		shit.type = hit.burn
 		armor_break_bonus = armor_break_bonus + 0.025
@@ -1565,14 +1441,47 @@ function npc_on_before_hit(npc, shit, bone_id)
 		end
 		dist = 0
 	end
-
-	k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * difficulty_multiplier[game_num] * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-	shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * difficulty_multiplier[game_num] * ammo_mult * silencer_boost * cloudkill_mult 
+	
+	if true_falloff then
+		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
+		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
+		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
+		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
+	
+		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost * cloudkill_mult 
+	else
+		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost * cloudkill_mult 
+	end
+	
+	-- ilrathCXV (04/06/2024): Tough Important NPCs and Companions Compatibility now that NPCs can make use of this
+	if hxf_tough_important_npcs then
+		if is_actor or (npc_effects and not is_actor) then
+			
+			important_damage = hit(shit)
+			hxf_tough_important_npcs.npc_on_before_hit(npc,important_damage,bone_id,flags)
+			
+			if important_damage.power ~= shit.power then
+				printf("Before key NPCs/companion damage reduction: %s | After key NPCs/companion damage reduction: %s", shit.power, important_damage.power)
+			end
+			
+			shit.power = important_damage.power
+			
+		end
+	end
 	
 	-- etapomom: run pba before armor so that they actually feel like they're doing something.
-	pbadamage = hit(shit)
-	PBA_obh(npc, pbadamage, bone_id, flags)
-	shit.power = pbadamage.power
+	if is_actor then
+		pbadamage = hit(shit)
+		PBA_obh(npc, pbadamage, bone_id, flags)
+		
+		if pbadamage.power ~= shit.power then
+			printf("Before PBA damage change: %s | After PBA damage change: %s", shit.power, pbadamage.power)
+		end
+		
+		shit.power = pbadamage.power
+	end
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
 	
@@ -1587,14 +1496,14 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 	if k_ap < custom_bone_armor then
 	
-		local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
+		new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
 		custom_bone_value[custom_bone_id] = new_bone_armor
 		
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * custom_bone_hitfraction
 		else
-			-- ilrathCXV (10/30/23) - Experimenting with increase to concussion damage by using the CQC modifier (snake_mult)
-			shit.power = (0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) * (1 + (flinch_stun_chance)) * snake_mult) / hp_no_penetration_penalty
+			-- ilrathCXV (04/01/24) - Flinch will decrease HP penalty/give some more concussion damage
+			shit.power = (0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) * (1 + (flinch_stun_chance))) / hp_no_penetration_penalty
 			pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
 			fxdir = shit.direction
@@ -1619,6 +1528,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 		fx:play_at_pos(pos)
 	end
 	
+	--
+	
 	-- Double the damage if the NPC is wounded
 	-- This is for having better bonuses from PBA as wounded NPCs die instantly anyways.
 	if surrender_bonus == 1 then
@@ -1635,21 +1546,23 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 	-- etapomom: fire on_death_callback and or on_hit_callback from pba
 	if npc.health <= 0 then
-		PBA_odc(npc, shit.draftsman)
+		if is_actor then
+			PBA_odc(npc, shit.draftsman)
+		end
 		
 		----------------
 		-- Soulripper --
 		----------------
 		-- Grants healing on kill
-		if (special_effect == "soulripper") or (special_effect_2 == "soulripper") then 
+		if (special_effect == "soulripper") or (special_effect_2 == "soulripper") and is_actor then 
 			arti_handlers.lifesteal(npc, shit.power, true)
 		end
 		
-		arti_handlers.npc_stun[npc_id] 				= nil
-		arti_handlers.grounded_stack_list[npc_id] 	= nil
-		arti_handlers.shock_stack_list[npc_id] 		= nil
-		arti_handlers.acid_stack_list[npc_id] 		= nil
-		arti_handlers.armorbuster_list[npc_id] 		= nil
+		if arti_handlers.npc_stun[npc_id] then arti_handlers.npc_stun[npc_id] = nil end
+		if arti_handlers.grounded_stack_list[npc_id] then arti_handlers.grounded_stack_list[npc_id] = nil end
+		if arti_handlers.shock_stack_list[npc_id] then arti_handlers.shock_stack_list[npc_id] = nil end
+		if arti_handlers.acid_stack_list[npc_id] then arti_handlers.acid_stack_list[npc_id] = nil end
+		if arti_handlers.armorbuster_list[npc_id] then arti_handlers.armorbuster_list[npc_id] = nil end
 		
 		if arti_handlers.burn_stack_list[npc_id] and arti_handlers.burn_stack_list[npc_id] > 19 then
 			arti_handlers.burn_ignition(npc, wpn_id, arti_handlers.burn_stack_list[npc_id])
@@ -1658,11 +1571,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 			arti_handlers.burn_check_list[npc_id] 	= nil
 		end
 		
-		bas_handler.weakened[npc_id] 				= nil
+		if bas_handler.weakened[npc_id] then bas_handler.weakened[npc_id] = nil end
 		
 	end
 	
-	PBA_ohc(npc, shit.power, shit.direction, shit.draftsman, bone_id)
+	if is_actor then
+		PBA_ohc(npc, shit.power, shit.direction, shit.draftsman, bone_id)
+	end
 
 	printf("Real AP power= %s, Bone armor after hit= %s, Cloudkill multiplier= %s, Damages inflicted= %s, Remaining health= %s", k_ap, custom_bone_value[custom_bone_id], cloudkill_mult, life_remove, npc.health)
 	
@@ -1670,14 +1585,14 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- RIP Rounds --
 	----------------
 	-- Grants healing on successful hits
-	if (special_effect == "rip") or (special_effect_2 == "rip") then 
+	if (special_effect == "rip") or (special_effect_2 == "rip") and is_actor then 
 		arti_handlers.lifesteal(npc, life_remove, false)
 	end
 	
 	------------------
 	-- Chaos Rounds --
 	------------------
-	if chaos_effect == 5 then
+	if chaos_effect == 5 and is_actor then
 		db.actor.health = clamp(db.actor.health + (0.1 * life_remove), 0, 1)
 	end
 	
@@ -1709,9 +1624,37 @@ function npc_on_before_hit(npc, shit, bone_id)
 	life_remove = nil
 end
 
+-- ilrathCXV (04/01/2024): MCM options to refresh on option change
+function on_option_change()
+	if ui_mcm and ballistics_mcm then
+		npc_effects = get_config("npc_effect") or false
+		true_falloff = get_config("true_falloff") or true
+		difficulty_scaling = get_config("difficulty_scaling") or false
+		
+		difficulty_multiplier = {
+			[1]  = (difficulty_scaling and 1.3) or 1.0,
+			[2]  = (difficulty_scaling and 1.05) or 1.0,
+			[3]  = (difficulty_scaling and 0.90) or 1.0,
+			[4]  = (difficulty_scaling and 0.80) or 1.0,
+		}
+		
+		npc_difficulty_multiplier = {
+			[1]  = (difficulty_scaling and 0.80) or 1.0,
+			[2]  = (difficulty_scaling and 0.90) or 1.0,
+			[3]  = (difficulty_scaling and 1.05) or 1.0,
+			[4]  = (difficulty_scaling and 1.3) or 1.0,
+		}
+		
+	end
+end
+
 function on_game_start()
 	RegisterScriptCallback("npc_on_before_hit",npc_on_before_hit)
 	RegisterScriptCallback("monster_on_before_hit",monster_on_before_hit)
+	
+	-- ilrathCXV (04/01/2024): MCM options
+	RegisterScriptCallback("on_option_change",on_option_change)
+	on_option_change()
 end
 
 
@@ -1739,4 +1682,24 @@ function play_sound(snd, volume, npc)
 		snd.volume = volume or 1
 		return snd
 	end
+end
+
+function momo_do_falloff(dist, sec, w_speed, a_speed, air_res, w_speed_base, silencer_boost)
+	-- ilrathCXV: "Grav" Rounds gets no penalty
+	if dist == 0 then return 1 end
+
+	dist 			= round_idp(dist, 2)
+	local eff_dis	= 5 + ((w_speed * a_speed) * 0.0125 * silencer_boost) or 0
+	
+	air_res 		= air_res * silencer_boost
+	air_res			= air_res / math.max((w_speed / w_speed_base), 1)
+	
+	if string.find(sec, "grenade_") then
+		eff_dis = w_speed * 0.25
+		air_res = 1.1 - (eff_dis * 0.01)
+	end
+	
+	local falloff	= clamp( (1 + (dist - eff_dis) * 0.05 * (air_res * 0.5 / (1.1 - air_res + 0.1))) , 1.0, 50.0)
+	
+	return round_idp((1 / falloff), 3)
 end

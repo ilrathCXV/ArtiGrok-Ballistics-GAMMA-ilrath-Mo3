@@ -80,7 +80,7 @@ function se_on_unregister(se)
 end
 
 function on_death_callback(npc, who)
-    weakened[npc:id()] = nil
+    if weakened[npc:id()] then weakened[npc:id()] = nil end
 end
 
 function on_game_start()

@@ -13,7 +13,7 @@
 		<text>This artefact is quite popular in the Zone and is valued by its residents and visitors alike for its energizing properties, although it has an adverse effect on the body when used for prolonged periods of time. On the other hand, it is a powerful resistor, it is well known for its ability to shield its user from lethal doses of electricity. However, this artefact hinders blood clotting and increases bleed rate and is known to absorb heat and transfer it to other objects. This artefact is also extremely light and very portable.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,50,150,255]Electrical Artifact Fragments\n
 		</text>
 	</string>
@@ -27,7 +27,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string>
@@ -40,7 +40,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string> 
@@ -54,7 +54,7 @@
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string>
@@ -68,7 +68,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -85,7 +85,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -100,7 +100,7 @@
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n 
 		%c[d_red] • positrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string>
@@ -113,7 +113,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -126,7 +126,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string> 
@@ -140,7 +140,7 @@
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -154,7 +154,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -172,7 +172,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -186,7 +186,7 @@
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,50,150,255]Electrical Artifact Fragments\n
 		</text>
 	</string>
@@ -200,7 +200,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -214,7 +214,7 @@
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -227,7 +227,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -241,7 +241,7 @@
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n
 		%c[d_orange] • %c[d_orange] neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -257,7 +257,7 @@
 		<text>A formation of thermal nature, consisting of two separated layers. Surface is a hard, dense metamorphic rock with deep scars covering the entire body and the soft, yellow core is formed from an unknown organic nature. Actively consumes heat and remains cool at all times.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -269,7 +269,7 @@
 		<text>Very common in the Zone. This gravitational artefact is able to slightly shield the body and objects from physical impacts. It will also slightly protect its user against the extreme heat produced by fire anomalies. This artefact is quite heavy as the gravitational field seems to increase its mass. Another downside is that it will increases the negative effects of psy-waves.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -282,7 +282,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -299,7 +299,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string>
@@ -311,7 +311,7 @@
 		<text>Shaped like a DNA helix, Mama's Beads are created in the Burner anomaly. One of their most characteristic features is that they constantly pulsate, generating emissions beneficial to the human body. These emissions increase the metabolism of any living creature, accelerating coagulation and healing of wounds. The mechanism behind the effects of this artefact are still unknown. Mama's Beads also possess potent protective qualities: they are able to shield the body and objects from extreme heat. On the other hand, it should be noted that the presence of this artefact increases electrical conductivity, so the probability of electrocution while wearing this artefact is much higher, especially during storms and in the vicinity of electrical anomalies. It is also quite dense for such a small artefact.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -324,7 +324,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string>
@@ -337,7 +337,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,50,150,255]Electrical Artifact Fragments\n
 		</text>
 	</string>
@@ -349,7 +349,7 @@
 		<text>This glowing artefact can generate a locally directed low-gravity field. Widely used by stalkers along with Gravi, a similar artefact, to increase maximum load. Due to its beautiful inner core, it is highly sought after by jewellers all over the world, however it is best to proceed with caution as unskilled treatment can cause the artefact to explode with power sufficient to level a small building. It is thus highly advised to perform the polishing by means of specialized machinery which minimizes the probability of an explosion. Only the outer core of the artefact emits radiation. Nightstar will also absorb toxic and chemical agents from the environment, making it a valuable artefact for artefact hunters, even though the amount of toxicity absorbed is negligible. It is, however, relatively cheap and even stalkers with pretty tight budgets can afford it. That being said, Nightstar emits odour of burning flesh when in the closest proximity of heat source. Prolonged exposure may enhance its flammability and cause it to ignite.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string>
@@ -362,7 +362,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -375,7 +375,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,50,150,255]Electrical Artifact Fragments\n
 		</text>
 	</string>
@@ -388,7 +388,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n
 		%c[d_green] • %c[d_green] gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string>
@@ -402,7 +402,7 @@
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n
 		%c[d_orange] • neutrons\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string>
@@ -414,7 +414,7 @@
 		<text>A unique organic artefact that secretes a slimy goo that dramatically increases the recovery rate of wounds. Considered a valuable collector's item.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -430,7 +430,7 @@
 		<text>This artefact has the appearance of translucent spider webs and just like spider silk, it is sticky and has properties of glue. It can be found most commonly in or near electro anomalies and is able to smooth fluctuations in electric field density, acting as a weak resistor, protecting the wearer from electricity and reducing its damaging effects. On the other hand, it should be noted that the presence of this artefact increases the corrosiveness of acids, leading to accelerated deterioration of equipment and higher damage to the tissues of organisms.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,50,150,255]Electrical Artifact Fragments\n
 		</text>
 	</string>
@@ -443,7 +443,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[0,180,0,255]Volatile Artifact Fragments\n
 		</text>
 	</string> 
@@ -455,7 +455,7 @@
 		<text>A reddish formation of compressed fossilized plants, soil and animal debris. Can partially neutralize chemical poisons by absorbing them and reducing the overall toxicity level in the user's bloodstream. Quite common and not very effective as it makes chemical burns fester. It will catch fire when exposed to open flame or even spontaneously combust. Another positive effect possessed by this artefact is that it accelerates clotting if worn close to the body. Although it is not recommended to keep this artefact in your possession for longer periods of time as blood clots can also be hazardous to your health.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string>
@@ -467,7 +467,7 @@
 		<text>Resembles melted cheese interspersed with sapphire-like stones. Only the yellow outer shell of the artefact appears to give off radiation. It is possible to extract the non-radioactive blue parts for jewellery and other industrial purposes as, if cleaned properly and polished, they look strikingly like sapphires.\n \n
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • %c[d_blue] beta particles\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_green]Chemical Artifact Fragments\n
 		</text>
 	</string>
@@ -477,7 +477,7 @@
 	</string>
 	<string id="st_af_monolith_descr">
 		<text>The origins of artefacts such as this one are a mystery, as they are rarely found outside the northernmost parts of the Zone. This unique artefact projects a non-contact field that inhibits nearby anomalous phenomena. This grants the wearer a notable level of protection against most of the Zone's environmental hazards. It is also one of the few active artefacts that can be safely handled without lead containers. However, when you hold it your flesh feels dry and flaky, your bones hard and stiff, the ligaments in your joints squeaky and brittle. Thick armor or great supernatural vitality would be needed by anyone intending to wear this artefact into battle.\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n
@@ -494,7 +494,7 @@
 		%c[0,255,255,255]RADIOACTIVE EMISSIONS:\n
 		%c[d_blue] • beta particles\n
 		%c[d_green] • gamma rays\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• Gravitational Artifact Fragments\n
 		</text>
 	</string>
@@ -505,7 +505,7 @@
 		<text>%c[0,209,172,56]Perk: %c[d_orange]DEAL WITH THE DEVIL\n
 		%c[0,81,63,22] • %c[0,209,172,56]Moving the artefact to the belt will sign the 'Pact with the Zone'\n\n
 		%c[0,81,63,22] • %c[ui_red]Highly recommended to save before activation.\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		• %c[d_orange]Thermal Artifact Fragments\n
 		</text>
 	</string>
@@ -517,7 +517,7 @@
 		%c[0,81,63,22] • %c[0,209,172,56]Perk/Top-tier artefacts can only be mutated\n
 		%c[0,81,63,22] • %c[0,209,172,56]Each transmutation will consume one 'Bat' artefact\n
 		%c[0,81,63,22] • %c[0,209,172,56]Multiple Artefacts Stack?: %c[ui_red]NO\n \n
-		%c[0,255,255,255]CRUSHING YIELDS:\n
+		%c[0,255,255,255]CRUSHING YIELDS (right-click > crush...):\n
 		%c[0,255,255,255]• %c[d_green]Chemical Artifact Fragments\n
 		%c[0,255,255,255]• Gravitational Artifact Fragments\n
 		%c[0,255,255,255]• %c[0,50,150,255]Electrical Artifact Fragments\n

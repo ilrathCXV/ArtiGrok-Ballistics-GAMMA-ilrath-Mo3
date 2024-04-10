@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="windows-1251"?>
 
 <string_table>
-<string id="ui_mcm_menu_ballistics">
-	<text>Ballistics</text>
-</string>
-<string id="ui_mcm_ballistics_title">
-	<text>Ballistics Framework</text>
-</string>
-
-<string id="ui_mcm_ballistics_debug">
-	<text>Developer logging.</text>
-</string>
-<string id="ui_mcm_ballistics_impair">
-	<text>Custom Impair Values</text>
-</string>
-<string id="ui_mcm_ballistics_impair_desc">
-	<text>Apply the impair level in custom ammo config.</text>
-</string>
-<string id="ui_mcm_ballistics_particles">
-	<text>Special Ammo Effects</text>
-</string>
-<string id="ui_mcm_ballistics_particles_desc">
-	<text>Certain special/variant ammo give off special particle effects when firing. Turn these off if they are too distracting when firing.</text>
-</string>
-<string id="ui_mcm_ballistics_cost">
-	<text>Custom Cost Values</text>
-</string>
-<string id="ui_mcm_ballistics_cost_desc">
-	<text>Use the base cost defined in custom ammo config.</text>
-</string>
-<string id="ui_mcm_lst_bclassic">
-	<text>Classic</text>
-</string>
-<string id="ui_mcm_lst_bmeaty">
-	<text>Meaty</text>
-</string>
-<string id="ui_mcm_lst_bsith">
-	<text>Sith</text>
-</string>
-<string id="ui_mcm_ballistics_legs">
-	<text>Leg Meta</text>
-</string>
-<string id="ui_mcm_ballistics_legs_desc">
-	<text>Reduces limb armor and limb damage takenby half. Higher AP rounds will suffer while hollowpoint rounds will be more effective. Gives an alternative, ammo-intensive option for taking down heavily armored foes.</text>
-</string>
+	<string id="ui_mcm_menu_ballistics">
+		<text>Ballistics</text>
+	</string>
+	<string id="ui_mcm_ballistics_title">
+		<text>Ballistics Framework</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_debug">
+		<text>Developer logging.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_recycler">
+		<text>"Recycler" Works for Ammo Breakdown?</text>
+	</string>
+	<string id="ui_mcm_ballistics_recycler_desc">
+		<text>Turning this on will allow "Recycler" to give you a higher chance of getting more ammo materials back when breaking down ammo.\n 
+		\nTurning this off will allow Ammo Maker to work normally.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_particles">
+		<text>Special Ammo Effects</text>
+	</string>
+	<string id="ui_mcm_ballistics_particles_desc">
+		<text>Certain special/variant ammo give off special particle effects when firing. Turn these off if they are too distracting when firing.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_npc_effect">
+		<text>NPC Use Ballistics System?</text>
+	</string>
+	<string id="ui_mcm_ballistics_npc_effect_desc">
+		<text>Turning this on will enable NPCs to use the damage calculations and effects (if they get lucky with their ammo) against other NPCs and mutants.\n 
+		\nThis will not affect NPCs hitting the player. Turning this off will make NPC interactions return to vanilla.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_true_falloff">
+		<text>More Accurate Damage Falloff?</text>
+	</string>
+	<string id="ui_mcm_ballistics_true_falloff_desc">
+		<text>Turning this on will calculate damage falloff utilizing the weapon's stats rather than it slowly starting immediately.\n 
+		\nTurning this off will have damage falloff work as base GAMMA (with falloff starting immediately).</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_difficulty_scaling">
+		<text>Enable Difficulty Scaling?</text>
+	</string>
+	<string id="ui_mcm_ballistics_difficulty_scaling_desc">
+		<text>Turning this on will enable GAMMA's difficulty scaling on all outgoing damage. Scaling affects damage and AP power (i.e. Hard reduces damage and AP power by 20%).\n 
+		\nTurning this off will turn scaling off, leaving damage and AP power untouched on all difficulties.</text>
+	</string>
 </string_table>
