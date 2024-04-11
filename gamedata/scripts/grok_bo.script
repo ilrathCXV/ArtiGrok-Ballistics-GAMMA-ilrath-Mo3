@@ -577,9 +577,13 @@ function monster_on_before_hit(monster,shit,bone_id)
 		-----------------------------------------------------------------------
 		------------------------- Arti's Bonuses ------------------------------
 		-----------------------------------------------------------------------
+		local special_effect = 0
+		local special_effect_2 = 0
 		
-		local special_effect = arti_handlers.get_special(ammo_section) or 0
-		local special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
+		if is_actor then
+			special_effect = arti_handlers.get_special(ammo_section) or 0
+			special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
+		end
 		
 		------------------
 		-- Chaos Rounds --
@@ -780,36 +784,39 @@ function monster_on_before_hit(monster,shit,bone_id)
 		end
 		printf("Barrel condition: %s, GBO output damage: %s, Ammo multiplier: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, cloudkill_mult, snake_mult)
 		
-		------------------------
-		-- [NEW] Graze Rounds --
-		------------------------
-		-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
-		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
-			if (arti_handlers[monster:id()]) and (arti_handlers[monster:id()] == true) then
-				arti_handlers[monster:id()] = false
-				return
-			else
-				local new_hit = shit
-				new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
-				local radius = (is_critical and 8) or 5
-				arti_handlers.graze_handler(monster, new_hit, radius)
+		if is_actor then
+			------------------------
+			-- [NEW] Graze Rounds --
+			------------------------
+			-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
+			if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
+				if (arti_handlers[monster:id()]) and (arti_handlers[monster:id()] == true) then
+					arti_handlers[monster:id()] = false
+					return
+				else
+					local new_hit = shit
+					new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
+					local radius = (is_critical and 8) or 5
+					arti_handlers.graze_handler(monster, new_hit, radius)
+				end
+			end
+			
+			----------------
+			-- RIP Rounds --
+			----------------
+			-- Grants healing on successful hits
+			if (special_effect == "rip") or (special_effect_2 == "rip") then 
+				arti_handlers.lifesteal(monster, shit.power, false)
+			end
+			
+			------------------------------------
+			-- Chaos Rounds (if healing proc) --
+			------------------------------------
+			if chaos_effect == 5 then
+				db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 			end
 		end
 		
-		----------------
-		-- RIP Rounds --
-		----------------
-		-- Grants healing on successful hits
-		if (special_effect == "rip") or (special_effect_2 == "rip") and is_actor then 
-			arti_handlers.lifesteal(monster, shit.power, false)
-		end
-		
-		------------------------------------
-		-- Chaos Rounds (if healing proc) --
-		------------------------------------
-		if chaos_effect == 5 and is_actor then
-			db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
-		end
 		
 	end
 	
@@ -918,9 +925,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------------------------------------------------------------
 	------------------------- Arti's Bonuses ------------------------------
 	-----------------------------------------------------------------------
+	local special_effect = 0
+	local special_effect_2 = 0
 	
-	local special_effect = arti_handlers.get_special(ammo_section) or 0
-	local special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
+	if is_actor then
+		special_effect = arti_handlers.get_special(ammo_section) or 0
+		special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
+	end
 	
 	armor_break_mult = 1.0
 	armor_break_bonus = 0
@@ -1554,7 +1565,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		-- Soulripper --
 		----------------
 		-- Grants healing on kill
-		if (special_effect == "soulripper") or (special_effect_2 == "soulripper") and is_actor then 
+		if (special_effect == "soulripper") or (special_effect_2 == "soulripper") then 
 			arti_handlers.lifesteal(npc, shit.power, true)
 		end
 		
@@ -1585,14 +1596,14 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- RIP Rounds --
 	----------------
 	-- Grants healing on successful hits
-	if (special_effect == "rip") or (special_effect_2 == "rip") and is_actor then 
+	if (special_effect == "rip") or (special_effect_2 == "rip") then 
 		arti_handlers.lifesteal(npc, life_remove, false)
 	end
 	
 	------------------
 	-- Chaos Rounds --
 	------------------
-	if chaos_effect == 5 and is_actor then
+	if chaos_effect == 5 then
 		db.actor.health = clamp(db.actor.health + (0.1 * life_remove), 0, 1)
 	end
 	
