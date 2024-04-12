@@ -24,6 +24,7 @@ local burn_effect_buffer = 0	-- should check once every second
 local time_g_burn = 0
 local time_g_shock = 0
 
+-- messy I know
 npc_stun 			= {}
 grounded_stack_list = {}
 shock_stack_list 	= {}
@@ -193,6 +194,7 @@ function burn_ignition(npc, wpn_id, stacks)
 end
 
 function enemy_on_death_callback(victim, who)
+	-- printf("[Arti Handlers] Death callback firing!!!")
 	local victim_id = victim:id()
 	
     if npc_stun[victim_id] then npc_stun[victim_id] = nil end

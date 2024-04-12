@@ -49,6 +49,7 @@ function do_breakdown(ammo_list, tool)
     local parts_map = str_explode(parts, ",")
     local degrade = tonumber(part_lookup:r_value(sec, "degrade")) or 0.0001
     local name = ui_item.get_sec_name(sec)
+	local has_recycler = (get_config("recycler") and game_achievements.has_achievement("recycler")) or false
 	
     local tbl = {}
 
@@ -64,12 +65,12 @@ function do_breakdown(ammo_list, tool)
             -- new 1 by 1 formula for consistency
             for i=1,box_size do 
                 if math.random() < salvage_coef then
-					if get_config("recycler") then
-						if (game_achievements.has_achievement("recycler")) then
-							new_box_size = new_box_size + ((math.random(100) > 34) and (base_amt * 2) or base_amt)
+					new_box_size = new_box_size + base_amt
+					if has_recycler then
+						if (math.random(100) > 34) then
+							printf("Recycler proc!!!")
+							new_box_size = new_box_size + base_amt
 						end
-					else
-						new_box_size = new_box_size + base_amt
 					end
 				end
             end

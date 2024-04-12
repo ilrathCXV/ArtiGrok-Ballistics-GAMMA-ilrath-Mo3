@@ -28,12 +28,21 @@
 	</string>
 	
 	<string id="ui_mcm_ballistics_npc_effect">
-		<text>NPC Use Ballistics System?</text>
+		<text>NPCs Use Ballistics System?</text>
 	</string>
 	<string id="ui_mcm_ballistics_npc_effect_desc">
 		<text>Turning this on will enable NPCs to follow the same outgoing damage calculations that the player follows when hitting NPCs and mutants.\n 
 		\nNPCs will not use any special ammo effects to avoid any crashes. This will also not affect NPCs hitting the player as that is handled seperately.\n 
 		\nTurning this off will make NPCs' outgoing damage calculations return to normal.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_npc_use_special">
+		<text>NPCs Use Special Effects? (UNSTABLE)</text>
+	</string>
+	<string id="ui_mcm_ballistics_npc_use_special_desc">
+		<text>Turning this on will enable NPCs to utilize most special effects when hitting NPCs and mutants.\n 
+		\nYou need ot have "NPCs Use Ballistics System" enabled.\n 
+		\n%c[d_red]THIS MAY BE UNSTABLE - USE AT YOUR OWN RISK</text>
 	</string>
 	
 	<string id="ui_mcm_ballistics_true_falloff">
