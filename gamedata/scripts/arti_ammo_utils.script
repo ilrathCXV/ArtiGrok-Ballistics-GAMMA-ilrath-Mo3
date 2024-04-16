@@ -78,69 +78,6 @@ function process_wpn(wpn, bypass)
     end
 end
 
---[[
-local recipe_trader = {
-    killer = {
-       "recipe_ammo_nato",
-       "recipe_ammo_pistol"
-    },
-    army = {
-        "recipe_ammo_ru1",
-        "recipe_ammo_ru2",
-		"recipe_ammo_pistol"
-    },
-    ecolog = {
-        "recipe_ammo_arty2",
-        "recipe_ammo_arty1",
-        "recipe_ammo_ru1",
-        "recipe_ammo_ru2"
-    },
-    monolith = {
-        "recipe_ammo_ru2",
-        "recipe_ammo_fire",
-        "recipe_ammo_ru1"
-    },
-    dolg = {
-        "recipe_ammo_ru1",
-        "recipe_ammo_shotgun"
-    },
-    freedom = {
-        "recipe_ammo_nato",
-        "recipe_ammo_fire",
-    },
-    csky = {
-        "recipe_ammo_shotgun",
-        "recipe_ammo_arty1",
-        "recipe_ammo_ru1",
-        "recipe_ammo_ru2",
-    },
-    stalker = {
-		"recipe_ammo_ru2",
-        "recipe_ammo_pistol",
-        "recipe_ammo_shotgun",
-    },
-    bandit = {
-        "recipe_ammo_ru1",
-        "recipe_ammo_pistol"
-    },
-    greh = {
-        "recipe_ammo_arty2",
-        "recipe_ammo_nato",
-    },
-    isg = {
-        "recipe_ammo_ru1",
-        "recipe_ammo_ru2",
-        "recipe_ammo_pistol",
-        "recipe_ammo_shotgun",
-        "recipe_ammo_nato",
-        "recipe_ammo_arty1",
-        "recipe_ammo_arty2",
-        "recipe_ammo_fire",
-    },
-}
-
---]]
-
 local powder_list_weights = {
 	["powder_nightstar"] = 15,
 	["powder_gravi"] = 25,
@@ -202,6 +139,7 @@ end
 
 -- this happens whenever npc comes online, currently guarantees that the npc will never have access to better ammo (credit to Arti)
 function npc_on_net_spawn(npc)
+	if npc:has_info("npcx_is_companion") then return end
     CreateTimeEvent("downgrade_ammos",npc:id(), 0,function()
         npc:iterate_inventory(function(t, item)
             if IsWeapon(item) then process_wpn(item, true) end
