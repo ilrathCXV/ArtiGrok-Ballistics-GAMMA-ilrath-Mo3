@@ -144,12 +144,12 @@ function crush_new(obj, bag, mode)
         arte_frag[#arte_frag + 1] = arti_crusher_mats[5]
 	-- Omni/All Fragments
 	elseif omni_crusher[artefact] then
-		local amount = omni_crusher[artefact] or 1
+		amount = omni_crusher[artefact] or 1
 		amount = math.ceil(amount * obj:condition())
 		alife_release(obj)
         arte_frag = arti_crusher_mats
 	end
-	
+	printf("Artefact: %s | Fragment Amount: %s", artefact, amount)
 	if amount and arte_frag[1] then
 		alife_release(obj)
 		for i=1, #arte_frag do

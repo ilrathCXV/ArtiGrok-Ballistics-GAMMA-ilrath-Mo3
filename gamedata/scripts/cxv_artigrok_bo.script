@@ -41,6 +41,19 @@ integrated_silencer = {
 	["wpn_mp5sd"] = true,
 	["wpn_mp5sd_custom"] = true,
 	["wpn_mp5sd_new"] = true,
+	
+	["wpn_pb"] = true,
+	["wpn_pb_bas"] = true,
+	["wpn_pb_custom"] = true,
+	["wpn_pb_bas_custom"] = true,
+	["wpn_groza_custom"] = true,
+	["wpn_vintorez_alt"] = true,
+	["wpn_vintorez_1pn93"] = true,
+	["wpn_vintorez_n1"] = true,
+	["wpn_vintorez_nimble"] = true,
+	["wpn_vsk94"] = true,
+	["wpn_arbiter_bushmaster"] = true,
+	["wpn_700black"] = true,
 }
 
 local difficulty_multiplier = {
@@ -218,6 +231,7 @@ hp_rounds = {
 	
 	["ammo_10x25_hydrashok"] = 2.5,
 	["ammo_10x25_hydrashok_bad"] = 2.5,
+	["ammo_10x25_fmj_bad"] = 4,				-- Armorbuster: do less damage on non-pen hits
 	["ammo_5.7x28_ss195"] = 1.5,
 	["ammo_300blackout_fjm_bad"] = 1.33,
 	["ammo_44_mag"] = 2,
