@@ -148,7 +148,7 @@ function burn_tick_on_update()
 				if npc then
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
-					local burn_dmg = (clamp((v * 0.01), 0, 0.25) * (1 + ((bas_handler.weakened and bas_handler.weakened[k] or 0) * 0.2))) or 0.01
+					local burn_dmg = clamp((v * 0.01), 0, 0.25) or 0.01
 					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
 					
 					local h = hit()
@@ -439,8 +439,6 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 					obj:movement_enabled(false)
 				end
 				
-				-- take into account NPC's "Cloudkill" stacks
-				h.power = h.power * (1 + ((bas_handler.weakened and bas_handler.weakened[obj:id()] or 0) * 0.2))
 				obj:hit(h)
 				lightning_hits = lightning_hits + 1
 				
@@ -489,8 +487,6 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 			if obj:has_info("npcx_is_companion") then return end
 			
 			printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
-			-- take into account NPC's "Cloudkill" stacks
-			new_hit.power = new_hit.power * (1 + ((bas_handler.weakened and bas_handler.weakened[obj:id()] or 0) * 0.2))
 			
 			obj:hit(new_hit)
 			graze_list[obj:id()] = true						-- Add their ID to a map list

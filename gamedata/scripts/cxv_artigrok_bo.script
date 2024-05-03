@@ -363,7 +363,6 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	ammo_mult			= 0.85
 	spec_monster_mult	= 1
 	bone_mult			= 1
-	cloudkill_mult 		= 1
 	is_critical			= false
 	
 	printf("///////////   Mutant Hit registered: ArtiGrok BO v1.6.6   //////////////////")
@@ -646,13 +645,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		-------------------------
 		-- Cloudkill Eco Round --
 		-------------------------
-		-- Grants 20% stacking mult. damage bonus to targets both hit and affected by the Cloud
+		-- Debuffs targets both hit and affected by the Cloud
 		if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 			bas_handler.corrosive_cloud(monster, bone_id)
-		end
-		
-		if bas_handler.weakened[monster:id()] and bas_handler.weakened[monster:id()] > 0 then
-			cloudkill_mult = 1 + (.2 * bas_handler.weakened[monster:id()]) or 1.2
 		end
 		
 		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
@@ -812,11 +807,11 @@ function mutant_on_before_hit(monster, shit, bone_id)
 			local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
 			local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 			
-			shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * cloudkill_mult
+			shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
 		else
-			shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * cloudkill_mult
+			shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
 		end
-		printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, Cloudkill multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, cloudkill_mult, snake_mult)
+		printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
 		
 		if is_actor then	-- ilrathCXV (04/11/2024): Will lock these off from NPCs always as these might be the bigger culprits/has no effect on them
 			------------------------
@@ -1326,15 +1321,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-------------------------
 	-- Cloudkill Eco Round --
 	-------------------------
-	-- Grants 20% mult. damage bonus targets both hit and affected by the Cloud
-	cloudkill_mult = 1.0
+	-- Debuffs targets both hit and affected by the Cloud
 	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 		bas_handler.corrosive_cloud(npc, bone_id)
 	end
-	
-	if bas_handler.weakened[npc_id] and bas_handler.weakened[npc_id] > 0 then
-        cloudkill_mult = 1 + (.2 * bas_handler.weakened[npc_id])
-    end
 
 	---------------------------
 	-- JHP/Headhunter Rounds --
@@ -1491,10 +1481,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 	
 		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost * cloudkill_mult 
+		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost
 	else
 		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost * cloudkill_mult 
+		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost
 	end
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
@@ -1550,7 +1540,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		shit.power = shit.power * 2
 	end
 
-	printf("Real AP power= %s, Bone armor after hit= %s, Cloudkill multiplier= %s, Damages inflicted= %s, Remaining health= %s", k_ap, custom_bone_value[custom_bone_id], cloudkill_mult, shit.power, npc.health)
+	printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s, Remaining health= %s", k_ap, custom_bone_value[custom_bone_id], shit.power, npc.health)
 	
 	if is_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
 		----------------
@@ -1783,7 +1773,6 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
 	return flags.ret_value
 end
 
--- bone mult is unknown for monster, so simply assume skin armor vs ap calcs
 _G.CBaseMonster__BeforeHitCallback = function(monster,shit,bone_id)
     flags.ret_value = true
     -- check for multihit. each bullet can only deal damage once
@@ -1794,7 +1783,6 @@ _G.CBaseMonster__BeforeHitCallback = function(monster,shit,bone_id)
         if flags.ret_value then
 			printf("ArtiGrok BO - New hit power: %s", custom_hit.shit.power)
             shit.power = custom_hit.shit.power
-            shit.ap = 0
         end
     else
         SendScriptCallback("monster_on_before_hit",monster,shit,bone_id,flags)

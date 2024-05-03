@@ -50,6 +50,15 @@ function cloudkill_dmg_reduction(shit, bone_id)
     end
 end
 
+function cloudkill_dmg_increase(victim, shit, bone_id)
+    if weakened[victim:id()] then
+		local damage_increase = 1 + (weakened[victim:id()] * 0.2)
+        shit.power = shit.power * damage_increase
+		display_increase = tonumber((damage_increase * 100))
+		printf("[ArtiGrok - BaS Handler] Cloudkill DMG Increase: %s%", display_increase)
+    end
+end
+
 local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
 _G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
 	cloudkill_dmg_reduction(shit, bone_id)
@@ -86,6 +95,10 @@ end
 function on_game_start()
     RegisterScriptCallback("npc_on_death_callback", on_death_callback)
     RegisterScriptCallback("monster_on_death_callback", on_death_callback)
+	
+	RegisterScriptCallback("npc_on_before_hit",cloudkill_dmg_increase)
+	RegisterScriptCallback("monster_on_before_hit",cloudkill_dmg_increase)
+	
     RegisterScriptCallback("server_entity_on_unregister", se_on_unregister)
 	RegisterScriptCallback("actor_on_update", check_stun)
 end
