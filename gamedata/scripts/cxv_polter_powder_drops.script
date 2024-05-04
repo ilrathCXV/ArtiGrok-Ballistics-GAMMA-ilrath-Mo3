@@ -26,15 +26,15 @@ function monster_on_net_destroy(npc)
 		
 		if polter_type == 1 then -- Tele/Electro
 			for i=1, math.random(1,2) do
-				alife_create("powder_battery"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
 			end
 		elseif polter_type == 2 then -- Flame
 			for i=1, math.random(2,3) do
-				alife_create("powder_battery"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
 			end
 		elseif polter_type == 3 then -- Black
 			for i=1, math.random(3,5) do
-				alife_create("powder_battery"),vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
+				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
 			end
 		end
 
