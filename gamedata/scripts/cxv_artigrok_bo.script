@@ -21,6 +21,10 @@ true_falloff		= get_config("true_falloff") or true
 difficulty_scaling 	= get_config("difficulty_scaling") or false
 npc_use_special		= get_config("npc_use_special") or false
 
+local cxv_tick = 45000
+local last_tick = 0
+local bone_clear_time = 0
+
 local bullet_store = {}	-- multi-hit fix will now be here (remember to empty GAMMA's multihit script like Grok BO)
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
@@ -351,6 +355,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local is_actor = false
 	if shit.draftsman:id() == db.actor:id() then
 		is_actor = true
+		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
 	end
 
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
@@ -916,6 +921,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 	local is_actor = false
 	if shit.draftsman:id() == db.actor:id() then
+		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
 		is_actor = true
 	end
 	
@@ -1717,12 +1723,26 @@ function explode_handler(bullet)
     end, explode_obj.id)
 end
 
+local rpg_hit_perks	= nil
+local fourth_times	= 0
+if z_cxv_experience_perk_weapon_reload_hit_effects then
+	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
+	
+	function experience_skill_on_update(id, data)
+		if (id == "perk_fourth_times") then
+			fourth_times = data["curr_level"]
+		end
+	end
+	
+end
+
 -- Gives 3 burn stacks to all affected AoE targets
 function napalm_handler(bullet)
 	if not bullet.position then return end
 	if not bullet.section then return end
 	
 	ammo_sec = bullet.section
+	local napalm_hits = 0
 	
 	if (arti_handlers.get_special(ammo_sec) == "napalm") or (arti_handlers.get_special_2(ammo_sec) == "napalm") then
 		wpn_id = bullet.weapon_id or db.actor:active_item()
@@ -1736,7 +1756,7 @@ function napalm_handler(bullet)
 		end)
 		ballistics_utils.play_sound_on_location("anomaly\\fireball_blow", npc)
 		
-		if rpg_hit_perks and fourth_times > 0 then
+		if rpg_hit_perks and fourth_times > 0 and napalm_hits > 0 then
 			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (napalm_hits * 0.2)	-- need at least 5 enemies burned to get one full stack
 			-- printf("[RPG - Arti Handlers - Napalm] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
 		end
@@ -1790,10 +1810,34 @@ _G.CBaseMonster__BeforeHitCallback = function(monster,shit,bone_id)
 	return flags.ret_value
 end
 
+-- will clear the tables after 45 real-world seconds of the player no to ensure companions don't get one-tapped if their armor was shredded from the last fight
+function actor_on_update()
+	-- no need to if the NPC options is disabled
+	if not npc_effects then return end
+	if time_global() <  bone_clear_time then return end
+
+	bone_clear_time = time_global() + cxv_tick
+	
+	empty_table(custom_bone_value)
+	empty_table(custom_bone_ap)
+	empty_table(custom_bone_hf)
+	empty_table(custom_bone_dmg)
+	printf("///////////   Bone Tables Reset: ArtiGrok BO v1.6.6  //////////////////")
+	
+end
 
 function on_game_start()
 	RegisterScriptCallback("bullet_on_impact", bullet_on_impact)
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
+	RegisterScriptCallback("actor_on_update", actor_on_update)
+	
+	if z_cxv_experience_perk_weapon_reload_hit_effects then
+		if experience_potions then
+			RegisterScriptCallback("experience_skill_on_update", experience_skill_on_update)
+		else
+			RegisterScriptCallback("experience_perk_on_update", experience_skill_on_update)
+		end	
+	end
 	
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)
