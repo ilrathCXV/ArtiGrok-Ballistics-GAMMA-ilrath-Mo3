@@ -36,7 +36,7 @@ function inject_stats()
 	["falloff"]={ 
 		index = 100, typ = "float", name = "st_mp_a_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
 	["penalty"]={
-	    index = 110,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
+	    index = 110 ,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
 	
 	["special"]={ 
@@ -279,22 +279,9 @@ end
 function prop_nopen(obj, sec)
 	local penalty = 0
 	
-	if grok_bo and not cxv_artigrok_bo then
-		local ammo_sec = obj and obj:section() or sec
-		if grok_bo.hp_rounds and grok_bo.hp_rounds[ammo_sec] then
-			penalty = (1 / (grok_bo.hp_rounds[ammo_sec])) * 100
-		end
-	else
-		return 0
-	end
-	
-	if cxv_artigrok_bo then
-		local ammo_sec = obj and obj:section() or sec
-		if cxv_artigrok_bo.hp_rounds and cxv_artigrok_bo.hp_rounds[ammo_sec] then
-			penalty = (1 / (cxv_artigrok_bo.hp_rounds[ammo_sec])) * 100
-		end
-	else
-		return 0
+	local ammo_sec = obj and obj:section() or sec
+	if cxv_artigrok_bo.hp_rounds[ammo_sec] then
+		penalty = (1 / (cxv_artigrok_bo.hp_rounds[ammo_sec])) * 100
 	end
 	
 	local val = (penalty ~= 100) and penalty or 0
