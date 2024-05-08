@@ -66,8 +66,8 @@
 		<text>No-pen. DMG mod.</text>
 	</string>
 	
-	<string id="st_mp_a_airres">
-		<text>Falloff resistance</text>
+	<string id="st_cxv_airres">
+		<text>Falloff mod.</text>
 	</string>
 
 	<string id="st_mp_a_dist">

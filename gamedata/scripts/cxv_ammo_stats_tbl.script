@@ -34,7 +34,7 @@ function inject_stats()
 	["range"]={
 		index = 90, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
 	["falloff"]={ 
-		index = 100, typ = "float", name = "st_mp_a_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
+		index = 100, typ = "float", name = "st_cxv_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
 	["penalty"]={
 	    index = 110 ,typ = "float", name = "st_prop_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
