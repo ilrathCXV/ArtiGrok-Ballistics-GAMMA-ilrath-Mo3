@@ -1723,18 +1723,8 @@ function explode_handler(bullet)
     end, explode_obj.id)
 end
 
-local rpg_hit_perks	= nil
-local fourth_times	= 0
-if z_cxv_experience_perk_weapon_reload_hit_effects then
-	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
-	
-	function experience_skill_on_update(id, data)
-		if (id == "perk_fourth_times") then
-			fourth_times = data["curr_level"]
-		end
-	end
-	
-end
+local rpg_hit_perks	= arti_handlers.rpg_hit_perks
+local fourth_times	= arti_handlers.fourth_times
 
 -- Gives 3 burn stacks to all affected AoE targets
 function napalm_handler(bullet)

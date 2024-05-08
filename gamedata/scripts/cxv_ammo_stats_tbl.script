@@ -14,7 +14,7 @@ function inject_stats()
     ["damage"] = { 
         index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=false,		sign_inverse = true,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
     ["ap"] = { 
-        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,    	unit= "",  				compare= false, sign= false,	sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
+        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,    	unit= "",  				compare= false, sign=false,		sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
     ["mutant_mod"] = { 
         index= 30, typ= "float",   name= "st_prop_k_mutant",      icon_p= "ui_wp_propery_08",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=true,		sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_mutant_mod"} },
     ["gigant_mod"] = { 
@@ -34,9 +34,9 @@ function inject_stats()
 	["range"]={
 		index = 90, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
 	["falloff"]={ 
-		index = 100, typ = "float", name = "st_mp_a_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
+		index = 100, typ = "float", name = "st_mp_a_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
 	["penalty"]={
-	    index = 110 ,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
+	    index = 110 ,typ = "float", name = "st_prop_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
 	
 	["special"]={ 
@@ -202,10 +202,9 @@ function prop_damage(obj, sec)
 	
 	if val >= 1 then
 		val = val * -1
-		val = val + 1
 	end
 	
-	if (val < 0.1) then
+	if (val < 0.1) and (val > -0.1) then
 		return (round_idp(val * 100, 2))
 	else
 		return (round_idp(val * 100, 1))
@@ -226,30 +225,29 @@ end
 
 function prop_accuracy(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_disp") or 1)
-	if val < 1 then
+	
+	if val >= 1 then
 		val = val * -1
 	end
-	if val == 1 then 
-		return 0 
-	end
-	if (val < 0.1) then
+	
+	if (val < 0.1) and (val > -0.1) then
 		return (round_idp(val * 100, 2))
 	else
 		return (round_idp(val * 100, 1))
 	end
+	
 	return 0
 end
 
 
 function prop_flatness(obj, sec)
     local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_bullet_speed") or 1)
-	if val > 1 then
+	
+	if val >= 1 then
 		val = val * -1
 	end
-	if val == 1 then 
-		return 0 
-	end
-	if (val < 0.1) then
+	
+	if (val < 0.1) and (val > -0.1) then
 		return (round_idp(val * 100, 2))
 	else
 		return (round_idp(val * 100, 1))
@@ -278,47 +276,55 @@ end
 -- Momopate's Additions
 function prop_nopen(obj, sec)
 	local penalty = 0
-	
+	local flinch_chance = 0
 	local ammo_sec = obj and obj:section() or sec
+	
+	flinch_chance = ini_ammo:r_float_ex(ammo_sec, "flinch") or 0
+	flinch_chance = flinch_chance * 0.01
 	if cxv_artigrok_bo.hp_rounds[ammo_sec] then
-		penalty = (1 / (cxv_artigrok_bo.hp_rounds[ammo_sec])) * 100
+		penalty = ((1 + flinch_chance) / (cxv_artigrok_bo.hp_rounds[ammo_sec]))
 	end
 	
-	local val = (penalty ~= 100) and penalty or 0
+	local val = (penalty ~= 1) and penalty or 0
 	
-	if val > 100 then
+	if val == 0 then return 0 end
+	
+	if val >= 1 then
 		val = val * -1
 	end
 	
-	if (penalty > 10) then
-		return round_idp(val, 1)
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
 	else
-		return round_idp(val, 2)
+		return (round_idp(val * 100, 1))
 	end
 	
 	return 0
 end
 
 function prop_falloff(obj, sec)
-	local perc = round_idp(100 * (SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
-	if perc >= 110 then
-		perc = (perc - 110) * -1
+	local perc = round_idp((SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
+	if perc < 1 then
+		perc = perc * -1
 	end
-	return (round_idp(((perc * 100) / 110), 1))
+	
+	if (perc < 0.1) and (perc > -0.1) then
+		return (round_idp(perc * 100, 2))
+	else
+		return (round_idp(perc * 100, 1))
+	end
 end
 
 function prop_range(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_dist") or 1)
-	if val > 1 then
+	if val >= 1 then
 		val = val * -1
 	end
-	if val == 1 then 
-		return 0 
-	end
-	if (val < 0.1) then
-		return (round_idp(val * 100, 1))
+	
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
 	else
-		return (round_idp(val * 100, 0))
+		return (round_idp(val * 100, 1))
 	end
 	return 0
 end

@@ -62,8 +62,12 @@
 		<text>Concussion penalty</text>
 	</string>
 	
+	<string id="st_prop_nopen">
+		<text>No-pen. DMG mod.</text>
+	</string>
+	
 	<string id="st_mp_a_airres">
-		<text>Falloff strength</text>
+		<text>Falloff resistance</text>
 	</string>
 
 	<string id="st_mp_a_dist">
@@ -222,7 +226,7 @@
 		<text>9x18mm 'Varmageddon' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_9x18_varma_descr">
-		<text>Experimental 9x18mm cartridge utilizing Chemical Artefact Fragments. The fragments cause the round to deal massive damage to mutants of any type. Although only doing massive damage to mutants, it still does respectable damage against non-armored stalkers.</text>
+		<text>Experimental 9x18mm cartridge utilizing Artefact Fragments. The fragments cause the round to deal massive damage to mutants of any type. Although only doing massive damage to mutants, it still does respectable damage against non-armored stalkers.</text>
 	</string>
 	<string id="ammo_new_9x18_varma_s">
 		<text>9x18 'Varma' (HP+)</text>
@@ -233,7 +237,7 @@
 		<text>9x18mm 'Grav' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x18_grav_descr">
-		<text>Experimental 9x18mm cartridge utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, reaching levels unseen from all known pistol rounds.</text>
+		<text>Experimental 9x18mm cartridge utilizing Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, reaching levels unseen from all known pistol rounds.</text>
 	</string>
 	<string id="ammo_new_9x18_grav_s">
 		<text>9x18 'Grav' (AP+)</text>
@@ -266,7 +270,7 @@
 		<text>9x19mm Incendiary rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x19_fire_descr">
-		<text>Handloaded armor-piercing incendiary round for 9x19mm platforms. Through the use of Thermal Artefact Fragments, this round is able to punch through armor much more effectively than standard 9x19mm AP ammunition. It lacks raw power but will burn struck targets with each hit. The burn can be quick to burn out, but it will continue to persist if the target is struck with this or other Incendiary ammunition. This brun will slowly hurt the target, and, if suffered a strong enough burn, will cause them to ignite, spreading the heat to nearby enemies will also suffer from burns.</text>
+		<text>Handloaded armor-piercing incendiary round for 9x19mm platforms. Through the use of Artefact Fragments, this round is able to punch through armor much more effectively than standard 9x19mm AP ammunition. It lacks raw power but will burn struck targets with each hit. The burn can be quick to burn out, but it will continue to persist if the target is struck with this or other Incendiary ammunition. This brun will slowly hurt the target, and, if suffered a strong enough burn, will cause them to ignite, spreading the heat to nearby enemies will also suffer from burns.</text>
 	</string>
 	<string id="ammo_new_9x19_fire_s">
 		<text>9x19 Incendiary (AP+)</text>
@@ -288,7 +292,7 @@
 		<text>.45 ACP 'RIP' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_descr">
-		<text>This experimental .45 ACP round is constructed from a chemical artifact fragment around which lead was 'grown' and molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter.</text>
+		<text>This experimental .45 ACP round is constructed with Artefact Fragments molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter.</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_s">
 		<text>.45 'RIP' (HP+)</text>
@@ -389,7 +393,7 @@
 		<text>5.45x39mm 'Grav' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_5.45x39_grav_descr">
-		<text>Anomalous 5.45x39mm round utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, making this a decent long-range option with the right rifle platform.</text>
+		<text>Anomalous 5.45x39mm round utilizing Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity with nearly no bullet drop. This will allow the round to hit the target with a force equal to that of being shot at point-blank range. In addition, the round's penetration power seems to increase the farther it travels, making this a decent long-range option with the right rifle platform.</text>
 	</string>
 	<string id="ammo_new_5.45x39_grav_s">
 		<text>5.45x39 'Grav' (AP+)</text>
@@ -411,7 +415,7 @@
 		<text>5.45x39mm Corrosion rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_5.45x39_cor_descr">
-		<text>Experimental 5.45x39mm multi-projectile round utilizing Chemical Artefact Fragments. The bullet contains a chemical payload that corrodes any armor it touches, making Exosuits almost as protective as a simple leather jacket. If all the projectiles land or enough hits from this round land on a single person, it will cause the fragments to erupt into a corrosive cloud, weakening all nearby armor and its integrity against all other arms fire. This allows for excellent crowd control against groups of heavily-armored targets.</text>
+		<text>Experimental 5.45x39mm multi-projectile round utilizing Artefact Fragments. The bullet contains a chemical payload that corrodes any armor it touches, making Exosuits almost as protective as a simple leather jacket. If all the projectiles land or enough hits from this round land on a single person, it will cause the fragments to erupt into a corrosive cloud, weakening all nearby armor and its integrity against all other arms fire. This allows for excellent crowd control against groups of heavily-armored targets.</text>
 	</string>
 	<string id="ammo_new_5.45x39_cor_s">
 		<text>5.45x39 Acid (FMJ+)</text>
@@ -548,7 +552,7 @@
 		<text>7.62x51mm Hot Shock rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.62x51_duplex_descr">
-		<text>Specialty 7.62x51 rounds utilizing a mix of thermal and electric artefact fragments. These rounds causes the target to experience the pain of third-degree burns along with a shock down their spine. Enough hits from this round can cause the target to release a lightning strike that hurts themselves and nearby enemies, and, on death, the target will spread the thermal burn on its death. Due to the volatility of the special powder load, it causes the bullet to split into two.</text>
+		<text>Specialty 7.62x51 rounds utilizing a mix of Artefact Fragments. These rounds causes the target to experience the pain of third-degree burns along with a shock down their spine. Enough hits from this round can cause the target to release a lightning strike that hurts themselves and nearby enemies, and, on death, the target will spread the thermal burn on its death. Due to the volatility of the special powder load, it causes the bullet to split into two.</text>
 	</string>
 	<string id="ammo_new_7.62x51_duplex_s">
 		<text>7.62x51 Hot Shock (AP+)</text>
@@ -558,7 +562,7 @@
 		<text>7.92x57mm 'Varmageddon' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.92x33_varma_descr">
-		<text>Experimental 7.92x57mm round with a hollow tip and boat-tail base bullet. MBased on ammunition used typically for large game, this round has been enhanced with artefact fragments, allowing for even greater strength against mutants found in the Zone. However, these artefact fragments grant no extra benefits against stalkers.</text>
+		<text>Experimental 7.92x57mm round with a hollow tip and boat-tail base bullet. Based on ammunition used typically for large game, this round has been enhanced with Artefact Fragments, allowing for even greater strength against mutants found in the Zone. However, these artefact fragments grant no extra benefits against stalkers.</text>
 	</string>
 	<string id="ammo_new_7.92x33_varma_s">
 		<text>7.92x57 'Varmageddon' (FMJ+)</text>
@@ -568,7 +572,7 @@
 		<text>7.92x57mm Lightning rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_7.92x33_lightning_descr">
-		<text>7.92x57 round with a bullet made from a reactive alloy of electrical artifacts. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. This round's true power is shown on heavily armored targets, powered armor, or striking mutants in their weak points: a lightning strike is called down upon the target, dealing damage to it and all other targets nearby. The lightning's strength grows proportionally to the armor of the target, or the hardiness of the mutant.</text>
+		<text>7.92x57 round with a bullet made from a reactive alloy of Artefact Fragments. Similar to the Flash artifact, this projectile contains a tremendous amount of energy. However, the bullet is propelled by conventional means, with the high pressure and temperature of the gunpowder setting off a reaction with the artifact. On contact with a target, electrical energy is transferred. This round's true power is shown on heavily armored targets, powered armor, or striking mutants in their weak points: a lightning strike is called down upon the target, dealing damage to it and all other targets nearby. The lightning's strength grows proportionally to the armor of the target, or the hardiness of the mutant.</text>
 	</string>
 	<string id="ammo_new_7.92x33_Lightning_s">
 		<text>7.92x57 Lightning (AP+)</text>
@@ -578,7 +582,7 @@
 		<text>12.7x55mm 'Grav' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmjs_descr">
-		<text>Experimental 12.7x55mm cartridge utilizing Gravitational Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity not seen from this subsonic caliber. The round will reach its target much quicker with nearly no bullet drop, and will allow the round to hit the target with a force equal to that of being shot at point-blank range.</text>
+		<text>Experimental 12.7x55mm cartridge utilizing Artefact Fragments. The fragments create a anti-gravity field inside the cartridge, allowing the bullet to travel at a faster-than-normal velocity not seen from this subsonic caliber. The round will reach its target much quicker with nearly no bullet drop, and will allow the round to hit the target with a force equal to that of being shot at point-blank range.</text>
 	</string>
 	<string id="ammo_new_12.7x55_fmjs_s">
 		<text>12.7x55 'Grav' (FMJ+)</text>
@@ -608,22 +612,13 @@
 	<!-- some leftovers -->
 	
 	<string id="ammo_new_50_bmg">
-		<text>.50 BMG M2 Ball Rounds</text>
+		<text>.50 BMG "Volcano" rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_50_bmg_descr">
-		<text>.50 Browning Machine Gun (12.7x99mm) cartridge introduced in 1910 and adopted in 1921 along with the Browning M2 heavy machine gun. This round is very commonly used for man-portable anti-armor capabilities, where a single shot to the engine block is enough to disable a civilian vehicle or heavily damage a lightly armored military vehicle. Rarely imported in the Zone due to the lack of need - the Zone already does more than enough work destroying vehicles as it is. </text>
+		<text>.50 Browning Machine Gun (12.7x99mm) cartridge utilizing Artefact Fragments to create a "volcanic" eruption on final impact with any surface. This eruption will cause any nearby targets to experience short-lived burns on their body. Those that face a direct hit will receive extreme burns, which will spread to nearby targets if the burn is sustained until their death.</text>
 	</string>
 	<string id="ammo_new_50_bmg_s">
-		<text>.50 Ball</text>
-	</string>
-	<string id="ammo_new_50_ap">
-		<text>.50 BMG M2 AP Rounds</text>
-	</string>
-	<string id="ammo_new_50_ap_descr">
-		<text>.50 M2 AP round used to effectively counter more heavily armored vehicles and personnel. This round is capable of defeating any threat in the Zone, but will rarely be used due to its great weight, rarity and compatibility with weaponry. It is rumored Freedom has a secret stash of this ammo somewhere that is used to fend off Monolith threats in the Army Warehouses area.</text>
-	</string>
-	<string id="ammo_new_50_ap_s">
-		<text>.50 AP</text>
+		<text>.50 "Volcano" (AP+)</text>
 	</string>
 
 	

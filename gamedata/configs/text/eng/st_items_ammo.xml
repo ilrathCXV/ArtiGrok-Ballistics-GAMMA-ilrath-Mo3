@@ -207,13 +207,11 @@
 	</string>
 
 	<string id="ammo-50-bmg">
-		<text>.50 BMG rounds</text>
+		<text>.50 BMG rounds (AP)</text>
 	</string>
 	<string id="ammo-50-bmg_descr">
 		<text>The .50 Browning Machine Gun (12.7x99mm NATO and designated as the 50 Browning by the C.I.P.) is a cartridge developed for the Browning .50 caliber machine gun in the late 1910s, entering official service in 1921. Under STANAG 4383, it is a standard cartridge for NATO forces as well as many non-NATO countries. The cartridge itself has been made in many variants: multiple generations of regular ball, tracer, armor-piercing (AP), incendiary, and saboted sub-caliber rounds. The rounds intended for machine guns are made into a continuous belt using metallic links.
-		\nThe .50 BMG cartridge is also used in long-range target and anti-materiel rifles, as well as other .50-caliber machine guns.
-		\n \n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power (AP): %c[ui_gray_1]BR6
-		\n%c[ui_gray_2] - %c[ui_gray_2] Nominal stopping power (DMG): %c[ui_gray_1]very high</text>
+		\nThe .50 BMG cartridge is also used in long-range target and anti-materiel rifles, as well as other .50-caliber machine guns.</text>
 	</string>
 	<string id="ammo-50-bmg_s">
 		<text>.50 BMG</text>

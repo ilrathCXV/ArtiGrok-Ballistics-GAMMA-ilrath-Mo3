@@ -11,8 +11,8 @@ math_random         = math.random
 ini_ammo               = ballistics_utils.ini_ammo
 -- ini_damage          = ballistics_utils.ini_damage
 
-local rpg_hit_perks	= nil
-local fourth_times	= 0
+rpg_hit_perks	= nil
+fourth_times	= 0
 local lightning_hits = 0
 local napalm_hits	= 0
 local graze_hits	= 0 
