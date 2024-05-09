@@ -226,7 +226,7 @@ end
 function prop_accuracy(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_disp") or 1)
 	
-	if val >= 1 then
+	if val < 1 then
 		val = val * -1
 	end
 	
@@ -282,7 +282,8 @@ function prop_nopen(obj, sec)
 	flinch_chance = ini_ammo:r_float_ex(ammo_sec, "flinch") or 0
 	flinch_chance = flinch_chance * 0.01
 	if cxv_artigrok_bo.hp_rounds[ammo_sec] then
-		penalty = ((1 + flinch_chance) / (cxv_artigrok_bo.hp_rounds[ammo_sec]))
+		hp_penalty = cxv_artigrok_bo.hp_rounds[ammo_sec] or 1
+		penalty = ((1 + flinch_chance) / hp_penalty)
 	end
 	
 	local val = (penalty ~= 1) and penalty or 0

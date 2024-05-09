@@ -269,10 +269,10 @@ function validate_hit(shit, bone_id, npc_id)
 	-- ilrathCXV (04/01/2024): Take MCM option into account
 	if shit.draftsman:id() ~= db.actor:id() then
 		if npc_effects and not IsStalker(shit.draftsman) then
-			printf("ArtiGrok BO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= db.actor:id(), not IsStalker(shit.draftsman))
+			--printf("ArtiGrok BO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= db.actor:id(), not IsStalker(shit.draftsman))
 			return
 		elseif not npc_effects then
-			printf("ArtiGrok BO - Draftsman is not actor and NPC Effects is disabled (%s)", npc_effects)
+			--printf("ArtiGrok BO - Draftsman is not actor and NPC Effects is disabled (%s)", npc_effects)
 			return
 		end
 	end
@@ -300,7 +300,7 @@ end
 function mutant_on_before_hit(monster, shit, bone_id)
 	local validate_data = validate_hit(shit, bone_id, monster:id())
 	if not (validate_data) then
-		printf("ArtiGrok BO - Hit not valid")
+		--printf("ArtiGrok BO - Hit not valid")
 		return false	-- will be important for _G function monkeypatch to return false
 	end
 	
@@ -860,7 +860,7 @@ end
 function npc_on_before_hit(npc, shit, bone_id)
 	local validate_data = validate_hit(shit, bone_id, npc:id())
 	if not (validate_data) then
-		printf("ArtiGrok BO - Hit not valid")
+		--printf("ArtiGrok BO - Hit not valid")
 		return false	-- will be important for _G function monkeypatch to return false
 	end
 	
@@ -1820,14 +1820,6 @@ function on_game_start()
 	RegisterScriptCallback("bullet_on_impact", bullet_on_impact)
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
 	RegisterScriptCallback("actor_on_update", actor_on_update)
-	
-	if z_cxv_experience_perk_weapon_reload_hit_effects then
-		if experience_potions then
-			RegisterScriptCallback("experience_skill_on_update", experience_skill_on_update)
-		else
-			RegisterScriptCallback("experience_perk_on_update", experience_skill_on_update)
-		end	
-	end
 	
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)
