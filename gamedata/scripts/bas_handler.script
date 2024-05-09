@@ -20,7 +20,8 @@ function corrosive_cloud(npc, bone_id)
     play_particle(npc, bone_id, "artefact\\effects\\af_acidic_show_01")
     play_sound_on_location("acid", npc)
     level.iterate_nearest(npc:position(), 5, function(obj)
-        if obj and obj:alive() and obj:id() ~= AC_ID then
+        if obj and obj:id() ~= AC_ID then
+			if not obj:alive() then return end
 			if weakened[obj:id()] and weakened[obj:id()] > 0 then
 				weakened[obj:id()] = weakened[obj:id()] + 1
 			else
@@ -41,7 +42,9 @@ end
 function cloudkill_dmg_reduction(shit, bone_id)
 	if not shit.draftsman then return end
 	
-    if weakened[shit.draftsman:id()] and shit.draftsman:alive() then
+	if not shit.draftsman:alive() then return end
+	
+    if weakened[shit.draftsman:id()] then
 		local damage_reduction = 1 - (weakened[shit.draftsman:id()] * 0.05)
 		damage_reduction = clamp(damage_reduction, 0.05, 0.4)
         shit.power = shit.power * damage_reduction

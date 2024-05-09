@@ -330,12 +330,13 @@ end
 -- for corrosive ammo
 function acid_damage(npc, bone_id)
 	
+	if not npc:alive() then return end
+	
     play_particle(npc, bone_id, "artefact\\effects\\af_acidic_idle_color")
     play_sound_on_location("acid", npc)
 	
-	if npc:alive() then
-		acid_stack_list[npc:id()] = (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] + 1) or 1
-	end
+	
+	acid_stack_list[npc:id()] = (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] + 1) or 1
 	
 	-- [Acid Stacking Effect] If hit enemy has taken 3 Acid hits, they apply the "Armorbuster" effect to any enemy within 8m
 	if (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] > 2) then

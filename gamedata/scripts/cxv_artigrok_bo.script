@@ -304,6 +304,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		return false	-- will be important for _G function monkeypatch to return false
 	end
 	
+	-- skip all if not alive
+	if not monster:alive() then return false end
+	
 	-- ilrathCXV: Avoid Graze looping + no need to redo calculations (just for mutants)
 	if arti_handlers.graze_list[monster:id()] then
 		arti_handlers.graze_list[monster:id()] = false
@@ -610,250 +613,244 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		game_num = gameplay["type"] or game_num
 	end
 	
-	if monster:alive() then
+	-----------------------------------------------------------------------
+	------------------------- Arti's Bonuses ------------------------------
+	-----------------------------------------------------------------------
+	local special_effect = 0
+	local special_effect_2 = 0
+	
+	if is_actor or npc_use_special then
+		special_effect = arti_handlers.get_special(ammo_section) or 0
+		special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
+	end
+	
+	------------------
+	-- Chaos Rounds --
+	------------------
+	local chaos_effect = 0
+	
+	-- ammo_mult mult. ranging from -40% to +60% + small chance to pull from most special affects
+	if (special_effect == "chaos") or (special_effect_2 == "chaos") then
+		chaos_effect = arti_handlers.chaos_damage(monster,bone_id,shit.weapon_id)
 		
-		-----------------------------------------------------------------------
-		------------------------- Arti's Bonuses ------------------------------
-		-----------------------------------------------------------------------
-		local special_effect = 0
-		local special_effect_2 = 0
-		
-		if is_actor or npc_use_special then
-			special_effect = arti_handlers.get_special(ammo_section) or 0
-			special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
-		end
-		
-		------------------
-		-- Chaos Rounds --
-		------------------
-		local chaos_effect = 0
-		
-		-- ammo_mult mult. ranging from -40% to +60% + small chance to pull from most special affects
-		if (special_effect == "chaos") or (special_effect_2 == "chaos") then
-			chaos_effect = arti_handlers.chaos_damage(monster,bone_id,shit.weapon_id)
-			
-			local random = math.random(60, 160)
-			local chaos_mult = random * 0.01
-			ammo_mult = ammo_mult * chaos_mult
-			
-		end
-		
-		
-		------------------------
-		-- Varmageddon Rounds --
-		------------------------
-		-- Mult. damage bonus to mutants
-		if (special_effect == "varma") or (special_effect_2 == "varma") then
-			ammo_mult = ammo_mult * 1.60
-		end
-		
-		-------------------------
-		-- Cloudkill Eco Round --
-		-------------------------
-		-- Debuffs targets both hit and affected by the Cloud
-		if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
-			bas_handler.corrosive_cloud(monster, bone_id)
-		end
-		
-		-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
-		if ammo_section == "ammo_23_eco" and spec_monster_mult > 0.86 then
-			monster:kill(db.actor)
-			printf("23mm Eco Intercept: %s dead ", monster and monster:name())
-			return
-		end
-		
-		-----------------
-		-- Acid Rounds --
-		-----------------
-		-- Changes hit to chemical damage + multiplies bone_mult by 75%
-		if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
-			arti_handlers.acid_damage(monster, bone_id)
-			shit.type = hit.chemical_burn
-			bone_mult = bone_mult * 1.75
-		end
-		
-		---------------------------
-		-- JHP/Headhunter Rounds --
-		---------------------------
-		-- Ignores mutant resistances + triple bone_mult
-		if (special_effect == "head") or (special_effect_2 == "head") and is_critical then
-			spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
-			bone_mult = bone_mult * 3
-		end
-		
-		--------------------------
-		-- Basher: Melee Effect --
-		--------------------------
-		-- Doubles bone_mult
-		if (special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6) then
-			bone_mult = bone_mult * 2
-		end
-		
-		-------------------
-		-- Ambush Rounds --
-		-------------------
-		-- 45% mult. ammo damage bonus on unaware targets
-		if (special_effect == "ambush") or (special_effect_2 == "ambush") then
-			if arti_handlers.ambush(monster, wpn) then
-				ammo_mult = ammo_mult * 1.45
-			end
-		end
-		
-		--------------------
-		-- Incendiary/API --
-		--------------------
-		-- Ammo-specific burn stacks to target
-		if (special_effect == "fire") or (special_effect_2 == "fire") and monster:alive() then
-			local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
-			arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, burn_stacks)
-		end
-		
-		---------------------
-		-- Dragon's Breath --
-		---------------------
-		-- 5 burn stacks to the target + changes hit to Fire damage + standardizes bone_/ammo_mult
-		if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
-			spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
-			bone_mult = 1.00
-			ammo_mult = 0.85
-			shit.type = hit.burn
-			arti_handlers.ignite_npc(monster, bone_id, shit.weapon_id, 5)
-		end
-		
-		-----------------
-		-- Mini Napalm --
-		-----------------
-		-- 15 burn stacks to target + changes hit to Fire damage + standardizes bone_mult + 2 burn stacks to nearby targets
-		if (special_effect == "napalm") or (special_effect_2 == "napalm") then
-			spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
-			bone_mult = 1.00
-			shit.type = hit.burn
-			arti_handlers.napalm_damage(monster, shit.weapon_id)
-		end
-		
-		-----------------------------------
-		-- [NEW] Armor Buster/Acid Combo --
-		-----------------------------------
-		-- Increases ammo_mult by 0.3 and nullifies monster resistance
-		if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") or 
-			(arti_handlers.armorbuster_list[monster:id()] and arti_handlers.armorbuster_list[monster:id()] == true) then
-			spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
-			ammo_mult = ammo_mult + 0.30
-		end
-		
-		--------------------------
-		-- Fragmentation Rounds --
-		--------------------------
-		-- Chance to deal 30% increased damage on hit
-		if (special_effect == "frag") or (special_effect_2 == "frag") then
-			frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
-			if math.random(100) <= frag_chance then
-				ammo_mult = ammo_mult * 1.3
-				arti_handlers.fragment_sound(npc)
-			end
-		end
-		
-		----------------------
-		-- Lightning Rounds --
-		----------------------
-		-- Changes hit to Shock damage + deals AoE damage to other targets on crits + standardizes monster resistance
-		if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
-			shit.type = hit.shock
-			
-			if is_critical and spec_monster_mult > 0.8 then
-				arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.5)
-			elseif is_critical then
-				arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.3)
-			end
-			
-			spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
-		end
-		
-		------------------------
-		-- [NEW] Shock Rounds --
-		------------------------
-		-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE
-		if (special_effect == "shock") or (special_effect_2 == "shock") then
-			local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
-			arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
-		end
-		
-		-----------------
-		-- Grav Rounds --
-		-----------------
-		-- Grants bonus bone_mult if hit is at least 100m + makes hit act as if was done at point-blank range (full damage + full AP)
-		-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
-		-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
-		if (special_effect == "grav") or (special_effect_2 == "grav") then
-			if dist >= 50 then
-				local wpn_type = ini_sys:r_string(wpn:section(), "kind") or nil
-				if wpn_type then
-					if wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis")
-					or wpn_type == "w_shotgun" then
-						local grav_mult = (1 + clamp((dist - 49) * 0.003984, 0, 1)) or 1
-						bone_mult = bone_mult * grav_mult
-						ammo_mult = ammo_mult * grav_mult
-						printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
-					end
-				end
-			elseif dist >= 100 then
-				local grav_mult = (1 + clamp((dist - 99) * 0.00498, 0, 1)) or 1
-				bone_mult = bone_mult * grav_mult
-				ammo_mult = ammo_mult * grav_mult
-				printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
-			end
-			dist = 0
-		end
-		
-		-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
-		if true_falloff then
-			local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
-			local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
-			local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
-			local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
-			
-			shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
-		else
-			shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
-		end
-		printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
-		
-		if is_actor then	-- ilrathCXV (04/11/2024): Will lock these off from NPCs always as these might be the bigger culprits/has no effect on them
-			------------------------
-			-- [NEW] Graze Rounds --
-			------------------------
-			-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
-			if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
-				local new_hit = shit
-				new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
-				local radius = (is_critical and 8) or 5
-				arti_handlers.graze_handler(monster, new_hit, radius)
-			end
-			
-			----------------
-			-- RIP Rounds --
-			----------------
-			-- Grants healing on successful hits
-			if (special_effect == "rip") or (special_effect_2 == "rip") then 
-				arti_handlers.lifesteal(monster, shit.power, false)
-			end
-			
-			------------------------------------
-			-- Chaos Rounds (if healing proc) --
-			------------------------------------
-			if chaos_effect == 5 then
-				db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
-			end
-		end
-		
-		return {
-			["shit"] = shit,
-			["bone_id"] = bone_id
-		}
+		local random = math.random(60, 160)
+		local chaos_mult = random * 0.01
+		ammo_mult = ammo_mult * chaos_mult
 		
 	end
 	
-	return false
+	
+	------------------------
+	-- Varmageddon Rounds --
+	------------------------
+	-- Mult. damage bonus to mutants
+	if (special_effect == "varma") or (special_effect_2 == "varma") then
+		ammo_mult = ammo_mult * 1.60
+	end
+	
+	-------------------------
+	-- Cloudkill Eco Round --
+	-------------------------
+	-- Debuffs targets both hit and affected by the Cloud
+	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
+		bas_handler.corrosive_cloud(monster, bone_id)
+	end
+	
+	-- KS-23 Eco + 23x75 Cloudkill will OHK smaller targets instead of modifying the damage
+	if ammo_section == "ammo_23_eco" and spec_monster_mult > 0.86 then
+		monster:kill(db.actor)
+		printf("23mm Eco Intercept: %s dead ", monster and monster:name())
+		return
+	end
+	
+	-----------------
+	-- Acid Rounds --
+	-----------------
+	-- Changes hit to chemical damage + multiplies bone_mult by 75%
+	if (special_effect == "acid") or (special_effect_2 == "acid") or (chaos_effect == 7) then
+		arti_handlers.acid_damage(monster, bone_id)
+		shit.type = hit.chemical_burn
+		bone_mult = bone_mult * 1.75
+	end
+	
+	---------------------------
+	-- JHP/Headhunter Rounds --
+	---------------------------
+	-- Ignores mutant resistances + triple bone_mult
+	if (special_effect == "head") or (special_effect_2 == "head") and is_critical then
+		spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
+		bone_mult = bone_mult * 3
+	end
+	
+	--------------------------
+	-- Basher: Melee Effect --
+	--------------------------
+	-- Doubles bone_mult
+	if (special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6) then
+		bone_mult = bone_mult * 2
+	end
+	
+	-------------------
+	-- Ambush Rounds --
+	-------------------
+	-- 45% mult. ammo damage bonus on unaware targets
+	if (special_effect == "ambush") or (special_effect_2 == "ambush") then
+		if arti_handlers.ambush(monster, wpn) then
+			ammo_mult = ammo_mult * 1.45
+		end
+	end
+	
+	--------------------
+	-- Incendiary/API --
+	--------------------
+	-- Ammo-specific burn stacks to target
+	if (special_effect == "fire") or (special_effect_2 == "fire") then
+		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
+		arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, burn_stacks)
+	end
+	
+	---------------------
+	-- Dragon's Breath --
+	---------------------
+	-- 5 burn stacks to the target + changes hit to Fire damage + standardizes bone_/ammo_mult
+	if (special_effect == "fire_melt") or (special_effect_2 == "fire_melt") then
+		spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
+		bone_mult = 1.00
+		ammo_mult = 0.85
+		shit.type = hit.burn
+		arti_handlers.ignite_npc(monster, bone_id, shit.weapon_id, 5)
+	end
+	
+	-----------------
+	-- Mini Napalm --
+	-----------------
+	-- 15 burn stacks to target + changes hit to Fire damage + standardizes bone_mult + 2 burn stacks to nearby targets
+	if (special_effect == "napalm") or (special_effect_2 == "napalm") then
+		spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
+		bone_mult = 1.00
+		shit.type = hit.burn
+		arti_handlers.napalm_damage(monster, shit.weapon_id)
+	end
+	
+	-----------------------------------
+	-- [NEW] Armor Buster/Acid Combo --
+	-----------------------------------
+	-- Increases ammo_mult by 0.3 and nullifies monster resistance
+	if (special_effect == "armorbuster") or (special_effect_2 == "armorbuster") or 
+		(arti_handlers.armorbuster_list[monster:id()] and arti_handlers.armorbuster_list[monster:id()] == true) then
+		spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
+		ammo_mult = ammo_mult + 0.30
+	end
+	
+	--------------------------
+	-- Fragmentation Rounds --
+	--------------------------
+	-- Chance to deal 30% increased damage on hit
+	if (special_effect == "frag") or (special_effect_2 == "frag") then
+		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
+		if math.random(100) <= frag_chance then
+			ammo_mult = ammo_mult * 1.3
+			arti_handlers.fragment_sound(npc)
+		end
+	end
+	
+	----------------------
+	-- Lightning Rounds --
+	----------------------
+	-- Changes hit to Shock damage + deals AoE damage to other targets on crits + standardizes monster resistance
+	if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
+		shit.type = hit.shock
+		
+		if is_critical and spec_monster_mult > 0.8 then
+			arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.5)
+		elseif is_critical then
+			arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.3)
+		end
+		
+		spec_monster_mult = ((spec_monster_mult < 1) and 1) or spec_monster_mult
+	end
+	
+	------------------------
+	-- [NEW] Shock Rounds --
+	------------------------
+	-- Ammo-specific shock stacks to a target; 25 or more stacks results in weakest Lightning AoE
+	if (special_effect == "shock") or (special_effect_2 == "shock") then
+		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
+		arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
+	end
+	
+	-----------------
+	-- Grav Rounds --
+	-----------------
+	-- Grants bonus bone_mult if hit is at least 100m + makes hit act as if was done at point-blank range (full damage + full AP)
+	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
+	-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
+	if (special_effect == "grav") or (special_effect_2 == "grav") then
+		if dist >= 50 then
+			local wpn_type = ini_sys:r_string(wpn:section(), "kind") or nil
+			if wpn_type then
+				if wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis")
+				or wpn_type == "w_shotgun" then
+					local grav_mult = (1 + clamp((dist - 49) * 0.003984, 0, 1)) or 1
+					bone_mult = bone_mult * grav_mult
+					ammo_mult = ammo_mult * grav_mult
+					printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
+				end
+			end
+		elseif dist >= 100 then
+			local grav_mult = (1 + clamp((dist - 99) * 0.00498, 0, 1)) or 1
+			bone_mult = bone_mult * grav_mult
+			ammo_mult = ammo_mult * grav_mult
+			printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
+		end
+		dist = 0
+	end
+	
+	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
+	if true_falloff then
+		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
+		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
+		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
+		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
+		
+		shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
+	else
+		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
+	end
+	printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
+	
+	if is_actor then	-- ilrathCXV (04/11/2024): Will lock these off from NPCs always as these might be the bigger culprits/has no effect on them
+		------------------------
+		-- [NEW] Graze Rounds --
+		------------------------
+		-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
+		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
+			local new_hit = shit
+			new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
+			local radius = (is_critical and 8) or 5
+			arti_handlers.graze_handler(monster, new_hit, radius)
+		end
+		
+		----------------
+		-- RIP Rounds --
+		----------------
+		-- Grants healing on successful hits
+		if (special_effect == "rip") or (special_effect_2 == "rip") then 
+			arti_handlers.lifesteal(monster, shit.power, false)
+		end
+		
+		------------------------------------
+		-- Chaos Rounds (if healing proc) --
+		------------------------------------
+		if chaos_effect == 5 then
+			db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
+		end
+	end
+	
+	return {
+		["shit"] = shit,
+		["bone_id"] = bone_id
+	}
 	
 end
 
@@ -1641,7 +1638,7 @@ function momo_do_falloff(dist, sec, w_speed, a_speed, air_res, w_speed_base, sil
 	if dist == 0 then return 1 end
 
 	dist 			= round_idp(dist, 2)
-	local eff_dis	= 5 + ((w_speed * a_speed) * 0.0125 * silencer_boost) or 0
+	local eff_dis	= 5 + ((w_speed * a_speed) * silencer_boost) or 0
 	
 	air_res 		= air_res * silencer_boost
 	air_res			= air_res / math.max((w_speed / w_speed_base), 1)
@@ -1652,6 +1649,7 @@ function momo_do_falloff(dist, sec, w_speed, a_speed, air_res, w_speed_base, sil
 	end
 	
 	local falloff	= clamp( (1 + (dist - eff_dis) * 0.05 * (air_res * 0.5 / (1.1 - air_res + 0.1))) , 1.0, 50.0)
+	-- printf("[True Falloff] Dist: %s | Eff. Dist: %s | Air Res: %s | Wep speed: %s | Bullet speed: %s | Falloff amt: %s | Falloff mod: %s", dist, eff_dis, air_res, w_speed, a_speed, falloff, round_idp((1 / falloff), 3))
 	
 	return round_idp((1 / falloff), 3)
 end
@@ -1661,7 +1659,9 @@ function bullet_on_impact(bullet)
     if not bullet or bullet.parent_id ~= 0 then return end
 
     local target = bullet.target_id ~= 65535 and level.object_by_id(bullet.target_id)
-    if target and target.alive and target:alive() then
+	if target and not target:alive() then 
+		-- do nothing (hopefully prevent log spam?)
+    elseif target then
         -- check for existing impact to the target
         local bullet_hits = bullet_store[bullet.bullet_id]
         if not bullet_hits then bullet_hits = {} end
