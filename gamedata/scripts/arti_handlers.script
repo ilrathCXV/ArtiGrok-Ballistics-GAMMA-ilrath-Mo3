@@ -32,7 +32,6 @@ burn_stack_list 	= {}
 burn_check_list 	= {}
 acid_stack_list 	= {}
 armorbuster_list 	= {}
-graze_list 	= {}
 
 if z_cxv_experience_perk_weapon_reload_hit_effects then
 	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
@@ -212,7 +211,6 @@ function enemy_on_death_callback(victim, who)
 	if shock_stack_list[victim_id] then shock_stack_list[victim_id] = nil end
 	if acid_stack_list[victim_id] then acid_stack_list[victim_id] = nil end
 	if armorbuster_list[victim_id] then armorbuster_list[victim_id] = nil end
-	if graze_list[victim_id] then graze_list[victim_id] = nil end
 	
 	if burn_stack_list[victim_id] and burn_stack_list[victim_id] > 19 then
 		burn_ignition(victim, db.actor:active_item(), burn_stack_list[victim_id])
@@ -490,10 +488,6 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 			printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
 			
 			obj:hit(new_hit)
-			graze_list[obj:id()] = true						-- Add their ID to a map list
-															-- Will be used to ensure we don't have infinite loop of Graze
-															-- Will check if NPC (mutant) is in the list (in grok_bo)
-															-- If in the list, nothing will happen
 			graze_hits = graze_hits + 1
 		end
 	end)
@@ -550,7 +544,7 @@ local custom_proj_table = {
 
 function particle_effects(obj, wpn, ammo_elapsed, grenade_elapsed, ammo_type, grenade_type)
 	
-	local particles_enabled = ballistics_mcm.get_config("particles") or true
+	local particles_enabled = ballistics_mcm.get_config("particles") or false
 	if not particles_enabled then return end
 	
     local ammo_table = utils_item.get_ammo(wpn:section(), wpn:id())

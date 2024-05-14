@@ -307,15 +307,6 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- skip all if not alive
 	if not monster:alive() then return false end
 	
-	-- ilrathCXV: Avoid Graze looping + no need to redo calculations (just for mutants)
-	if arti_handlers.graze_list[monster:id()] then
-		arti_handlers.graze_list[monster:id()] = false
-		return {
-			["shit"] = shit,
-			["bone_id"] = bone_id,
-		}
-	end
-	
 	-- have to put this here since we use this in NPC calculations
 	if shit.power >= 50 then return false end
 	
@@ -502,7 +493,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 			spec_monster_mult = 0.85
 		end
 		
-		if bone_id == 1 or bone_id == 6 or bone_id == 15 or bone_id == 33 then	-- upper legs
+		if bone_id == 15 or bone_id == 33 then	-- back legs/thighs
 			bone_mult = 1.20
 			printf("Critical Hit!")
 			is_critical = true
@@ -825,8 +816,14 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		------------------------
 		-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
 		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
-			local new_hit = shit
-			new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
+		
+			local new_hit = hit()
+			new_hit.type = shit.type 
+			new_hit.draftsman = shit.draftsman
+			new_hit.bone = shit.bone
+			new_hit.weapon_id = shit.weapon_id
+			new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
+			
 			local radius = (is_critical and 8) or 5
 			arti_handlers.graze_handler(monster, new_hit, radius)
 		end
@@ -866,16 +863,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 	if shit.power >= 50 then
 		surrender_bonus = 1
 		printf("npc is surrendering or wounded.")
-	end
-	
-	-- ilrathCXV: Avoid Graze looping + no need to redo calculations (just for mutants)
-	if arti_handlers.graze_list[npc:id()] then
-		arti_handlers.graze_list[npc:id()] = false
-		return {
-			["shit"] = shit,
-			["bone_id"] = bone_id,
-			["surrender_bonus"] = surrender_bonus,
-		}
 	end
 	
 	-- ilrathCXV: Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings
@@ -1566,9 +1553,18 @@ function npc_on_before_hit(npc, shit, bone_id)
 		------------------
 		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then 
 			local new_hit = shit
-			new_hit.power = (is_critical and (new_hit.power * 0.25)) or (new_hit.power * 0.05)
+			
+			local new_hit = hit()
+			new_hit.type = shit.type 
+			new_hit.draftsman = shit.draftsman
+			new_hit.bone = shit.bone
+			new_hit.weapon_id = shit.weapon_id
+			new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
+		
 			local radius = (is_critical and 8) or 5
 			arti_handlers.graze_handler(npc, new_hit, radius)
+			
+			printf("ERROR CHECKING: Shit power: %s", shit.power)
 		end
 	end
 	
