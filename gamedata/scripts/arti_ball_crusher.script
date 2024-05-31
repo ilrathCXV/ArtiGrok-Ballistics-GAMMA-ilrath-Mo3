@@ -19,7 +19,6 @@ local valid_crusher = {
     ["af_fireball"] 				= true,
 	["af_fire"]						= true,
 	["af_fire_loop"]				= true,
-	["cristall_flower"] 			= true,
     ["af_blood"] 					= true,
     ["af_mincer_meat"] 				= true,
 	["af_bracelet"]					= true,
@@ -37,6 +36,7 @@ local valid_crusher = {
 	["af_oasis_heart"]				= true,
 	["af_compass"]					= true,
 	["af_monolith"] 				= true,
+	["af_cristall_flower"]			= true,
 }
 
 local custom_rank = 

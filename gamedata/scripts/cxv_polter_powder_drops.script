@@ -4,7 +4,7 @@ function monster_on_net_destroy(npc)
 		return
 	end
 	
-	local polter_type = 0 -- 1 == tele/electric, 2 == flame, 3 == black
+	local polter_type = 0 -- 1 == tele/electric, 2 == flame, 3 == black, 4 == war room
 	
 	if (string.find(npc:section(), "tele")) then
 		polter_type = 1
@@ -12,6 +12,8 @@ function monster_on_net_destroy(npc)
 		polter_type = 2
 	elseif (string.find(npc:section(), "black")) then
 		polter_type = 3
+	elseif (string.find(npc:section(), "warlab")) then
+		polter_type = 4
 	end
 	
 	-- printf("[ArtiGrok] Polter Type: %s", polter_type)
@@ -24,18 +26,8 @@ function monster_on_net_destroy(npc)
 		
 		if not pos then return end
 		
-		if polter_type == 1 then -- Tele/Electro
-			for i=1, math.random(1,2) do
-				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
-			end
-		elseif polter_type == 2 then -- Flame
-			for i=1, math.random(2,3) do
-				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
-			end
-		elseif polter_type == 3 then -- Black
-			for i=1, math.random(3,5) do
-				alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
-			end
+		for i=1, math.random(polter_type,(polter_type + 2)) do
+			alife_create("powder_battery",vector():set(pos.x, pos.y + 0.5, pos.z), lvid, npc:game_vertex_id())
 		end
 
 	end

@@ -21,7 +21,7 @@ true_falloff		= get_config("true_falloff") or true
 difficulty_scaling 	= get_config("difficulty_scaling") or false
 npc_use_special		= get_config("npc_use_special") or false
 
-local cxv_tick = 45000
+local cxv_tick = 40000
 local last_tick = 0
 local bone_clear_time = 0
 
@@ -977,7 +977,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	------------------
 	-- Need in order to properly give correct damage and radius values
 	is_critical = false
-	
+		
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
@@ -1509,10 +1509,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 			pos.x = pos.x + (camdir.x * -0.0005)
 			pos.z = pos.z + (camdir.z * -0.0005)
 			fx:play_at_pos(pos)
-		end
-	else
-		custom_bone_value[custom_bone_id] = custom_bone_armor
-		
+		end	
 	end
 	
 	-- Add even more feedback on headshots
@@ -1522,7 +1519,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 		fx:play_at_pos(pos)
 	end
 	
-	--
+	-- Companions will retain their armor to avoid too many instant deaths
+	if (npc:has_info("npcx_is_companion") and npc_effects) then
+		custom_bone_value[custom_bone_id] = custom_bone_armor
+	end
 	
 	-- Double the damage if the NPC is wounded
 	-- This is for having better bonuses from PBA as wounded NPCs die instantly anyways.
@@ -1796,7 +1796,7 @@ _G.CBaseMonster__BeforeHitCallback = function(monster,shit,bone_id)
 	return flags.ret_value
 end
 
--- will clear the tables after 45 real-world seconds of the player no to ensure companions don't get one-tapped if their armor was shredded from the last fight
+-- will clear the tables after 40 real-world seconds of the player no to ensure companions don't get one-tapped if their armor was shredded from the last fight
 function actor_on_update()
 	-- no need to if the NPC options is disabled
 	if not npc_effects then return end
@@ -1808,6 +1808,17 @@ function actor_on_update()
 	empty_table(custom_bone_ap)
 	empty_table(custom_bone_hf)
 	empty_table(custom_bone_dmg)
+	
+	empty_table(arti_handlers.npc_stun)
+	empty_table(arti_handlers.grounded_stack_list)
+	empty_table(arti_handlers.shock_stack_list)
+	empty_table(arti_handlers.burn_stack_list)
+	empty_table(arti_handlers.burn_check_list)
+	empty_table(arti_handlers.acid_stack_list)
+	empty_table(arti_handlers.armorbuster_list)
+	
+	empty_table(bas_handler.weakened)
+	
 	printf("///////////   Bone Tables Reset: ArtiGrok BO v1.6.6  //////////////////")
 	
 end
