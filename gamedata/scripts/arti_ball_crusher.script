@@ -37,6 +37,7 @@ local valid_crusher = {
 	["af_compass"]					= true,
 	["af_monolith"] 				= true,
 	["af_cristall_flower"]			= true,
+	["af_cristall"]					= true,
 }
 
 local custom_rank = 
@@ -105,7 +106,7 @@ function crush_new(obj, bag, mode)
 	
 	if rank > 0 then
 		local condition = obj:condition() or 0.33
-		amount = clamp(15 * rank * condition, 1, 45)
+		amount = clamp(15 * rank * condition, 1, 60)
 		amount = math.floor(amount + 0.5)
 	end
 	
