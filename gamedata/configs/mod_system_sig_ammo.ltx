@@ -1,0 +1,49 @@
+[ammo_6.8x51_ap]:ammo_base ; Sig Spear
+GroupControlSection	= spawn_group
+discovery_dependency =
+$spawn			= "weapons\ammo\ammo_7.62x51_ap" ; option for Level Editor
+class			= AMMO
+cform                   = skeleton
+visual                  = dynamics\weapons\wpn_ammo\ammo_762x51_ap.ogf
+description				= ammo-6.8x51_ap_descr
+$prefetch 		= 64
+
+cost					 = 6250
+
+box_size		= 15
+
+
+inv_name		= ammo-6.8x51_ap
+inv_name_short		= ammo-6.8x51_ap
+inv_weight		= .22
+
+icons_texture                                       = ui\ui_ammo_fury_icon
+inv_grid_width     = 2
+inv_grid_height    = 1
+inv_grid_x         = 0
+inv_grid_y         = 0
+
+impair					= 1.5
+k_disp			= 0.56
+k_impulse		= 0.59
+k_ap		    		= 0.074	; GAMMA change
+k_hit			= 1.03 ;  1.1
+tracer_color_ID	= 1
+wm_size         = 0.0762
+k_air_resistance = 0.073
+k_cam_dispersion          = 0.8
+k_bullet_speed	= 1.7
+
+tier                                     = 5
+
+[ammo_6.8x51_ap_bad]:ammo_6.8x51_ap
+cost					= 13600
+
+inv_name				= ammo-6.8x51_ap_lightning
+inv_name_short			= ammo-6.8x51_ap_lightning
+description				= ammo-6.8x51_ap_lightning_descr
+
+impair					= 1.5
+k_hit					= 1.2
+k_ap					= 0.10
+k_bullet_speed			= 2.2

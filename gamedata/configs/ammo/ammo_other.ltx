@@ -16,14 +16,17 @@ k_hit		= 1.6
 k_ap		= 1.9		;0.335
 cost        = 27200
 
-[ammo_50_bmg_bad]:ammo_base ; m2 ap
+[ammo_50_bmg_bad]:ammo_base ; m2 "dragon"
 name		= ammo_new_50_ap
 k_hit		= 1.4
 k_ap		= 2.2		;0.399
+special 	= napalm
 cost        = 32200
 
+dg_ammo		= ammo_50_bmg
+dg_chance   = 0.9
+
 [ammo_12x76_bull]:ammo_base ; bull
-handler     = arti_handlers.slug
 name		= ammo_new_12x76_bull
 k_hit		= 3
 k_ap		= 0.45		;0.25
@@ -34,3 +37,4 @@ name		= ammo-gauss
 k_hit		= 2.5
 k_ap		= 5
 cost		= 20512
+special		= lightning

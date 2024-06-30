@@ -20,7 +20,8 @@ function corrosive_cloud(npc, bone_id)
     play_particle(npc, bone_id, "artefact\\effects\\af_acidic_show_01")
     play_sound_on_location("acid", npc)
     level.iterate_nearest(npc:position(), 5, function(obj)
-        if obj and obj:alive() and obj:id() ~= AC_ID then
+        if obj and obj:id() ~= AC_ID then
+			if not obj:alive() then return end
 			if weakened[obj:id()] and weakened[obj:id()] > 0 then
 				weakened[obj:id()] = weakened[obj:id()] + 1
 			else
@@ -38,23 +39,32 @@ end
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
-local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
-_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
-	cloudkill_dmg_reduction(shit, bone_id)
-	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
-end
-
-
 function cloudkill_dmg_reduction(shit, bone_id)
 	if not shit.draftsman then return end
+	if shit.draftsman:id() == db.actor:id() then return end
 	
-    if weakened[shit.draftsman:id()] and shit.draftsman:alive() then
+    if weakened[shit.draftsman:id()] then
 		local damage_reduction = 1 - (weakened[shit.draftsman:id()] * 0.05)
 		damage_reduction = clamp(damage_reduction, 0.05, 0.4)
         shit.power = shit.power * damage_reduction
 		display_reduction = tonumber(100 - (damage_reduction * 100))
 		printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
     end
+end
+
+function cloudkill_dmg_increase(victim, shit, bone_id)
+    if weakened[victim:id()] then
+		local damage_increase = 1 + (weakened[victim:id()] * 0.2)
+        shit.power = shit.power * damage_increase
+		display_increase = tonumber((damage_increase * 100))
+		printf("[ArtiGrok - BaS Handler] Cloudkill DMG Increase: %s%", display_increase)
+    end
+end
+
+local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
+_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
+	cloudkill_dmg_reduction(shit, bone_id)
+	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
 end
 
 function check_stun()
@@ -81,13 +91,16 @@ function se_on_unregister(se)
 end
 
 function on_death_callback(npc, who)
-    weakened[npc:id()] = nil
+    if weakened[npc:id()] then weakened[npc:id()] = nil end
 end
 
 function on_game_start()
     RegisterScriptCallback("npc_on_death_callback", on_death_callback)
     RegisterScriptCallback("monster_on_death_callback", on_death_callback)
-    RegisterScriptCallback("actor_on_before_hit", actor_on_before_hit)
+	
+	RegisterScriptCallback("npc_on_before_hit",cloudkill_dmg_increase)
+	RegisterScriptCallback("monster_on_before_hit",cloudkill_dmg_increase)
+	
     RegisterScriptCallback("server_entity_on_unregister", se_on_unregister)
 	RegisterScriptCallback("actor_on_update", check_stun)
 end

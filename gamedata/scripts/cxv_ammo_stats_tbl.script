@@ -1,45 +1,48 @@
 ----------------------------------------------------
 -- EDIT for ArtiGrok - ilrathCXV (01/17/23) 
 -- Added Knife Stat Compat. (credit to Momopate) - ilrathCXV (11/13/23)
+-- Added better stat reads (showing negative/red for bad stats - credit to Momopate) - ilrathCXV (05/03/24)
 ----------------------------------------------------
--- if a_wpo_parts then end
+
 if momopate_knife_stats then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
+local difficulty_scaling = ballistics_mcm.get_config("difficulty_scaling") or false
 
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
     ["damage"] = { 
-        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     unit= "st_perc", 		compare= false, sign=false,		sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
+        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=false,		sign_inverse = true,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
     ["ap"] = { 
-        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,      unit= "",  				compare= false, sign= false,	sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
+        index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,    	unit= "",  				compare= false, sign=false,		sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
+    ["mutant_mod"] = { 
+        index= 30, typ= "float",   name= "st_prop_k_mutant",      icon_p= "ui_wp_propery_08",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=true,		sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_mutant_mod"} },
+    ["gigant_mod"] = { 
+        index= 40, typ= "float",   name= "st_prop_k_gigant",      icon_p= "ui_wp_propery_08",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=true,		sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_gigant_mod"} },
+    ["stalker_mod"] = { 
+        index= 50, typ= "float",   name= "st_prop_k_stalker",     icon_p= "ui_wp_propery_08",            icon_n= "", track= false,  magnitude= 1,    	unit= "st_perc", 		compare= false, sign=true,		sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_stalker_mod"} },
 
     ["projectiles"] = { 
-        index= 30, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_projectiles"} },
-
-
-    ["hp"]= { 
-        index= 40, typ= "float",   name= "st_prop_k_hp",          icon_p= "ui_am_prop_restore_bleeding",  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",  		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_hp"} },
-    ["mp"]= { 
-        index= 50, typ= "float",   name= "st_prop_k_mp",          icon_p= "ui_am_prop_wound",  			  icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",   		compare= false, sign= true, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_mp"} },
-
+        index= 60, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_projectiles"} },
 
     ["accuracy"] ={ 
-        index= 60, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_accuracy"} } ,
+        index= 70, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= false, 	sign_inverse = true,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_accuracy"} } ,
     ["velocity"]={ 
-        index= 70, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_flatness"} } ,
+        index= 80, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= false, 	sign_inverse = true,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_flatness"} } ,
 
 	-- Momopate's Accurate Stats Addons
 	["range"]={
-		index = 80, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = false,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
+		index = 90, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
+	["falloff"]={ 
+		index = 100, typ = "float", name = "st_cxv_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
 	["penalty"]={
-		index = 90,typ = "float", name = "st_mp_a_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
+	    index = 110 ,typ = "float", name = "st_prop_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
 	
 	["special"]={ 
-        index= 100, typ= "float",  name= "st_prop_special",       icon_p= "ui_am_condition",              icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_special"} } ,
+        index=120, typ= "float",  name= "st_prop_special",       icon_p= "ui_am_condition",              icon_n= "", track= false,  magnitude= 1,      	unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_special"} } ,
     ["special_2"]={ 
-        index= 110, typ= "float",  name= "st_prop_extra",         icon_p= "ui_am_condition",           	  icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_extra_special"} } ,
+        index=130, typ= "float",  name= "st_prop_extra",         icon_p= "ui_am_condition",           	  icon_n= "", track= false,  magnitude= 1,      unit= "",   			compare= false, sign= false, 							show_always=false, value_functor= {"cxv_ammo_stats_tbl","prop_extra_special"} } ,
    	}
 end
 
@@ -50,6 +53,14 @@ if ish_item_stats then
         inject_stats()
     end
 end
+
+-- needed since GAMMA adjusts k_ap based on difficulty
+local difficulty_multiplier = {
+	[1]  = (difficulty_scaling and 1.3) or 1.0,
+	[2]  = (difficulty_scaling and 1.05) or 1.0,
+	[3]  = (difficulty_scaling and 0.90) or 1.0,
+	[4]  = (difficulty_scaling and 0.80) or 1.0,
+}
 
 local function armor_to_class(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22)
@@ -121,7 +132,23 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
                 local str
                 local ap = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_ap") or 0
-				ap = ap * 10
+				
+				local game_num = 1
+				
+				if difficulty_scaling then
+					local gameplay = alife_storage_manager.get_state().diff_game
+					if not (type(gameplay) == "table") then -- for old saves
+						alife_storage_manager.get_state().diff_game = {}
+						alife_storage_manager.get_state().diff_game["type"] = game_num
+						gameplay = alife_storage_manager.get_state().diff_game
+					end
+				
+					game_num = gameplay["type"] or game_num
+					if game_num > 4 then game_num = 4 end 				-- in case someone is using a custom difficulty
+				end
+				
+				
+				ap = ap * 10 * difficulty_multiplier[game_num]
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end
@@ -132,8 +159,11 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(frag_str)
 					elseif str_spec == "fire" then
-						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec)
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "burn_stacks") .. " " .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(fire_str)
+					elseif str_spec == "shock" then
+						local shock_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "shock_stacks") .. " " .. game.translate_string("st_ballistics_"..str_spec)
+						self.stats[i].txt:SetText(shock_str)	
 					elseif str_spec == "flinch" then
 						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec) .. game.translate_string("st_ballistics_"..str_spec)
 						self.stats[i].txt:SetText(flinch_str)
@@ -149,8 +179,11 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 						local frag_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(frag_str)
 					elseif str_spec_2 == "fire" then
-						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "ignite") .. game.translate_string("st_ballistics_"..str_spec_2)
+						local fire_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "burn_stacks") .. " " .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(fire_str)
+					elseif str_spec_2 == "shock" then
+						local shock_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, "shock_stacks") .. " " .. game.translate_string("st_ballistics_"..str_spec_2)
+						self.stats[i].txt:SetText(shock_str)
 					elseif str_spec_2 == "flinch" then
 						local flinch_str = ini_ammo:r_float_ex(is_knife and knife_ammo_sec or sec, str_spec_2) .. game.translate_string("st_ballistics_"..str_spec_2)
 						self.stats[i].txt:SetText(flinch_str)
@@ -159,17 +192,25 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 					end
                 end
             end
-            if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") and (ini_ammo:r_string_ex(sec, "special") == "chaos" or ini_ammo:r_string_ex(sec, "special_2") == "chaos") then
-                self.stats[i].txt:SetText("60-160%")
-            end
         end
     end
 
 end
 
 function prop_damage(obj, sec)
-    -- return math.floor(100 * (ini_ammo:r_float_ex(sec, "k_hit") or SYS_GetParam(2, sec, "k_hit") or 1))
-	return math.floor(100 * (SYS_GetParam(2, sec, "k_hit") or 1))
+    local val = SYS_GetParam(2, obj and obj:section() or sec, "k_hit") or 1
+	
+	if val >= 1 then
+		val = val * -1
+	end
+	
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
+	else
+		return (round_idp(val * 100, 1))
+	end
+	
+	return 0
 end
 
 -- pull from the armor classification
@@ -177,47 +218,41 @@ function prop_ap(obj, sec)
 	return 1
 end
 
-function prop_hp(obj, sec)
-    local hp = ini_ammo:r_float_ex(sec, "k_hp") or 1
-    return hp > 1.01 and math.floor(100 * (hp - 1)) or 0
-end
-
-function prop_mp(obj, sec)
-    local mp = ini_ammo:r_float_ex(sec, "k_mp") or 1
-    return mp > 1.01 and math.floor(100 * (mp - 1)) or 0
-end
-
 function prop_projectiles(obj, sec)
     local proj = SYS_GetParam(2, sec, "buck_shot")
     return proj > 2 and proj or 0
 end
 
--- 'normal' bullet dispersion is out of 0.66
-local BASE = 0.7
 function prop_accuracy(obj, sec)
-    local accuracy = SYS_GetParam(2, sec, "k_disp") or BASE
-    local proj = SYS_GetParam(2, sec, "buck_shot")
-    if math.abs(accuracy - BASE) > 0.01 and proj == 1 then
-        return math.floor(100 * (BASE - accuracy)/BASE)
-    else return 0 end
+	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_disp") or 1)
+	
+	if val < 1 then
+		val = val * -1
+	end
+	
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
+	else
+		return (round_idp(val * 100, 1))
+	end
+	
+	return 0
 end
 
 
 function prop_flatness(obj, sec)
-    local flat = SYS_GetParam(2, sec, "k_bullet_speed")
-    if flat ~= 1 then
-        return math.floor(100 * (flat - 1))
-    else return 0
-    end
-end
-
-function prop_recoil(obj, sec)
-    if not enhanced_recoil_mcm then return 0 end
-    local recoil = SYS_GetParam(2, sec, "recoil")
-    if recoil ~= 1 then
-        return recoil
-    else return 0
-    end
+    local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_bullet_speed") or 1)
+	
+	if val >= 1 then
+		val = val * -1
+	end
+	
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
+	else
+		return (round_idp(val * 100, 1))
+	end
+	return 0
 end
 
 function prop_wear(obj, sec)
@@ -241,69 +276,118 @@ end
 -- Momopate's Additions
 function prop_nopen(obj, sec)
 	local penalty = 0
+	local flinch_chance = 0
+	local ammo_sec = obj and obj:section() or sec
 	
-	if grok_bo then
-		local ammo_sec = obj and obj:section() or sec
-		if grok_bo.hp_rounds and grok_bo.hp_rounds[ammo_sec] then
-			penalty = (1 / (grok_bo.hp_rounds[ammo_sec])) * 100
-		end
-	else
-		return 0
+	flinch_chance = ini_ammo:r_float_ex(ammo_sec, "flinch") or 0
+	flinch_chance = flinch_chance * 0.01
+	if cxv_artigrok_bo.hp_rounds[ammo_sec] then
+		hp_penalty = cxv_artigrok_bo.hp_rounds[ammo_sec] or 1
+		penalty = ((1 + flinch_chance) / hp_penalty)
 	end
 	
-	local val = (penalty ~= 100) and penalty or 0
+	local val = (penalty ~= 1) and penalty or 0
 	
-	if val > 100 then
+	if val == 0 then return 0 end
+	
+	if val >= 1 then
 		val = val * -1
 	end
 	
-	if (penalty > 10) then
-		return round_idp(val, 1)
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
 	else
-		return round_idp(val, 2)
+		return (round_idp(val * 100, 1))
 	end
 	
 	return 0
 end
 
 function prop_falloff(obj, sec)
-	local perc = round_idp(100 * (SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
-	if perc >= 110 then
-		perc = (perc - 110) * -1
+	local perc = round_idp((SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
+	if perc < 1 then
+		perc = perc * -1
 	end
-	return (round_idp(((perc * 100) / 110), 1))
+	
+	if (perc < 0.1) and (perc > -0.1) then
+		return (round_idp(perc * 100, 2))
+	else
+		return (round_idp(perc * 100, 1))
+	end
 end
 
 function prop_range(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_dist") or 1)
-	if val > 1 then
+	if val >= 1 then
+		val = val * -1
+	end
+	
+	if (val < 0.1) and (val > -0.1) then
+		return (round_idp(val * 100, 2))
+	else
+		return (round_idp(val * 100, 1))
+	end
+	return 0
+end
+
+
+function prop_mutant_mod(obj, sec)
+	local mutant_mod = ini_ammo:r_float_ex(sec, "mutant_mod") or 0.85
+    if mutant_mod ~= 0.85 then
+        return math.floor(100 * (mutant_mod - 0.85))
+    else 
+		return 0
+	end
+end
+
+function prop_gigant_mod(obj, sec)
+	local gigant_mod = ini_ammo:r_float_ex(sec, "gigant_mod") or 0.85
+    if gigant_mod ~= 0.85 then
+        return math.floor(100 * (gigant_mod - 0.85))
+    else 
+		return 0
+	end
+end
+
+function prop_stalker_mod(obj, sec)
+	local stalker_mod = ini_ammo:r_float_ex(sec, "stalker_mod") or 1
+    if stalker_mod ~= 1 then
+        return math.floor(100 * (stalker_mod - 1))
+    else 
+		return 0
+	end
+end
+
+function prop_degr(obj, sec)
+	local val = (SYS_GetParam(2, obj and obj:section() or sec, "impair") or 1)
+	if val < 1 then
 		val = val * -1
 	end
 	if val == 1 then 
 		return 0 
 	end
 	if (val < 0.1) then
-		return (round_idp(val * 100, 1))
+		return (round_idp(val * 100, 2))
 	else
-		return (round_idp(val * 100, 0))
+		return (round_idp(val * 100, 1))
 	end
 	return 0
 end
 
-function prop_cost(obj, sec)
-	local val = 1
-	local custom_cost = ballistics_mcm.get_config("cost") or false
-	if custom_cost then
-		val = ini_ammo:r_float_ex(sec, "cost") or  (SYS_GetParam(2, obj and obj:section() or sec, "cost")) or 1
+function on_option_change()
+	if ui_mcm and ballistics_mcm then
+		difficulty_scaling = ballistics_mcm.get_config("difficulty_scaling") or false
+		difficulty_multiplier = {
+			[1]  = (difficulty_scaling and 1.3) or 1.0,
+			[2]  = (difficulty_scaling and 1.05) or 1.0,
+			[3]  = (difficulty_scaling and 0.90) or 1.0,
+			[4]  = (difficulty_scaling and 0.80) or 1.0,
+		}
 	end
-	if not custom_cost then
-		val = (SYS_GetParam(2, obj and obj:section() or sec, "cost")) or 1
-	end
-	if val <= 1 then 
-		return 0 
-	end
-	if val > 1 then
-		return val
-	end
-	return 0
+end
+
+function on_game_start()
+	-- ilrathCXV (04/01/2024): MCM options
+	RegisterScriptCallback("on_option_change",on_option_change)
+	on_option_change()
 end

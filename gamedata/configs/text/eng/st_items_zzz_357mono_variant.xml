@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	
+	<string id="ammo_357_fmj_head">
+		<text>.357 FMJ+ 'Headhunter' rounds (FMJ+)</text>
+	</string>
+	<string id="ammo_357_fmj_head_descr">
+		<text>This anomalous modifaction of the .357 Monolithic FMJ has the unique ability to penetrate all types of armor and all forms of bullet resistance when striking a target's head or a mutant's vitals. However, if the round does not hit either of those areas, the round's unique properties will be nullifed, leaving you with a round whose performance is akin to that of rusty ammo.</text>
+	</string>
+	<string id="ammo_357_fmj_head_s">
+		<text>.357 'Headhunter' (FMJ+)</text>
+	</string>
+	
+</string_table>

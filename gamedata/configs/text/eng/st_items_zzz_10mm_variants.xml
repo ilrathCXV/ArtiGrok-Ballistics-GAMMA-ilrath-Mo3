@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+
+	<string id="st_ammo_10x25_fmj">
+		<text>10mm Auto Standard (FMJ)</text>
+	</string>
+	<string id="st_ammo_10x25_ap">
+		<text>10mm Auto HC (AP)</text>
+	</string>
+	<string id="st_ammo_10x25_hydrashok">
+		<text>10mm Auto XTP-JHP (HP)</text>
+	</string>
+
+
+	<string id="ammo_10x25_ap_ghost">
+		<text>10mm 'Ghost' rounds (AP+)</text>
+	</string>
+	<string id="ammo_10x25_ap_ghost_descr">
+		<text>10mm rounds utilizing Volatile Artefact Fragments to provide increased stealth capabilities. When used with a suppressed weapon, these rounds deal increased stopping power and armor penetration power on unaware targets. Additionally, hits from these rounds can send a chill down the target's spine, causing them to flinch and cause a malfunction with their weapon.</text>
+	</string>
+
+	<string id="ammo_10x25_fmj_plinker">
+		<text>10mm 'Plinker' rounds (FMJ+)</text>
+	</string>
+	<string id="ammo_10x25_fmj_plinker_descr">
+		<text>10mm rounds utilizing Chemical Artefact Fragments to provide additional damage to enemy armor. Although the round does not appear to boast incredible armor penetration or stopping power, the Fragments allow the round to break down armor much easier, allowing for penetration much earlier than standard FMJ. Furthermore, this round gains greatly increased damage on Stalkers, especially once armor is penetrated.\n 
+		\nThese rounds offer very little stopping power against mutants of any kind, usually resulting in them shrugging off any hits.</text>
+	</string>
+	
+	<string id="ammo_10x25_hydra_blender">
+		<text>10mm 'Blender' rounds (HP+)</text>
+	</string>
+	<string id="ammo_10x25_hydra_blender_descr">
+		<text>Zone-produced 10mm hunting rounds utilizing Volatile Artefact Fragments. The Fragments allow the round to nearly guarantee fragmentation on hits, granting the round more stopping power on peentrated hits or against mutants. The fragmentation's effects are often described as blending the insides of the target.</text>
+	</string>
+
+</string_table>

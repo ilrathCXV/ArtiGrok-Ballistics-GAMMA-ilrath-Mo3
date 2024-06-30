@@ -2,18 +2,47 @@
 name			= st_ammo_10x25_fmj
 k_hit			= 0.85
 k_ap			= 0.15
-cost			= 1500
+
+[ammo_10x25_fmj_bad]:ammo_base
+name			= ammo_10x25_fmj_plinker
+k_hit			= 0.65
+k_ap			= 0.15
+special			= armorbuster
+stalker_mod		= 2.0
+mutant_mod		= 0.5
+gigant_mod		= 0.5
+dg_ammo     	= ammo_10x25_fmj
+dg_chance   	= 0.85
 
 [ammo_10x25_ap]:ammo_base
 name			= st_ammo_10x25_ap
 k_hit			= 0.68
 k_ap			= 0.3
-cost			= 3100
 
-[ammo_10x25_hydrashok]
+[ammo_10x25_ap_bad]:ammo_base
+name			= ammo_10x25_ap_ghost
+k_hit			= 1.05
+k_ap			= 0.38
+special     	= ambush
+special_2		= flinch
+flinch			= 20
+dg_ammo     	= ammo_10x25_ap
+dg_chance   	= 0.85
+
+[ammo_10x25_hydrashok]:ammo_base
 name			= st_ammo_10x25_hydrashok
 k_hit			= 1.3
 k_ap			= 0.08
-k_hp	    	= 1.5
-k_mp	    	= 1.18
-cost			= 2250
+mutant_mod		= 1
+gigant_mod		= 1.6
+
+[ammo_10x25_hydrashok_bad]:ammo_base
+name			= ammo_10x25_hydra_blender
+k_hit			= 1.6
+k_ap			= 0.05
+special			= frag
+frag			= 85
+mutant_mod		= 1.10
+gigant_mod		= 1.95
+dg_ammo     	= ammo_10x25_hydrashok
+dg_chance   	= 0.85

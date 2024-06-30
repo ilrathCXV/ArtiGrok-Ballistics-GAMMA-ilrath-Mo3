@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	
+	<string id="ammo_357_fmj_mono">
+		<text>.357 Monolithic rounds (FMJ)</text>
+	</string>
+	<string id="ammo_357_fmj_mono_descr">
+		<text>The .357 Monolithic round is a pseudo-FMJ bullet. The round's unique nose design offers high tissue damage while also offering greater penetration compared to a .357 HP round.</text>
+	</string>
+	<string id="ammo_357_fmj_mono_s">
+		<text>.357 Monolithic (FMJ)</text>
+	</string>
+	
+</string_table>

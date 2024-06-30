@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	
+	<string id="ammo_9x21_sp11">
+		<text>9x21 mm SP11 (FMJ)</text>
+	</string>
+	<string id="ammo_9x21_sp11_descr">
+		<text>Pistol cartridge with a lead-cored bullet is designed to engage unprotected enemy manpower, in protective equipment without metal protective plates. The cartridge consists of a lead core in a bimetallic sheath.</text>
+	</string>
+	
+	<string id="ammo_9x21_sp12">
+		<text>9x21 mm SP12 (HP)</text>
+	</string>
+	<string id="ammo_9x21_sp12_descr">
+		<text>Pistol cartridge with an expansive bullet designed to destroy unprotected enemy manpower and to fire in confined spaces.</text>
+	</string>
+
+</string_table>

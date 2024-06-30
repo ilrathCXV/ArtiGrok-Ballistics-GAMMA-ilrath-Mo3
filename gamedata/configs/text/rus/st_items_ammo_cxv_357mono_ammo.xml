@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Ammunition
+-->
+
+<string_table>
+	
+	<string id="ammo_357_fmj_mono">
+		<text>Патроны.357 FMJ-Монолитные</text>
+	</string>
+	<string id="ammo_357_fmj_mono_descr">
+		<text>.357 Монолитный - патрон с псевдо-цельнометаллической оболоченной пулей. Благодаря уникальному дизайну кончика пули удалось добиться высокого показателя повреждений тканей и даже большей пробивной способности, чем у патрона .357 HP. \n \n%c[ui_gray_2] - %c[ui_gray_2] пробивает броню класса: %c[ui_gray_1]BR4 (40)\n%c[ui_gray_2] - %c[ui_gray_2] повреждение тканей: %c[ui_gray_1]высокое - очень высокое</text>
+	</string>
+	<string id="ammo_357_fmj_mono_s">
+		<text>.357 Монолитный</text>
+	</string>
+	
+</string_table>

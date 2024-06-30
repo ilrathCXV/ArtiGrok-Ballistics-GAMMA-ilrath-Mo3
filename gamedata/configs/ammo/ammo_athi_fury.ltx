@@ -2,8 +2,15 @@
 ;; 6.8x 51 Fury AP ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-[ammo_6.8x51_ap]:ammo_base
+[ammo_6.8x51_ap]
 name		= ammo-6.8x51_ap
 k_hit		= 1.0
 k_ap		= 0.74
-cost        = 7500
+
+[ammo_6.8x51_ap_bad]
+name		= ammo-6.8x51_ap_lightning
+k_hit		= 1.2
+k_ap		= 1.00
+special		= lightning
+dg_ammo     = ammo_6.8x51_ap
+dg_chance   = 0.95

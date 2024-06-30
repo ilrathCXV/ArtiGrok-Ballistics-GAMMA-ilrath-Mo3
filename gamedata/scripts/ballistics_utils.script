@@ -5,7 +5,6 @@
 -- Utility scripts to help calculate things.
 
 get_config = ballistics_mcm.get_config
-print_dbg = ballistics_mcm.print_dbg
 
 ini_ammo = ini_file("ammo\\importer.ltx")
 ini_damage = ini_file("creatures\\damages.ltx")
@@ -116,6 +115,7 @@ limbs = {
 }
 -- play particle at npc bone
 function play_particle(npc, bone_id, name)
+	if not npc then return end
     bone_id = (not bone_id or bone_id == 65535) and 1 or bone_id
     bone_name = Bone_IDs[bone_id] or "bip01_spine"
     local particle = particles_object(name)
@@ -162,7 +162,7 @@ function play_sound_distance(snd, distance)
     snd_to_play = snd_to_play .. math.random(ini_sounds:r_float_ex(snd, to_use.."_amt") or 1)
 	local s = xr_sound.get_safe_sound_object(snd_to_play)
 	if s then
-        -- print_dbg("Playing %s", snd_to_play)
+        -- printf("[Ballistics Utils] Playing %s", snd_to_play)
 		s:play(db.actor, 0, sound_object.s2d)
         -- snd.volume = 1
 		s.volume = (distance > 10) and 0.3 + (0.7 * (1 - (clamp(distance, 2, 100) - 2)/98)) or 1
@@ -174,27 +174,4 @@ function get_distance(shooter, npc)
     local npc_pos = npc:position()
 	local shooter_pos = shooter:position()
 	return npc_pos:distance_to(shooter_pos)
-end
-
-
-function on_get_item_cost(kind, obj, profile, calculated_cost, ret)
-	if not (obj and profile) then
-		return nil
-	end
-
-    if not get_config("cost") then return end
-
-	local sec = obj:section()
-	local discount = profile.discount
-
-	local ammo = IsItem("ammo",sec)
-	if ammo and ini_ammo:section_exist(sec) and ini_ammo:r_float_ex(sec, "cost") then
-        ret.new_cost = ini_ammo:r_float_ex(sec, "cost") * discount * (obj:ammo_get_count() / ammo)
-	end
-end
-
-function on_game_start()
-
-    RegisterScriptCallback("on_get_item_cost", on_get_item_cost)
-
 end

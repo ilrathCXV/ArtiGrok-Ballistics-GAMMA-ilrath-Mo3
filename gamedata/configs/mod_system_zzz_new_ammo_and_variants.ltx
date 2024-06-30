@@ -1,0 +1,694 @@
+; This will include all modded ammo additions + their variants
+; Mod author names of those who originally created the ammo will be included as well
+; Variants (bad ammo) stats are created by me - ilrathCXV - but the authors deserver their recognition for the ammo itself
+
+; Ammo Types covered (from top to bottom):
+; 9x21, .45, .357, 20x70, 6.8 FURY, .338 Federal, 23x75, 10mm, .300 Blackout
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 9x21 Extra Ammo - ilrathCXV ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+![ammo_9x21_sp10]		; balance reasons
+!impair
+box_size				= 18
+
+[ammo_9x21_sp10_bad]:ammo_9x21_sp10
+icons_texture	= ui\ui_icon_api_sp10_9x21
+inv_name				= ammo_9x21_sp10_bad
+inv_name_short			= ammo_9x21_sp10_bad
+description				= ammo_9x21_sp10_bad_descr
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+
+cost			= 4100
+k_hit			= 1.25
+!impair
+k_ap			= 0.050
+
+tier			= 4
+
+[ammo_9x21_sp11]:ammo_base		; FMJ equivalent
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_9x21_sp11"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_Hydro.ogf
+$prefetch 				= 64
+
+cost					= 1000
+box_size				= 18
+
+inv_name				= ammo_9x21_sp11
+inv_name_short			= ammo_9x21_sp11
+description				= ammo_9x21_sp11_descr
+inv_weight				= .19
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_sp11_9x21
+
+k_disp					= 0.66
+k_hit					= 1.35
+k_impulse				= 1.0
+k_ap					= 0.023
+wm_size         		= 0.088
+k_air_resistance 		= 0.8
+k_cam_dispersion		= 0.7
+k_bullet_speed			= 1.25
+
+tier					= 2
+
+[ammo_9x21_sp11_bad]:ammo_9x21_sp11
+icons_texture	= ui\ui_icon_plus_sp11_9x21
+inv_name				= ammo_9x21_sp11_bad
+inv_name_short			= ammo_9x21_sp11_bad
+description				= ammo_9x21_sp11_bad_descr
+
+cost			= 4250
+k_hit			= 0.78
+k_ap			= 0.028
+!impair
+k_impulse		= 1.15
+
+tier			= 3
+
+[ammo_9x21_sp12]:ammo_base			; HP equivalent
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_9x21_sp12"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_Hydro.ogf
+$prefetch 				= 64
+
+cost					= 1800
+box_size				= 18
+
+inv_name				= ammo_9x21_sp12
+inv_name_short			= ammo_9x21_sp12
+description				= ammo_9x21_sp12_descr
+inv_weight				= .12
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_sp12_9x21
+
+k_disp					= 0.66
+k_hit					= 2.15
+k_impulse				= 1.3
+k_ap					= 0.015
+wm_size         		= 0.088
+k_air_resistance 		= 0.8
+k_bullet_speed			= 1.35
+k_cam_dispersion		= 0
+!impair
+
+tier					= 3
+
+[ammo_9x21_sp12_bad]:ammo_9x21_sp12
+icons_texture	= ui\ui_icon_hphl_sp12_9x21
+inv_name				= ammo_9x21_sp12_bad
+inv_name_short			= ammo_9x21_sp12_bad
+description				= ammo_9x21_sp12_bad_descr
+
+cost			= 2160
+k_hit			= 2.25
+k_ap			= 0.01
+!impair
+k_impulse		= 1.3
+k_disp			= 0.45
+k_bullet_speed	= 1.75
+
+tier			= 4
+
+; == DUMMY AMMO ===
+[ammo_9x21_sp10_verybad]:ammo_9x21_sp10
+tier					= 1
+
+[ammo_9x21_sp11_verybad]:ammo_9x21_sp11
+tier					= 1
+
+[ammo_9x21_sp12_verybad]:ammo_9x21_sp12
+tier					= 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; .45 AP Behemoth - etapomom ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_11.43x23_ap]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency	=
+$spawn					= "weapons\ammo\ammo_11.43x23_ap"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_fmj.ogf
+$prefetch				= 64
+
+cost					= 5220
+box_size				= 14
+
+inv_name				= ammo_11.43x23_ap
+inv_name_short			= ammo_11.43x23_ap_s
+description				= ammo_11.43x23_ap_descr
+inv_weight				= .38
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_45behemoth
+
+k_disp					= 0.66
+k_hit					= 2.00
+k_impulse				= 0.70
+k_ap					= 0.028
+wm_size					= 0.1143
+k_air_resistance		= 0.7
+k_bullet_speed			= 1.875
+
+tracer					= on
+tracer_color_ID			= 2
+
+tier					= 4
+
+[ammo_11.43x23_ap_bad]:ammo_11.43x23_ap
+GroupControlSection		= spawn_group
+discovery_dependency	=
+$spawn					= "weapons\ammo\ammo_11.43x23_ap_bad"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_1143x23_fmj.ogf
+$prefetch				= 64
+
+cost					= 13320
+box_size				= 14
+
+inv_name				= ammo_11.43x23_ap_bad
+inv_name_short			= ammo_11.43x23_ap_bad_s
+description				= ammo_11.43x23_ap_bad_descr
+inv_weight				= .38
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_45behemoth_old
+
+k_disp					= 0.66
+k_hit					= 1.25
+k_impulse				= 0.70
+k_ap					= 0.035
+wm_size					= 0.1143
+k_air_resistance		= 0.7
+k_bullet_speed			= 1.875
+impair 					= 1.4
+
+
+tracer					= on
+tracer_color_ID			= 2
+
+tier					= 4
+
+; == DUMMY AMMO ===
+[ammo_11.43x23_ap_verybad]:ammo_11.43x23_ap
+cost					= 2110
+
+k_hit					= 2.00
+k_ap					= 0.028
+impair					= 3.00
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; .357 Monolithic FMJ - ilrathCXV ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[ammo_357_fmj_mono]:identity_immunities,default_weapon_params,ammo_base ; FMJ equivalent
+GroupControlSection	= spawn_group
+discovery_dependency =
+$spawn			= "weapons\wpn_ammo\ammo_357_hp_mag" ; option for Level Editor
+class			= AMMO
+cform                   = skeleton
+visual                  = dynamics\weapons\wpn_ammo\ammo_357_jhp.ogf
+$prefetch 		= 64
+
+cost					= 4150
+box_size				= 13
+
+inv_name				= ammo_357_fmj_mono
+inv_name_short			= ammo_357_fmj_mono_s
+description				= ammo_357_fmj_mono_descr
+inv_weight				= .23
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_357_fmj_mono
+
+k_disp			= 0.5
+k_hit			= 1.25	;2.0 ;  1.25
+k_impulse		= 0.75
+k_ap			= 0.040
+wm_size        	= 0.048
+k_air_resistance = 0.8
+k_cam_dispersion          = 1.1
+tracer_color_ID	= 1
+k_bullet_speed	= 1.5
+
+tier                                     = 2
+
+[ammo_357_fmj_mono_bad]:ammo_357_fmj_mono ; headhunter
+cost 				= 13280
+
+inv_name				= ammo_357_fmj_head
+inv_name_short			= ammo_357_fmj_head_s
+description				= ammo_357_fmj_head_descr
+
+k_disp				= 0.5
+k_hit				= 2.00
+k_impulse			= 0.75
+k_ap				= 0.005
+wm_size        		= 0.048
+k_air_resistance 	= 0.5
+k_cam_dispersion 	= 1.1
+
+tracer_color_ID		= 1
+k_bullet_speed		= 1.75
+
+tier 				= 3
+
+; == DUMMY AMMO ===
+[ammo_357_fmj_mono_verybad]:ammo_357_fmj_mono
+cost = 100
+tier = 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 20x70 Slugs - etapomom ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+![ammo_20x70_buck]
+!impair
+
+[ammo_20x70_buck_bad]:ammo_20x70_buck
+cost					= 1000
+
+inv_name				= ammo_20x70_buck_3bk
+inv_name_short			= ammo_20x70_buck_3bk
+description				= ammo_20x70_buck_3bk_descr
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070_3bk
+
+k_disp			= 4.0
+k_hit			= 0.195
+k_ap			= 0.002
+buck_shot		= 17
+wm_size         = 0.014
+k_cam_dispersion          = 1.5
+!impair
+
+tier                                     = 3
+
+[ammo_20x70_devastator]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_20x70_devastator"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_12x76_zhekan.ogf
+$prefetch 				= 64
+
+cost					= 900
+box_size				= 10
+
+inv_name				= ammo_20x70_devastator
+inv_name_short			= ammo_20x70_devastator
+description				= ammo_20x70_devastator_descr
+inv_weight				= .5
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070dev
+
+k_dist					= 1.0
+k_disp					= 0.45
+k_hit					= 2.33
+k_impulse				= 2.0
+k_ap					= 0.03
+wm_size					= 0.2070
+k_air_resistance		= 1.5
+k_cam_dispersion		= 1.0
+;impair					= 1.75
+!impair
+
+tracer					= on
+tracer_color_ID			= 0
+
+tier					= 3
+
+[ammo_20x70_devastator_bad]:ammo_20x70_devastator
+cost					= 1200
+
+inv_name				= ammo_20x70_devastator_glass
+inv_name_short			= ammo_20x70_devastator_glass
+description				= ammo_20x70_devastator_glass_descr
+inv_weight				= .5
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070dev_glass
+
+k_dist					= 0.75
+k_disp					= 0.75
+k_hit					= 2.5
+k_impulse				= 1.5
+k_ap					= 0.001
+k_air_resistance		= 1.45
+impair					= 1.75
+
+tracer					= off
+
+tier					= 4
+
+[ammo_20x70_star]:ammo_base
+GroupControlSection		= spawn_group
+discovery_dependency 	=
+$spawn					= "weapons\ammo\ammo_20x70_star"
+class					= AMMO_S
+cform					= skeleton
+visual					= dynamics\weapons\wpn_ammo\ammo_12x76_dart.ogf
+$prefetch 				= 64
+
+cost					= 2500
+box_size				= 10
+
+inv_name				= ammo_20x70_star
+inv_name_short			= ammo_20x70_star
+description				= ammo_20x70_star_descr
+inv_weight				= .45
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070star
+
+k_dist					= 1.0
+k_disp					= 0.4
+k_hit					= 1.95
+k_impulse				= 1.85
+k_ap					= 0.05
+wm_size					= 0.2070
+k_air_resistance		= 1.0
+k_cam_dispersion		= 1.5
+;impair					= 2.0
+!impair
+
+tracer					= on
+tracer_color_ID			= 3
+
+tier					= 4
+
+[ammo_20x70_star_bad]:ammo_20x70_star
+cost					= 9100
+
+inv_name				= ammo_20x70_star_lightning
+inv_name_short			= ammo_20x70_star_lightning
+description				= ammo_20x70_star_lightning_descr
+inv_weight				= .45
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+icons_texture			= ui\ui_icon_2070star_lightning
+
+k_disp					= 0.5
+k_hit					= 2.15
+k_ap					= 0.06
+k_air_resistance		= 0.9
+k_cam_dispersion		= 1.65
+impair					= 1.75
+
+tier					= 5
+
+; == DUMMY AMMO ===
+[ammo_20x70_buck_verybad]:ammo_20x70_buck
+cost					= 9
+impair					= 5
+
+[ammo_20x70_devastator_verybad]:ammo_20x70_devastator
+cost					= 9
+impair					= 5
+
+[ammo_20x70_star_verybad]:ammo_20x70_star
+cost					= 18
+impair					= 5
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 6.8 FURY - Andtheherois (ATHI) ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; found in mod_system_sig_ammo.ltx (for compat. reasons)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; .338 Fedeeral Explosive - ilrathCXV ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+![ammo_338_federal]
+!impair
+
+[ammo_338_federal_bad]:ammo_338_federal
+icons_texture	= ui\ui_icon_338_fed_cloudkill
+inv_name				= ammo_338_fed_exp
+inv_name_short			= ammo_338_fed_exp_s
+description				= ammo_338_fed_exp_descr
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+
+cost			= 16100
+k_disp			= 0.75
+k_hit			= 0.75
+k_impulse		= 1.25
+!impair
+k_ap			= 0.08
+wm_size         = 0.075
+k_air_resistance = 0.08
+
+tier			= 4
+
+; == DUMMY AMMO ===
+[ammo_338_federal_verybad]:ammo_338_federal
+cost			= 65
+tier			= 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 23x75 Variants - ilrathCXV ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+![ammo_23x75_shrapnel]
+!impair
+
+[ammo_23x75_shrapnel_bad]:ammo_23x75_shrapnel ;was Chaos, now Grav
+icons_texture	= ui\ui_icon_23x75_chaos
+inv_name				= ammo_23x75_grav
+inv_name_short			= ammo_23x75_grav_s
+description				= ammo_23x75_grav_descr
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+
+cost				= 7260
+!impair
+k_ap				= 0.003
+k_bullet_speed		= 3.30
+k_air_resistance 	= 0.01
+k_disp            	= 1.25
+
+tier			= 4
+
+![ammo_23x75_barrikada]
+!impair
+
+[ammo_23x75_barrikada_bad]:ammo_23x75_barrikada
+icons_texture	= ui\ui_icon_23x75_mini_napalm
+inv_name				= ammo_23x75_mini_napalm
+inv_name_short			= ammo_23x75_mini_napalm_s
+description				= ammo_23x75_mini_napalm_descr
+
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 0
+inv_grid_y				= 0
+
+cost			= 18100
+k_hit			= 3.5
+k_ap			= 0.030
+!impair
+k_impulse		= 3.5
+k_bullet_speed  = 1.5
+wm_size         = 0.25
+k_air_resistance = 0.925
+
+tier			= 4
+
+![ammo_23_eco]
+!impair
+k_hit				= 0.4
+box_size			= 8
+cost        		= 10470
+description 		= ammo_new_23_eco_descr
+tier				= 4
+
+; == DUMMY AMMO ===
+[ammo_23x75_shrapnel_verybad]:ammo_23x75_shrapnel
+cost			= 20
+tier			= 1
+
+[ammo_23x75_barrikada_verybad]:ammo_23x75_barrikada
+cost			= 95
+tier			= 2
+
+;;;;;;;;;;;;;;;;;;;
+; 10mm Ammo - MrB ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;
+; these are solely personal stat edits + variants
+; requires the 10mm mod itself to use these
+
+![ammo_10x25_fmj]:ammo_base ; 200 gr FMJ
+cost			= 1500
+!impair
+k_hit			= 0.85
+k_bullet_speed	= 1
+
+![ammo_10x25_fmj_bad]:ammo_10x25_fmj
+cost					= 3210
+
+inv_name				= ammo_10x25_fmj_plinker
+inv_name_short			= ammo_10x25_fmj_plinker
+description				= ammo_10x25_fmj_plinker_descr
+
+icons_texture  			= ui\ui_icon_mrbs_tenicons.dds
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 2
+inv_grid_y				= 1
+
+k_hit					= 0.65
+k_impulse				= 0.3
+k_ap					= 0.015
+wm_size         		= 0.069
+k_air_resistance 		= 0.8
+k_bullet_speed			= 1.2
+
+![ammo_10x25_ap]
+cost			= 3200
+!impair
+k_hit			= 0.75
+k_ap			= 0.04 ; 
+k_bullet_speed	= 1.2
+
+![ammo_10x25_ap_bad]:ammo_10x25_ap
+cost					= 7870
+
+inv_name				= ammo_10x25_ap_ghost
+inv_name_short			= ammo_10x25_ap_ghost
+description				= ammo_10x25_ap_ghost_descr
+
+icons_texture  			= ui\ui_icon_mrbs_tenicons.dds
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 2
+inv_grid_y				= 0
+
+k_disp					= 0.44
+k_hit					= 1.05
+k_impulse				= 1.3
+k_ap					= 0.038
+wm_size         		= 0.081
+k_air_resistance 		= 0.8
+k_bullet_speed			= 1.35
+
+![ammo_10x25_hydrashok]
+cost			= 2250
+!impair
+k_hit			= 1.3
+k_ap			= 0.008 ; 
+k_bullet_speed	= 1
+
+![ammo_10x25_hydrashok_bad]:ammo_10x25_hydrashok
+cost					= 4775
+
+inv_name				= ammo_10x25_hydra_blender
+inv_name_short			= ammo_10x25_hydra_blender
+description				= ammo_10x25_hydra_blender_descr
+
+icons_texture  			= ui\ui_icon_mrbs_tenicons.dds
+inv_grid_width			= 2
+inv_grid_height			= 1
+inv_grid_x				= 2
+inv_grid_y				= 2
+
+k_disp					= 0.55 
+k_hit					= 1.6
+k_impulse				= 1.0
+k_ap					= 0.005
+wm_size         		= 0.081
+k_air_resistance 		= 0.8
+k_bullet_speed			= 1
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; .300 Blackout - Retrogue ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; these are solely variants
+; requires the .300 Blackout pack itself to use these
+; yes, "fjm" is correct, we need to keep it the same as Retro named them to work
+
+![ammo_300blackout_ap]
+!impair
+
+![ammo_300blackout_ap_bad]
+cost			= 9040
+
+inv_name				= ammo-300BLK-ap-bad
+inv_name_short			= ammo-300BLK-ap-bad_s
+description				= ammo-300BLK-ap-bad_descr
+
+k_ap			= 0.060
+!impair
+k_bullet_speed			  = 1.5
+
+![ammo_300blackout_fjm]
+!impair
+
+![ammo_300blackout_fjm_bad]
+cost			= 2250
+
+inv_name				= ammo-300BLK-fjm-bad
+inv_name_short			= ammo-300BLK-fjm-bad_s
+description				= ammo-300BLK-fjm-bad_descr
+
+k_hit			= 1.1
+k_ap			= 0.025
+!impair
+k_bullet_speed			  = 1.8

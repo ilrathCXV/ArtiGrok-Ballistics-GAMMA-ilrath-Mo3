@@ -1,31 +1,14 @@
-Merge between Arti and Groks ballistics (collaborative effort between Mo3 and ilrathCXV).
+Ballistics rework, merging elements of GBOOBS and ArtiBalls with new options, streamlined crafting, and new effects and effect reworks!
+Started as a collaborative effort between Mo3 and ilrathCXV, fully headed by ilrathCXV with the help of other modders such as Andtheherois and etapomom.
 
 This is currently in the BETA stage. The merge is complete and incorporated into Grok's Ballistics, while taking advantage of Arti's conversion of bad ammo to special ammo types plus some special ammo effects.
 
-Install notes:
-
-This inludes Maid's Ammo Icons. The default ammo icons of GAMMA will not match the changes made to the names of ammunition as a warning. 
-
-Grok's/GAMMA's Ballistics has been overwritten just to include the special effects as well as some custom ammo support.
-This mod also edits "205- Old to ammo to new ammo converter (less item bloat) - Great_Day" so that only "Very Bad" ammo get converted.
-
-UNCHECK "183- GBOOBS BWRR patch - Grokitach" [ONLY IF YOU ARE USING Mo3's WarDogs Modpack]
-
-You have TWO options for recoil: 
-Grok's or Arti's. To choose Arti's, go to "Ballistics" in MCM and make sure it's checked, then go to GAMMA Enhanced Recoil in the MCM and uncheck it.
-I suggest playing with both until you figure out which you like best, as they both did a great job. Personally, we both play with Grok's. However, there is some work being done to improve Arti's.
-
-Although the merge is complete, you are free to reduce your hit power in the difficulty options if you feel too strong with these effects.
-
-GROK- Great job with ballistics, like i said.. but the people want more options!
+ilrathCXV - 6/30/2024 - This document is not fully up-to-date with Version 2.0.0. It is missing documentation on mutant_/gigant_/stalker_mod stats.
+This will be done at a later date. Sorry for the inconvience.
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
 Instructions for implementing new ammo/modifying ammo into ArtiGrok (written by ilrathCXV):
-
-**NOTE** The procedure for "k_ap" is slightly out-of-date as of Update 7 due to bringing back "Cover Piercing". If you don't plan on using that effect, this guide is still completely useful to you.
-
 First, go into this mod's files and go to the directory: [this mod]\gamedata\configs\ammo
 Next, either create a new .ltx (ammo_(custom_name_here).ltx without the parenthesis) or add it to the "ammo_extras_modded.ltx" file included with this mod.
 

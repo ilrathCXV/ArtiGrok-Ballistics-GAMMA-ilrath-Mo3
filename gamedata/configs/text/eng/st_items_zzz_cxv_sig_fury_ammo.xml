@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	Weapons
+-->
+
+<string_table>
+	
+	<string id="ammo-6.8x51_ap">
+		<text>6.8x51mm FURY rounds (AP)</text>
+	</string>
+	<string id="ammo-6.8x51_ap_descr">
+		<text>Prototype .277 FURY armor-piercing round with a hardened steel core. Developed for use with the SIG MCX SPEAR as next generation ammunition. It retains high damage with extreme performance against body armor. Constant upkeep of the rifle is necessary due to the high wear caused by the prototype nature of this round.</text>
+	</string>
+	
+	<string id="ammo-6.8x51_ap_lightning">
+		<text>6.8x51mm 'Zeus' rounds (AP+)</text>
+	</string>
+	<string id="ammo-6.8x51_ap_lightning_descr">
+		<text>Prototype .277 FURY armor-piercing round utilizing Electrical Artefact Fragments. Harnessing power akin to the mythological god Zeus, these rounds can penetrate nearly any natural armor that it faces. Upon impact, the rounds release a large electrical discharge on the enemy, hurting both the source and anyone around them. Due to the experimental nature of the base rounds plus this anomalous strength, this round can quickly degrade any weapon that utilizes it.</text>
+	</string>
+	
+</string_table>		

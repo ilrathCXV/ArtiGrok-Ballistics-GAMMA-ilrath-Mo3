@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!--
+	"Saiga-20" Text (Weapon + Mags)
+-->
+
+<string_table>
+
+	<!-- Saiga-20 "Butcher" -->
+	<string id="st_wpn_saiga20s_m1">
+		<text>Saiga-20 "Butcher"</text>
+	</string>
+	<string id="st_wpn_saiga20s_m1_descr">
+		<text>A 20-gauge combat shotgun recognizable by its Kalashnikov design, intended for engaging targets at short range or in confined spaces. Known for its effectiveness and lethality, it has replaced the Armsel Protecta for Russian riot control and infantry combat. The "Butcher" - given its name after Butcher himself by other stalkers - was modified for Duty to deal with mutants far more effectively. This version features a custom barrel, allowing the use of 20x70 shotgun shells. Loners and Bandits alike seek this weapon to make cash much easier against mutants.\n \n
+		%c[0,255,255,255]PROPERTIES:\n
+		%c[d_cyan] • %c[0,255,255,255] origin: %c[ui_gray_2]Russia\n
+		%c[d_cyan] • %c[0,255,255,255] manufacturer: %c[ui_gray_2]Izhmash\n
+		</text>
+	</string>
+	
+	<!-- Saiga-20 Mags -->
+	<string id="st_mag_saiga20s_20x70">
+		<text>Standard 20x70 Saiga-20S Magazine</text>
+	</string>
+	<string id="st_mag_saiga20s_20x70_descr">
+		<text>
+		Custom-made Saiga-20S magazine with capacity for 8 shotshells. The Saiga is a good quality shotgun that is popular with Dutyers.
+		</text>
+	</string>
+
+	<string id="st_mag_saiga20s_ext_20x70">
+		<text>Extended 20x70 Saiga-20S Magazine</text>
+	</string>
+	<string id="st_mag_saiga20s_ext_20x70_descr">
+		<text>
+		Extended custom-made Saiga-20S magazine with capacity for 16 shotshells. More shells means more mutants you can kill each each magazine.
+		</text>
+	</string>
+	
+</string_table>

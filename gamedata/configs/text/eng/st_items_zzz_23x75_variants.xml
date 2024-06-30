@@ -5,23 +5,23 @@
 -->
 
 <string_table>
-	<string id="ammo_23x75_chaos">
-		<text>23x75mm "Pure Chaos" Buckshot shells</text>
+	<string id="ammo_23x75_grav">
+		<text>23x75mm 'Grav' shells (Buck+)</text>
 	</string>
-	<string id="ammo_23x75_chaos_descr">
-		<text>Whether created by Sin to cleanse the Zone or by some hooligan shoving grounded-up artefacts into a cartridge, these monsterous rounds exemplify the pure chaos of the Zone. Each pellet has a various suite of effects granted by the Zone, ranging from randomizing the stopping power of the pellet, to setting the target on fire, to creating a explosion on contact. Its power is most-fitting in that it is used in weapons able to withstand 4-gauge ammunition.</text>
+	<string id="ammo_23x75_grav_descr">
+		<text>Rumored to have been created for use by ISG troops, this anomalous buckshot utilizes the power of gravitational artefacts to its utmost potential. By using fragments from said artefacts, it allows the buckshot to fly at insanely fast speeds with little to no drag or dropoff and massively improved spread compared to the standard "Shrapnel" buckshot. Anyone hit by it will feel as if they were shot at point-blank range. Any stalker crazy enough to use this ammunition to engage in long-distances will see this round perform decently well, with reports that successful hits past 75 meters see increased performance in terms of damage and armor penetration. You may not be able to pierce through weaker body armor, but your foes will definitely feel the pure strength of these rounds.</text>
 	</string>
-	<string id="ammo_23x75_chaos_s">
-		<text>23x75mm "Pure Chaos"</text>
+	<string id="ammo_23x75_grav_s">
+		<text>23x75mm 'Grav' (Buck+)</text>
 	</string>
 
 	<string id="ammo_23x75_mini_napalm">
-		<text>23x75mm "Mini Napalm" shells</text>
+		<text>23x75mm 'Mini Napalm' (AP+)</text>
 	</string>
 	<string id="ammo_23x75_mini_napalm_descr">
-		<text>This "slug" is a very potent crowd-control round. The shell contains a mixture of fire-based artefact powders with strong propellant. When hitting an enemy or surface, it erupts into a firey bomb, setting any target within a 5-meter radius is ablaze. Direct impact with to a target results in devastating power. Although not containing actual napalm, the name given to this cartridge matches the destructive power it leaves in its wake.</text>
+		<text>Devised by Sin fanatics, this "slug" is a very potent crowd-control round. The shell contains a mixture of fire-based artefact powders with strong propellant. When hitting an enemy or surface, it erupts into a firey bomb, setting any target within a 5-meter radius is ablaze. Direct impact with to a target results in devastating power. Although not containing actual napalm, the name given to this cartridge matches the destructive power it leaves in its wake.</text>
 	</string>
 	<string id="ammo_23x75_mini_napalm_s">
-		<text>23x75mm "Mini Napalm"</text>
+		<text>23x75mm 'Mini Napalm' (AP+)</text>
 	</string>
 </string_table>

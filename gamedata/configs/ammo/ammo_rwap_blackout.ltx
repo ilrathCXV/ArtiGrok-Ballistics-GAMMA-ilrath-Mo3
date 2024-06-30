@@ -7,7 +7,6 @@ name 		= ammo-300BLK-ap
 k_hit		= 1.00
 k_ap		= 0.53
 cost		= 5300
-special 	= ambush
 
 ;based off Mr. Brain [AU]
 [ammo_300blackout_ap_bad]:ammo_base	;MAI AP
@@ -16,7 +15,7 @@ k_hit		= 1.00
 k_ap		= 0.60
 cost		= 8300
 special     = fire
-ignite		= 20
+burn_stacks = 4
 dg_ammo		= ammo_300blackout_ap
 dg_chance	= 0.4
 
@@ -35,10 +34,10 @@ cost		= 1500
 name 		= ammo-300BLK-fjm-bad
 k_hit		= 1.1
 k_ap		= 0.25
-k_hp        = 1.75
-k_mp        = 1.26
-cost		= 4050
+mutant_mult = 1.1
+gigant_mult = 1.2
+cost		= 2250
 special		= flinch
-flinch		= 50
+flinch		= 30
 dg_ammo		= ammo_300blackout_fjm
 dg_chance	= 0.4

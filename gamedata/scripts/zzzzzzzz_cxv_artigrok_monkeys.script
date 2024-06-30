@@ -1,0 +1,13 @@
+-- Monkey patches needed to avoid double-dipping/using alternative calculation methods
+
+--------------------------------------------------------------------------------------------
+-- arti_jamming: We already deal with barrel condition inside of the calculations
+--------------------------------------------------------------------------------------------
+if arti_jamming then
+	function arti_jamming.npc_on_before_hit(npc,shit,bone_id, flags)
+		return
+	end
+	function arti_jamming.monster_on_before_hit(monster,shit,bone_id, flags)
+		return
+	end
+end

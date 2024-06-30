@@ -7,23 +7,23 @@
 <string_table>
 	
 	<string id="ammo_20x70_devastator">
-		<text>20x70 Devastator slugs</text>
+		<text>20x70 Devastator slugs (Slug)</text>
 	</string>
 	<string id="ammo_20x70_devastator_descr">
 		<text>20-caliber solid lead slug designed to be shot by smoothbore weapons. Nicknamed the "Devastator" due to being really heavy and mean.</text>
 	</string>
 	<string id="ammo_20x70_devastator_s">
-		<text>20x70 slug</text>
+		<text>20x70 Slug</text>
 	</string>
 	
 	<string id="ammo_20x70_star">
-		<text>20x70 Star AP slug</text>
+		<text>20x70 Star Dart slug (AP)</text>
 	</string>
 	<string id="ammo_20x70_star_descr">
 		<text>20-caliber dart round designed specifially to punch through the most robust armor while also mantaining an affordable manufacturing and commercial price point.</text>
 	</string>
 	<string id="ammo_20x70_star_s">
-		<text>20x70 AP slug</text>
+		<text>20x70 Star (AP)</text>
 	</string>
 
 </string_table>
