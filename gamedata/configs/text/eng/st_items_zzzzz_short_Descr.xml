@@ -10,7 +10,7 @@
 	</string>
 
 	<string id="ammo_23x75_mini_napalm_s">
-		<text>23x75 Napalm (AP+)</text>
+		<text>23x75 AP+</text>
 	</string>
 
 	<string id="ammo_new_23x75_shrapnel_s">
@@ -18,7 +18,7 @@
 	</string>
 
 	<string id="ammo_new_23x75_barrikada_s">
-		<text>23x75 Slug (AP)</text>
+		<text>23x75 AP</text>
 	</string>
 	
 	<string id="ammo_20x70_buck_3bk_s">
@@ -30,11 +30,11 @@
 	</string>
 
 	<string id="ammo_20x70_star_s">
-		<text>20x70 Star (AP)</text>
+		<text>20x70 AP</text>
 	</string>
 	
 	<string id="ammo_20x70_devastator_glass_s">
-		<text>20x70 Shatter</text>
+		<text>20x70 Slug+</text>
 	</string>
 	
 	<string id="ammo_20x70_devastator_s">
@@ -42,7 +42,7 @@
 	</string>
 	
 	<string id="ammo_20x70_star_lightning_s">
-		<text>20x70 Lightning (AP+)</text>
+		<text>20x70 AP+</text>
 	</string>	
 	
 	<string id="ammo_9x21_sp10_bad_s">
@@ -53,21 +53,25 @@
 		<text>9x21 AP</text>
 	</string>
 	
+	<string id="ammo_9x21_sp11_s">
+		<text>9x21 FMJ+</text>
+	</string>
+	
 	<string id="ammo_9x21_sp11_bad_s">
 		<text>9x21 FMJ+</text>
 	</string>
 
+	<string id="ammo_9x21_sp12_s">
+		<text>9x21 HP</text>
+	</string>	
+
 	<string id="ammo_9x21_sp12_bad_s">
-		<text>9x21 Zone-Made HP</text>
+		<text>9x21 HP+</text>
 	</string>	
 
 	<string id="ammo_new_9x18_fmj_s">
 		<text>9x18 FMJ</text>
 	</string>
-
-	<string id="ammo_new_9x18_plus_s">
-		<text>9x18 Napalm</text>
-	</string>	
 
 	<string id="ammo_new_9x18_hp_s">
 		<text>9x18 HP</text>
@@ -94,11 +98,11 @@
 	</string>
 
 	<string id="ammo_new_9x19_pbp_s">
-		<text>9x19 JHP</text>
+		<text>9x19 HP</text>
 	</string>
 
 	<string id="ammo_new_9x19_pbps_s">
-		<text>9x19 'Ratshot' (HP+)</text>
+		<text>9x19 HP+</text>
 	</string>
 
 	<string id="ammo_new_9x19_ap_s">
@@ -110,7 +114,7 @@
 	</string>
 
 	<string id="ammo_new_11.43x23_fmj_s">
-		<text>.45 ACP</text>
+		<text>.45 FMJ</text>
 	</string>
 
 	<string id="ammo_new_11.43x23_fmjs_s">
@@ -138,39 +142,39 @@
 	</string>
 
 	<string id="ammo_357_fmj_shock_s">
-		<text>.357 Lightning (AP+)</text>
+		<text>.357 AP+</text>
 	</string>
 
 	<string id="ammo_new_7.62x25_p_s">
-		<text>7.62x25 AP</text>
+		<text>7.62TT AP</text>
 	</string>
 
 	<string id="ammo_new_7.62x25_ps_s">
-		<text>7.62x25 FMJ</text>
+		<text>7.62TT FMJ</text>
 	</string>
 
 	<string id="ammo_new_7.62x25_hp_s">
-		<text>7.62x25 HP</text>
+		<text>7.62TT HP</text>
 	</string>
 
 	<string id="ammo_new_7.62x25_cor_s">
-		<text>7.62x25 Acid (FMJ+)</text>
+		<text>7.62TT FMJ+</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_fmj_s">
-		<text>5.7x28 FMJ</text>
+		<text>5.7 FMJ</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_ss190_s">
-		<text>5.7x28 AP</text>
+		<text>5.7 AP</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_chaos_s">
-		<text>5.7x28 'Chaos' (AP+)</text>
+		<text>5.7 AP+</text>
 	</string>
 
 	<string id="ammo_new_5.7x28_ss195_s">
-		<text>5.7x28 HP</text>
+		<text>5.7 HP</text>
 	</string>
 
 	<string id="ammo_new_12x70_buck_s">
@@ -178,7 +182,7 @@
 	</string>
 
 	<string id="ammo_new_12x70_magnum_s">
-		<text>12x70 Magnum</text>
+		<text>12x70 Buck+</text>
 	</string>
 
 	<string id="ammo_new_12x70_zhekan_s">
@@ -190,59 +194,59 @@
 	</string>
 
 	<string id="ammo_new_12x70_flechette_s">
-		<text>12x70 Flechette </text>
+		<text>12x70 Flechette</text>
 	</string>
 
 	<string id="ammo_new_12x70_dragon_s">
-		<text>12x70 'Dragon' (AP+)</text>
+		<text>12x70 AP+</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_fmj_s">
-		<text>5.45x39 FMJ</text>
+		<text>5.45 FMJ</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_fmjs_s">
-		<text>5.45x39 FMJ+</text>
+		<text>5.45 FMJ+</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_sp_s">
-		<text>5.45x39 HP+</text>
+		<text>5.45 HP+</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_hp_s">
-		<text>5.45x39 HP</text>
+		<text>5.45 HP</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_ap_s">
-		<text>5.45x39 AP</text>
+		<text>5.45 AP</text>
 	</string>
 
 	<string id="ammo_new_5.45x39_aps_s">
-		<text>5.45x39 AP+</text>
+		<text>5.45 AP+</text>
 	</string>
 
 	<string id="ammo_new_5.56x45_fmj_s">
-		<text>5.56x45 FMJ</text>
+		<text>5.56 FMJ</text>
 	</string>
 
 	<string id="ammo_new_5.56x45_fmjs_s">
-		<text>5.56x45 Shock (FMJ+)</text>
+		<text>5.56 FMJ+</text>
 	</string>
 
 	<string id="ammo_new_5.56x45_hp_s">
-		<text>5.56x45 HP</text>
+		<text>5.56 HP</text>
 	</string>
 
 	<string id="ammo_new_5.56x45_varma_s">
-		<text>5.56x45 'Varma' (HP+)</text>
+		<text>5.56 HP+</text>
 	</string>	
 
 	<string id="ammo_new_5.56x45_ap_s">
-		<text>5.56x45 AP+</text>
+		<text>5.56 AP+</text>
 	</string>
 	
 	<string id="ammo_new_5.56x45_ss190_s">
-		<text>5.56x45 AP</text>
+		<text>5.56 AP</text>
 	</string>
 	
 	<string id="ammo_new_7.62x39_fmj_s">
@@ -258,7 +262,7 @@
 	</string>
 
 	<string id="ammo_new_7.62x39_api_s">
-		<text>7.62x39 Incendiary (AP+)</text>
+		<text>7.62x39 AP+</text>
 	</string>	
 	
 	<string id="ammo_new_9x39_sp5_s">
@@ -290,7 +294,7 @@
 	</string>
 
 	<string id="ammo_new_7.62x54_fp_s">
-		<text>7.62x54 'HeadHunter' (HP+)</text>
+		<text>7.62x54 HP+</text>
 	</string>
 
 	<string id="ammo_new_7.62x54_ap_s">
@@ -298,15 +302,15 @@
 	</string>
 
 	<string id="ammo_new_7.62x54_api_s">
-		<text>7.62x54 'Incendiary' (AP+)</text>
+		<text>7.62x54 AP+</text>
 	</string>	
 	
 	<string id="ammo_new_7.62x54_ppr_s">
-		<text>7.62x54 'Linked'</text>
+		<text>7.62x54 PKM</text>
 	</string>
 
 	<string id="ammo_new_7.62x54_split_s">
-		<text>7.62x54 'Tri-Shot' (PKM)</text>
+		<text>7.62x54 PKM+</text>
 	</string>
 
 	<string id="ammo_new_7.62x51_fmj_s">
@@ -326,47 +330,51 @@
 	</string>	
 	
 	<string id="ammo_new_7.92x33_fmj_s">
-		<text>7.92x57 FMJ</text>
+		<text>7.92 FMJ</text>
 	</string>	
 	
 	<string id="ammo_new_7.92x33_match_s">
-		<text>7.92x57 HP</text>
+		<text>7.92 HP</text>
 	</string>	
 	
 	<string id="ammo_new_7.92x33_ap_s">
-		<text>7.92x57 AP</text>
+		<text>7.92 AP</text>
 	</string>
 
 	<string id="ammo_new_7.92x33_shock_s">
-		<text>7.92x57 Lightning (AP+)</text>
+		<text>7.92 AP+</text>
 	</string>
 
 	<string id="ammo_new_12.7x55_fmj_s">
-		<text>12.7x55 FMJ</text>
+		<text>12.7 FMJ</text>
 	</string>
 
 	<string id="ammo_new_12.7x55_fmjs_s">
-		<text>12.7x55 FMJ+</text>
+		<text>12.7 FMJ+</text>
 	</string>
 
 	<string id="ammo_new_12.7x55_ap_s">
-		<text>12.7x55 AP</text>
+		<text>12.7 AP</text>
 	</string>
 
 	<string id="ammo_new_12.7x55_exp_s">
-		<text>12.7x55 AP+</text>
+		<text>12.7 AP+</text>
 	</string>
 
 	<string id="ammo_new_338_lapua_s">
-		<text>.338 FMJ</text>
+		<text>.338 Lapua</text>
 	</string>
 
 	<string id="ammo_new_338_ap_s">
-		<text>.338 Ripper (AP+)</text>
+		<text>.338 Lapua+</text>
 	</string>
 
 	<string id="ammo_6.8x51_ap_s">
-		<text>6.8x51 AP</text>
+		<text>6.8 AP</text>
+	</string>
+	
+	<string id="ammo_6.8x51_ap_bad_s">
+		<text>6.8 AP+</text>
 	</string>
 
 	

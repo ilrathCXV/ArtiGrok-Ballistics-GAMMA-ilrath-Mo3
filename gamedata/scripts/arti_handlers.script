@@ -147,7 +147,7 @@ function burn_tick_on_update()
 				if npc then
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
-					local burn_dmg = clamp((v * 0.01), 0, 0.5) or 0.01
+					local burn_dmg = (v * 0.01) or 0.01
 					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
 					
 					local h = hit()
@@ -305,6 +305,7 @@ end
 -- Adds shock stacks to target (does not decay)
 function shock_npc(npc, bone_id, wpn_id, stack)
 	
+	if not npc:alive() then return end 
 	if npc:has_info("npcx_is_companion") then return end
 	npc_id = npc:id()
 	
@@ -323,6 +324,8 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 		
 		lightning_damage(npc, bone_id, wpn_id, 0.3)	-- 0.3 is the minimum armor amount to trigger an AoE
 	end
+	
+	return true
 end
 
 -- for corrosive ammo
@@ -397,20 +400,20 @@ local shock_effect = particles_object("artefact\\effects\\af_electra_show_flash_
 -- for shock anti armor
 function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 	
-	local armor_tier = get_tier(armor_amount)
-    snd = "electric"
+	local armor_tier = math.floor((armor_amount * 10) + 0.5)		-- get_tier(armor_amount)
     if armor_tier >= 3 then
         snd = "electric_big"
         play_particle(npc, bone_id, "amik\\anomaly\\electra\\electra_dust_distort")
 		if shock_effect and not shock_effect:playing() then
 			shock_effect:play_at_pos(npc:position())
 		end
-		
+		play_sound_on_location(snd, npc)
+
         if not npc:alive() then return end
 		
 		npc:movement_enabled(false)
 		
-		local shock_power = armor_tier * 0.075
+		local shock_power = armor_tier * 0.1
 		
 		local h = hit()
 		h.type = hit.shock
@@ -420,7 +423,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		h.weapon_id = wpn_id
 		npc:hit(h)
 		
-		radius = armor_tier
+		radius = math_random(2,12) + armor_tier
 		
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
@@ -429,8 +432,10 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				if not obj:alive() then return end
 				if obj:has_info("npcx_is_companion") then return end
 				
+				-- Allows for other Shock-created AoEs to get created w/o crashing the game
+				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), 0.025, shock_npc, obj, bone_id, wpn_id, 3)
+				-- shock_npc(obj, bone_id, wpn_id, 3)
 				grounded_stack_list[obj:id()] = (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] + 1) or 1
-				shock_stack_list[obj:id()] = (shock_stack_list[obj:id()] and shock_stack_list[obj:id()] + (radius - 2)) or 1
 				
 				-- [Lightning Stacking Effect] If enemy has taken 3 Shock AoEs, they become "Grounded" and cannot move
 				if (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] > 2) then
@@ -445,14 +450,13 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
         end)
 		
 		if rpg_hit_perks and fourth_times > 0 then
-			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + round_idp((lightning_hits/armor_tier), 4)
+			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (lightning_hits * 0.33)
 			-- printf("[RPG - Arti Handlers - Shock] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
 		end
 		lightning_hits = 0
 		
     end
 
-    play_sound_on_location(snd, npc)
     -- return s_hit
 end
 

@@ -12,7 +12,7 @@
 		<text>Rumored to have been created for use by ISG troops, this anomalous buckshot utilizes the power of gravitational artefacts to its utmost potential. By using fragments from said artefacts, it allows the buckshot to fly at insanely fast speeds with little to no drag or dropoff and massively improved spread compared to the standard "Shrapnel" buckshot. Anyone hit by it will feel as if they were shot at point-blank range. Any stalker crazy enough to use this ammunition to engage in long-distances will see this round perform decently well, with reports that successful hits past 75 meters see increased performance in terms of damage and armor penetration. You may not be able to pierce through weaker body armor, but your foes will definitely feel the pure strength of these rounds.</text>
 	</string>
 	<string id="ammo_23x75_grav_s">
-		<text>23x75mm 'Grav' (Buck+)</text>
+		<text>23x75 Buck+</text>
 	</string>
 
 	<string id="ammo_23x75_mini_napalm">
@@ -22,6 +22,6 @@
 		<text>Devised by Sin fanatics, this "slug" is a very potent crowd-control round. The shell contains a mixture of fire-based artefact powders with strong propellant. When hitting an enemy or surface, it erupts into a firey bomb, setting any target within a 5-meter radius is ablaze. Direct impact with to a target results in devastating power. Although not containing actual napalm, the name given to this cartridge matches the destructive power it leaves in its wake.</text>
 	</string>
 	<string id="ammo_23x75_mini_napalm_s">
-		<text>23x75mm 'Mini Napalm' (AP+)</text>
+		<text>23x75 AP+</text>
 	</string>
 </string_table>
