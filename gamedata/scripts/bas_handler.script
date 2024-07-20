@@ -48,7 +48,7 @@ function cloudkill_dmg_reduction(shit, bone_id)
 		damage_reduction = clamp(damage_reduction, 0.05, 0.4)
         shit.power = shit.power * damage_reduction
 		display_reduction = tonumber(100 - (damage_reduction * 100))
-		printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
+		-- printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
     end
 end
 

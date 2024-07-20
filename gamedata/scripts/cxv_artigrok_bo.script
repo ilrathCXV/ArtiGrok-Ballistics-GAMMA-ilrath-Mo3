@@ -1443,7 +1443,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------
 	-- Grav Rounds --
 	-----------------
-	-- Grants bonus AP and DMG if hit is at least 100m + makes hit act as if was doen at point-blank range (full damage + full AP)
+	-- Grants bonus AP and DMG if hit is at least 100m + makes hit act as if was done at point-blank range (full damage + full AP)
 	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
 	-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
 	if (special_effect == "grav") or (special_effect_2 == "grav") then
