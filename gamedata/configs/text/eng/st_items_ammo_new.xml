@@ -169,16 +169,16 @@
 		<text>5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>Burn stacks (x2 on Stalker headshots)</text>
+		<text>Burn stacks | x2 on headshots</text>
 	</string>
 	<string id="st_ballistics_shock">
-		<text>Shock stacks (x3 on Stalker headshots)</text>
+		<text>Shock stacks | x3 on headshots</text>
 	</string>
 	<string id="st_ballistics_split">
 		<text>Fires three projectiles</text>
 	</string>
 	<string id="st_ballistics_lightning">
-		<text>Lightning AoE on hits, higher BR = higher DMG</text>
+		<text>Lightning AoE on hits | Higher BR = Higher DMG</text>
 	</string>
 	<string id="st_ballistics_pierce">
 		<text>Cover piercing</text>
@@ -193,13 +193,13 @@
 		<text>3 Burn stacks to targets near impact, 15 on direct hit</text>
 	</string>
 	<string id="st_ballistics_basher">
-		<text>Melee hits to the head ignore armor (faction resistances still in effect)</text>
+		<text>Melee to the head only ignores armor</text>
 	</string>
 	<string id="st_ballistics_graze">
 		<text>Share 5% of hit DMG to nearby enemies, 30% if headshot</text>
 	</string>
 	<string id="st_ballistics_grav">
-		<text>No DMG dropoff + extra AP past 100m (up to 2x)</text>
+		<text>No DMG/AP dropoff | x2 DMG/AP on far hits</text>
 	</string>
 
 	<string id="st_link">

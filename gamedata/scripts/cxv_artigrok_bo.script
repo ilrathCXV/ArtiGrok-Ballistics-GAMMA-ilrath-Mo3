@@ -364,7 +364,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	bone_mult			= 1
 	is_critical			= false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO v2.0.1   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO v2.0.3   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
@@ -914,7 +914,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO v2.0.1  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO v2.0.3  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -1447,22 +1447,34 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
 	-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
 	if (special_effect == "grav") or (special_effect_2 == "grav") then
-		if dist >= 50 then
+		if is_actor then
 			local wpn_type = ini_sys:r_string(wpn:section(), "kind") or nil
-			if wpn_type then
-				if wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis")
-				or wpn_type == "w_shotgun" then
-					local grav_mult = (1 + clamp((dist - 49) * 0.003984, 0, 1)) or 1
-					k_ap = k_ap * grav_mult
-					wpn_hit_power = wpn_hit_power * grav_mult
-					printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
+			local min_dist = 0 -- desired min. range gor Grav to take effect
+			local grav_effect_mult = 0	-- take 1/(300 - min_dist)
+			if (dist > 25 and dist <= 50) then
+				if wpn_type and wpn_type == "w_shotgun" then
+					min_dist = 25
+					grav_effect_mult = 0.0036
 				end
+			elseif (dist > 50 and dist <= 100) then
+				if wpn_type then
+					if wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis") then
+						min_dist = 50
+						grav_effect_mult = 0.004
+					end
+				end
+			elseif dist >= 100 then
+				min_dist = 100
+				grav_effect_mult = 0.005
 			end
-		elseif dist >= 100 then
-			local grav_mult = (1 + clamp((dist - 99) * 0.00498, 0, 1)) or 1
-			k_ap = k_ap * grav_mult
-			wpn_hit_power = wpn_hit_power * grav_mult
-			printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
+			
+			if min_dist ~= 0 and grav_effect_mult ~= 0 then
+				grav_mult = (1 + clamp((dist - min_dist) * grav_effect_mult, 0, 1)) or 1
+				grav_mult = round_idp(grav_mult, 3)
+				k_ap = k_ap * grav_mult
+				wpn_hit_power = wpn_hit_power * grav_mult
+				printf("Grav in effect @ distance of %s meters for %sx mult.", dist, grav_mult)
+			end
 		end
 		dist = 0
 	end
@@ -1822,7 +1834,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone Tables Reset: ArtiGrok BO v2.0.1  //////////////////")
+	printf("///////////   Bone Tables Reset: ArtiGrok BO v2.0.3  //////////////////")
 	
 end
 
