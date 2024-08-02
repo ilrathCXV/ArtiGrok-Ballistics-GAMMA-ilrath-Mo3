@@ -289,10 +289,10 @@
 	
 	<!-- HP+ -->
 	<string id="ammo_new_11.43x23_hydro">
-		<text>.45 ACP 'RIP' rounds (HP+)</text>
+		<text>.45 ACP 'Reaper' rounds (HP+)</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_descr">
-		<text>This experimental .45 ACP round is constructed with Artefact Fragments molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter.</text>
+		<text>This experimental .45 ACP round is constructed with Artefact Fragments molded into a bullet shape, then electroplated with nickel. The bullet is produced through classified experiments developed by the Ministry of Science in conjunction with Freedom-supplied research. Despite the hard metal coating the bullet readily fragments into several 'talons' which grants the round phenomeal stopping power at the cost of reduced penetration. Curiously, the bullets seem to create a localized anomaly around the point of shooting, affecting living things in the immediate vicnity. Speculators believe that unknown means draw the life energy from the victim to the shooter upon their death.</text>
 	</string>
 	<string id="ammo_new_11.43x23_hydro_s">
 		<text>.45 HP+</text>
@@ -603,7 +603,7 @@
 		<text>.338 'Soulripper' Sabot rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_338_ap_descr">
-		<text>.338 round consisting of a depleted uranium penetrator wrapped in a sabot and propelled with an anomalously powerful charge. Exhibits signs of anomalous tampering, as it is not physically possible for a projectile of this mass to fly with such velocity and deal as much damage as it does. Extremely rare, powerful, and dangerous to handle.</text>
+		<text>.338 round consisting of a depleted uranium penetrator wrapped in a sabot and propelled with an anomalously powerful charge. Exhibits signs of anomalous tampering, as it is not physically possible for a projectile of this mass to fly with such velocity and deal as much damage as it does. Extremely rare, powerful, and dangerous to handle. Users of the round claim to be invigorated with each successful hit on a living target.</text>
 	</string>
 	<string id="ammo_new_338_ap_s">
 		<text>.338 Lapua+</text>

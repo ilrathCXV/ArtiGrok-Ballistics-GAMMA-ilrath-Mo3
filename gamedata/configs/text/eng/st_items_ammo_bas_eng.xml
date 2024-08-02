@@ -41,7 +41,7 @@
 		<text>Ecolog-23 cartridge</text>
 	</string>
 	<string id="ammo_23_eco_descr">
-		<text>A special cartridge designed for the needs of the scientific staff located in the Zone. Depending on the task, it is filled with different types of solutions. Requires very careful handling. How to use: very slowly put into the weapon.\n \n%c[d_purple] • %c[ui_gray_2] Highest pierced armour class: %c[ui_gray_1]none\n%c[d_purple] • %c[ui_gray_2] Tissue damage rating: %c[ui_gray_1]none\n \n%c[ui_gray_1]SPECIAL:\n \n%c[d_purple] • %c[ui_gray_2] Using a thin wolfram needle, it pierces the skin of the mutants to inject the solution.</text>
+		<text>A special cartridge designed for the needs of the scientific staff located in the Zone. Depending on the task, it is filled with different types of solutions. Requires very careful handling.\n\n Using a thin wolfram needle, it pierces the skin of the mutants to inject the solution, killing most upon impact. Larger or tougher mutants may require one or two additional injections.</text>
 	</string>
 	<string id="ammo_23_eco_s">
 		<text>23x75 Ecolog</text>

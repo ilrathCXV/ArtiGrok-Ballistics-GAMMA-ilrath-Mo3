@@ -614,10 +614,13 @@ function nullify_bullet_blow_sd(shit, bone_id)
 	if not shit.weapon_id then return end
 	
 	wpn = level.object_by_id(shit.weapon_id)
-	wpn_sec = wpn:section()
 	
-	if wpn_sec == "bullet_blow" then
-		-- printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
-		shit.power = 0
+	if wpn then
+		wpn_sec = wpn:section()
+		
+		if wpn_sec == "bullet_blow" then
+			-- printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
+			shit.power = 0
+		end
 	end
 end
