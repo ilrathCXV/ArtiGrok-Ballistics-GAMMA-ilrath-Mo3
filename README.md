@@ -29,9 +29,9 @@ Additionally includes partial support for most other custom-made ammo types (thi
 - [_**pre-2.0.4**_] In MCM, go to "Item UI Improvements" and turn on "Ammo Names"
 
 **If you cannot see the ammo stats in the tooltips, read the below:**
-o If you use the mod "Ghillie Suit Overhaul", here is a patch in the GAMMA Discord (read the surrounding posts of this link to see how to install it): https://discord.com/channels/912320241713958912/1106795093513478215/1128885711379103805
-o If your stats show a bunch of negatives and some weapons now have damage in the hundreds that shouldn't **you forgot to install Actual Accurate Stats**
-o If you receive a crash regarding `fourth_times_counter` and **using [RPG Perks](https://github.com/ilrathCXV/RPG-XP-Redux-Orleon-ilrathCXV)**, install the latest version of the RPG mod (Update 31+)
+- If you use the mod "Ghillie Suit Overhaul", here is a patch in the GAMMA Discord (read the surrounding posts of this link to see how to install it): https://discord.com/channels/912320241713958912/1106795093513478215/1128885711379103805
+- If your stats show a bunch of negatives and some weapons now have damage in the hundreds that shouldn't **you forgot to install Actual Accurate Stats**
+- If you receive a crash regarding `fourth_times_counter` and **using [RPG Perks](https://github.com/ilrathCXV/RPG-XP-Redux-Orleon-ilrathCXV)**, install the latest version of the RPG mod (Update 31+)
 
 **Things to Note:**
 - Safe to install mid-playthrough, **UNSAFE to uninstall mid-playthrough**
