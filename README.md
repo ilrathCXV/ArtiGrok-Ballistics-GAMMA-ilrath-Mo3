@@ -46,3 +46,5 @@ Any bug reports are to be reported here. **DO NOT REPORT BUGS TO THE AUTHORS OF 
 - Arti + HarukaMaid for Arti's Ballistics system
 - Momopate for his ammo mods, Actual Accurate Stats, and his bullet drop-off function 
 - ATHI (Andtheherois) for creating the revamped icons for this mod
+
+![Lastest version of bullet icons](https://cdn.discordapp.com/attachments/1065168136577482753/1268793775283765370/image.png?ex=66ddd689&is=66dc8509&hm=7a2ba0167ff62889b5eb30b98227585742b67505a186bcc4811df478a818d267&)
