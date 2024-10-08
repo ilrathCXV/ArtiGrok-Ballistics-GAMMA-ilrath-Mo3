@@ -31,7 +31,8 @@ local defaults = {
 	["npc_effect"] = false,
 	["npc_use_special"] = false,
 	["true_falloff"] = true,
-	["difficulty_scaling"] = false,
+	["difficulty_scaling_damage"] = false,
+	["difficulty_scaling_ap"] = false,
 }
 
 function get_config(key)
@@ -46,7 +47,8 @@ function on_mcm_load()
 			{id = "npc_effect", type = "check", val = 1, def=false},
 			{id = "npc_use_special", type = "check", val = 1, def=false},
 			{id = "true_falloff", type = "check", val = 1, def=true},
-			{id = "difficulty_scaling", type = "check", val = 1, def=false},
+			{id = "difficulty_scaling_damage", type = "check", val = 1, def=false},
+			{id = "difficulty_scaling_ap", type = "check", val = 1, def=false},
         }
     }
     return op

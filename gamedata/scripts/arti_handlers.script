@@ -92,7 +92,7 @@ function stun_npc(npc, flinch_stun_chance)
 		if math_random(100) < flinch_stun_chance and (not npc_stun[npc:id()] or npc_stun[npc:id()] == false) then
 			play_anim(npc)
 			local npc_weapon = npc:active_item()
-			if npc_weapon then npc_weapon:unload_magazine(false) end
+			if npc_weapon and IsWeapon(npc_weapon) then npc_weapon:unload_magazine() end
 			npc_stun[npc:id()] = time_global() + 1000
 		end
     end

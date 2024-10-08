@@ -53,11 +53,19 @@
 		\nTurning this off will have damage falloff work as base GAMMA (with falloff starting immediately).</text>
 	</string>
 	
-	<string id="ui_mcm_ballistics_difficulty_scaling">
-		<text>Enable Difficulty Scaling?</text>
+	<string id="ui_mcm_ballistics_difficulty_scaling_damage">
+		<text>Enable Difficulty Scaling (Damage)?</text>
 	</string>
-	<string id="ui_mcm_ballistics_difficulty_scaling_desc">
-		<text>Turning this on will enable GAMMA's difficulty scaling on all outgoing damage. Scaling affects damage and AP power (i.e. Hard reduces damage and AP power by 20%).\n 
-		\nTurning this off will turn scaling off, leaving damage and AP power untouched on all difficulties.</text>
+	<string id="ui_mcm_ballistics_difficulty_scaling_damage_desc">
+		<text>Turning this on will enable GAMMA's difficulty scaling on all outgoing player and (with the option enabled) NPC Stalker damage. This setting only allows scaling to affect damage (i.e. Hard reduces outgoing player damage/increases NPC-to-NPC damage by 20%).\n 
+		\nTurning this off will turn scaling off, leaving damage untouched on all difficulties.</text>
+	</string>
+	
+	<string id="ui_mcm_ballistics_difficulty_scaling_ap">
+		<text>Enable Difficulty Scaling (AP/BR)?</text>
+	</string>
+	<string id="ui_mcm_ballistics_difficulty_scaling_ap_desc">
+		<text>Turning this on will enable GAMMA's difficulty scaling on all outgoing player and (with the option enabled) NPC Stalker AP power. This setting only allows scaling to affect AP power (i.e. Hard reduces outgoing player AP power/increases NPC-to-NPC AP power by 20%).\n 
+		\nTurning this off will turn scaling off, leaving AP power untouched on all difficulties.</text>
 	</string>
 </string_table>

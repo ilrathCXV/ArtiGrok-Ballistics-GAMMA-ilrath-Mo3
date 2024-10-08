@@ -2,6 +2,7 @@
 -- CXV ArtiGrok BO: Taking pages from Artiballs and implementing them to GAMMA's GBO for better compatibility
 -- Credit to arti, haru, and Grok
 -- ilrathCXV (04/15/24): Started building this script
+-- ilrathCXV (10/07/24): More difficulty option tweaks
 ----------------------------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -15,11 +16,12 @@ ini_damage		= ini_file("creatures\\damages.ltx")
 ini_ammo            = ini_file("ammo\\importer.ltx")
 ini_sounds 			= ini_file("ammo\\sounds.ltx")
 
-get_config 		 	= ballistics_mcm.get_config
-npc_effects		 	= get_config("npc_effect") or false
-true_falloff		= get_config("true_falloff") or true
-difficulty_scaling 	= get_config("difficulty_scaling") or false
-npc_use_special		= get_config("npc_use_special") or false
+get_config 		 			= ballistics_mcm.get_config
+npc_effects		 			= get_config("npc_effect") or false
+true_falloff				= get_config("true_falloff") or true
+difficulty_scaling_damage 	= get_config("difficulty_scaling_damage") or false
+difficulty_scaling_ap 		= get_config("difficulty_scaling_ap") or false
+npc_use_special				= get_config("npc_use_special") or false
 
 local cxv_tick = 60000
 local last_tick = 0
@@ -60,19 +62,34 @@ integrated_silencer = {
 	["wpn_700black"] = true,
 }
 
-local difficulty_multiplier = {
-	[1]  = (difficulty_scaling and 1.3) or 1.0,
-	[2]  = (difficulty_scaling and 1.05) or 1.0,
-	[3]  = (difficulty_scaling and 0.90) or 1.0,
-	[4]  = (difficulty_scaling and 0.80) or 1.0,
+-- ilrathCXV (10/07/24): Players will now be able to decide if they want to enable/disable difficulty scaling for damage and/or AP power
+local difficulty_multiplier_damage = {
+	[1]  = (difficulty_scaling_damage and 1.3) or 1.0,
+	[2]  = (difficulty_scaling_damage and 1.05) or 1.0,
+	[3]  = (difficulty_scaling_damage and 0.90) or 1.0,
+	[4]  = (difficulty_scaling_damage and 0.80) or 1.0,
+}
+
+local difficulty_multiplier_ap = {
+	[1]  = (difficulty_scaling_ap and 1.3) or 1.0,
+	[2]  = (difficulty_scaling_ap and 1.05) or 1.0,
+	[3]  = (difficulty_scaling_ap and 0.90) or 1.0,
+	[4]  = (difficulty_scaling_ap and 0.80) or 1.0,
 }
 
 -- ilrathCXV (04/05/2024): To have NPCs mimic doing less damage on different difficulties 
-local npc_difficulty_multiplier = {
-	[1]  = (difficulty_scaling and 0.80) or 1.0,
-	[2]  = (difficulty_scaling and 0.90) or 1.0,
-	[3]  = (difficulty_scaling and 1.05) or 1.0,
-	[4]  = (difficulty_scaling and 1.3) or 1.0,
+local npc_difficulty_multiplier_damage = {
+	[1]  = (difficulty_scaling_damage and 0.80) or 1.0,
+	[2]  = (difficulty_scaling_damage and 0.90) or 1.0,
+	[3]  = (difficulty_scaling_damage and 1.05) or 1.0,
+	[4]  = (difficulty_scaling_damage and 1.3) or 1.0,
+}
+
+local npc_difficulty_multiplier_ap = {
+	[1]  = (difficulty_scaling_ap and 0.80) or 1.0,
+	[2]  = (difficulty_scaling_ap and 0.90) or 1.0,
+	[3]  = (difficulty_scaling_ap and 1.05) or 1.0,
+	[4]  = (difficulty_scaling_ap and 1.3) or 1.0,
 }
 
 Bone_IDs = {
@@ -197,7 +214,7 @@ bip01_r_toe0	 	 		= 0.3,
 
 hp_rounds = {
 	["ammo_357_hp_mag"] = 2,
-	["ammo_357_hp_mag_bad"] = 5,			-- Ratshot
+	["ammo_357_hp_mag_bad"] = 3,			-- Ratshot
 	["ammo_357_hp_mag_verybad"] = 2,
 	["ammo_9x18_pmm"] = 2,
 	["ammo_9x18_pmm_bad"] = 2,
@@ -224,7 +241,7 @@ hp_rounds = {
 	["ammo_12x76_dart_bad"] = 1.5, 			-- Dragon's Breath
 	["ammo_12x76_dart_verybad"] = 1.5,
 	["ammo_12x70_buck"] = 3,
-	["ammo_12x70_buck_bad"] = 3,
+	["ammo_12x70_buck_bad"] = 2,	--3,
 	["ammo_12x70_buck_verybad"] = 3,
 	["ammo_23x75_shrapnel"] = 2,
 	["ammo_23x75_shrapnel_bad"] = 2,
@@ -235,7 +252,7 @@ hp_rounds = {
 	
 	["ammo_10x25_hydrashok"] = 2.5,
 	["ammo_10x25_hydrashok_bad"] = 2.5,
-	["ammo_10x25_fmj_bad"] = 4,				-- Armorbuster: do less damage on non-pen hits
+	["ammo_10x25_fmj_bad"] = 1.33,				-- Armorbuster: do less damage on non-pen hits
 	["ammo_5.7x28_ss195"] = 1.5,
 	["ammo_300blackout_fjm_bad"] = 1.33,
 	["ammo_44_mag"] = 2,
@@ -244,17 +261,17 @@ hp_rounds = {
 	["ammo_20x70_devastator_bad"] = 50, 	-- glass slug
 	["ammo_20x70_star"] = 1.33,				-- AP Dart
 	-- ["ammo_20x70_star_bad"] = 1.33,		-- Lightning Slug
-	["ammo_23x75_shrapnel_bad"] = 2,		-- Chaos Buckshot
+	["ammo_23x75_shrapnel_bad"] = 0.8,		-- Grav Buckshot
 	-- ["ammo_23x75_barrikada_bad"] = 3.5,	-- Napalm Slug
 	["ammo_23_eco"] = 5,					-- Cloudkill Syringe
 	["ammo_9x21_sp12"] = 1.5,				-- "Shrimp" HP Ammo 
 	["ammo_9x21_sp12_bad"] = 1.5,			-- "Shrimp" Zonemade HP
-	["ammo_11.43x23_fmj_bad"] = 1.5,		-- "FMJ+" .45 ACP (to offset not penetrating armor - that is .45 Behemoth's job)
+	["ammo_11.43x23_fmj_bad"] = 1.0989,		-- "FMJ+" .45 ACP (to offset not penetrating armor - that is .45 Behemoth's job)
 	["ammo_pkm_100_bad"] = 1.11,			-- PKM Tri-shot
 	["ammo_5.56x45_ap_bad"] = 1.11,			-- Quad-shot (meant to shred armor, less for pure damage)
 	["ammo_7.62x54_7h1_bad"] = 5,			-- Headhunter (should do little damage if not hitting a headshot)
 	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
-	["ammo_7.62x25_ps_bad"] = 2,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
+	["ammo_7.62x25_ps_bad"] = 1.33,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
 	["ammo_5.7x28_ss195_bad"] = 2.5,		-- 5.7 Fragmenting Round
 
 }
@@ -286,6 +303,9 @@ function validate_hit(shit, bone_id, npc_id)
 	if IsGrenade(wpn) then return end
 
 	sec = wpn:section()
+	
+	-- ilrathCXV (10/07/24): Crash catch that can occur from story script events
+	if sec == "actor" then return end
 
 	if ini_sys:r_string_ex(sec, "class") == "S_EXPLO" then return end
 	if IsItem("fake_ammo_wpn",sec) then return end
@@ -364,7 +384,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	bone_mult			= 1
 	is_critical			= false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.0.5   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.0.6   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
@@ -790,9 +810,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 		
-		shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
+		shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num])
 	else
-		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num])
+		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num])
 	end
 	printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
 	
@@ -897,7 +917,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.0.5  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.0.6  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -976,8 +996,9 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- ilrathCXV (05/01/2023): testing 15% damage boost at less than 3 units/meters of a target with diminishing return until +15m
 	-- "Snake, remember the basics of CQC"
 	local snake_mult = 1
+	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
+
 	if not true_falloff then
-		local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 		if dist <= 3.0 then
 			snake_mult = round_idp((1 + (0.15 / pellet_count)), 3)
 		elseif dist <= 15.0 then
@@ -1235,9 +1256,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local custom_bone_hitfraction = custom_bone_hf[custom_bone_id]
 
 	if tonumber(bone_ap_boost) >= 3 and tonumber(bone_id) <= 9 then -- leg meta, bullets ap boost in legs
-		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_23x75_shrapnel" or
-		   ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
+		if pellet_count > 1 then
 			k_ap = ( k_ap + 0.013 )
 		else
 			k_ap = ( k_ap + (0.075 * leg_meta_sniper_null) )
@@ -1245,9 +1264,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	end
 
 	if tonumber(bone_ap_boost) >= 16 and tonumber(bone_ap_boost) <= 19 or tonumber(bone_ap_boost) == 14 then -- headshot bonus on unprotected parts
-		if ammo_section == "ammo_12x70_buck" or ammo_section == "ammo_12x70_buck_bad" or ammo_section == "ammo_12x76_zhekan_bad" or
-		   ammo_section == "ammo_20x70_buck" or ammo_section == "ammo_20x70_buck_bad" or ammo_section == "ammo_23x75_shrapnel" or
-		   ammo_section == "ammo_23x75_shrapnel_bad" or ammo_section == "ammo_20x70_devastator_bad" then
+		if pellet_count > 1 then
 			k_ap = ( k_ap + 0.019 )
 		else
 			k_ap = ( k_ap + 0.040 )
@@ -1468,11 +1485,11 @@ function npc_on_before_hit(npc, shit, bone_id)
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 	
-		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost
+		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ((is_actor and difficulty_multiplier_ap[game_num]) or npc_difficulty_multiplier_ap[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num]) * ammo_mult * silencer_boost
 	else
-		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier[game_num]) or npc_difficulty_multiplier[game_num]) * ammo_mult * silencer_boost
+		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ((is_actor and difficulty_multiplier_ap[game_num]) or npc_difficulty_multiplier_ap[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num]) * ammo_mult * silencer_boost
 	end
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
@@ -1562,7 +1579,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 			local radius = (is_critical and 8) or 5
 			arti_handlers.graze_handler(npc, new_hit, radius)
 			
-			printf("ERROR CHECKING: Shit power: %s", shit.power)
+			-- printf("ERROR CHECKING: Shit power: %s", shit.power)
 		end
 	end
 	
@@ -1579,23 +1596,38 @@ end
 function on_option_change()
 	if ui_mcm and ballistics_mcm then
 	
-		npc_effects 		= get_config("npc_effect") or false
-		npc_use_special		= get_config("npc_use_special") or false
-		true_falloff 		= get_config("true_falloff") or true
-		difficulty_scaling 	= get_config("difficulty_scaling") or false
+		npc_effects 				= get_config("npc_effect") or false
+		npc_use_special				= get_config("npc_use_special") or false
+		true_falloff 				= get_config("true_falloff") or true
+		difficulty_scaling_damage 	= get_config("difficulty_scaling_damage") or false
+		difficulty_scaling_ap 		= get_config("difficulty_scaling_ap") or false
 		
-		difficulty_multiplier = {
-			[1]  = (difficulty_scaling and 1.3) or 1.0,
-			[2]  = (difficulty_scaling and 1.05) or 1.0,
-			[3]  = (difficulty_scaling and 0.90) or 1.0,
-			[4]  = (difficulty_scaling and 0.80) or 1.0,
+		difficulty_multiplier_damage = {
+			[1]  = (difficulty_scaling_damage and 1.3) or 1.0,
+			[2]  = (difficulty_scaling_damage and 1.05) or 1.0,
+			[3]  = (difficulty_scaling_damage and 0.90) or 1.0,
+			[4]  = (difficulty_scaling_damage and 0.80) or 1.0,
 		}
 		
-		npc_difficulty_multiplier = {
-			[1]  = (difficulty_scaling and 0.80) or 1.0,
-			[2]  = (difficulty_scaling and 0.90) or 1.0,
-			[3]  = (difficulty_scaling and 1.05) or 1.0,
-			[4]  = (difficulty_scaling and 1.3) or 1.0,
+		difficulty_multiplier_ap = {
+			[1]  = (difficulty_scaling_ap and 1.3) or 1.0,
+			[2]  = (difficulty_scaling_ap and 1.05) or 1.0,
+			[3]  = (difficulty_scaling_ap and 0.90) or 1.0,
+			[4]  = (difficulty_scaling_ap and 0.80) or 1.0,
+		}
+		
+		npc_difficulty_multiplier_damage = {
+			[1]  = (difficulty_scaling_damage and 0.80) or 1.0,
+			[2]  = (difficulty_scaling_damage and 0.90) or 1.0,
+			[3]  = (difficulty_scaling_damage and 1.05) or 1.0,
+			[4]  = (difficulty_scaling_damage and 1.3) or 1.0,
+		}
+		
+		npc_difficulty_multiplier_ap = {
+			[1]  = (difficulty_scaling_ap and 0.80) or 1.0,
+			[2]  = (difficulty_scaling_ap and 0.90) or 1.0,
+			[3]  = (difficulty_scaling_ap and 1.05) or 1.0,
+			[4]  = (difficulty_scaling_ap and 1.3) or 1.0,
 		}
 		
 	end
@@ -1817,7 +1849,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.0.5  //////////////////")
+	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.0.6  //////////////////")
 	
 end
 

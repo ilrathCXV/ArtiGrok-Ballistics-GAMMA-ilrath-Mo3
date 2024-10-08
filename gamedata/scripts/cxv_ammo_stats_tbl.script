@@ -290,14 +290,8 @@ function prop_nopen(obj, sec)
 	
 	if val == 0 then return 0 end
 	
-	if val >= 1 then
-		val = val * -1
-	end
-	
-	if (val < 0.1) and (val > -0.1) then
-		return (round_idp(val * 100, 2))
-	else
-		return (round_idp(val * 100, 1))
+	if val ~= 1 then
+		return round_idp((1 - val) * 100, 2)
 	end
 	
 	return 0
