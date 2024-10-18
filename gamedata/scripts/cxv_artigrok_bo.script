@@ -305,9 +305,11 @@ function validate_hit(shit, bone_id, npc_id)
 	sec = wpn:section()
 	
 	-- ilrathCXV (10/07/24): Crash catch that can occur from story script events
-	if sec == "actor" then return end
+	if sec == "actor" or sec == "explosive_barrel" or sec == "explosive_barrel_low" or sec == "explosive_tank" or sec == "explosive_grenade" or sec == "explosive_hide" or sec == "explosive_particle" or sec == "explosive_fuelcan" 
+	or sec == "explosive_mobiltank" or sec == "explosive_dinamit" then
+		return
+	end
 
-	if ini_sys:r_string_ex(sec, "class") == "S_EXPLO" then return end
 	if IsItem("fake_ammo_wpn",sec) then return end
 	
 	return {
@@ -591,7 +593,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
 	local game_num = 1
 	
-	if difficulty_scaling then
+	if difficulty_scaling_damage then
 		local gameplay = alife_storage_manager.get_state().diff_game
 		if not (type(gameplay) == "table") then -- for old saves
 			alife_storage_manager.get_state().diff_game = {}
@@ -803,6 +805,8 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		dist = 0
 	end
 	
+	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
+	
 	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
 	if true_falloff then
 		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
@@ -810,9 +814,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 		
-		shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num])
+		shit.power = shit.power * falloff_modifier * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * damage_mod
 	else
-		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num])
+		shit.power = shit.power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * mutant_mult * ammo_mult * spec_monster_mult * bone_mult * snake_mult * barrel_condition_corrected * damage_mod
 	end
 	printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
 	
@@ -1202,6 +1206,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 			fx:set_direction(fxdir)
 			fx:play_at_pos(pos)			
 		end
+
+--	/////// CHECK IF NPC IS FROM THE ZOMBIED FACTION TO REDUCE DAMAGES //////
+
+		if faction == "zombied" then
+			sin_res = 0.3
+			isg_res = 1
+		end
 		
 --	/////// CHECK IF NPC IS FROM THE ISG FACTION TO REDUCE PENETRATION AND DAMAGE //////
 
@@ -1236,7 +1247,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
 	local game_num = 1
 	
-	if difficulty_scaling then
+	if difficulty_scaling_ap or difficulty_multiplier_damage then
 		local gameplay = alife_storage_manager.get_state().diff_game
 		if not (type(gameplay) == "table") then -- for old saves
 			alife_storage_manager.get_state().diff_game = {}
@@ -1479,17 +1490,20 @@ function npc_on_before_hit(npc, shit, bone_id)
 		dist = 0
 	end
 	
+	local ap_mod = ((is_actor and (difficulty_scaling_ap and difficulty_multiplier_ap[game_num] or 1)) or (difficulty_scaling_ap and npc_difficulty_multiplier_ap[game_num] or 1)) or 1
+	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
+	
 	if true_falloff then
 		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
 		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
-	
-		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ((is_actor and difficulty_multiplier_ap[game_num]) or npc_difficulty_multiplier_ap[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num]) * ammo_mult * silencer_boost
+			
+		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
 	else
-		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ((is_actor and difficulty_multiplier_ap[game_num]) or npc_difficulty_multiplier_ap[game_num]) * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * ((is_actor and difficulty_multiplier_damage[game_num]) or npc_difficulty_multiplier_damage[game_num]) * ammo_mult * silencer_boost
+		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
+		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
 	end
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
