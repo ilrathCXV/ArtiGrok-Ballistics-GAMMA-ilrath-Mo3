@@ -310,7 +310,8 @@ function validate_hit(shit, bone_id, npc_id)
 		return
 	end
 
-	if IsItem("fake_ammo_wpn",sec) then return end
+	if ini_sys:r_string_ex(sec, "class") == "S_EXPLO" then return end
+	if IsItem("fake_ammo_wpn",sec) and not IsMelee(wpn) then return end
 	
 	return {
 		["wpn"] = wpn,
@@ -403,11 +404,6 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local ammo_type_number = wpn:get_ammo_type()
 	local ammo_list = utils_item.get_ammo(sec, wpn_id)
 	local ammo_section = ammo_list[ammo_type_number+1]
-	local wpn_hit_power = ui_wpn_params.read_float(sec, "", "hit_power")
-
-	if string.find(sec, "wpn_toz106") then
-		wpn_hit_power = 0.8
-	end
 	
 	if not ammo_section then
 		return
@@ -422,17 +418,17 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local dist = (monster_pos:distance_to(shooter_pos))
 	
 	local silencer_boost = 1
-	
-	if true_falloff then
-		if sec and integrated_silencer[sec] then
-			silencer_boost = 1.03
-		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
-			if wpn and wpn:weapon_is_silencer() then
+	if not IsMelee(wpn) then
+		if true_falloff then
+			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.03
+			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+				if wpn and wpn:weapon_is_silencer() then
+					silencer_boost = 1.03
+				end
 			end
 		end
 	end
-	
 	
 	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
 	
@@ -808,7 +804,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
 	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
-	if true_falloff then
+	if IsMelee(wpn) then
+		falloff_modifier = 1
+	elseif true_falloff then
 		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
 		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
@@ -933,23 +931,34 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local ammo_list = utils_item.get_ammo(sec, wpn_id)
 	local ammo_section = ammo_list[ammo_type_number+1]
 	local wpn_hit_power = ui_wpn_params.read_float(sec, "", "hit_power")
+	local melee_hit_power = IsMelee(wpn) and shit.power or nil
+	local wpn_kind = nil
+	
+	if melee_hit_power then
+		printf("Stat Melee Hit Power (%s) vs Actual Melee Hit Power(%s)", wpn_hit_power, melee_hit_power)
+		if melee_hit_power > wpn_hit_power then
+			wpn_hit_power = melee_hit_power
+		end
+	end
 	
 	local silencer_boost = 1
 	
-	if true_falloff then
-		if sec and integrated_silencer[sec] then
-			silencer_boost = 1.03
-		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
-			if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
+	if not IsMelee(wpn) then
+		if true_falloff then
+			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.03
+			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+				if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
+					silencer_boost = 1.03
+				end
 			end
-		end
-	else
-		if sec and integrated_silencer[sec] then
-			silencer_boost = 1.07
-		elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
-			if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
+		else
+			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.07
+			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+				if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
+					silencer_boost = 1.07
+				end
 			end
 		end
 	end
@@ -1493,7 +1502,9 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local ap_mod = ((is_actor and (difficulty_scaling_ap and difficulty_multiplier_ap[game_num] or 1)) or (difficulty_scaling_ap and npc_difficulty_multiplier_ap[game_num] or 1)) or 1
 	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
-	if true_falloff then
+	if IsMelee(wpn) then
+		falloff_modifier = 1
+	elseif true_falloff then
 		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
 		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
 		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)

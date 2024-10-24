@@ -515,13 +515,23 @@ function condition_degrade_on_fire(amount, wpn, chance)
 		if grok_gun_condition_fixed then
 			if arti_jamming.has_parts(wpn) then
 				local parts = item_parts.get_parts_con(wpn, nil, true)
-				local has_parts = false
+				
+				local part_names = {}
 				for k,v in pairs(parts) do
-					if arti_jamming.is_barrel(k) then
-						parts[k] = v - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1)
-						break
-					end
+					table.insert(part_names, k)
 				end
+				
+				local part_to_dmg = part_names[math_random(1, #part_names)]
+				
+				parts[part_to_dmg] = parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1)
+				
+			--	for k,v in pairs(parts) do
+			--		if arti_jamming.is_barrel(k) then
+			--			parts[k] = v - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1)
+			--			break
+			--		end
+			--	end
+			
 			end
 		else
 			weapon:set_condition(clamp(weapon:condition() - dura_rip, 0, 1))	-- Lose 0.25% condition when using variants
