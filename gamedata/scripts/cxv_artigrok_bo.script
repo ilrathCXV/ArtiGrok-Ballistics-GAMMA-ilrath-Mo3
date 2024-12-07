@@ -3,6 +3,7 @@
 -- Credit to arti, haru, and Grok
 -- ilrathCXV (04/15/24): Started building this script
 -- ilrathCXV (10/07/24): More difficulty option tweaks
+-- ilrathCXV (12/06/24): GAMMA 0.9.3 additions
 ----------------------------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -60,6 +61,27 @@ integrated_silencer = {
 	["wpn_vsk94"] = true,
 	["wpn_arbiter_bushmaster"] = true,
 	["wpn_700black"] = true,
+}
+
+snipers = {
+	["wpn_dvl10_m1"] = true,
+	["wpn_dvl10"] = true,
+	["wpn_l96a1"] = true,
+	["wpn_l96a1m"] = true,
+	["wpn_m98b"] = true,
+	["wpn_m24"] = true,
+	["wpn_remington700"] = true,
+	["wpn_remington700_archangel"] = true,
+	["wpn_remington700_lapua700"] = true,
+	["wpn_remington700_magpul_pro"] = true,
+	["wpn_remington700_mod_x_gen3"] = true,
+	["wpn_remington700_steyr_scout_big"] = true,
+	["wpn_sv98"] = true,
+	["wpn_sv98_custom"] = true,
+	["wpn_k98_mod"] = true,
+	["wpn_wa2000"] = true,
+	["wpn_trg"] = true,
+	["wpn_mosin"] = true,
 }
 
 -- ilrathCXV (10/07/24): Players will now be able to decide if they want to enable/disable difficulty scaling for damage and/or AP power
@@ -387,7 +409,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	bone_mult			= 1
 	is_critical			= false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.0.6   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.0.7   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
@@ -919,7 +941,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.0.6  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.0.7  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -1291,6 +1313,11 @@ function npc_on_before_hit(npc, shit, bone_id)
 		end
 	end
 
+	
+	if snipers[wpn:section()] then
+		k_ap = k_ap + 0.05
+	end
+	
 	k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
 
 	------------------
@@ -1874,7 +1901,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.0.6  //////////////////")
+	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.0.7  //////////////////")
 	
 end
 
