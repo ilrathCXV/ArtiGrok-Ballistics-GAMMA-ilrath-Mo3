@@ -1,8 +1,6 @@
-if ui_inventory.InvRoundStats then
-	printf("Momo Bar Tweaks are disabled to fix visual bug for GAMMA 0.9.3")
-	return
-end
+printf("Momo Bar Tweaks are disabled to fix visual bug for GAMMA 0.9.3")
 
+--[[
 local mas = momopate_accurate_stats
 local mas_mod = mas.modifiers
 local mas_gop = mas.get_outfit_protection
@@ -114,3 +112,4 @@ function ui_inventory.UIInventory:UpdateStats()
 	local fire_wound_val = ((((self.stat_outfit["fire_wound"] + self.stat_helm["fire_wound"]) / 2) + self.stat_arty["fire_wound"] + self.stat_boost["fire_wound"]) / self.stat_list["fire_wound"].max)
 	self.stat["fire_wound"].bar:SetProgressPos( clamp( fire_wound_val, 0, 1) )
 end
+--]]

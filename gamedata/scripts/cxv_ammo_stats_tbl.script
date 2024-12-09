@@ -220,7 +220,7 @@ end
 
 function prop_projectiles(obj, sec)
     local proj = SYS_GetParam(2, sec, "buck_shot")
-    return proj > 2 and proj or 0
+    return proj > 1 and proj or 0
 end
 
 function prop_accuracy(obj, sec)

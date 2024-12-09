@@ -428,7 +428,10 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local ammo_section = ammo_list[ammo_type_number+1]
 	
 	if not ammo_section then
-		return
+		return {
+            ["shit"] = shit,
+            ["bone_id"] = bone_id
+        }
 	end
 	
 	-- /// save ammo data ///
@@ -1297,9 +1300,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local custom_bone_ap_scale = custom_bone_ap[custom_bone_id]
 	local custom_bone_hitfraction = custom_bone_hf[custom_bone_id]
 
+	-- ilrathCXV (07/26/24): GAMMA's shotgun AP bonuses now appropriately and proportionally given to multi-pellet/multi-projectile ammo
 	if tonumber(bone_ap_boost) >= 3 and tonumber(bone_id) <= 9 then -- leg meta, bullets ap boost in legs
 		if pellet_count > 1 then
-			k_ap = ( k_ap + 0.013 )
+			k_ap = ( k_ap + round_idp((0.117 / pellet_count), 3) ) -- buck still receives 0.013 like normal
 		else
 			k_ap = ( k_ap + (0.075 * leg_meta_sniper_null) )
 		end
@@ -1307,7 +1311,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 	if tonumber(bone_ap_boost) >= 16 and tonumber(bone_ap_boost) <= 19 or tonumber(bone_ap_boost) == 14 then -- headshot bonus on unprotected parts
 		if pellet_count > 1 then
-			k_ap = ( k_ap + 0.019 )
+			k_ap = ( k_ap + round_idp((0.171 / pellet_count), 3) )	-- 0.019
 		else
 			k_ap = ( k_ap + 0.040 )
 		end
