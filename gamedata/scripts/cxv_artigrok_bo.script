@@ -1601,7 +1601,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		shit.power = shit.power * 2
 	end
 
-	printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s, Remaining health= %s", k_ap, custom_bone_value[custom_bone_id], shit.power, npc.health)
+	printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s", k_ap, custom_bone_value[custom_bone_id], shit.power)
 	
 	if is_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
 		----------------
@@ -1847,15 +1847,16 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
     if custom_hit then
         SendScriptCallback("npc_on_before_hit",npc,custom_hit.shit,custom_hit.bone_id, flags)
         if flags.ret_value then
-			printf("ArtiGrok BO - New hit power: %s", custom_hit.shit.power)
-            if custom_hit.shit.type ~= hit.fire_wound then
+			printf("ArtiGrok BO - New hit power: %s with hit.type %s", custom_hit.shit.power, custom_hit.shit.type)
+            if custom_hit.shit.type ~= hit.fire_wound and custom_hit.shit.type ~= hit.wound then
                 shit.power = custom_hit.shit.power
             else
-				if custom_hit.surrender_bonus == 1 then
+				if custom_hit.surrender_bonus == 1 and (custom_hit.shit.power < npc.health) then
 					npc:set_health_ex(0.0)
 				else
 					npc:set_health_ex(npc.health - custom_hit.shit.power)
 				end
+				printf("Enemy remaining HP: %s", npc.health)
                 shit.power = 0.0001 -- removing engine stuff
             end
         end
