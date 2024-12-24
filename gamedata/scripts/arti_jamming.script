@@ -956,10 +956,10 @@ function try_replace_part(wpn, table, part, using_tool)
 			cgd.parts[sec] = table[sec]
 		end
 		-- lose a little condition when replacing parts
-		if wcon > 0.6 then
-			local range = using_tool and 3 or 13
-			wpn:set_condition(wcon - (math_random(3, 3 + range)/100)) 
-		end
+--		if wcon > 0.6 then
+--			local range = using_tool and 3 or 13
+--			wpn:set_condition(wcon - (math_random(3, 3 + range)/100)) 
+--		end
 		if mag_support.using_mags() and mag_support.is_mag_loaded(wpn) then 
 			mag_support.eject_mag(wpn)
 		else
