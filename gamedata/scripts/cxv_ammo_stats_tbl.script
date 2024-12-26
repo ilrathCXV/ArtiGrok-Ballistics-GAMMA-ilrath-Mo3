@@ -12,7 +12,7 @@ local difficulty_scaling = ballistics_mcm.get_config("difficulty_scaling") or fa
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
     ["damage"] = { 
-        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=false,		sign_inverse = true,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
+        index= 10, typ= "float",   name= "st_prop_k_hit",         icon_p= "ui_wp_prop_damage",            icon_n= "", track= false,  magnitude= 1,     	unit= "st_perc", 		compare= false, sign=false,		sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_damage"} },
     ["ap"] = { 
         index= 20, typ= "string",  name= "st_prop_k_ap",          icon_p= "ui_wp_propery_04",             icon_n= "", track= false,  magnitude= 1,    	unit= "",  				compare= false, sign=false,		sign_inverse = false, 	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_ap"} },
     ["mutant_mod"] = { 
@@ -26,17 +26,17 @@ function inject_stats()
         index= 60, typ= "float",   name= "st_prop_projectiles",   icon_p= "ui_wp_prop_skorostrelnost",    icon_n= "", track= false,  magnitude= 1,      unit= "",           	compare= false, sign= false, 	sign_inverse = false,	show_always= true, value_functor= {"cxv_ammo_stats_tbl","prop_projectiles"} },
 
     ["accuracy"] ={ 
-        index= 70, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= false, 	sign_inverse = true,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_accuracy"} } ,
+        index= 70, typ= "float",   name= "st_prop_k_disp",        icon_p= "ui_wp_prop_tochnost",          icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",       	compare= false, sign= true, 	sign_inverse = true,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_spread"} } ,
     ["velocity"]={ 
-        index= 80, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= false, 	sign_inverse = true,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_flatness"} } ,
+        index= 80, typ= "float",   name= "st_prop_k_vel",         icon_p= "ui_wp_prop_nastilnost",        icon_n= "", track= false,  magnitude= 1,      unit= "st_perc",      	compare= false, sign= true, 	sign_inverse = false,	show_always= false, value_functor= {"cxv_ammo_stats_tbl","prop_flatness"} } ,
 
 	-- Momopate's Accurate Stats Addons
 	["range"]={
-		index = 90, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
-	["falloff"]={ 
-		index = 100, typ = "float", name = "st_cxv_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
+		index = 90, typ = "float", name = "st_mp_a_dist", 		  icon_p = "ui_wp_propery_13", 		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = true,	sign_inverse = false,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_range" } },
+--	["falloff"]={ 
+--		index = 100, typ = "float", name = "st_cxv_airres", 	  icon_p = "ui_wp_propery_05", 			  icon_n = "", track = false, magnitude = 1, 	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = true,		value_functor = { "cxv_ammo_stats_tbl", "prop_falloff" } },
 	["penalty"]={
-	    index = 110 ,typ = "float", name = "st_prop_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = false,	sign_inverse = true,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
+	    index = 110 ,typ = "float", name = "st_prop_nopen",		  icon_p = "ui_wp_propery_12",		  	  icon_n = "", track = false, magnitude = 1,	unit = "st_perc",		compare = false, sign = true,	sign_inverse = false,	show_always = false,	value_functor = { "cxv_ammo_stats_tbl", "prop_nopen" } },
 	-- Addons end
 	
 	["special"]={ 
@@ -152,6 +152,26 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end
+			
+			-- Now to hard-code turning harmful stats to be red text
+			-- Damage (val < 1.0)
+			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") then
+				local str
+				local k_hit = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_hit") or 0
+				if k_hit < 1 then
+					self.stats[i].txt:SetTextColor(GetARGB(255, 255, 50, 50))	-- turn the stat red to signify that it is decreasing your damage
+				end
+			end
+			-- Air res/drag (val > 1.0)
+			if self.stats[i].cap:GetText() == game.translate_string("st_cxv_airres") then
+				local str
+				local k_airres = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_air_resistance") or 0
+				if k_airres > 1 then
+					self.stats[i].txt:SetTextColor(GetARGB(255, 255, 50, 50))	-- turn the stat red to signify that it is increasing your drag
+				end
+			end
+			
+			
             if self.stats[i].cap:GetText() == game.translate_string("st_prop_special") then    
                 local str_spec = ini_ammo:r_string_ex(is_knife and knife_ammo_sec or sec, "special")
                 if str_spec then
@@ -200,11 +220,7 @@ end
 function prop_damage(obj, sec)
     local val = SYS_GetParam(2, obj and obj:section() or sec, "k_hit") or 1
 	
-	if val >= 1 then
-		val = val * -1
-	end
-	
-	if (val < 0.1) and (val > -0.1) then
+	if (val < 0.1) then
 		return (round_idp(val * 100, 2))
 	else
 		return (round_idp(val * 100, 1))
@@ -223,17 +239,13 @@ function prop_projectiles(obj, sec)
     return proj > 1 and proj or 0
 end
 
-function prop_accuracy(obj, sec)
+function prop_spread(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_disp") or 1)
 	
-	if val < 1 then
-		val = val * -1
-	end
-	
-	if (val < 0.1) and (val > -0.1) then
-		return (round_idp(val * 100, 2))
+	if (val < 0.1) then
+		return (round_idp((val - 1) * 100, 2))
 	else
-		return (round_idp(val * 100, 1))
+		return (round_idp((val - 1) * 100, 1))
 	end
 	
 	return 0
@@ -243,14 +255,10 @@ end
 function prop_flatness(obj, sec)
     local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_bullet_speed") or 1)
 	
-	if val >= 1 then
-		val = val * -1
-	end
-	
 	if (val < 0.1) and (val > -0.1) then
-		return (round_idp(val * 100, 2))
+		return (round_idp((val - 1) * 100, 2))
 	else
-		return (round_idp(val * 100, 1))
+		return (round_idp((val - 1) * 100, 1))
 	end
 	return 0
 end
@@ -291,35 +299,29 @@ function prop_nopen(obj, sec)
 	if val == 0 then return 0 end
 	
 	if val ~= 1 then
-		return round_idp((1 - val) * 100, 2)
+		return round_idp((val - 1) * 100, 2)
 	end
 	
 	return 0
 end
 
 function prop_falloff(obj, sec)
-	local perc = round_idp((SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
-	if perc < 1 then
-		perc = perc * -1
-	end
+	local val = round_idp((SYS_GetParam(2, obj and obj:section() or sec, "k_air_resistance") or 0), 2)
 	
-	if (perc < 0.1) and (perc > -0.1) then
-		return (round_idp(perc * 100, 2))
+	if (val < 0.1) then
+		return (round_idp((val - 1) * 100, 2))
 	else
-		return (round_idp(perc * 100, 1))
+		return (round_idp((val - 1) * 100, 1))
 	end
 end
 
 function prop_range(obj, sec)
 	local val = (SYS_GetParam(2, obj and obj:section() or sec, "k_dist") or 1)
-	if val >= 1 then
-		val = val * -1
-	end
 	
 	if (val < 0.1) and (val > -0.1) then
-		return (round_idp(val * 100, 2))
+		return (round_idp((val - 1) * 100, 2))
 	else
-		return (round_idp(val * 100, 1))
+		return (round_idp((val - 1) * 100, 1))
 	end
 	return 0
 end
@@ -350,22 +352,6 @@ function prop_stalker_mod(obj, sec)
     else 
 		return 0
 	end
-end
-
-function prop_degr(obj, sec)
-	local val = (SYS_GetParam(2, obj and obj:section() or sec, "impair") or 1)
-	if val < 1 then
-		val = val * -1
-	end
-	if val == 1 then 
-		return 0 
-	end
-	if (val < 0.1) then
-		return (round_idp(val * 100, 2))
-	else
-		return (round_idp(val * 100, 1))
-	end
-	return 0
 end
 
 function on_option_change()

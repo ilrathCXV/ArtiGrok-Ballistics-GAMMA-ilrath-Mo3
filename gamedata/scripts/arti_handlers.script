@@ -1,5 +1,5 @@
 ---------------------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (last edit: 03/16/24) -----
+----- EDIT for ArtiGrok - ilrathCXV (last edit: 12/26/24) -----
 ---------------------------------------------------------------
 
 play_particle       = ballistics_utils.play_particle
@@ -148,7 +148,7 @@ function burn_tick_on_update()
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
 					local burn_dmg = (v * 0.01) or 0.01
-					printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
+					-- printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
 					
 					local h = hit()
 					h.type = hit.burn
@@ -313,9 +313,9 @@ function shock_npc(npc, bone_id, wpn_id, stack)
     -- printf([Arti Handlers] "Shocked %s", npc:id())
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
-	printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
+	-- printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
 	if shock_stack_list[npc_id] > 19 then
-		printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
+		-- printf("[Arti Handlers - Shock NPC] NPC about to be AoE'd: %s", npc:name())
 		shock_stack_list[npc_id] = shock_stack_list[npc_id] - 20
 		
 		if shock_stack_list[npc_id] < 0 then
@@ -341,7 +341,7 @@ function acid_damage(npc, bone_id)
 	
 	-- [Acid Stacking Effect] If hit enemy has taken 3 Acid hits, they apply the "Armorbuster" effect to any enemy within 8m
 	if (acid_stack_list[npc:id()] and acid_stack_list[npc:id()] > 2) then
-		printf("[Arti Handlers] Acid Stacking proc'd!!!")
+		-- printf("[Arti Handlers] Acid Stacking proc'd!!!")
 		level.iterate_nearest(npc:position(), 8, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
@@ -461,7 +461,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 end
 
 function damage_npc_grok(npc, power)
-	printf("[Arti Handlers - DMG NPC Grok] Special Damage: %s | NPC being hit: %s", power, npc:name())
+	-- printf("[Arti Handlers - DMG NPC Grok] Special Damage: %s | NPC being hit: %s", power, npc:name())
 	npc:set_health_ex(npc.health - power)
 	if npc.health <= 0 then	-- double-check in case burn or alternate manual damage kills
 		SendScriptCallback("npc_on_death_callback", npc, db.actor)
@@ -480,7 +480,7 @@ end
 -- Graze: Spreads 30% of original damage on headshots in a 8m radius OR 5% of original damage on non-headshots in a 5m radius
 function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in grok_bo; needs shit.power to be adjusted)
 	
-	printf("[Arti Handlers - Graze] Starting Graze...")	
+	-- printf("[Arti Handlers - Graze] Starting Graze...")	
 	
 	level.iterate_nearest(npc:position(), radius, function(obj)
 		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 and obj:id() ~= npc:id() then
@@ -489,7 +489,7 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
 			
-			printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
+			-- printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
 			
 			obj:hit(new_hit)
 			graze_hits = graze_hits + 1
@@ -514,16 +514,24 @@ function condition_degrade_on_fire(amount, wpn, chance)
     if weapon and rand == 1 then
 		if grok_gun_condition_fixed then
 			if arti_jamming.has_parts(wpn) then
-				local parts = item_parts.get_parts_con(wpn, nil, true)
+				local parts = se_load_var(wpn:id(), nil, "parts")
 				
 				local part_names = {}
 				for k,v in pairs(parts) do
 					table.insert(part_names, k)
 				end
 				
-				local part_to_dmg = part_names[math_random(1, #part_names)]
+				local part_to_dmg
+				local total_part_names = #part_names
+				for i = 1, total_part_names do
+					part_index = math_random(1, #part_names)
+					part_to_dmg = part_names[part_index]
+					printf("Part to damage: %s", part_to_dmg)
+					if arti_jamming.is_part(part_to_dmg) then break end
+					table.remove(part_names, part_index)
+				end
 				
-				parts[part_to_dmg] = parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1)
+				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1), 1, parts[part_to_dmg])
 				
 			--	for k,v in pairs(parts) do
 			--		if arti_jamming.is_barrel(k) then
@@ -531,7 +539,9 @@ function condition_degrade_on_fire(amount, wpn, chance)
 			--			break
 			--		end
 			--	end
-			
+				
+				item_parts.set_parts_con(wpn:id(), parts)
+				
 			end
 		else
 			weapon:set_condition(clamp(weapon:condition() - dura_rip, 0, 1))	-- Lose 0.25% condition when using variants
@@ -591,7 +601,7 @@ function custom_impair_special_effects(obj, wpn, ammo_elapsed, grenade_elapsed, 
 	
 	if ammo_table[ammo_type + 1] and 
 	(custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] or custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special_2")]) then
-		condition_degrade_on_fire(0.0105, wpn, 4)			-- Lose 1.05% durability when firing these rounds on a 25% (un)lucky roll
+		condition_degrade_on_fire(0.0105, wpn, 20)			-- Lose 1.05% durability when firing these rounds on a 5% (un)lucky roll
     elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "_bad") or string.find(ammo_table[ammo_type + 1], "_eco") then
 		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll
 	end

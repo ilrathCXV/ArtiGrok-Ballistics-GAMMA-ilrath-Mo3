@@ -36,6 +36,7 @@ leg_meta_sniper_null = 1
 sniper_bad_bone_shit_reduce = 1
 
 integrated_silencer = {
+	["wpn_amb17"] = true,
 	["wpn_dvl10_m1"] = true,
 	["wpn_vssk"] = true,
 	["wpn_val_tac"] = true,
@@ -48,7 +49,7 @@ integrated_silencer = {
 	["wpn_mp5sd"] = true,
 	["wpn_mp5sd_custom"] = true,
 	["wpn_mp5sd_new"] = true,
-	
+	["wpn_sig_spear_cqb"] = true,
 	["wpn_pb"] = true,
 	["wpn_pb_bas"] = true,
 	["wpn_pb_custom"] = true,
@@ -60,12 +61,18 @@ integrated_silencer = {
 	["wpn_vintorez_nimble"] = true,
 	["wpn_vsk94"] = true,
 	["wpn_arbiter_bushmaster"] = true,
+	["wpn_delisle"] = true,
 	["wpn_700black"] = true,
 }
 
 snipers = {
 	["wpn_dvl10_m1"] = true,
 	["wpn_dvl10"] = true,
+	["wpn_steyr_scout"] = true,
+	["wpn_steyr_scout_big"] = true,
+	["wpn_axmc"] = true,
+	["wpn_axmc_black"] = true,	
+	["wpn_hecate_2"] = true,
 	["wpn_l96a1"] = true,
 	["wpn_l96a1m"] = true,
 	["wpn_m98b"] = true,
@@ -76,14 +83,36 @@ snipers = {
 	["wpn_remington700_magpul_pro"] = true,
 	["wpn_remington700_mod_x_gen3"] = true,
 	["wpn_remington700_steyr_scout_big"] = true,
+	["wpn_rem700_aics"] = true,
+	["wpn_rem700_mcmillan"] = true,	
 	["wpn_sv98"] = true,
 	["wpn_sv98_custom"] = true,
 	["wpn_k98_mod"] = true,
+	["wpn_k98_mod_silen98"] = true,
+	["wpn_kar98_retrotac"] = true,
 	["wpn_wa2000"] = true,
+	["wpn_mctac50"] = true,
 	["wpn_trg"] = true,
+	["wpn_rem7615"] = true,
 	["wpn_mosin"] = true,
 }
 
+lmgs = {
+	["wpn_pk_siber"] = true,
+	["wpn_pkm_siber"] = true,
+	["wpn_pkm_zenit_siber"] = true,
+	["wpn_pkp_siber"] = true,
+	["wpn_rpd"] = true,
+	["wpn_m134"] = true,
+	["wpn_m249"] = true,
+	["wpn_pkm_zenit_shorty"] = true,
+	["wpn_pkp_tac_siber"] = true,
+	["wpn_rpd_custom"] = true,
+	["wpn_rpk74_16_drum"] = true,
+	["wpn_rpk74_16"] = true,
+	["wpn_rpk"] = true,
+	["wpn_l86_lsw"] = true,
+}
 -- ilrathCXV (10/07/24): Players will now be able to decide if they want to enable/disable difficulty scaling for damage and/or AP power
 local difficulty_multiplier_damage = {
 	[1]  = (difficulty_scaling_damage and 1.3) or 1.0,
@@ -1320,6 +1349,9 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 	if snipers[wpn:section()] then
 		k_ap = k_ap + 0.05
+	end
+	if lmgs[wpn:section()] then
+		k_ap = k_ap + 0.03
 	end
 	
 	k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
