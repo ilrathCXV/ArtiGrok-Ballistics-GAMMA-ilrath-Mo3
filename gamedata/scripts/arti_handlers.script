@@ -1,5 +1,5 @@
 ---------------------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (last edit: 12/26/24) -----
+----- EDIT for ArtiGrok - ilrathCXV (last edit: 12/29/24) -----
 ---------------------------------------------------------------
 
 play_particle       = ballistics_utils.play_particle
@@ -508,13 +508,15 @@ end
 
 -- randomly rip the durability
 function condition_degrade_on_fire(amount, wpn, chance)
-    local rand = math_random(chance)
+    local rand = math_random(1, chance)
     local weapon = wpn or db.actor:active_item()
 	local dura_rip = amount or 0.0025
     if weapon and rand == 1 then
 		if grok_gun_condition_fixed then
 			if arti_jamming.has_parts(wpn) then
-				local parts = se_load_var(wpn:id(), nil, "parts")
+				local parts = se_load_var(wpn:id(), wpn:name(), "parts")
+				
+				if not parts then return end
 				
 				local part_names = {}
 				for k,v in pairs(parts) do
@@ -526,9 +528,14 @@ function condition_degrade_on_fire(amount, wpn, chance)
 				for i = 1, total_part_names do
 					part_index = math_random(1, #part_names)
 					part_to_dmg = part_names[part_index]
-					printf("Part to damage: %s", part_to_dmg)
-					if arti_jamming.is_part(part_to_dmg) then break end
+					-- printf("Part to damage: %s", part_to_dmg)
+					if arti_jamming.is_part(part_to_dmg) then
+						if (not arti_jamming.is_barrel(part_to_dmg)) or (arti_jamming.is_barrel(part_to_dmg) and math_random(1, 2) == 1) then	-- if barrel is picked, 50% chance to not damage it --> choose a new part to damage
+							break
+						end
+					end
 					table.remove(part_names, part_index)
+					part_to_dmg = nil
 				end
 				
 				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1), 1, parts[part_to_dmg])
@@ -601,9 +608,9 @@ function custom_impair_special_effects(obj, wpn, ammo_elapsed, grenade_elapsed, 
 	
 	if ammo_table[ammo_type + 1] and 
 	(custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special")] or custom_proj_table[ini_ammo:r_string_ex(ammo_table[ammo_type + 1], "special_2")]) then
-		condition_degrade_on_fire(0.0105, wpn, 20)			-- Lose 1.05% durability when firing these rounds on a 5% (un)lucky roll
+		condition_degrade_on_fire(0.0105, wpn, 20)			-- Lose 1.05% durability when firing these rounds on a 5% (un)lucky roll (now removes 3% condition on a random part)
     elseif ammo_table[ammo_type + 1] and string.find(ammo_table[ammo_type + 1], "_bad") or string.find(ammo_table[ammo_type + 1], "_eco") then
-		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll
+		condition_degrade_on_fire(0.0025, wpn, 10)			-- Lose 0.25% durability when firing these rounds on a 10% (un)lucky roll (now removes 1% condition on a random part)
 	end
 end
 ------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
--- Monkey patches needed to avoid double-dipping/using alternative calculation methods
+-- Monkey patches needed to avoid double-dipping/using alternative calculation methods or visual bugs
 
 --------------------------------------------------------------------------------------------
 -- arti_jamming: We already deal with barrel condition inside of the calculations
@@ -10,4 +10,35 @@ if arti_jamming then
 	function arti_jamming.monster_on_before_hit(monster,shit,bone_id, flags)
 		return
 	end
+end
+
+--------------------------------------------------------------------------------------------
+-- Fixing GAMMA's weird weapon damage display (only if not running AAS)
+--------------------------------------------------------------------------------------------
+local aas_check = momopate_accurate_stats or false
+if not aas_check then
+	local ish = ish_item_stats.apply_compatibility_patches
+	function ish_item_stats.apply_compatibility_patches()
+		
+		ish()
+		
+		printf("CXV - Fixing GAMMA's weird damage values...")
+		utils_ui.stats_table["weapon"]["damage"].value_functor = { "zzzzzzzz_cxv_artigrok_monkeys","adj_damage" }
+	end
+end	
+
+-- Credit to Momopate for this
+function adj_damage(obj,sec)
+	local id = obj and obj:id()
+	local hit_power = utils_item.get_wpn_param(obj, sec, "hit_power", 0)
+	
+	hit_power = hit_power * 100
+	
+	if (hit_power < 10) then
+		return round_idp(hit_power, 2)
+	else
+		return round_idp(hit_power, 1)
+	end
+	
+	return 0
 end
