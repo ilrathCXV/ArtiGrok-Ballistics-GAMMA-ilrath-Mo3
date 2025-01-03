@@ -299,6 +299,8 @@ hp_rounds = {
 	["ammo_23x75_barrikada"] = 3.5,
 	["ammo_20x70_buck"] = 2,
 
+	["ammo_338_federal"] = 10,				-- Might comment out later or make new ammo cuz ain't no one going to invest into using this as their mutant killer LMAO - CXV
+	
 -- ArtiGrok/modded additions
 	
 	["ammo_10x25_hydrashok"] = 2.5,
@@ -591,6 +593,33 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	end
 
 	if string.find(monster:name(), "zombi") then
+		spec_monster_mult = 0.80
+		if bone_id == 12 then
+			bone_mult = 2.00
+			printf("Critical Hit!")
+			is_critical = true
+		end
+	end
+	
+	if string.find(monster:name(), "hayzed_") then
+		spec_monster_mult = 0.80
+		if bone_id == 12 then
+			bone_mult = 2.00
+			printf("Critical Hit!")
+			is_critical = true
+		end
+	end
+	
+	if string.find(monster:name(), "lady_") then
+		spec_monster_mult = 0.80
+		if bone_id == 12 then
+			bone_mult = 2.00
+			printf("Critical Hit!")
+			is_critical = true
+		end
+	end
+	
+	if string.find(monster:name(), "skyrim_") then
 		spec_monster_mult = 0.80
 		if bone_id == 12 then
 			bone_mult = 2.00
@@ -1791,6 +1820,36 @@ function bullet_on_impact(bullet)
 	
 end
 
+gbo_adb = grok_actor_damage_balancer.actor_on_before_hit
+function grok_actor_damage_balancer.actor_on_before_hit(shit, bone_id, flags)
+	
+	-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
+    local bullet_id = shit.bullet_id
+    if bullet_id and bullet_store[bullet_id] then
+        local bullet_hits = bullet_store[bullet_id]
+		-- bullet on_impact was stored and no hit has been detected yet -- hit the player and increment counter by 1 to avoid multi-hit
+        if bullet_hits[AC_ID] and bullet_hits[AC_ID] == 0 then
+            bullet_hits[AC_ID] = 1
+			
+		-- bullet has already had a hit recorded -- don't hit the player and nullify the hit
+        else													
+            flags.ret_value = false
+            shit.power = 0.0
+            shit.bone_id = 65535
+            return
+        end 
+    elseif bullet_id then
+        -- no impact recorded - add to store and flush later + hit the player
+        hits = {[AC_ID] = 1}
+        bullet_store[bullet_id] = hits
+        CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
+            bullet_store[bullet_id] = nil
+        end)
+    end
+
+    gbo_adb(shit, bone_id, flags)
+end
+
 local bullet_check = {}
 
 -- ilrathCXV: Used to check for ricochets (bullet should only "explode" or "ignite" on destroy call)
@@ -1798,6 +1857,7 @@ function aoe_handler(bullet)
 	-- in case of ricochet...?
 	if bullet.target_id == 65535 and bullet_check[bullet.bullet_id] then return end
 	if bullet.target_id == 65535 then bullet_check[bullet.bullet_id] = true end
+	if bullet.parent_id ~= AC_ID and not npc_use_special then return end
 	
 	-- printf("ArtiGrok BO - Bullet section: %s", bullet.section)
 	
@@ -1879,7 +1939,7 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
     if custom_hit then
         SendScriptCallback("npc_on_before_hit",npc,custom_hit.shit,custom_hit.bone_id, flags)
         if flags.ret_value then
-			printf("ArtiGrok BO - New hit power: %s with hit.type %s", custom_hit.shit.power, custom_hit.shit.type)
+			-- printf("ArtiGrok BO - New hit power: %s", custom_hit.shit.power)
             if custom_hit.shit.type ~= hit.fire_wound and custom_hit.shit.type ~= hit.wound then
                 shit.power = custom_hit.shit.power
             else
@@ -1888,7 +1948,7 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
 				else
 					npc:set_health_ex(npc.health - custom_hit.shit.power)
 				end
-				printf("Enemy remaining HP: %s", npc.health)
+				-- printf("Enemy remaining HP: %s", npc.health)
                 shit.power = 0.0001 -- removing engine stuff
             end
         end
