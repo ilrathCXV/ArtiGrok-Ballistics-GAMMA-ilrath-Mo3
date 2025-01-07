@@ -377,5 +377,8 @@
 		<text>6.8 AP+</text>
 	</string>
 
+	<string id="st_no_buck">
+		<text>Uses 12/20ga. Slugs ONLY</text>
+	</string>
 	
 </string_table>

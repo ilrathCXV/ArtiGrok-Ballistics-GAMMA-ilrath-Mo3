@@ -1618,12 +1618,12 @@ function npc_on_before_hit(npc, shit, bone_id)
 	armor_loss_increment = tonumber((armor_loss_increment + armor_break_bonus) * armor_break_mult)
 	
 	local new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
-	custom_bone_value[custom_bone_id] = new_bone_armor
+	custom_bone_value[custom_bone_id] = tonumber( clamp(new_bone_armor, 0, custom_bone_armor) )
 	
 	if k_ap < custom_bone_armor then
 	
-		new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
-		custom_bone_value[custom_bone_id] = new_bone_armor
+--		new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
+--		custom_bone_value[custom_bone_id] = new_bone_armor
 		
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
 			shit.power = shit.power * custom_bone_hitfraction
@@ -2005,7 +2005,7 @@ end
 function on_game_start()
 	RegisterScriptCallback("bullet_on_impact", bullet_on_impact)
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
-	RegisterScriptCallback("actor_on_update", actor_on_update)
+--	RegisterScriptCallback("actor_on_update", actor_on_update)
 	
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)
