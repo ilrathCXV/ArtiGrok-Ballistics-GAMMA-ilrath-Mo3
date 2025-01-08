@@ -285,7 +285,7 @@ hp_rounds = {
 	["ammo_5.56x45_ss190"] = 1.33,
 	["ammo_5.56x45_ss190_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers
 	["ammo_5.56x45_ss190_verybad"] = 1.33,
-	["ammo_12x76_zhekan"] = 3.5,
+	["ammo_12x76_zhekan"] = 2, -- 3.5,
 	["ammo_12x76_zhekan_bad"] = 3.5,		-- Flechette (has Armorbuster)
 	["ammo_12x76_zhekan_verybad"] = 3.5,
 	["ammo_12x76_dart"] = 1.5,
@@ -296,7 +296,7 @@ hp_rounds = {
 	["ammo_12x70_buck_verybad"] = 3,
 	["ammo_23x75_shrapnel"] = 2,
 	["ammo_23x75_shrapnel_bad"] = 2,
-	["ammo_23x75_barrikada"] = 3.5,
+	["ammo_23x75_barrikada"] = 1.5,	-- 3.5,
 	["ammo_20x70_buck"] = 2,
 
 	["ammo_338_federal"] = 10,				-- Might comment out later or make new ammo cuz ain't no one going to invest into using this as their mutant killer LMAO - CXV
@@ -310,10 +310,12 @@ hp_rounds = {
 	["ammo_300blackout_fjm_bad"] = 1.33,
 	["ammo_44_mag"] = 2,
 	["ammo_20x70_buck_bad"] = 3,			-- #3BK
-	["ammo_20x70_devastator"] = 2.5,		-- standard slug
+	["ammo_20x70_devastator"] = 1.5,		-- standard slug -- 2.5,
 	["ammo_20x70_devastator_bad"] = 50, 	-- glass slug
+	["ammo_20x70_devastator_very_bad"] = 2.5,
 	["ammo_20x70_star"] = 1.33,				-- AP Dart
 	-- ["ammo_20x70_star_bad"] = 1.33,		-- Lightning Slug
+	["ammo_20x70_star_very_bad"] = 2,
 	["ammo_23x75_shrapnel_bad"] = 0.8,		-- Grav Buckshot
 	-- ["ammo_23x75_barrikada_bad"] = 3.5,	-- Napalm Slug
 	["ammo_23_eco"] = 5,					-- Cloudkill Syringe
@@ -422,9 +424,9 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local wpn = validate_data.wpn
 	local sec = validate_data.sec
 	
-	local is_actor = false
+	local is_shooter_actor = false
 	if shit.draftsman:id() == db.actor:id() then
-		is_actor = true
+		is_shooter_actor = true
 		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
 	end
 
@@ -478,7 +480,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		if true_falloff then
 			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.03
-			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			elseif is_shooter_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
 				if wpn and wpn:weapon_is_silencer() then
 					silencer_boost = 1.03
 				end
@@ -689,7 +691,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local special_effect = 0
 	local special_effect_2 = 0
 	
-	if is_actor or npc_use_special then
+	if is_shooter_actor or npc_use_special then
 		special_effect = arti_handlers.get_special(ammo_section) or 0
 		special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
 	end
@@ -884,7 +886,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		dist = 0
 	end
 	
-	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
+	local damage_mod = ((is_shooter_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
 	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
 	if IsMelee(wpn) then
@@ -901,7 +903,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	end
 	printf("Barrel condition: %s, ArtiGrok BO output damage: %s, Ammo multiplier: %s, CQC multiplier: %s", barrel_condition, shit.power, ammo_mult, snake_mult)
 	
-	if is_actor then	-- ilrathCXV (04/11/2024): Will lock these off from NPCs always as these might be the bigger culprits/has no effect on them
+	if is_shooter_actor then	-- ilrathCXV (04/11/2024): Will lock these off from NPCs always as these might be the bigger culprits/has no effect on them
 		------------------------
 		-- [NEW] Graze Rounds --
 		------------------------
@@ -994,10 +996,10 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local wpn = validate_data.wpn
 	local sec = validate_data.sec
 	
-	local is_actor = false
+	local is_shooter_actor = false
 	if shit.draftsman:id() == db.actor:id() then
 		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
-		is_actor = true
+		is_shooter_actor = true
 	end
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
@@ -1030,7 +1032,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		if true_falloff then
 			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.03
-			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			elseif is_shooter_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
 				if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
 					silencer_boost = 1.03
 				end
@@ -1038,7 +1040,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		else
 			if sec and integrated_silencer[sec] then
 				silencer_boost = 1.07
-			elseif is_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
+			elseif is_shooter_actor then	-- cannot access if NPC's weapon has a suppressor, so limit weapons not on the list to the player
 				if wpn and (wpn:weapon_silencer_status() == 1) or (wpn:weapon_silencer_status() == 2 and wpn:weapon_is_silencer()) then
 					silencer_boost = 1.07
 				end
@@ -1061,7 +1063,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local special_effect = 0
 	local special_effect_2 = 0
 	
-	if is_actor or npc_use_special then
+	if is_shooter_actor or npc_use_special then
 		special_effect = arti_handlers.get_special(ammo_section) or 0
 		special_effect_2 = arti_handlers.get_special_2(ammo_section) or 0
 	end
@@ -1559,7 +1561,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
 	-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
 	if (special_effect == "grav") or (special_effect_2 == "grav") then
-		if is_actor then
+		if is_shooter_actor then
 			local wpn_type = ini_sys:r_string(wpn:section(), "kind") or nil
 			local min_dist = 0 -- desired min. range gor Grav to take effect
 			local grav_effect_mult = 0	-- take 1/(300 - min_dist)
@@ -1591,8 +1593,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 		dist = 0
 	end
 	
-	local ap_mod = ((is_actor and (difficulty_scaling_ap and difficulty_multiplier_ap[game_num] or 1)) or (difficulty_scaling_ap and npc_difficulty_multiplier_ap[game_num] or 1)) or 1
-	local damage_mod = ((is_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
+	local ap_mod = ((is_shooter_actor and (difficulty_scaling_ap and difficulty_multiplier_ap[game_num] or 1)) or (difficulty_scaling_ap and npc_difficulty_multiplier_ap[game_num] or 1)) or 1
+	local damage_mod = ((is_shooter_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
 	if IsMelee(wpn) then
 		falloff_modifier = 1
@@ -1664,7 +1666,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 	printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s", k_ap, custom_bone_value[custom_bone_id], shit.power)
 	
-	if is_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
+	if is_shooter_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
 		----------------
 		-- RIP Rounds --
 		----------------

@@ -2,10 +2,10 @@
 
 <string_table>
 	<string id="ui_mcm_menu_ballistics">
-		<text>Ballistics</text>
+		<text>ArtiGrok Ballistics</text>
 	</string>
 	<string id="ui_mcm_ballistics_title">
-		<text>Ballistics Framework</text>
+		<text>ArtiGrok Ballistics - Merge & Extension of GBO and ArtiBalls</text>
 	</string>
 	
 	<string id="ui_mcm_ballistics_debug">
