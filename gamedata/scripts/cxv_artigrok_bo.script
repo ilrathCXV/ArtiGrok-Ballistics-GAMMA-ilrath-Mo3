@@ -328,7 +328,7 @@ hp_rounds = {
 	["ammo_7.92x33_fmj_bad"] = 2.7,			-- Varmageddon: not effective agaisnt stalkers 
 	["ammo_7.62x25_ps_bad"] = 1.33,			-- 7.62x25 Acid Rounds (eats armor, doesn't do much impact damage)
 	["ammo_5.7x28_ss195_bad"] = 2.5,		-- 5.7 Fragmenting Round
-
+	["ammo_3006j_hp"] = 2,					-- It has good AP power, but it needs to be punishing for trying to brute-force armor
 }
 
 -----------------------------------------------------------------------------------------------------

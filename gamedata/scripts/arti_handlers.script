@@ -513,8 +513,8 @@ function condition_degrade_on_fire(amount, wpn, chance)
 	local dura_rip = amount or 0.0025
     if weapon and rand == 1 then
 		if grok_gun_condition_fixed then
-			if arti_jamming.has_parts(wpn) then
-				local parts = se_load_var(wpn:id(), wpn:name(), "parts")
+			if arti_jamming.has_parts(weapon) then
+				local parts = se_load_var(weapon:id(), weapon:name(), "parts")
 				
 				if not parts then return end
 				
@@ -540,14 +540,9 @@ function condition_degrade_on_fire(amount, wpn, chance)
 				
 				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1), 1, parts[part_to_dmg])
 				
-			--	for k,v in pairs(parts) do
-			--		if arti_jamming.is_barrel(k) then
-			--			parts[k] = v - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1)
-			--			break
-			--		end
-			--	end
-				
-				item_parts.set_parts_con(wpn:id(), parts)
+				item_parts.set_parts_con(weapon:id(), parts)
+				-- Hopefully this will avoid parts "resetting"
+				se_save_var( weapon:id(), weapon:name(), "parts", parts )
 				
 			end
 		else
