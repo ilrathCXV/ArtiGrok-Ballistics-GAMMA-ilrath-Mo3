@@ -333,6 +333,9 @@ hp_rounds = {
 
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
+-- Needed for checking monkeypatching in the G functions near bottom of script
+local flags = { ret_value = true }
+
 -- need to have a table to hold the valid data (look at Artiballs)
 function validate_hit(shit, bone_id, npc_id)
 	
@@ -417,6 +420,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
         bullet_store[bullet_id] = hits
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
             bullet_store[bullet_id] = nil
+			return true
         end)
     end
 	
@@ -562,7 +566,6 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		spec_monster_mult = 0.95
 		
 		if bone_id == 15 or bone_id == 33 then	-- back legs/thighs
-			bone_mult = 1.20
 			printf("Critical Hit!")
 			is_critical = true
 		end
@@ -989,6 +992,7 @@ function npc_on_before_hit(npc, shit, bone_id)
         bullet_store[bullet_id] = hits
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
             bullet_store[bullet_id] = nil
+			return true
         end)
     end
 	
@@ -1610,6 +1614,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
 		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
 	end
+
+	printf("Damage power BEFORE callback send: %s", shit.power)
+	local callback_hit = hit(shit)
+	-- ilrathCXV (01/22/25): Going to SendCallback here to help this mimic GAMMA's damage logic steps (PBA before final reductions)
+	SendScriptCallback("npc_on_before_hit",npc,callback_hit,bone_id, flags)
+	shit.power = callback_hit.power
+	printf("Damage power AFTER callback send: %s", shit.power)
 	
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
 	
@@ -1658,47 +1669,49 @@ function npc_on_before_hit(npc, shit, bone_id)
 		custom_bone_value[custom_bone_id] = custom_bone_armor
 	end
 	
-	-- Double the damage if the NPC is wounded
-	-- This is for having better bonuses from PBA as wounded NPCs die instantly anyways.
-	if surrender_bonus == 1 then
-		shit.power = shit.power * 2
-	end
-
-	printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s", k_ap, custom_bone_value[custom_bone_id], shit.power)
+	if flags.ret_value then
+		-- Double the damage if the NPC is wounded
+		-- This is for having better bonuses from PBA as wounded NPCs die instantly anyways.
+		if surrender_bonus == 1 then
+			shit.power = shit.power * 2
+		end
 	
-	if is_shooter_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
-		----------------
-		-- RIP Rounds --
-		----------------
-		-- Grants healing on successful hits
-		if (special_effect == "rip") or (special_effect_2 == "rip") then 
-			arti_handlers.lifesteal(npc, shit.power , false)
-		end
+		printf("Real AP power= %s, Bone armor after hit= %s, Damages inflicted= %s", k_ap, custom_bone_value[custom_bone_id], shit.power)
 		
-		------------------
-		-- Chaos Rounds --
-		------------------
-		if chaos_effect == 5 then
-			db.actor.health = clamp(db.actor.health + (0.1 * shit.power ), 0, 1)
-		end
-		
-		------------------
-		-- Graze Rounds --
-		------------------
-		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then 
-			local new_hit = shit
+		if is_shooter_actor then	-- ilrathCXV (04/11/2024): Will lock these out for NPCs always as they are the bigger culprits/will gain no effect from them
+			----------------
+			-- RIP Rounds --
+			----------------
+			-- Grants healing on successful hits
+			if (special_effect == "rip") or (special_effect_2 == "rip") then 
+				arti_handlers.lifesteal(npc, shit.power , false)
+			end
 			
-			local new_hit = hit()
-			new_hit.type = shit.type 
-			new_hit.draftsman = shit.draftsman
-			new_hit.bone = shit.bone
-			new_hit.weapon_id = shit.weapon_id
-			new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
-		
-			local radius = (is_critical and 8) or 5
-			arti_handlers.graze_handler(npc, new_hit, radius)
+			------------------
+			-- Chaos Rounds --
+			------------------
+			if chaos_effect == 5 then
+				db.actor.health = clamp(db.actor.health + (0.1 * shit.power ), 0, 1)
+			end
 			
-			-- printf("ERROR CHECKING: Shit power: %s", shit.power)
+			------------------
+			-- Graze Rounds --
+			------------------
+			if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then 
+				local new_hit = shit
+				
+				local new_hit = hit()
+				new_hit.type = shit.type 
+				new_hit.draftsman = shit.draftsman
+				new_hit.bone = shit.bone
+				new_hit.weapon_id = shit.weapon_id
+				new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
+			
+				local radius = (is_critical and 8) or 5
+				arti_handlers.graze_handler(npc, new_hit, radius)
+				
+				-- printf("ERROR CHECKING: Shit power: %s", shit.power)
+			end
 		end
 	end
 	
@@ -1814,6 +1827,7 @@ function bullet_on_impact(bullet)
         
         CreateTimeEvent("bullet_remove", bullet.bullet_id, 0.1, function()
             bullet_store[bullet.bullet_id] = nil
+			return true
         end)
     end
 	
@@ -1846,6 +1860,7 @@ function grok_actor_damage_balancer.actor_on_before_hit(shit, bone_id, flags)
         bullet_store[bullet_id] = hits
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
             bullet_store[bullet_id] = nil
+			return true
         end)
     end
 
@@ -1933,14 +1948,14 @@ end
 
 -- ArtiBalls: Now the real fun begins - _G script monkeypatches
 -- Overriding hit callbacks so our custom hits can communicate with other scripts
-local flags = { ret_value = true }
+-- local flags = { ret_value = true }	-- Moved higher up in the script
 
 _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
     flags.ret_value = true
     local custom_hit = npc_on_before_hit(npc,shit,bone_id, true)
     if custom_hit then
-        SendScriptCallback("npc_on_before_hit",npc,custom_hit.shit,custom_hit.bone_id, flags)
-        if flags.ret_value then
+        --SendScriptCallback("npc_on_before_hit",npc,custom_hit.shit,custom_hit.bone_id, flags)
+		if flags.ret_value then
 			-- printf("ArtiGrok BO - New hit power: %s", custom_hit.shit.power)
             if custom_hit.shit.type ~= hit.fire_wound and custom_hit.shit.type ~= hit.wound then
                 shit.power = custom_hit.shit.power

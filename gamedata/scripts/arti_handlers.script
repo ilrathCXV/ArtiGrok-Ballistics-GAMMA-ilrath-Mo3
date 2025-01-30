@@ -445,7 +445,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				
 				obj:hit(h)
 				lightning_hits = lightning_hits + 1
-				
+				return true
             end
         end)
 		

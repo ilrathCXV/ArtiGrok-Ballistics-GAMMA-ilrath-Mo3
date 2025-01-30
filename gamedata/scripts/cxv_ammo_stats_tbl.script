@@ -2,12 +2,14 @@
 -- EDIT for ArtiGrok - ilrathCXV (01/17/23) 
 -- Added Knife Stat Compat. (credit to Momopate) - ilrathCXV (11/13/23)
 -- Added better stat reads (showing negative/red for bad stats - credit to Momopate) - ilrathCXV (05/03/24)
+-- Fixed new difficulty MCM options and included full scaling value support - ilrathCXV (01/22/25)
 ----------------------------------------------------
 
 if momopate_knife_stats then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
-local difficulty_scaling = ballistics_mcm.get_config("difficulty_scaling") or false
+local difficulty_scaling_damage = ballistics_mcm.get_config("difficulty_scaling_damage") or false
+local difficulty_scaling_ap = ballistics_mcm.get_config("difficulty_scaling_ap") or false
 
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
@@ -54,13 +56,36 @@ if ish_item_stats then
     end
 end
 
+local difficulty_mod_ap = 1
+local difficulty_mod_dmg = 1	
+
 -- needed since GAMMA adjusts k_ap based on difficulty
 local difficulty_multiplier = {
-	[1]  = (difficulty_scaling and 1.3) or 1.0,
-	[2]  = (difficulty_scaling and 1.05) or 1.0,
-	[3]  = (difficulty_scaling and 0.90) or 1.0,
-	[4]  = (difficulty_scaling and 0.80) or 1.0,
+	[1]  = 1.3,
+	[2]  = 1.05,
+	[3]  = 0.90,
+	[4]  = 0.80,
 }
+
+local function get_difficulty_modifiers()
+	difficulty_mod_ap = 1
+	difficulty_mod_dmg = 1
+	if difficulty_scaling_ap or difficulty_scaling_damage then
+		local game_num = 1
+		local gameplay = alife_storage_manager.get_state().diff_game
+		if not (type(gameplay) == "table") then -- for old saves
+			alife_storage_manager.get_state().diff_game = {}
+			alife_storage_manager.get_state().diff_game["type"] = game_num
+			gameplay = alife_storage_manager.get_state().diff_game
+		end
+		
+		game_num = gameplay["type"] or game_num
+		if game_num > 4 then game_num = 4 end 				-- in case someone is using a custom difficulty
+		
+		difficulty_mod_ap = (difficulty_scaling_ap and difficulty_multiplier[game_num]) or 1
+		difficulty_mod_dmg = (difficulty_scaling_damage and difficulty_multiplier[game_num]) or 1
+	end
+end
 
 local function armor_to_class(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22)
@@ -131,24 +156,8 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
         for i=1,#self.stats do
 			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_ap") then
                 local str
-                local ap = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_ap") or 0
-				
-				local game_num = 1
-				
-				if difficulty_scaling then
-					local gameplay = alife_storage_manager.get_state().diff_game
-					if not (type(gameplay) == "table") then -- for old saves
-						alife_storage_manager.get_state().diff_game = {}
-						alife_storage_manager.get_state().diff_game["type"] = game_num
-						gameplay = alife_storage_manager.get_state().diff_game
-					end
-				
-					game_num = gameplay["type"] or game_num
-					if game_num > 4 then game_num = 4 end 				-- in case someone is using a custom difficulty
-				end
-				
-				
-				ap = ap * 10 * difficulty_multiplier[game_num]
+                local ap = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_ap") or 0						
+				ap = ap * 10 * difficulty_mod_ap
                 str = armor_to_class(ap) .. " (" .. armor_to_number(ap) ..")"
                 self.stats[i].txt:SetText(str)
             end
@@ -158,6 +167,7 @@ function utils_ui.UIInfoItem:Sync_Finale(cond, ele_syncer, ele_resizer, ele_adap
 			if self.stats[i].cap:GetText() == game.translate_string("st_prop_k_hit") then
 				local str
 				local k_hit = ini_sys:r_float_ex(is_knife and knife_ammo_sec or sec, "k_hit") or 0
+				k_hit = k_hit * difficulty_mod_dmg
 				if k_hit < 1 then
 					self.stats[i].txt:SetTextColor(GetARGB(255, 255, 50, 50))	-- turn the stat red to signify that it is decreasing your damage
 				end
@@ -219,6 +229,8 @@ end
 
 function prop_damage(obj, sec)
     local val = SYS_GetParam(2, obj and obj:section() or sec, "k_hit") or 1
+	
+	val = val * difficulty_mod_dmg
 	
 	if (val < 0.1) then
 		return (round_idp(val * 100, 2))
@@ -356,13 +368,9 @@ end
 
 function on_option_change()
 	if ui_mcm and ballistics_mcm then
-		difficulty_scaling = ballistics_mcm.get_config("difficulty_scaling") or false
-		difficulty_multiplier = {
-			[1]  = (difficulty_scaling and 1.3) or 1.0,
-			[2]  = (difficulty_scaling and 1.05) or 1.0,
-			[3]  = (difficulty_scaling and 0.90) or 1.0,
-			[4]  = (difficulty_scaling and 0.80) or 1.0,
-		}
+		difficulty_scaling_damage = ballistics_mcm.get_config("difficulty_scaling_damage") or false
+		difficulty_scaling_ap = ballistics_mcm.get_config("difficulty_scaling_ap") or false
+		get_difficulty_modifiers()
 	end
 end
 
@@ -370,4 +378,5 @@ function on_game_start()
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)
 	on_option_change()
+	get_difficulty_modifiers()
 end
