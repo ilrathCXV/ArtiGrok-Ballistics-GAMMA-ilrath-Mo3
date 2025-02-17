@@ -371,6 +371,11 @@ function validate_hit(shit, bone_id, npc_id)
 	if ini_sys:r_string_ex(sec, "class") == "S_EXPLO" then return end
 	if IsItem("fake_ammo_wpn",sec) and not IsMelee(wpn) then return end
 	
+	local parent_sec = ini_sys:r_string_ex(sec,"parent_section")
+	if parent_sec then
+		sec = parent_sec
+	end
+	
 	return {
 		["wpn"] = wpn,
 		["sec"] = sec,
@@ -428,6 +433,8 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local wpn = validate_data.wpn
 	local sec = validate_data.sec
 	
+	local wpn_ap_modifier = ini_sys:r_float_ex(sec, "ap_modifier") or 1
+	
 	local is_shooter_actor = false
 	if shit.draftsman:id() == db.actor:id() then
 		is_shooter_actor = true
@@ -474,7 +481,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
-	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
+	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05 
 	local monster_pos = monster:position()
 	local shooter_pos = shooter:position()
 	local dist = (monster_pos:distance_to(shooter_pos))
@@ -664,7 +671,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	
 	if string.find(monster:name(), "burer") then
 		if (bone_id >= 39 and bone_id < 43) or (bone_id >= 40 and bone_id < 49) then
-			bone_mult = 1.5
+--			bone_mult = 1.5
 			printf("Critical Hit!")
 			is_critical = true
 		end
@@ -891,6 +898,8 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	
 	local damage_mod = ((is_shooter_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
+	bone_mult = bone_mult * wpn_ap_modifier
+	
 	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
 	if IsMelee(wpn) then
 		falloff_modifier = 1
@@ -999,6 +1008,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local shooter = shit.draftsman
 	local wpn = validate_data.wpn
 	local sec = validate_data.sec
+	
+	local wpn_ap_modifier = ini_sys:r_float_ex(sec, "ap_modifier") or 1
 	
 	local is_shooter_actor = false
 	if shit.draftsman:id() == db.actor:id() then
@@ -1212,6 +1223,8 @@ function npc_on_before_hit(npc, shit, bone_id)
 		bone_id = 15
 	end
 	
+	local is_zombified = false
+	
 	local custom_bone_id = (npc_id.."_"..bone_id)
 	custom_bone_dmg[custom_bone_id] = tonumber(bone_damage_multiplier)
 
@@ -1310,6 +1323,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		if faction == "zombied" then
 			sin_res = 0.3
 			isg_res = 1
+			is_zombified = true
 		end
 		
 --	/////// CHECK IF NPC IS FROM THE ISG FACTION TO REDUCE PENETRATION AND DAMAGE //////
@@ -1389,7 +1403,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		k_ap = k_ap + 0.03
 	end
 	
-	k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected -- reduce bullet ap following npc ap scale and barrel condition
+	k_ap = k_ap * custom_bone_ap_scale * barrel_condition_corrected * wpn_ap_modifier -- reduce bullet ap following npc ap scale and barrel condition
 
 	------------------
 	-- Chaos Rounds --
@@ -1436,7 +1450,13 @@ function npc_on_before_hit(npc, shit, bone_id)
 	if (special_effect == "toxic") or (special_effect_2 == "toxic") or (chaos_effect == 10) then
 		bas_handler.corrosive_cloud(npc, bone_id)
 	end
-
+	
+	-- KS-23 Eco + 23x75 Cloudkill will OHK all zombified Stalkers (take its remaining health and add it to the weapon hit power)
+	if ammo_section == "ammo_23_eco" and is_zombified then
+		wpn_hit_power = wpn_hit_power + npc.health
+		npc:set_health_ex(0.001)
+	end
+	
 	---------------------------
 	-- JHP/Headhunter Rounds --
 	---------------------------
@@ -1545,7 +1565,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 		flinch_stun_chance = flinch_stun_chance * 0.01
 	end
 	
-	
 	--------------------------
 	-- Fragmentation Rounds --
 	--------------------------
@@ -1556,6 +1575,14 @@ function npc_on_before_hit(npc, shit, bone_id)
 			wpn_hit_power = wpn_hit_power * 1.3
 			arti_handlers.fragment_sound(npc)
 		end
+	end
+	
+	------------------------
+	-- Varmageddon Rounds --
+	------------------------
+	-- 60% more damage to mutants and now Zombified Stalkers
+	if is_zombified and (special_effect == "varma") or (special_effect_2 == "varma") then
+		wpn_hit_power = wpn_hit_power * 1.6
 	end
 	
 	-----------------
@@ -1615,13 +1642,9 @@ function npc_on_before_hit(npc, shit, bone_id)
 		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
 	end
 
-	printf("Damage power BEFORE callback send: %s", shit.power)
-	local callback_hit = hit(shit)
 	-- ilrathCXV (01/22/25): Going to SendCallback here to help this mimic GAMMA's damage logic steps (PBA before final reductions)
-	SendScriptCallback("npc_on_before_hit",npc,callback_hit,bone_id, flags)
-	shit.power = callback_hit.power
-	printf("Damage power AFTER callback send: %s", shit.power)
-	
+	SendScriptCallback("npc_on_before_hit",npc,shit,bone_id, flags)
+
 	local armor_loss_increment = tonumber(k_ap * 0.60) -- reduce bone armor depending on k_ap
 	
 	-- ilrathCXV (12/24/23) - Armor Buster removes armor by 1 (0.01) and Acid melts armor by 5 (0.05)

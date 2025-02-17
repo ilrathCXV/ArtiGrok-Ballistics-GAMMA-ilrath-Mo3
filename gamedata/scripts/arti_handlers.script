@@ -88,12 +88,14 @@ end
 ------------------------------------------------------------------------------------
 
 function stun_npc(npc, flinch_stun_chance)
-    if not is_actor(npc) and IsStalker(npc) then
-		if math_random(100) < flinch_stun_chance and (not npc_stun[npc:id()] or npc_stun[npc:id()] == false) then
-			play_anim(npc)
-			local npc_weapon = npc:active_item()
-			if npc_weapon and IsWeapon(npc_weapon) then npc_weapon:unload_magazine() end
-			npc_stun[npc:id()] = time_global() + 1000
+    if not is_actor(npc) then
+		if math_random(100) < flinch_stun_chance then
+			if IsStalker(npc) then
+				play_anim(npc)
+				local npc_weapon = npc:active_item()
+				if npc_weapon and IsWeapon(npc_weapon) then npc_weapon:unload_magazine() end
+			end
+			npc_stun[npc:id()] = time_global() + 750
 		end
     end
 end
@@ -109,14 +111,13 @@ function play_anim(npc)
 end
 
 function on_enemy_eval(obj, enemy, flags)
-    if npc_stun[obj:id()] and (enemy:id() == AC_ID) then
+    if npc_stun[obj:id()] then
         if time_global() > npc_stun[obj:id()] then
             npc_stun[obj:id()] = false
-			obj:movement_enabled(true)
-		else 
-			flags.override = true
-			flags.ret_value = false 
-			cause_fake_damage(obj)
+        else 
+            flags.override = true
+            flags.ret_value = false 
+            cause_fake_damage(obj)
         end
     end
 end
@@ -206,17 +207,17 @@ function enemy_on_death_callback(victim, who)
 	-- printf("[Arti Handlers] Death callback firing!!!")
 	local victim_id = victim:id()
 	
-    if npc_stun[victim_id] then npc_stun[victim_id] = nil end
-	if grounded_stack_list[victim_id] then grounded_stack_list[victim_id] = nil end
-	if shock_stack_list[victim_id] then shock_stack_list[victim_id] = nil end
-	if acid_stack_list[victim_id] then acid_stack_list[victim_id] = nil end
-	if armorbuster_list[victim_id] then armorbuster_list[victim_id] = nil end
+    npc_stun[victim_id] = nil
+	grounded_stack_list[victim_id] = nil
+	shock_stack_list[victim_id] = nil
+	acid_stack_list[victim_id] = nil
+	armorbuster_list[victim_id] = nil
 	
 	if burn_stack_list[victim_id] and burn_stack_list[victim_id] > 19 then
 		burn_ignition(victim, db.actor:active_item(), burn_stack_list[victim_id])
 	elseif burn_stack_list[victim_id] then
-		burn_stack_list[victim_id] 	= nil
-		burn_check_list[victim_id] 	= nil
+		burn_stack_list[victim_id] = nil
+		burn_check_list[victim_id] = nil
 	end
 end
 
@@ -397,6 +398,7 @@ function chaos_damage(npc, bone_id, wpn_id)
 end
 
 local shock_effect = particles_object("artefact\\effects\\af_electra_show_flash_00")
+local shock_aoe_event_timer = 0.025
 -- for shock anti armor
 function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 	
@@ -424,7 +426,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		npc:hit(h)
 		
 		radius = math_random(2,12) + armor_tier
-		
+		local aoe_count = 0
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
@@ -433,7 +435,8 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				if obj:has_info("npcx_is_companion") then return end
 				
 				-- Allows for other Shock-created AoEs to get created w/o crashing the game
-				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), 0.025, shock_npc, obj, bone_id, wpn_id, 3)
+				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), (shock_aoe_event_timer + (aoe_count * 0.005)), shock_npc, obj, bone_id, wpn_id, 3)
+				aoe_count = aoe_count + 1
 				-- shock_npc(obj, bone_id, wpn_id, 3)
 				grounded_stack_list[obj:id()] = (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] + 1) or 1
 				

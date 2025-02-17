@@ -12,18 +12,6 @@ function insert_n_times(t, item, n)
     end
 end
 
-recycler_bonus_table = {}
-function build_recycler_bonuses()
-	recycler_bonus_table = (function()
-        local t = {}
-        insert_n_times(t, 1, 45)	-- 90% chance for one extra item
-        insert_n_times(t, 2, 4)		-- 8% chance for two extra items
-        insert_n_times(t, 3, 1)		-- 2% chance for three extra items
-        return t
-    end)()
-end
-build_recycler_bonuses()
-
 -- break ammo down, returning an appropriate amount of items
 function breakdown(ammo, tool, batch)
     local sec = ammo and ammo:section() or nil
@@ -70,6 +58,10 @@ function do_breakdown(ammo_list, tool)
     local name = ui_item.get_sec_name(sec)
 	local has_recycler = (get_config("recycler") and game_achievements.has_achievement("recycler")) or false
 	
+	if has_recycler then
+		salvage_coef = salvage_coef + salvage_coef * (math.random(33, 100) / 100)
+	end
+	
     local tbl = {}
 
     for k,v in pairs(ammo_list) do
@@ -85,13 +77,6 @@ function do_breakdown(ammo_list, tool)
             for i=1,box_size do 
                 if math.random() < salvage_coef then
 					new_box_size = new_box_size + base_amt
-					if has_recycler then
-						if (math.random(100) > 34) then
-							printf("Recycler proc!!!")
-							recycler_bonus_amt = recycler_bonus_table[math.random(#recycler_bonus_table)]
-							new_box_size = new_box_size + recycler_bonus_amt
-						end
-					end
 				end
             end
             if new_box_size > 0 then

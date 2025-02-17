@@ -87,7 +87,7 @@ local function get_difficulty_modifiers()
 	end
 end
 
-local function armor_to_class(val)
+function armor_to_class(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22)
 
 	val = val * 100
