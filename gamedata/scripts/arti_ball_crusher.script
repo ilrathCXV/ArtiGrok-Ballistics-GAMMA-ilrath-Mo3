@@ -106,7 +106,7 @@ function crush_new(obj, bag, mode)
 	
 	if rank > 0 then
 		local condition = obj:condition() or 0.33
-		amount = math.max(15 * condition, 5)
+		amount = math.max(30 * condition, 10)
 		amount = math.floor(amount + 0.5)
 		amount = amount * rank
 	end

@@ -58,10 +58,6 @@ function do_breakdown(ammo_list, tool)
     local name = ui_item.get_sec_name(sec)
 	local has_recycler = (get_config("recycler") and game_achievements.has_achievement("recycler")) or false
 	
-	if has_recycler then
-		salvage_coef = salvage_coef + salvage_coef * (math.random(33, 100) / 100)
-	end
-	
     local tbl = {}
 
     for k,v in pairs(ammo_list) do
@@ -74,8 +70,12 @@ function do_breakdown(ammo_list, tool)
             local box_to_make = parts_map[i]
             local base_amt = tonumber(parts_map[i+1])
             -- new 1 by 1 formula for consistency
-            for i=1,box_size do 
-                if math.random() < salvage_coef then
+            for i=1,box_size do
+				local final_coef = salvage_coef
+				if has_recycler and math.random(1,33) == 1 then
+					final_coef = final_coef * 2
+				end
+                if math.random() < final_coef then
 					new_box_size = new_box_size + base_amt
 				end
             end

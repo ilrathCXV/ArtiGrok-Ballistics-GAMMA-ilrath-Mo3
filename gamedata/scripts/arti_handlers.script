@@ -145,7 +145,7 @@ function burn_tick_on_update()
 			if (burn_check_list[k] < 5) then	-- if no stacks have been added in 5 seconds...
 				burn_check_list[k] = burn_check_list[k] + 1
 				local npc = level.object_by_id(k)
-				if npc then
+				if npc and npc:alive() then
 					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
 					
 					local burn_dmg = (v * 0.01) or 0.01
@@ -175,12 +175,18 @@ function shock_effect_on_update()
 	if shock_effect_buffer < time_g_shock then
 		for k, v in pairs(shock_stack_list) do
 			if shock_stack_list[k] and shock_stack_list[k] < 20 then
-				play_particle(level.object_by_id(k), 15, "anomaly2\\effects\\electra_entrance_small")
+				local npc = level.object_by_id(k)
+				if npc and npc:alive() then
+					play_particle(npc, 15, "anomaly2\\effects\\electra_entrance_small")
+				end
 			end
 		end
 		shock_effect_buffer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
 	end
 end
+
+local ignition_spread_event_timer = 0.025
+local number_of_npcs_ignition = 0
 
 -- [Burn Stacking Effect] If a target dies with 20+ burn stacks, they will ignite, spreading their stacks among surrounding targets
 function burn_ignition(npc, wpn_id, stacks)
@@ -194,7 +200,11 @@ function burn_ignition(npc, wpn_id, stacks)
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
 			local stacks_taken = math_random(1, stack_amount)
-			ignite_npc(obj,11,wpn_id,stacks_taken,5)
+			
+			CreateTimeEvent("cxv_ignition_spread" .. obj:id(), obj:id(), 0 + (number_of_npcs_ignition * ignition_spread_event_timer), ignite_npc, obj,11,wpn_id,stacks_taken,5)
+			number_of_npcs_ignition = number_of_npcs_ignition + 1
+--			ignite_npc(obj,11,wpn_id,stacks_taken,5)
+
 			stack_amount = stack_amount - stacks_taken
 		end
 	end)
@@ -292,7 +302,18 @@ end
 -- Adds burn stacks to target + resets burn check counter
 function ignite_npc(npc, bone_id, wpn_id, stack)
 	
+	number_of_npcs_ignition = math.max(number_of_npcs_ignition - 1, 0)
+	
 	if npc:has_info("npcx_is_companion") then return end
+	
+	if not npc:alive() then
+		burn_stack_list[npc:id()] = nil
+		burn_check_list[npc:id()] = nil
+		return
+	end
+	
+	if string.find(npc:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
+
 	
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
@@ -303,11 +324,20 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	burn_check_list[npc_id] = 0
 end
 
+local aoe_count = 0
 -- Adds shock stacks to target (does not decay)
 function shock_npc(npc, bone_id, wpn_id, stack)
 	
-	if not npc:alive() then return end 
+	aoe_count = math.max(aoe_count - 1, 0)
+	
 	if npc:has_info("npcx_is_companion") then return end
+	if not npc:alive() then
+		shock_stack_list[npc:id()] = nil
+		grounded_stack_list[npc:id()] = nil
+		return
+	end 
+	if string.find(npc:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
+	
 	npc_id = npc:id()
 	
     stack = stack or 1
@@ -426,7 +456,6 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		npc:hit(h)
 		
 		radius = math_random(2,12) + armor_tier
-		local aoe_count = 0
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
@@ -435,7 +464,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				if obj:has_info("npcx_is_companion") then return end
 				
 				-- Allows for other Shock-created AoEs to get created w/o crashing the game
-				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), (shock_aoe_event_timer + (aoe_count * 0.005)), shock_npc, obj, bone_id, wpn_id, 3)
+				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), (0 + (aoe_count * shock_aoe_event_timer)), shock_npc, obj, bone_id, wpn_id, 5)
 				aoe_count = aoe_count + 1
 				-- shock_npc(obj, bone_id, wpn_id, 3)
 				grounded_stack_list[obj:id()] = (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] + 1) or 1
