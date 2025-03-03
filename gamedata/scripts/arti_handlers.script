@@ -139,10 +139,10 @@ function burn_tick_on_update()
 	time_g_burn = time_global()
 	if burn_effect_buffer >= time_g_burn then return end
 
-	-- Burn damage (capped to 50 DMG before Cloudkill modifier)
+	-- Burn damage
 	for k,v in pairs(burn_stack_list) do
 		if burn_stack_list[k] > 0 then
-			if (burn_check_list[k] < 5) then	-- if no stacks have been added in 5 seconds...
+			if (burn_check_list[k] < 6) then	-- if no stacks have been added in 5 seconds...
 				burn_check_list[k] = burn_check_list[k] + 1
 				local npc = level.object_by_id(k)
 				if npc and npc:alive() then
@@ -187,10 +187,12 @@ end
 
 local ignition_spread_event_timer = 0.025
 local number_of_npcs_ignition = 0
+local npcs_to_burn = {}
 
 -- [Burn Stacking Effect] If a target dies with 20+ burn stacks, they will ignite, spreading their stacks among surrounding targets
 function burn_ignition(npc, wpn_id, stacks)
 	printf("[Arti Handlers] Death ignition firing!!!")
+	npcs_to_burn = {}
 	local stack_amount = stacks
 	local npc_id = npc:id()
 	level.iterate_nearest(npc:position(), 8, function(obj)
@@ -199,18 +201,32 @@ function burn_ignition(npc, wpn_id, stacks)
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
-			local stacks_taken = math_random(1, stack_amount)
+			if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 			
-			CreateTimeEvent("cxv_ignition_spread" .. obj:id(), obj:id(), 0 + (number_of_npcs_ignition * ignition_spread_event_timer), ignite_npc, obj,11,wpn_id,stacks_taken,5)
-			number_of_npcs_ignition = number_of_npcs_ignition + 1
+			npcs_to_burn[#npcs_to_burn + 1] = obj
+			
+--			local stacks_taken = math_random(1, stack_amount)
+--			CreateTimeEvent("cxv_ignition_spread" .. obj:id(), obj:id(), 0 + (number_of_npcs_ignition * ignition_spread_event_timer), ignite_npc, obj, 11, wpn_id, stacks_taken)
+--			number_of_npcs_ignition = number_of_npcs_ignition + 1
 --			ignite_npc(obj,11,wpn_id,stacks_taken,5)
 
-			stack_amount = stack_amount - stacks_taken
+--			stack_amount = stack_amount - stacks_taken
 		end
 	end)
+	
+	printf('NPCs to Burn count: %s', #npcs_to_burn)
+	if #npcs_to_burn > 0 then
+		local stacks_taken = math.floor(stack_amount/(#npcs_to_burn) + 0.5)
+		printf('Stacks to spread: %s', stacks_taken)
+		for i = 1, #npcs_to_burn do
+			CreateTimeEvent("cxv_ignition_spread" .. npcs_to_burn[i]:id(), npcs_to_burn[i]:id(), 0 + (i * ignition_spread_event_timer), ignite_npc, npcs_to_burn[i], 11, wpn_id, stacks_taken)
+		end
+	end
+	
 	play_sound_on_location("anomaly\\fireball_blow", npc)
 	burn_stack_list[npc_id] = nil
 	burn_check_list[npc_id] = nil
+--	number_of_npcs_ignition = 0
 end
 
 function enemy_on_death_callback(victim, who)
@@ -262,7 +278,7 @@ function lifesteal(npc, hit_power, is_soulripper_kill)
     if is_soulripper_kill then
     	local s = xr_sound.get_safe_sound_object("Soul_"..math.random(5))
 		s:play(db.actor, 0, sound_object.s2d)
-		heal_amt = 0.15
+		heal_amt = 0.25
     else
 		heal_amt = hit_power * 0.25
 	end
@@ -378,6 +394,7 @@ function acid_damage(npc, bone_id)
 				if string.find(obj:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
+				if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 				armorbuster_list[obj:id()] = true
             end
         end)
@@ -445,7 +462,8 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		
 		npc:movement_enabled(false)
 		
-		local shock_power = armor_tier * 0.1
+		local shock_power = armor_tier * 0.15
+		printf("Lightning Strike Power: %s", shock_power)
 		
 		local h = hit()
 		h.type = hit.shock
@@ -461,7 +479,15 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
+				if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 				if obj:has_info("npcx_is_companion") then return end
+				
+				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
+				if obj.health <= 0 then return end
+				if not obj:alive() then return end
+				if obj:has_info("npcx_is_companion") then return end
+					
+				printf("Hitting enemy: %s", obj:name())
 				
 				-- Allows for other Shock-created AoEs to get created w/o crashing the game
 				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), (0 + (aoe_count * shock_aoe_event_timer)), shock_npc, obj, bone_id, wpn_id, 5)
@@ -477,14 +503,13 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				
 				obj:hit(h)
 				lightning_hits = lightning_hits + 1
-				return true
             end
         end)
 		
-		if rpg_hit_perks and fourth_times > 0 then
-			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (lightning_hits * 0.33)
+--		if rpg_hit_perks and fourth_times > 0 then
+--			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (lightning_hits * 0.33)
 			-- printf("[RPG - Arti Handlers - Shock] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
-		end
+--		end
 		lightning_hits = 0
 		
     end
@@ -506,10 +531,9 @@ function napalm_damage(npc, wpn_id)
 		napalm_effect:play_at_pos(npc:position())
 	end
 	ignite_npc(npc, 11, wpn_id, 15)
-	burn_stack_list[npc:id()] = (burn_stack_list[npc:id()] and burn_stack_list[npc:id()] + 10) or 10
 end
 
--- Graze: Spreads 30% of original damage on headshots in a 8m radius OR 5% of original damage on non-headshots in a 5m radius
+-- Graze: Spreads 25% of original damage on headshots in a 8m radius OR 5% of original damage on non-headshots in a 5m radius
 function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in grok_bo; needs shit.power to be adjusted)
 	
 	-- printf("[Arti Handlers - Graze] Starting Graze...")	
@@ -520,7 +544,8 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
-			
+			printf('Obj enemies w/ org. NPC? (%s) | Obj not enemies w/ Player? (%s)', obj:relation(npc) == (-1), obj:relation(db.actor) ~= (-1))
+			if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 			-- printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
 			
 			obj:hit(new_hit)
@@ -528,10 +553,10 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 		end
 	end)
 	
-	if rpg_hit_perks and fourth_times > 0 then
-		rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (graze_hits * 0.2)	-- need at least 5 enemies grazed for one full "hit"
-		-- printf("[RPG - Arti Handlers - Graze] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
-	end
+--	if rpg_hit_perks and fourth_times > 0 then
+--		rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (graze_hits * 0.35)	-- need at least 3 enemies grazed for one full "hit"
+--		-- printf("[RPG - Arti Handlers - Graze] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
+--	end
 	graze_hits = 0
 end
 

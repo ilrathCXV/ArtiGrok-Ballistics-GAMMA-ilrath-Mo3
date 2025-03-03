@@ -4,6 +4,7 @@
 -- ilrathCXV (04/15/24): Started building this script
 -- ilrathCXV (10/07/24): More difficulty option tweaks
 -- ilrathCXV (12/06/24): GAMMA 0.9.3 additions
+-- ilrathCXV (03/01/25): Graze Improvements and streamlining
 ----------------------------------------------------------------------------------------------------------------------
 
 custom_bone_value	= {} -- this a table with each identifier being npcid_boneid, these returns custom bonearmor value. It is filled, alongside the other custom tables, after every new bone hit
@@ -28,7 +29,8 @@ local cxv_tick = 60000
 local last_tick = 0
 local bone_clear_time = 0
 
-local bullet_store = {}	-- multi-hit fix will now be here (remember to empty GAMMA's multihit script like Grok BO)
+local bullet_store_list = {}	-- multi-hit fix will now be here (remember to empty GAMMA's multihit script like Grok BO)
+local graze_bullet_dmg_list = {}
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
@@ -341,6 +343,8 @@ function validate_hit(shit, bone_id, npc_id)
 	
 	if not shit.draftsman:id() then return end
 	
+	if npc_id == get_story_object_id('the_living_fire_prometheus') then return end
+	
 	-- ilrathCXV (04/01/2024): Take MCM option into account
 	if shit.draftsman:id() ~= db.actor:id() then
 		if npc_effects and not IsStalker(shit.draftsman) then
@@ -353,7 +357,12 @@ function validate_hit(shit, bone_id, npc_id)
 	end
 
 	if bone_id == 65535 then return end
-
+	
+	-- ilrathCXV: Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings
+	if shit.type == hit.shock or shit.type == hit.burn or shit.type == hit.chemical_burn or shit.type == hit.telepatic then
+		return
+	end
+	
 	local shooter = shit.draftsman
 	wpn = level.object_by_id(shit.weapon_id)
 
@@ -396,21 +405,23 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- have to put this here since we use this in NPC calculations
 	if shit.power >= 50 then return false end
 	
-	-- ilrathCXV: Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings
-	if shit.type == hit.shock or shit.type == hit.burn or shit.type == hit.chemical_burn or shit.type == hit.telepatic then
-		return {
-            ["shit"] = shit,
-            ["bone_id"] = bone_id
-        }
-	end
-	
+	-- ilrathCXV (03/01/25): Added comments + an additional condition - should better facilitate "Graze" to avoid multi-hits
 	-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
     local bullet_id = shit.bullet_id
-    if bullet_id and bullet_store[bullet_id] then
-        local monster_id = monster:id()
-        local bullet_hits = bullet_store[bullet_id]
-        if bullet_hits[monster_id] and bullet_hits[monster_id] == 0 then
-            bullet_hits[monster_id] = 1
+	local monster_id = monster:id()
+	
+	-- If a bullet ID exists + has already been recorded, check for monster in the list
+    if bullet_id and bullet_store_list[bullet_id] then
+        
+        local bullet_hit_enemy_list = bullet_store_list[bullet_id]
+		
+		-- If the monster's ID is in the list and equals 0 for this bullet or it doesn't exist for the bullet,
+		-- 		increment/initialize its value to that multi-hits can be ignored later
+		
+        if (bullet_hit_enemy_list[monster_id] and bullet_hit_enemy_list[monster_id] == 0) or (not bullet_hit_enemy_list[monster_id]) then
+            bullet_hit_enemy_list[monster_id] = 1
+		
+		-- If the monster's ID is in the list but it isn't 0, send a no-op. hit and negate its hit power
         else
             shit.power = 0.0001
             return {
@@ -418,13 +429,15 @@ function mutant_on_before_hit(monster, shit, bone_id)
                 ["bone_id"] = bone_id
             }
         end 
-        -- one hit registered already - send back no-op hit
+        
     elseif bullet_id and monster then
-        -- no impact recorded - add to store and flush later
-        hits = {[monster:id()] = 1}
-        bullet_store[bullet_id] = hits
+        -- Bullet has not been recorded (first enemy to be hit) - create entry in the bullet store list
+		-- Add the current hit monster to the list of enemies hit by this bullet
+        hits = {[monster_id] = 1}
+        bullet_store_list[bullet_id] = hits
+		-- Put a small timer to remove the entry to clean up memory
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
-            bullet_store[bullet_id] = nil
+            bullet_store_list[bullet_id] = nil
 			return true
         end)
     end
@@ -453,7 +466,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	bone_mult			= 1
 	is_critical			= false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.0.7   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.2.0   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
@@ -481,7 +494,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- /// save ammo data ///
 	local k_ap = ini_sys:r_float_ex(ammo_section, "k_ap") * 10 or 0
 	local k_hit = ini_sys:r_float_ex(ammo_section, "k_hit") or 1
-	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05 
+	local air_res = ini_sys:r_float_ex(ammo_section, "k_air_resistance") or 0.05
 	local monster_pos = monster:position()
 	local shooter_pos = shooter:position()
 	local dist = (monster_pos:distance_to(shooter_pos))
@@ -793,6 +806,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- Ammo-specific burn stacks to target
 	if (special_effect == "fire") or (special_effect_2 == "fire") then
 		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
+		burn_stacks = burn_stacks * ((is_critical and 3) or 1)
 		arti_handlers.ignite_npc(monster, bone_id,shit.weapon_id, burn_stacks)
 	end
 	
@@ -848,7 +862,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	if (special_effect == "lightning") or (special_effect_2 == "lightning") or (chaos_effect == 9) then
 		shit.type = hit.shock
 		
-		if is_critical and spec_monster_mult > 0.8 then
+		if is_critical and spec_monster_mult > 0.8 or ammo_section == "ammo_gauss" then
 			arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.5)
 		elseif is_critical then
 			arti_handlers.lightning_damage(monster,bone_id, shit.weapon_id, 0.3)
@@ -863,9 +877,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	-- Ammo-specific shock stacks to a target; 20 or more stacks results in weakest Lightning AoE
 	if (special_effect == "shock") or (special_effect_2 == "shock") then
 		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
-		if is_critical then
-			shock_stacks = shock_stacks * 3
-		end
+		shock_stacks = shock_stacks * ((is_critical and 3) or 1)
 		arti_handlers.shock_npc(monster, bone_id, shit.weapon_id, shock_stacks)
 	end
 	
@@ -901,6 +913,10 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	bone_mult = bone_mult * wpn_ap_modifier
 	
 	-- ilrathCXV (04/01/2024): True falloff calcs (credit to etapomom)
+	local falloff_modifier = 1
+	if graze_bullet_dmg_list[bullet_id] and graze_bullet_dmg_list[bullet_id] > 0 then
+		shit.power = graze_bullet_dmg_list[bullet_id]
+	end
 	if IsMelee(wpn) then
 		falloff_modifier = 1
 	elseif true_falloff then
@@ -920,14 +936,24 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		-- [NEW] Graze Rounds --
 		------------------------
 		-- Pass a portion of damage to nearby targets (25% to all within 8m on headshot/crits, or 5% in 5m on non-headshots/crits)
-		if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then
+		if (not graze_bullet_dmg_list[bullet_id]) and ((special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11)) then 
 		
 			local new_hit = hit()
 			new_hit.type = shit.type 
 			new_hit.draftsman = shit.draftsman
-			new_hit.bone = shit.bone
+			new_hit.bone = (is_critical and "bip01_head") or "bip01_spine"
 			new_hit.weapon_id = shit.weapon_id
+			new_hit.bullet_id = bullet_id
 			new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
+			
+			-- ilrathCXV (03/01/25): Store hit power to be used later
+			if not graze_bullet_dmg_list[bullet_id] then
+				graze_bullet_dmg_list[bullet_id] = new_hit.power
+			end
+			-- Remove it to clean up memory
+			CreateTimeEvent("graze_remove", bullet_id, 1.0, function()
+				graze_bullet_dmg_list[bullet_id] = nil
+			end)
 			
 			local radius = (is_critical and 8) or 5
 			arti_handlers.graze_handler(monster, new_hit, radius)
@@ -937,15 +963,8 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		-- RIP Rounds --
 		----------------
 		-- Grants healing on successful hits
-		if (special_effect == "rip") or (special_effect_2 == "rip") then 
+		if (special_effect == "rip") or (special_effect_2 == "rip") or (chaos_effect == 5) then 
 			arti_handlers.lifesteal(monster, shit.power, false)
-		end
-		
-		------------------------------------
-		-- Chaos Rounds (if healing proc) --
-		------------------------------------
-		if chaos_effect == 5 then
-			db.actor.health = clamp(db.actor.health + (0.1 * shit.power), 0, 1)
 		end
 	end
 	
@@ -970,22 +989,21 @@ function npc_on_before_hit(npc, shit, bone_id)
 		printf("npc is surrendering or wounded.")
 	end
 	
-	-- ilrathCXV: Allow elemental special hits - burn ticks, lightning AoE, etc. - to go straight to engine handlings
-	if shit.type == hit.shock or shit.type == hit.burn or shit.type == hit.chemical_burn or shit.type == hit.telepatic then
-		return {
-            ["shit"] = shit,
-            ["bone_id"] = bone_id,
-			["surrender_bonus"] = surrender_bonus,
-        }
-	end
-	
+	-- ilrathCXV (03/01/25): Added comments + an additional condition - should better facilitate "Graze" to avoid multi-hits
 	-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
     local bullet_id = shit.bullet_id
-    if bullet_id and bullet_store[bullet_id] then
-        local npc_id = npc:id()
-        local bullet_hits = bullet_store[bullet_id]
-        if bullet_hits[npc_id] and bullet_hits[npc_id] == 0 then
-            bullet_hits[npc_id] = 1
+	local npc_id = npc:id()
+	
+	-- If a bullet ID exists + has already been recorded, check for stalker in the list
+    if bullet_id and bullet_store_list[bullet_id] then
+        local bullet_hit_enemy_list = bullet_store_list[bullet_id]
+		
+		-- If the stalker's ID is in the list and equals 0 for this bullet or it doesn't exist for the bullet,
+		-- 		increment/initialize its value to that multi-hits can be ignored later
+        if (bullet_hit_enemy_list[npc_id] and bullet_hit_enemy_list[npc_id] == 0) or (not bullet_hit_enemy_list[npc_id]) then
+            bullet_hit_enemy_list[npc_id] = 1
+			
+		-- If the stalker's ID is in the list but it isn't 0, send a no-op. hit and negate its hit power
         else
             shit.power = 0.0001
             return {
@@ -994,15 +1012,17 @@ function npc_on_before_hit(npc, shit, bone_id)
 				["surrender_bonus"] = surrender_bonus,
             }
         end 
-        -- one hit registered already - send back no-op hit
     elseif bullet_id and npc then
-        -- no impact recorded - add to store and flush later
-        hits = {[npc:id()] = 1}
-        bullet_store[bullet_id] = hits
+	
+        -- Bullet has not been recorded (first enemy to be hit) - create entry in the bullet store list
+		-- Add the current hit stalker to the list of enemies hit by this bullet
+        hits = {[npc_id] = 1}
+        bullet_store_list[bullet_id] = hits
+		-- Put a small timer to remove the entry to clean up memory
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
-            bullet_store[bullet_id] = nil
+            bullet_store_list[bullet_id] = nil
 			return true
-        end)
+		end)
     end
 	
 	local shooter = shit.draftsman
@@ -1019,7 +1039,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.0.7  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.2.0  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -1110,7 +1130,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- "Snake, remember the basics of CQC"
 	local snake_mult = 1
 	local pellet_count = ini_sys:r_float_ex(ammo_section, "buck_shot") or 1
-
+	
 	if not true_falloff then
 		if dist <= 3.0 then
 			snake_mult = round_idp((1 + (0.15 / pellet_count)), 3)
@@ -1344,7 +1364,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 			pos.z = pos.z + (camdir.z * -0.0005)
 			fx:play_at_pos(pos)
 		end
-		
+	
 		if faction == "monolith" then
 			isg_res = 0.90
 			sin_res = 0.80
@@ -1461,28 +1481,24 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- JHP/Headhunter Rounds --
 	---------------------------
 	-- Nullifies any armor + faction resistances & removes any damage penalty from overpenetration
-	if (special_effect == "head") or (special_effect_2 == "head") then
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then -- headshot
-			if k_ap < 1.0 then
-				k_ap = 1.0
-			end
-			custom_bone_hitfraction = 1.00
-			sin_res = 1.0
-			isg_res = 1.0
+	if is_critical and ((special_effect == "head") or (special_effect_2 == "head")) then
+		if k_ap < 1.0 then
+			k_ap = 1.0
 		end
+		custom_bone_hitfraction = 1.00
+		sin_res = 1.0
+		isg_res = 1.0
 	end
 	
 	--------------------------
 	-- Basher: Melee Effect --
 	--------------------------
 	-- Increases AP to 100 to basically ignore armor of normal enemies (ensures Eidolon or similar special enemies don't get one-shot)
-	if (special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6) then
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			if k_ap < 1.0 then
-				k_ap = 1.0
-			end
-			custom_bone_hitfraction = 1.00
+	if is_critical and ((special_effect == "basher") or (special_effect_2 == "basher") or (chaos_effect == 6))  then
+		if k_ap < 1.0 then
+			k_ap = 1.0
 		end
+		custom_bone_hitfraction = 1.00
 	end
 	
 	---------------------
@@ -1521,9 +1537,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Ammo-specific burn stacks to a target
 	if (special_effect == "fire") or (special_effect_2 == "fire") then
 		local burn_stacks = ini_ammo:r_float_ex(ammo_section, "burn_stacks") or 1
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			burn_stacks = burn_stacks * 3
-		end
+		burn_stacks = burn_stacks * ((is_critical and 3) or 1)
 		arti_handlers.ignite_npc(npc,bone_id, shit.weapon_id, burn_stacks)
 	end
 	
@@ -1533,9 +1547,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-- Ammo-specific shock stacks to a target; 20 or more stacks results in weakest Lightning AoE
 	if (special_effect == "shock") or (special_effect_2 == "shock") then
 		local shock_stacks = ini_ammo:r_float_ex(ammo_section, "shock_stacks") or 1
-		if (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
-			shock_stacks = shock_stacks * 3
-		end
+		shock_stacks = shock_stacks * ((is_critical and 3) or 1)
 		arti_handlers.shock_npc(npc,bone_id, shit.weapon_id, shock_stacks)
 	end
 	
@@ -1547,7 +1559,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		shit.type = hit.shock
 		if (custom_bone_armor >= 3) then
 			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, custom_bone_armor * 0.5)
-		elseif (tonumber(bone_id) >= 14 and tonumber(bone_id) <= 19) then
+		elseif (is_critical) or (ammo_section == "ammo_gauss") then
 			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor * 2, 0.3, 2))
 		else
 			arti_handlers.lightning_damage(npc,bone_id, shit.weapon_id, clamp(custom_bone_armor, 0.3, 1))
@@ -1588,33 +1600,31 @@ function npc_on_before_hit(npc, shit, bone_id)
 	-----------------
 	-- Grav Rounds --
 	-----------------
-	-- Grants bonus AP and DMG if hit is at least 100m + makes hit act as if was done at point-blank range (full damage + full AP)
-	-- At 300m, bonus will be capped to 2x = (1 + (up to 1))x
-	-- For pistols and shotguns, they start at 50m (will have around 20.3% mult at 100m)
+	-- Grants bonus AP and DMG if hit is at least 50m + makes hit act as if was done at point-blank range (full damage + full AP)
+	-- At 300m, bonus will be capped to 3x = (1 + (up to 2))x
+	-- For shotguns, they start at 10m (will have around 66.6% mult at 100m)
+	-- For pistols and certain SMGs, they start at 30m (will have around 51.8% mult at 100m)
+	-- For all others, they start at 50m (will have around 40% mult at 100m)
 	if (special_effect == "grav") or (special_effect_2 == "grav") then
 		if is_shooter_actor then
 			local wpn_type = ini_sys:r_string(wpn:section(), "kind") or nil
 			local min_dist = 0 -- desired min. range gor Grav to take effect
-			local grav_effect_mult = 0	-- take 1/(300 - min_dist)
-			if (dist > 25 and dist <= 50) then
-				if wpn_type and wpn_type == "w_shotgun" then
-					min_dist = 25
-					grav_effect_mult = 0.0036
-				end
-			elseif (dist > 50 and dist <= 100) then
-				if wpn_type then
-					if wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis") then
-						min_dist = 50
-						grav_effect_mult = 0.004
-					end
-				end
-			elseif dist >= 100 then
-				min_dist = 100
-				grav_effect_mult = 0.005
+			local grav_effect_mult = 0	-- take 2/(300 - min_dist)
+			if (min_dist == 0) and wpn_type and wpn_type == "w_shotgun" then
+				min_dist = 10
+				grav_effect_mult = 0.0069
+			end
+			if (min_dist == 0) and wpn_type and wpn_type == "w_pistol" or string.find(wpn:section(), "vz61") or string.find(wpn:section(), "kiparis") then
+				min_dist = 30
+				grav_effect_mult = 0.0074
+			end
+			if min_dist == 0 then
+				min_dist = 50
+				grav_effect_mult = 0.008
 			end
 			
 			if min_dist ~= 0 and grav_effect_mult ~= 0 then
-				grav_mult = (1 + clamp((dist - min_dist) * grav_effect_mult, 0, 1)) or 1
+				grav_mult = (1 + clamp((dist - min_dist) * grav_effect_mult, 0, 2)) or 1
 				grav_mult = round_idp(grav_mult, 3)
 				k_ap = k_ap * grav_mult
 				wpn_hit_power = wpn_hit_power * grav_mult
@@ -1636,10 +1646,19 @@ function npc_on_before_hit(npc, shit, bone_id)
 		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
 			
 		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
+		
+		if graze_bullet_dmg_list[bullet_id] and graze_bullet_dmg_list[bullet_id] > 0 then
+			shit.power = graze_bullet_dmg_list[bullet_id]
+		else
+			shit.power = wpn_hit_power * falloff_modifier * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
+		end
 	else
 		k_ap = k_ap / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
-		shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
+		if graze_bullet_dmg_list[bullet_id] and graze_bullet_dmg_list[bullet_id] > 0 then
+			shit.power = graze_bullet_dmg_list[bullet_id]
+		else
+			shit.power = wpn_hit_power / ( 1 + dist / 200 * ( air_res * 0.5 / ( 1 - air_res + 0.1 ))) * k_hit * custom_bone_dmg_mult * custom_bone_ap_scale * 1.1 * sniper_bad_bone_shit_reduce * barrel_condition_corrected * sin_res * damage_mod * ammo_mult * silencer_boost
+		end
 	end
 
 	-- ilrathCXV (01/22/25): Going to SendCallback here to help this mimic GAMMA's damage logic steps (PBA before final reductions)
@@ -1706,30 +1725,33 @@ function npc_on_before_hit(npc, shit, bone_id)
 			-- RIP Rounds --
 			----------------
 			-- Grants healing on successful hits
-			if (special_effect == "rip") or (special_effect_2 == "rip") then 
+			if (special_effect == "rip") or (special_effect_2 == "rip") or (chaos_effect == 5) then 
 				arti_handlers.lifesteal(npc, shit.power , false)
-			end
-			
-			------------------
-			-- Chaos Rounds --
-			------------------
-			if chaos_effect == 5 then
-				db.actor.health = clamp(db.actor.health + (0.1 * shit.power ), 0, 1)
 			end
 			
 			------------------
 			-- Graze Rounds --
 			------------------
-			if (special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11) then 
+			if (not graze_bullet_dmg_list[bullet_id]) and ((special_effect == "graze") or (special_effect_2 == "graze") or (chaos_effect == 11)) then 
 				local new_hit = shit
 				
 				local new_hit = hit()
 				new_hit.type = shit.type 
 				new_hit.draftsman = shit.draftsman
-				new_hit.bone = shit.bone
+				new_hit.bone = Bone_IDs[bone_id] or (is_critical and "bip01_head") or "bip01_spine"
 				new_hit.weapon_id = shit.weapon_id
+				new_hit.bullet_id = shit.bullet_id
 				new_hit.power = (is_critical and (shit.power * 0.25)) or (shit.power * 0.05)
-			
+				
+				-- ilrathCXV (03/01/25): Store hit power to be used later
+				if not graze_bullet_dmg_list[bullet_id] then
+					graze_bullet_dmg_list[bullet_id] = new_hit.power
+				end
+				-- Remove it to clean up memory
+				CreateTimeEvent("graze_remove", bullet_id, 1.0, function()
+					graze_bullet_dmg_list[bullet_id] = nil
+				end)
+				
 				local radius = (is_critical and 8) or 5
 				arti_handlers.graze_handler(npc, new_hit, radius)
 				
@@ -1844,12 +1866,12 @@ function bullet_on_impact(bullet)
 		-- do nothing (hopefully prevent log spam?)
     elseif target then
         -- check for existing impact to the target
-        local bullet_hits = bullet_store[bullet.bullet_id]
-        if not bullet_hits then bullet_hits = {} end
-        if not bullet_hits[bullet.bullet_id] then bullet_hits[bullet.target_id] = 0 end
+        local bullet_hit_enemy_list = bullet_store_list[bullet.bullet_id]
+        if not bullet_hit_enemy_list then bullet_hit_enemy_list = {} end
+        if not bullet_hit_enemy_list[bullet.bullet_id] then bullet_hit_enemy_list[bullet.target_id] = 0 end
         
         CreateTimeEvent("bullet_remove", bullet.bullet_id, 0.1, function()
-            bullet_store[bullet.bullet_id] = nil
+            bullet_store_list[bullet.bullet_id] = nil
 			return true
         end)
     end
@@ -1864,11 +1886,11 @@ function grok_actor_damage_balancer.actor_on_before_hit(shit, bone_id, flags)
 	
 	-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
     local bullet_id = shit.bullet_id
-    if bullet_id and bullet_store[bullet_id] then
-        local bullet_hits = bullet_store[bullet_id]
+    if bullet_id and bullet_store_list[bullet_id] then
+        local bullet_hit_enemy_list = bullet_store_list[bullet_id]
 		-- bullet on_impact was stored and no hit has been detected yet -- hit the player and increment counter by 1 to avoid multi-hit
-        if bullet_hits[AC_ID] and bullet_hits[AC_ID] == 0 then
-            bullet_hits[AC_ID] = 1
+        if bullet_hit_enemy_list[AC_ID] and bullet_hit_enemy_list[AC_ID] == 0 then
+            bullet_hit_enemy_list[AC_ID] = 1
 			
 		-- bullet has already had a hit recorded -- don't hit the player and nullify the hit
         else													
@@ -1880,9 +1902,9 @@ function grok_actor_damage_balancer.actor_on_before_hit(shit, bone_id, flags)
     elseif bullet_id then
         -- no impact recorded - add to store and flush later + hit the player
         hits = {[AC_ID] = 1}
-        bullet_store[bullet_id] = hits
+        bullet_store_list[bullet_id] = hits
         CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
-            bullet_store[bullet_id] = nil
+            bullet_store_list[bullet_id] = nil
 			return true
         end)
     end
@@ -1954,7 +1976,7 @@ function napalm_handler(bullet)
 			if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if not obj:alive() then return end
-				arti_handlers.ignite_npc(obj,11,wpn_id,3)
+				arti_handlers.ignite_npc(obj,11,wpn_id,8)
 				napalm_hits = napalm_hits + 1
 			end
 		end)
@@ -1993,7 +2015,13 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
             end
         end
     else
-        SendScriptCallback("npc_on_before_hit",npc,shit,bone_id,flags)
+		-- Living Fire iTheon task compat.
+		if npc and npc:id() == get_story_object_id('the_living_fire_prometheus') then
+			tasks_the_living_fire.npc_on_before_hit(npc,shit,bone_id)
+--			flags.ret_value = false
+		else
+			SendScriptCallback("npc_on_before_hit",npc,shit,bone_id,flags)
+		end
     end
 	return flags.ret_value
 end
@@ -2038,7 +2066,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.0.7  //////////////////")
+	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.2.0  //////////////////")
 	
 end
 

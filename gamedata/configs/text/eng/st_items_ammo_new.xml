@@ -169,7 +169,7 @@
 		<text>5 Burn stacks per pellet</text>
 	</string>
 	<string id="st_ballistics_fire">
-		<text>Burn stacks | x2 on headshots</text>
+		<text>Burn stacks | x3 on headshots</text>
 	</string>
 	<string id="st_ballistics_shock">
 		<text>Shock stacks | x3 on headshots</text>
@@ -184,22 +184,22 @@
 		<text>Cover piercing</text>
 	</string>
 	<string id="st_ballistics_soulripper">
-		<text>Heal for 15% HP on kill</text>
+		<text>Heal for 25% HP on kill</text>
 	</string>
 	<string id="st_ballistics_armorbuster">
 		<text>Breaks armor more effectively</text>
 	</string>
 	<string id="st_ballistics_napalm">
-		<text>3 Burn stacks to targets near impact, 15 on direct hit</text>
+		<text>8 Burn stacks to targets near impact, 15 on direct hit</text>
 	</string>
 	<string id="st_ballistics_basher">
 		<text>Melee to the head only ignores armor</text>
 	</string>
 	<string id="st_ballistics_graze">
-		<text>Share 5% of hit DMG to nearby enemies, 30% if headshot</text>
+		<text>Share 5% of hit DMG to nearby enemies, 25% if headshot</text>
 	</string>
 	<string id="st_ballistics_grav">
-		<text>No DMG/AP dropoff | x2 DMG/AP on far hits</text>
+		<text>No DMG/AP dropoff | longer dist. = up to x3 DMG/AP</text>
 	</string>
 
 	<string id="st_link">
@@ -502,7 +502,7 @@
 		<text>7.62x54mm 'Graze' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_7.62x54_graze_descr">
-		<text>An anomalous 7.62x54mm sniper round for precision shooting at range. This is a very solid round for long-range usage, but its anomalous nature allows it to share its initial damage to those near the target who was initially struck by this round. When coming into contact with a stalekr's head or a mutant's key vitals, much more of the damage is shared.</text>
+		<text>An anomalous 7.62x54mm sniper round for precision shooting at range. This is a very solid round for long-range usage, but its anomalous nature allows it to share its initial damage to those near the target who was initially struck by this round. When coming into contact with a stalker's head or a mutant's key vitals, much more of the damage is shared.</text>
 	</string>
 	<string id="ammo_new_7.62x54_graze_s">
 		<text>7.62x54 FMJ+</text>
