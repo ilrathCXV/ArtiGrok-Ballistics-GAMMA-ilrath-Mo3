@@ -338,6 +338,7 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	npc_id = npc:id()
 	burn_stack_list[npc_id] = (burn_stack_list[npc_id] and burn_stack_list[npc_id] + stack) or stack
 	burn_check_list[npc_id] = 0
+	return true
 end
 
 local aoe_count = 0

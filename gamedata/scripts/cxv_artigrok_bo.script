@@ -586,6 +586,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		spec_monster_mult = 0.95
 		
 		if bone_id == 15 or bone_id == 33 then	-- back legs/thighs
+			bone_mult = 1.20
 			printf("Critical Hit!")
 			is_critical = true
 		end
@@ -1283,7 +1284,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 		custom_bone_value[custom_bone_id] = tonumber(p[2])
 
-		if npc:section() == "monolith_eidolon" then
+		if npc:section() == "monolith_eidolon" or string.find(npc:name(), "eidolon") then
 			custom_bone_value[custom_bone_id] = 4
 			-- Add a gravi shield effect to make Eidolon even more unique
 			pos = npc:bone_position(custom_bone_name)
@@ -1316,7 +1317,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 		local se_obj = alife_object(npc:id())
 		local faction = se_obj:community()
 		sin_res = 1
-		if faction == "greh" then
+		if faction == "greh" or faction == "greh_npc" then
 			sin_res = 0.30
 			isg_res = 0.90
 			pos = npc:bone_position(custom_bone_name)
@@ -2066,7 +2067,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone Tables Reset: ArtiGrok BO  v2.2.0  //////////////////")
+	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.2.0  //////////////////")
 	
 end
 
