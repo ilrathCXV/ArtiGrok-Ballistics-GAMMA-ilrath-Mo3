@@ -33,7 +33,7 @@ local bullet_store_list = {}	-- multi-hit fix will now be here (remember to empt
 local graze_bullet_dmg_list = {}
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-
+game_num = 1
 leg_meta_sniper_null = 1
 sniper_bad_bone_shit_reduce = 1
 
@@ -695,19 +695,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 		end
 	end
 	
-	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
-	local game_num = 1
-	
-	if difficulty_scaling_damage then
-		local gameplay = alife_storage_manager.get_state().diff_game
-		if not (type(gameplay) == "table") then -- for old saves
-			alife_storage_manager.get_state().diff_game = {}
-			alife_storage_manager.get_state().diff_game["type"] = game_num
-			gameplay = alife_storage_manager.get_state().diff_game
-		end
-	
-		game_num = gameplay["type"] or game_num
-	end
+	-- NOTE: Difficulty index is determined in actor_on_first_update() now
 	
 	-----------------------------------------------------------------------
 	------------------------- Arti's Bonuses ------------------------------
@@ -1377,19 +1365,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 --////////////// ACTUAL INTERESTING MATH PART ABOUT BALLISTICS //////////////
 	
-	-- ilrathCXV (04/01/2024): try to save on performance whereever possible (if no scaling, doesn't matter which index is used)
-	local game_num = 1
-	
-	if difficulty_scaling_ap or difficulty_multiplier_damage then
-		local gameplay = alife_storage_manager.get_state().diff_game
-		if not (type(gameplay) == "table") then -- for old saves
-			alife_storage_manager.get_state().diff_game = {}
-			alife_storage_manager.get_state().diff_game["type"] = game_num
-			gameplay = alife_storage_manager.get_state().diff_game
-		end
-	
-		game_num = gameplay["type"] or game_num
-	end
+	-- NOTE: Difficulty index is determined in actor_on_first_update() now
 	
 	printf('%s shot with %s, Weapon power= %s, AP power= %s, Hit multiplier= %s, Air res= %s, Distance= %s m, Barrel condition: %s', ammo_section, sec, wpn_hit_power, k_ap, k_hit, air_res, dist, barrel_condition)
 	printf('Bone hit= %s, Bone damage mult= %s, Bone AP scale= %s, Bone hit fraction= %s, Bone armor= %s', custom_bone_name, custom_bone_dmg[custom_bone_id], custom_bone_ap[custom_bone_id], custom_bone_hf[custom_bone_id], custom_bone_value[custom_bone_id])
@@ -2071,10 +2047,21 @@ function actor_on_update()
 	
 end
 
+function actor_on_first_update()
+	gameplay = alife_storage_manager.get_state().diff_game
+	if not (type(gameplay) == "table") then -- for old saves
+		alife_storage_manager.get_state().diff_game = {}
+		alife_storage_manager.get_state().diff_game["type"] = game_num
+		gameplay = alife_storage_manager.get_state().diff_game
+	end
+	game_num = gameplay["type"] or game_num
+end
+
 function on_game_start()
 	RegisterScriptCallback("bullet_on_impact", bullet_on_impact)
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
 --	RegisterScriptCallback("actor_on_update", actor_on_update)
+	RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
 	
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)

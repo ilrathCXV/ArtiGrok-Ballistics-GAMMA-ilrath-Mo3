@@ -2,14 +2,12 @@
 ----- EDIT for ArtiGrok - ilrathCXV (last edit: 12/29/24) -----
 ---------------------------------------------------------------
 
-play_particle       = ballistics_utils.play_particle
+play_particle       	= ballistics_utils.play_particle
 play_particle_firepoint = ballistics_utils.play_particle_firepoint
-play_sound_on_location = ballistics_utils.play_sound_on_location
-math_random         = math.random
+play_sound_on_location 	= ballistics_utils.play_sound_on_location
+math_random         	= math.random
 
--- head_bones          = ballistics_utils.head_bones
-ini_ammo               = ballistics_utils.ini_ammo
--- ini_damage          = ballistics_utils.ini_damage
+ini_ammo               	= ballistics_utils.ini_ammo
 
 rpg_hit_perks	= nil
 fourth_times	= 0
@@ -198,10 +196,11 @@ function burn_ignition(npc, wpn_id, stacks)
 	level.iterate_nearest(npc:position(), 8, function(obj)
 		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 and obj:id() ~= npc_id and stack_amount > 0 then
 			if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
+			if not (IsMonster(obj) or IsStalker(obj)) then return end
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
-			if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+			if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 			
 			npcs_to_burn[#npcs_to_burn + 1] = obj
 			
@@ -347,13 +346,17 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	aoe_count = math.max(aoe_count - 1, 0)
 	
-	if npc:has_info("npcx_is_companion") then return end
 	if not npc:alive() then
 		shock_stack_list[npc:id()] = nil
 		grounded_stack_list[npc:id()] = nil
-		return
-	end 
-	if string.find(npc:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
+		return false
+	end
+	
+	if npc:has_info("npcx_is_companion") then return false end
+	
+	if not npc:id() then return false end
+	
+	if string.find(npc:name(), "legs") then return false end	-- Avoid First-person legs from being checked (remove error spam)
 	
 	npc_id = npc:id()
 	
@@ -393,9 +396,10 @@ function acid_damage(npc, bone_id)
 		level.iterate_nearest(npc:position(), 8, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
+				if not (IsMonster(obj) or IsStalker(obj)) then return end
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
-				if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+				if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 				armorbuster_list[obj:id()] = true
             end
         end)
@@ -478,9 +482,10 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
         level.iterate_nearest(npc:position(), radius, function(obj)
             if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
+				if not (IsMonster(obj) or IsStalker(obj)) then return end
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
-				if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+				if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 				if obj:has_info("npcx_is_companion") then return end
 				
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
@@ -542,11 +547,12 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 	level.iterate_nearest(npc:position(), radius, function(obj)
 		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 and obj:id() ~= npc:id() then
 			if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
+			if not (IsMonster(obj) or IsStalker(obj)) then return end
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
-			printf('Obj enemies w/ org. NPC? (%s) | Obj not enemies w/ Player? (%s)', obj:relation(npc) == (-1), obj:relation(db.actor) ~= (-1))
-			if (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+--			printf('Obj enemies w/ org. NPC? (%s) | Obj not enemies w/ Player? (%s)', obj:relation(npc) == (-1), obj:relation(db.actor) ~= (-1))
+			if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 			-- printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
 			
 			obj:hit(new_hit)
