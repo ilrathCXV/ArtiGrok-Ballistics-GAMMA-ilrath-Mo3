@@ -346,6 +346,8 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	aoe_count = math.max(aoe_count - 1, 0)
 	
+	if not npc:id() then return false end
+	
 	if not npc:alive() then
 		shock_stack_list[npc:id()] = nil
 		grounded_stack_list[npc:id()] = nil
@@ -353,8 +355,6 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	end
 	
 	if npc:has_info("npcx_is_companion") then return false end
-	
-	if not npc:id() then return false end
 	
 	if string.find(npc:name(), "legs") then return false end	-- Avoid First-person legs from being checked (remove error spam)
 	
@@ -572,7 +572,9 @@ end
 
 -- randomly rip the durability
 function condition_degrade_on_fire(amount, wpn, chance)
-    local rand = math_random(1, chance)
+	
+    local chance_ceil = chance or 10
+	local rand = math_random(1, chance_ceil)
     local weapon = wpn or db.actor:active_item()
 	local dura_rip = amount or 0.0025
     if weapon and rand == 1 then
@@ -602,11 +604,13 @@ function condition_degrade_on_fire(amount, wpn, chance)
 					part_to_dmg = nil
 				end
 				
-				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 1), 1, parts[part_to_dmg])
+				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 2), 1, parts[part_to_dmg])
 				
-				item_parts.set_parts_con(weapon:id(), parts)
+--				item_parts.set_parts_con(weapon:id(), parts)
+--				se_save_var( weapon:id(), weapon:name(), "parts", parts )
+
 				-- Hopefully this will avoid parts "resetting"
-				se_save_var( weapon:id(), weapon:name(), "parts", parts )
+				arti_jamming.persist_current_weapon()
 				
 			end
 		else
