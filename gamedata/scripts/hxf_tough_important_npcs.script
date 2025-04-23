@@ -213,9 +213,34 @@ function npc_on_before_hit(npc,shit,bone_id,flags)
 	if not npc then
 		return
 	end
-
+	
+	if IMPORTANT_NPC_SECTIONS[npc:section()] then
+		-- victim is important NPC
+		
+		if shit.draftsman then
+			if shit.draftsman:id() == AC_ID then
+				-- attacker is player
+				shit.power = shit.power * PLAYER_IMPORTANT_DMG
+				--printf("Important NPC %s got hit by PLAYER, applying %s damage", npc:name(), PLAYER_IMPORTANT_DMG)
+				return
+			elseif npc:section() == "stalker_gatekeeper" and not (has_alife_info("bar_deactivate_radar_done")) then
+				shit.power = shit.power * 0.001
+				--printf("Gatekeeper got hit by NPC/mutant but Radar isn't deactivated, only dealing 0.1% of original damage")
+				return
+			elseif IsMonster(shit.draftsman) then
+				-- attacker is monster
+				shit.power = shit.power * MONSTER_IMPORTANT_DMG
+				--printf("Important NPC %s got hit by %s, applying %s damage", npc:name(), shit.draftsman:name(), MONSTER_IMPORTANT_DMG)
+				return
+			end
+		end
+		
+		-- attacker is something else
+		shit.power = shit.power * IMPORTANT_DMG
+		--printf("Important NPC %s got hit, applying %s damage", npc:name(), IMPORTANT_DMG)
+		
 	-- check if companion first, we don't care if NPC is also important in that case
-	if npc:has_info("npcx_is_companion") then
+	elseif npc:has_info("npcx_is_companion") then
 		-- victim is companion
 
 		if shit.draftsman then
@@ -246,27 +271,6 @@ function npc_on_before_hit(npc,shit,bone_id,flags)
 
 		shit.power = shit.power * id_or_mod
 		--printf("Companion %s got hit, applying %s damage", npc:name(), id_or_mod)
-
-	elseif IMPORTANT_NPC_SECTIONS[npc:section()] then
-		-- victim is important NPC
-		
-		if shit.draftsman then
-			if shit.draftsman:id() == AC_ID then
-				-- attacker is player
-				shit.power = shit.power * PLAYER_IMPORTANT_DMG
-				--printf("Important NPC %s got hit by PLAYER, applying %s damage", npc:name(), PLAYER_IMPORTANT_DMG)
-				return
-			elseif IsMonster(shit.draftsman) then
-				-- attacker is monster
-				shit.power = shit.power * MONSTER_IMPORTANT_DMG
-				--printf("Important NPC %s got hit by %s, applying %s damage", npc:name(), shit.draftsman:name(), MONSTER_IMPORTANT_DMG)
-				return
-			end
-		end
-		
-		-- attacker is something else
-		shit.power = shit.power * IMPORTANT_DMG
-		--printf("Important NPC %s got hit, applying %s damage", npc:name(), IMPORTANT_DMG)
 
 	elseif shit.draftsman and shit.draftsman:has_info("npcx_is_companion") then
 		-- victim is neither important nor companion

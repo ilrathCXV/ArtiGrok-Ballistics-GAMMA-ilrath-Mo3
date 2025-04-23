@@ -54,8 +54,8 @@ end
 
 function cloudkill_dmg_increase(victim, shit, bone_id)
     if weakened[victim:id()] then
-		local damage_increase = 1 + (weakened[victim:id()] * 0.2)
-        shit.power = shit.power * damage_increase
+		local damage_increase = (weakened[victim:id()] * 0.2)
+        shit.power = shit.power * (1 + damage_increase)
 		display_increase = tonumber((damage_increase * 100))
 		printf("[ArtiGrok - BaS Handler] Cloudkill DMG Increase: %s%", display_increase)
     end

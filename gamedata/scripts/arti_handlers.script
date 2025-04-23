@@ -319,16 +319,17 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	
 	number_of_npcs_ignition = math.max(number_of_npcs_ignition - 1, 0)
 	
-	if npc:has_info("npcx_is_companion") then return end
+	if npc:has_info("npcx_is_companion") then return true end
+	
+	if not npc:id() then return true end
 	
 	if not npc:alive() then
 		burn_stack_list[npc:id()] = nil
 		burn_check_list[npc:id()] = nil
-		return
+		return true
 	end
 	
-	if string.find(npc:name(), "legs") then return end	-- Avoid First-person legs from being checked (remove error spam)
-
+	if string.find(npc:name(), "legs") then return true end	-- Avoid First-person legs from being checked (remove error spam)
 	
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
@@ -346,17 +347,17 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	aoe_count = math.max(aoe_count - 1, 0)
 	
-	if not npc:id() then return false end
+	if not npc:id() then return true end
 	
 	if not npc:alive() then
 		shock_stack_list[npc:id()] = nil
 		grounded_stack_list[npc:id()] = nil
-		return false
+		return true
 	end
 	
-	if npc:has_info("npcx_is_companion") then return false end
+	if npc:has_info("npcx_is_companion") then return true end
 	
-	if string.find(npc:name(), "legs") then return false end	-- Avoid First-person legs from being checked (remove error spam)
+	if string.find(npc:name(), "legs") then return true end	-- Avoid First-person legs from being checked (remove error spam)
 	
 	npc_id = npc:id()
 	
