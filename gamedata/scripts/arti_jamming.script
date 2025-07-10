@@ -455,6 +455,7 @@ function get_overheat_modifier(weapon, eval)
 	if eval == nil then eval = true end
 	if id ~= cgd.id then return 1 end
 	local overheat_base = get_overheat_base(weapon) or 50
+	if not cgd.heat then return 0 end
 	local heat_severity = math.floor(cgd.heat/overheat_base)
 	if heat_severity > 0 then 
 		return eval and overheat_data.damage[heat_severity] or heat_severity

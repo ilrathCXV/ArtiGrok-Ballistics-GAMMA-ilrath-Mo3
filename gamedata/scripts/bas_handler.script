@@ -1,6 +1,11 @@
 play_sound_on_location = ballistics_utils.play_sound_on_location
 play_particle       = ballistics_utils.play_particle
 
+local grok_adb_pba_check = false
+if grok_actor_damage_balancer and grok_actor_damage_balancer.PBA_a_obh then
+	grok_adb_pba_check = true
+end
+
 weakened = {}
 local weakened_timer = {}
 
@@ -22,6 +27,7 @@ function corrosive_cloud(npc, bone_id)
     level.iterate_nearest(npc:position(), 5, function(obj)
         if obj and obj:id() ~= AC_ID then
 			if not obj:alive() then return end
+			if not (IsMonster(obj) or IsStalker(obj)) then return end
 			if weakened[obj:id()] and weakened[obj:id()] > 0 then
 				weakened[obj:id()] = weakened[obj:id()] + 1
 			else
@@ -39,7 +45,7 @@ end
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
-function cloudkill_dmg_reduction(shit, bone_id)
+function cloudkill_dmg_reduction(shit)
 	if not shit.draftsman then return end
 	if shit.draftsman:id() == db.actor:id() then return end
 	
@@ -47,12 +53,12 @@ function cloudkill_dmg_reduction(shit, bone_id)
 		local damage_reduction = 1 - (weakened[shit.draftsman:id()] * 0.05)
 		damage_reduction = clamp(damage_reduction, 0.05, 0.4)
         shit.power = shit.power * damage_reduction
-		-- display_reduction = tonumber(100 - (damage_reduction * 100))
-		-- printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
+		display_reduction = tonumber(100 - (damage_reduction * 100))
+		printf("[ArtiGrok - BaS Handler] Cloudkill DMG reduction: %s%", display_reduction)
     end
 end
 
-function cloudkill_dmg_increase(victim, shit, bone_id)
+function cloudkill_dmg_increase(victim, shit)
     if weakened[victim:id()] then
 		local damage_increase = (weakened[victim:id()] * 0.2)
         shit.power = shit.power * (1 + damage_increase)
@@ -61,10 +67,18 @@ function cloudkill_dmg_increase(victim, shit, bone_id)
     end
 end
 
-local GActor_OnBeforeHitCallback = _G.CActor__BeforeHitCallback
-_G.CActor__BeforeHitCallback = function(actor, shit, bone_id)
-	cloudkill_dmg_reduction(shit, bone_id)
-	return GActor_OnBeforeHitCallback(actor, shit, bone_id)
+-- For users using base Grok ADB, this will ensure the Cloudkill damage-to-actor reduction gets factored in
+if grok_adb_pba_check then
+	local base_adb_pda = grok_actor_damage_balancer.PBA_a_obh
+	function grok_actor_damage_balancer.PBA_a_obh(shit, bone_id, flags)
+		cloudkill_dmg_reduction(shit)
+		base_adb_pda(shit, bone_id, flags)
+	end
+end
+
+-- For users not using Grok ADB or modified in some way, this will ensure that Cloudkill damage-to-actor reduction gets factored in
+function actor_on_before_hit(shit,bone_id, flags)
+	cloudkill_dmg_reduction(shit)
 end
 
 function check_stun()
@@ -100,6 +114,10 @@ function on_game_start()
 	
 	RegisterScriptCallback("npc_on_before_hit",cloudkill_dmg_increase)
 	RegisterScriptCallback("monster_on_before_hit",cloudkill_dmg_increase)
+	
+	if not grok_adb_pba_check then
+		RegisterScriptCallback("actor_on_before_hit",actor_on_before_hit)
+	end
 	
     RegisterScriptCallback("server_entity_on_unregister", se_on_unregister)
 	RegisterScriptCallback("actor_on_update", check_stun)
