@@ -42,3 +42,25 @@ function adj_damage(obj,sec)
 	
 	return 0
 end
+
+--------------------------------------------------------------------------------------------
+-- Adjusting GAMMA's "invincible story NPCs" script to not be so punishing
+--------------------------------------------------------------------------------------------
+if grok_additional_storyline_npc_invincible then
+	
+	grok_bethesda_npcs = grok_additional_storyline_npc_invincible.npc_on_before_hit
+	function grok_additional_storyline_npc_invincible.npc_on_before_hit(npc,shit,bone_id,flags)
+		local sec = npc:section()
+		if grok_additional_storyline_npc_invincible.ads_npcs[sec] == 1 then
+			if shit.draftsman:id() == db.actor:id() and game_relations.is_factions_enemies(get_actor_true_community(), character_community(npc)) then
+				shit.power = shit.power * 0.75		-- 0.10
+			elseif shit.draftsman:id() == db.actor:id() then
+				shit.power = shit.power * 0.5		-- 0.01
+			else
+				shit.power = 0
+			end
+		end
+	end
+	
+	
+end
