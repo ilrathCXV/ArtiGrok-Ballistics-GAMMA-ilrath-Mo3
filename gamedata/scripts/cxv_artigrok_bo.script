@@ -905,8 +905,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local falloff_modifier = 1
 	if graze_bullet_dmg_list[bullet_id] and graze_bullet_dmg_list[bullet_id] > 0 then
 		shit.power = graze_bullet_dmg_list[bullet_id]
-	end
-	if IsMelee(wpn) then
+	elseif IsMelee(wpn) then
 		falloff_modifier = 1
 	elseif true_falloff then
 		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
@@ -1614,13 +1613,15 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local ap_mod = ((is_shooter_actor and (difficulty_scaling_ap and difficulty_multiplier_ap[game_num] or 1)) or (difficulty_scaling_ap and npc_difficulty_multiplier_ap[game_num] or 1)) or 1
 	local damage_mod = ((is_shooter_actor and (difficulty_scaling_damage and difficulty_multiplier_damage[game_num] or 1)) or (difficulty_scaling_damage and npc_difficulty_multiplier_damage[game_num] or 1)) or 1
 	
-	if IsMelee(wpn) then
-		falloff_modifier = 1
-	elseif true_falloff then
-		local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
-		local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
-		local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
-		local falloff_modifier 	= momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
+	if true_falloff then
+		local falloff_modifier = 1
+		
+		if not IsMelee(wpn) then
+			local weapon_speed 		= utils_item.get_param(sec, wpn and wpn:id(), "bullet_speed", "float", true)
+			local ammo_speed   		= ini_sys:r_float_ex(ammo_section, "k_bullet_speed") or 1
+			local weapon_base_speed = SYS_GetParam(2, sec, "bullet_speed", 1)
+			falloff_modifier = momo_do_falloff(dist, sec, weapon_speed, ammo_speed, air_res, weapon_base_speed, silencer_boost)
+		end
 			
 		k_ap = k_ap * falloff_modifier * isg_res * silencer_boost * ap_mod * 0.80 -- last multiplier is a new adjustment after the bone grouping update
 		
