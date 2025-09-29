@@ -1,0 +1,89 @@
+-- Monkeypatch to ensure compatability with other mods like MAS
+-- Essentially a copy-paste job but what else can you do...
+
+local string_find   = string.find
+local string_gsub   = string.gsub
+
+function item_weapon.ammo_aggregation(obj, npc) 
+	
+	if (not npc) then
+		npc = db.actor
+	end
+	
+	local is_box = IsInvbox(npc)
+	local section = obj:section()
+	local size = obj:ammo_get_count()
+	local box_size = obj:ammo_box_size()
+
+	-- Replace damaged ammo with new
+	if _NO_DAMAGED_AMMO and string_find(section,"_verybad") then
+		local new_section = string_gsub(section,"_verybad","")
+		if ini_sys:section_exist(new_section) then
+			alife_release(obj)
+			alife_create_item(new_section, npc, {ammo = size})
+			--printf("~ replaced [%s] with [%s]", section, new_section)
+			return true
+		end
+	end
+
+	-- Replace home-made buck ammo with regular type
+	if (section == "ammo_12x70_buck_self") then
+		local new_section = "ammo_12x70_buck"
+		if ini_sys:section_exist(new_section) then
+			alife_release(obj)
+			alife_create_item(new_section, npc, {ammo = size})
+			--printf("~ replaced [%s] with [%s]", section, new_section)
+			return true
+		end
+	end
+	
+	if (size == box_size) then 
+		return true
+	end
+
+	local ammos = {}
+	
+	-- collect ammos except this one; we use it for remainder
+	function collect(temp, item)
+		if (section == item:section() and item:id() ~= obj:id() and item:ammo_get_count() < box_size) then
+			ammos[#ammos+1] = item:id()
+			size = size + item:ammo_get_count()
+		end
+	end
+
+    if is_box then
+        npc:iterate_inventory_box(collect)
+    else
+        npc:iterate_inventory(collect)
+    end
+	
+	-- didn't find any others
+	if (size == obj:ammo_get_count()) then 
+		return true
+	end
+
+	local fill = math.floor(size/box_size)
+	local remainder = size - (box_size*fill)
+	if (remainder > 0) then 
+		obj:ammo_set_count(remainder)
+	else 
+		ammos[#ammos+1] = obj:id()
+	end
+	
+	for i=1,#ammos do 
+		local item = level.object_by_id(ammos[i])
+		if (item) then
+			if (fill > 0) then
+				item:ammo_set_count(box_size)
+				fill = fill - 1
+			else
+				if not is_box then
+					npc:drop_item(item)
+				end
+				alife_release_id(ammos[i])
+			end
+		end
+	end
+
+	return true
+end

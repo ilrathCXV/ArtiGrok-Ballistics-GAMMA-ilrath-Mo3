@@ -1,6 +1,6 @@
----------------------------------------------------------------
------ EDIT for ArtiGrok - ilrathCXV (last edit: 12/29/24) -----
----------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+----- EDIT for ArtiGrok - ilrathCXV (last edit: 08/19/25 - removed RPG Compat for balance) -----
+------------------------------------------------------------------------------------------------
 
 play_particle       	= ballistics_utils.play_particle
 play_particle_firepoint = ballistics_utils.play_particle_firepoint
@@ -10,7 +10,6 @@ math_random         	= math.random
 ini_ammo               	= ballistics_utils.ini_ammo
 
 rpg_hit_perks	= nil
-fourth_times	= 0
 local lightning_hits = 0
 local napalm_hits	= 0
 local graze_hits	= 0 
@@ -30,17 +29,6 @@ burn_stack_list 	= {}
 burn_check_list 	= {}
 acid_stack_list 	= {}
 armorbuster_list 	= {}
-
-if z_cxv_experience_perk_weapon_reload_hit_effects then
-	rpg_hit_perks = z_cxv_experience_perk_weapon_reload_hit_effects
-	
-	function experience_skill_on_update(id, data)
-		if (id == "perk_fourth_times") then
-			fourth_times = data["curr_level"]
-		end
-	end
-	
-end
 
 local anims = {
     "norm_2_critical_hit_torso_0", -- good
@@ -513,10 +501,6 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
             end
         end)
 		
---		if rpg_hit_perks and fourth_times > 0 then
---			rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (lightning_hits * 0.33)
-			-- printf("[RPG - Arti Handlers - Shock] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
---		end
 		lightning_hits = 0
 		
     end
@@ -561,10 +545,6 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 		end
 	end)
 	
---	if rpg_hit_perks and fourth_times > 0 then
---		rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (graze_hits * 0.35)	-- need at least 3 enemies grazed for one full "hit"
---		-- printf("[RPG - Arti Handlers - Graze] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
---	end
 	graze_hits = 0
 end
 
@@ -681,13 +661,6 @@ end
 ------------------------------------------------------------------------------------ END USE
 
 function on_game_start()
-	if z_cxv_experience_perk_weapon_reload_hit_effects then
-		if experience_potions then
-			RegisterScriptCallback("experience_skill_on_update", experience_skill_on_update)
-		else
-			RegisterScriptCallback("experience_perk_on_update", experience_skill_on_update)
-		end	
-	end
 
     RegisterScriptCallback("actor_on_weapon_fired", particle_effects)
 	

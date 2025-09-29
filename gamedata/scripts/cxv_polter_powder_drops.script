@@ -1,18 +1,20 @@
+local string_find = string.find
+
 function monster_on_net_destroy(npc)
-	if not (string.find(npc:section(), "poltergeist")) then
+	if not (string_find(npc:section(), "poltergeist")) then
 		-- printf("[ArtiGrok - Polter] Creature not a poltergeist: %s, %s, %s", npc:section(), npc:name())
 		return
 	end
 	
 	local polter_type = 0 -- 1 == tele/electric, 2 == flame, 3 == black, 4 == war room
 	
-	if (string.find(npc:section(), "tele")) then
+	if (string_find(npc:section(), "tele")) then
 		polter_type = 1
-	elseif (string.find(npc:section(), "flame")) then
+	elseif (string_find(npc:section(), "flame")) then
 		polter_type = 2
-	elseif (string.find(npc:section(), "black")) then
+	elseif (string_find(npc:section(), "black")) then
 		polter_type = 3
-	elseif (string.find(npc:section(), "warlab")) then
+	elseif (string_find(npc:section(), "warlab")) then
 		polter_type = 4
 	end
 	

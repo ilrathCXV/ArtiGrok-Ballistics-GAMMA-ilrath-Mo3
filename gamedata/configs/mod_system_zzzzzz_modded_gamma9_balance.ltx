@@ -1,3 +1,7 @@
+; The AP values are divided by 10 to match GAMMA's AP values.
+; They have identical strength as normal since GAMMA/ArtiGrok multiplies AP by 10 during damage calcs.
+; This was mainly done to avoid multi-hits. But, after a better fix was found vai scripts, it is too late to change it back...
+
 ; .300 Blackout from Retrogue
 ![ammo_300blackout_ap]
 k_ap			= 0.053
@@ -21,3 +25,47 @@ k_ap			= 0.065
 ; "Bolt Ammo" from LEWD Boltov
 ![ammo_bolt]
 k_ap			= 0.5
+
+; ".700 Nitro" ammo from Juan's NKA Mastodon
+![ammo_700nitro]
+k_ap			= 0.1
+
+; .950 from Juan's JDJ Sniper Rifle
+![ammo_950jdj]
+k_ap 			= 0.4
+
+; ======================================================================
+; LEWD StG Custom Ammo DLTX
+![lewd_ammo_7.92x33_fmj]
+box_size		= 14
+k_hit		= 1.15
+k_ap		= 0.0165
+k_imp       = 0.7
+cost		= 1530
+
+![lewd_ammo_7.92x33_fmj_bad]	; Armorbuster
+k_hit		= 1.15
+k_ap		= 0.0185
+k_imp       = 0.7
+cost		= 3150
+
+![lewd_ammo_7.92x33_sp]			; Given 20% Gigant Mod
+k_hit		= 1.5
+k_ap		= 0.0015
+cost		= 1230
+
+![lewd_ammo_7.92x33_sp_bad]		; 20% Mutant Mod / 40% Gigant Mod / 65% Frag Chance / 30% Flinch Chance
+k_hit		= 1.65
+k_ap		= 0.002
+cost		= 3730
+
+![lewd_ammo_7.92x33_mh]
+k_hit		= 1.1
+k_ap		= 0.0255
+cost		= 1730
+
+![lewd_ammo_7.92x33_mh_bad]		; Chaos Rounds
+k_hit		= 0.65
+k_ap		= 0.0185
+buck_shot	= 3
+cost		= 5730

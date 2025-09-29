@@ -57,7 +57,7 @@ if grok_additional_storyline_npc_invincible then
 			elseif shit.draftsman:id() == db.actor:id() then
 				shit.power = shit.power * 0.5		-- 0.01
 			else
-				shit.power = 0
+				shit.power = shit.power * 0.1		-- = 0 (Bethseda wants their NPCs back)
 			end
 		end
 	end
