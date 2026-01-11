@@ -16,6 +16,8 @@ function monster_on_net_destroy(npc)
 		polter_type = 3
 	elseif (string_find(npc:section(), "warlab")) then
 		polter_type = 4
+	else
+		polter_type = math.random(1,4)
 	end
 	
 	-- printf("[ArtiGrok] Polter Type: %s", polter_type)

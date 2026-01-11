@@ -78,7 +78,9 @@ end
 
 -- For users not using Grok ADB or modified in some way, this will ensure that Cloudkill damage-to-actor reduction gets factored in
 function actor_on_before_hit(shit,bone_id, flags)
-	cloudkill_dmg_reduction(shit)
+	if not grok_adb_pba_check then
+		cloudkill_dmg_reduction(shit)
+	end
 end
 
 function check_stun()
