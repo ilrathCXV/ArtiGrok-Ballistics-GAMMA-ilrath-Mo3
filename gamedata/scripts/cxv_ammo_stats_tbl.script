@@ -301,7 +301,7 @@ function prop_nopen(obj, sec)
 	
 	flinch_chance = ini_ammo:r_float_ex(ammo_sec, "flinch") or 0
 	flinch_chance = flinch_chance * 0.01
-	if cxv_artigrok_bo.hp_rounds[ammo_sec] then
+	if cxv_artigrok_bo and cxv_artigrok_bo.hp_rounds[ammo_sec] then
 		hp_penalty = cxv_artigrok_bo.hp_rounds[ammo_sec] or 1
 		penalty = ((1 + flinch_chance) / hp_penalty)
 	end

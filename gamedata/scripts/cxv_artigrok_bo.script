@@ -335,6 +335,7 @@ hp_rounds = {
 
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
+
 -- Needed for checking monkeypatching in the G functions near bottom of script
 local flags = { ret_value = true }
 
@@ -694,6 +695,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 			spec_monster_mult = 0.85
 		end
 	end
+	
 	
 	-- NOTE: Difficulty index is determined in actor_on_first_update() now
 	
@@ -1859,33 +1861,44 @@ function bullet_on_impact(bullet)
 	
 end
 
+local elemental_hit_types = {
+	[hit.light_burn] = true,
+	[hit.burn] = true,
+	[hit.shock] = true,
+	[hit.chemical_burn] = true,
+	[hit.telepatic] = true,
+}
+
 gbo_adb = grok_actor_damage_balancer.actor_on_before_hit
 function grok_actor_damage_balancer.actor_on_before_hit(shit, bone_id, flags)
 	
-	-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
-    local bullet_id = shit.bullet_id
-    if bullet_id and bullet_store_list[bullet_id] then
-        local bullet_hit_enemy_list = bullet_store_list[bullet_id]
-		-- bullet on_impact was stored and no hit has been detected yet -- hit the player and increment counter by 1 to avoid multi-hit
-        if bullet_hit_enemy_list[AC_ID] and bullet_hit_enemy_list[AC_ID] == 0 then
-            bullet_hit_enemy_list[AC_ID] = 1
-			
-		-- bullet has already had a hit recorded -- don't hit the player and nullify the hit
-        else													
-            flags.ret_value = false
-            shit.power = 0.0
-            shit.bone_id = 65535
-            return
-        end 
-    elseif bullet_id then
-        -- no impact recorded - add to store and flush later + hit the player
-        hits = {[AC_ID] = 1}
-        bullet_store_list[bullet_id] = hits
-        CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
-            bullet_store_list[bullet_id] = nil
-			return true
-        end)
-    end
+	if not elemental_hit_types[shit.type] then
+	
+		-- checking for multi-hits from recorded hits (e.g. one bullet hitting multiple bones)
+		local bullet_id = shit.bullet_id
+		if bullet_id and bullet_store_list[bullet_id] then
+			local bullet_hit_enemy_list = bullet_store_list[bullet_id]
+			-- bullet on_impact was stored and no hit has been detected yet -- hit the player and increment counter by 1 to avoid multi-hit
+			if bullet_hit_enemy_list[AC_ID] and bullet_hit_enemy_list[AC_ID] == 0 then
+				bullet_hit_enemy_list[AC_ID] = 1
+				
+			-- bullet has already had a hit recorded -- don't hit the player and nullify the hit
+			else													
+				flags.ret_value = false
+				shit.power = 0.0
+				shit.bone_id = 65535
+				return
+			end 
+		elseif bullet_id then
+			-- no impact recorded - add to store and flush later + hit the player
+			hits = {[AC_ID] = 1}
+			bullet_store_list[bullet_id] = hits
+			CreateTimeEvent("bullet_remove", bullet_id, 0.1, function()
+				bullet_store_list[bullet_id] = nil
+				return true
+			end)
+		end
+	end
 
     gbo_adb(shit, bone_id, flags)
 end
@@ -1977,7 +1990,6 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
     flags.ret_value = true
     local custom_hit = npc_on_before_hit(npc,shit,bone_id, true)
     if custom_hit then
-        --SendScriptCallback("npc_on_before_hit",npc,custom_hit.shit,custom_hit.bone_id, flags)
 		if flags.ret_value then
 			-- printf("ArtiGrok BO - New hit power: %s", custom_hit.shit.power)
             if custom_hit.shit.type ~= hit.fire_wound and custom_hit.shit.type ~= hit.wound then
@@ -1996,7 +2008,6 @@ _G.CAI_Stalker__BeforeHitCallback = function(npc,shit,bone_id)
 		-- Living Fire iTheon task compat.
 		if npc and npc:id() == get_story_object_id('the_living_fire_prometheus') then
 			tasks_the_living_fire.npc_on_before_hit(npc,shit,bone_id)
---			flags.ret_value = false
 		else
 			SendScriptCallback("npc_on_before_hit",npc,shit,bone_id,flags)
 		end

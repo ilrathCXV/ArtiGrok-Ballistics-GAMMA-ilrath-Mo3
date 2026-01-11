@@ -53,6 +53,37 @@ function is_actor(npc)
     return npc and npc:id() == AC_ID
 end
 
+-- More checks to avoid spreading effects to "friendlies" while disguised
+local npcs_hit_by_actor = {}
+local function npc_on_before_hit(npc,shit,bone_id, flags)
+	if not IsStalker(npc) then return end
+	
+	if shit and shit.draftsman and (shit.draftsman:id() == AC_ID) then
+		local wpn = level.object_by_id(shit.weapon_id)
+		if wpn == nil then return end
+		npcs_hit_by_actor[npc:id()] = true
+	end
+end
+
+-- NPC 1 should be the main object, NPC should be secondary object/actor
+function are_stalkers_enemies(npc_1, npc_2_actor)
+	if not npc_1 then return end
+	if not npc_2_actor then return end
+
+	local npc_1_faction = character_community(npc_1)
+	local npc_2_faction = (npc_2_actor:id() == AC_ID and character_community(npc_2_actor):sub(7)) or character_community(npc_2_actor)
+	
+--	printf("NPC 1 Faction: %s | NPC 2 Faction: %s | Is NPC 2 actor?: %s", npc_1_faction, npc_2_faction, npc_2_actor:id() == AC_ID)
+	
+	if not game_relations.is_factions_enemies(npc_1_faction,npc_2_faction) then
+		if npc_2_actor:id() == AC_ID and not npcs_hit_by_actor[npc_1:id()] then
+			return false
+		end
+	end
+	
+	return true
+end
+
 function get_tier(val)
 -- EDIT: Match to Grok's Armor Breakpoints (ilrathCXV - 12/12/22) --------------------------------------------
 	
@@ -188,7 +219,9 @@ function burn_ignition(npc, wpn_id, stacks)
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
-			if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+			if IsStalker(obj) then
+				if not (are_stalkers_enemies(obj, npc) and are_stalkers_enemies(obj, db.actor)) then return end
+			end
 			
 			npcs_to_burn[#npcs_to_burn + 1] = obj
 			
@@ -388,7 +421,10 @@ function acid_damage(npc, bone_id)
 				if not (IsMonster(obj) or IsStalker(obj)) then return end
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
-				if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+				if IsStalker(obj) then
+					if not (are_stalkers_enemies(obj, npc) and are_stalkers_enemies(obj, db.actor)) then return end
+				end
+				
 				armorbuster_list[obj:id()] = true
             end
         end)
@@ -474,8 +510,11 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				if not (IsMonster(obj) or IsStalker(obj)) then return end
 				if obj.health <= 0 then return end
 				if not obj:alive() then return end
-				if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
 				if obj:has_info("npcx_is_companion") then return end
+				
+				if IsStalker(obj) then
+					if not (are_stalkers_enemies(obj, npc) and are_stalkers_enemies(obj, db.actor)) then return end
+				end
 				
 				if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
 				if obj.health <= 0 then return end
@@ -536,8 +575,9 @@ function graze_handler(npc, new_hit, radius)	-- new_hit = new s_hit (handled in 
 			if obj.health <= 0 then return end
 			if not obj:alive() then return end
 			if obj:has_info("npcx_is_companion") then return end
---			printf('Obj enemies w/ org. NPC? (%s) | Obj not enemies w/ Player? (%s)', obj:relation(npc) == (-1), obj:relation(db.actor) ~= (-1))
-			if (not IsMonster(obj)) and (obj:relation(npc) == (-1)) and (obj:relation(db.actor) ~= (-1)) then return end
+			if IsStalker(obj) then
+				if not (are_stalkers_enemies(obj, npc) and are_stalkers_enemies(obj, db.actor)) then return end
+			end
 			-- printf("[Arti Handlers - Graze] Graze Target: %s", obj:name())
 			
 			obj:hit(new_hit)
@@ -666,6 +706,8 @@ function on_game_start()
 	
 	RegisterScriptCallback("actor_on_weapon_fired", custom_impair_special_effects)
 	
+	RegisterScriptCallback("npc_on_before_hit", npc_on_before_hit)
+	
     RegisterScriptCallback("on_enemy_eval", on_enemy_eval)
     RegisterScriptCallback("npc_on_death_callback", enemy_on_death_callback)
 	RegisterScriptCallback("monster_on_death_callback", enemy_on_death_callback)
@@ -697,7 +739,7 @@ function nullify_bullet_blow_sd(shit, bone_id)
 		wpn_sec = wpn:section()
 		
 		if wpn_sec == "bullet_blow" then
-			-- printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
+			printf("[ArtiGrok Handlers] - Player was damaged by bullet_blow. Nullifying damage...")
 			shit.power = 0
 		end
 	end
