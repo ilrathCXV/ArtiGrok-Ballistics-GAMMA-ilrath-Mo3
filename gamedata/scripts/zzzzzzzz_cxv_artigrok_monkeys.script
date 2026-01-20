@@ -64,3 +64,52 @@ if grok_additional_storyline_npc_invincible then
 	
 	
 end
+
+--------------------------------------------------------------------------------------------
+-- Hit Numbers patch - to show actual Stalker Damage numbers (stops functionality of base Stalker numbers)
+-- 					 - Mutant damage left alone due to damage numbers not reflecting "true HP" numbers due to inate mutant resist
+--					 - unlocalized "last_health" and "callbackTimes"
+--------------------------------------------------------------------------------------------
+
+if hit_numbers then
+
+	function injectHitNumbers(npc, amount, bone_index, is_critical)
+		if not hit_numbers.settings.enabled then return end
+		
+		if amount <= 0.0001 then return end
+		
+		hit_numbers.callbackTimes[npc:id()] = (hit_numbers.callbackTimes[npc:id()] or 0) + 1
+		local id = npc:id()
+		local offset = math.random(1,1000)
+		CreateTimeEvent("hit_numbers_artigrok" .. offset, id, 0, function()
+			local obj = level.object_by_id(id)
+			if not obj then
+				hit_numbers.last_health[id] = nil
+				hit_numbers.callbackTimes[id] = nil
+				return true
+			end
+			
+			local text_amt = amount
+			local bone = bone_index
+			local crit = is_critical
+					
+			hit_numbers.HitNumber(obj, text_amt, bone, crit)
+	
+			hit_numbers.last_health[obj:id()] = nil
+			hit_numbers.callbackTimes[obj:id()] = nil
+			return true
+		end)
+		
+	end
+	
+	base_hit_numbers_callback = hit_numbers.on_hit_callback
+	
+	function hit_numbers.on_hit_callback(obj, amount, local_direction, who, bone_index)
+		if not hit_numbers.settings.enabled then return end
+		if not cxv_artigrok_bo.should_show_normal_numbers then return end
+		
+		base_hit_numbers_callback(obj, amount, local_direction, who, bone_index)
+	end
+	
+	
+end

@@ -33,6 +33,7 @@ local defaults = {
 	["true_falloff"] = true,
 	["difficulty_scaling_damage"] = false,
 	["difficulty_scaling_ap"] = false,
+	["anomaly_damage_unfix"] = false
 }
 
 function get_config(key)
@@ -49,6 +50,7 @@ function on_mcm_load()
 			{id = "true_falloff", type = "check", val = 1, def=true},
 			{id = "difficulty_scaling_damage", type = "check", val = 1, def=false},
 			{id = "difficulty_scaling_ap", type = "check", val = 1, def=false},
+			{id = "anomaly_damage_unfix", type = "check", val = 1, def=false}
         }
     }
     return op

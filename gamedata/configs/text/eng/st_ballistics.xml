@@ -68,4 +68,13 @@
 		<text>Turning this on will enable GAMMA's difficulty scaling on all outgoing player and (with the option enabled) NPC Stalker AP power. This setting only allows scaling to affect AP power (i.e. Hard reduces outgoing player AP power/increases NPC-to-NPC AP power by 20%).\n 
 		\nTurning this off will turn scaling off, leaving AP power untouched on all difficulties.</text>
 	</string>
+	
+	<string id="ui_mcm_ballistics_anomaly_damage_unfix">
+		<text>Re-enable Vanilla Anomaly Damage?</text>
+	</string>
+	<string id="ui_mcm_ballistics_anomaly_damage_unfix_desc">
+		<text>Turning this on will have anomalies go back to doing larger amounts of damage by disabling multi-hit protection from non-physical damage\n 
+		\nTurning this off will have anomalies no longer cause a multi-hit in a very short period of time, causing some types of anomalies to be easier</text>
+	</string>
+	
 </string_table>
