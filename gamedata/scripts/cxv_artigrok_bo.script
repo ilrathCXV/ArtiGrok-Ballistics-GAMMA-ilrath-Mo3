@@ -496,7 +496,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	should_show_normal_numbers = true
 	hit_numbers_critical = false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.2.2   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.3.0   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if (string.match(sec, "knife")) then
@@ -1064,7 +1064,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.2.2  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.3.0  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -2102,7 +2102,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.2.2  //////////////////")
+	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.3.0  //////////////////")
 	
 end
 
