@@ -74,7 +74,7 @@
 	</string>
 	<string id="ui_mcm_ballistics_anomaly_damage_unfix_desc">
 		<text>Turning this on will have anomalies go back to doing larger amounts of damage by disabling multi-hit protection from non-physical damage\n 
-		\nTurning this off will have anomalies no longer cause a multi-hit in a very short period of time, causing some types of anomalies to be easier</text>
+		\nTurning this off will have anomalies no longer multi-hit, which can lead to most anomalies being almost safe to walk through (i.e. thermal anomalies).</text>
 	</string>
 	
 </string_table>

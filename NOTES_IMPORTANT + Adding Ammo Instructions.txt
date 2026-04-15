@@ -113,11 +113,11 @@ Eidelon will still put up a good fight against the round. Recommended for large-
 special     = head								-- Special tag needed by the damage system to make use of this ammo's special effects
 
 
-Fragmentation - This allows the round a chance to do 30% extra damage to a target due to fragmentation on impact. Simple as.
+Fragmentation - This allows the round to deal X% extra damage to a target if the hit is a penetrative/non-armored hit. Armored hits, however, will reduce the damage by the same percentage.
 Recommended for HP/FMJ rounds for pistols and small-caliber rifles.
 
 special     = frag								-- Special tag needed by the damage system to make use of this ammo's special effects
-frag        = 50								-- Fragmentation chance (percent chance). Recommended range is (15-75).
+frag        = 50								-- Fragmentation damage multiplier (percent bonus). Recommended range is (15-75).
 
 
 RIP Rounds - These rounds heal the player for a portion of the final damage dealt after calculations.

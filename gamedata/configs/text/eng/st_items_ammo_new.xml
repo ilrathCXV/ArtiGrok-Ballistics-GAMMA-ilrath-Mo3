@@ -133,7 +133,7 @@
 		<text>% chance to stagger & jam stalkers</text>
 	</string>
 	<string id="st_ballistics_frag">
-		<text>% chance to fragment, dealing +30% DMG</text>
+		<text>% more/less DMG on unarmored/armored hits</text>
 	</string>
 	<string id="st_ballistics_hp">
 		<text>Extra DMG on full penetration only</text>

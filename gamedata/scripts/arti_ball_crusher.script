@@ -37,7 +37,7 @@ local valid_crusher = {
 	["af_compass"]					= true,
 	["af_monolith"] 				= true,
 	["af_cristall_flower"]			= true,
-	["af_cristall"]					= true,
+	["af_cristall"]					= true
 }
 
 local custom_rank = 
@@ -47,7 +47,7 @@ local custom_rank =
 	["af_monolith"] 	= 4,
 	["af_compass"]		= 4,
 	["af_oasis_heart"]	= 4,
-	["af_death_lamp"] 	= 4,
+	["af_death_lamp"] 	= 4
 }
 
 gc = game.translate_string
@@ -57,7 +57,7 @@ local fragment_convert_list = {
 	["powder_gravi"] 				= true,
 	["powder_fireball"] 			= true,
 	["powder_nightstar"] 			= true,
-	["powder_blood"] 				= true,
+	["powder_blood"] 				= true
 }
 
 local modes = {
@@ -67,14 +67,19 @@ local modes = {
 local bags = {
 	["actor_bag"] = true,
 	["actor_equ"] = true,
-	["actor_belt"] = true,
+	["actor_belt"] = true
 }
 
 function try_crush(obj, bag, mode)
     if obj and bags[bag] and modes[mode] then
-		local arte = obj:section()
-		if valid_crusher[arte] then
+		local sec = obj:section()
+		if valid_crusher[sec] then
 			return gc("st_crush")
+		else
+			local kind = SYS_GetParam(0, sec, "kind")
+			if kind and kind == "i_arty_junk" then
+				return gc("st_crush")
+			end
 		end
     end
 end
@@ -95,20 +100,26 @@ end
 -- CXVilrath 5/3/24 - Reworked for fragment simplification
 function crush_new(obj, bag, mode)
 	local artefact = obj:section()
+	local kind = SYS_GetParam(0, artefact, "kind")
 	local rank 
 	if custom_rank[artefact] then
 		rank = custom_rank[artefact]
+	elseif kind and kind == "i_arty_junk" then
+		rank = 0
 	else
 		rank = SYS_GetParam(2, artefact, "af_rank") or 0
 	end
 	
-	local amount = 2
+	local amount = 7	-- safeguard amount/baseline amount
+	local condition = obj:condition() or 0.33
 	
 	if rank > 0 then
-		local condition = obj:condition() or 0.33
 		amount = math.max(30 * condition, 10)
 		amount = math.floor(amount + 0.5)
 		amount = amount * rank
+	else
+		amount = math.max(amount * condition, 3)
+		amount = math.floor(amount + 0.5)
 	end
 	
 	printf("Artefact: %s | Rank: %s | Fragment Amount: %s", artefact, rank, amount)

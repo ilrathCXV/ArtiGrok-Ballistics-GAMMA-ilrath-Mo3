@@ -865,12 +865,17 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	--------------------------
 	-- Fragmentation Rounds --
 	--------------------------
-	-- Chance to deal 30% increased damage on hit
+	-- Damage multipler/reducer on unarmored/armored hits
+	-- Multiplier = 1 + (frag_factor)
+	-- Reducer = 1 - (frag_factor) ... no lower than 5% (this does not apply to mutants)
+	local frag_multiplier = 1
 	if (special_effect == "frag") or (special_effect_2 == "frag") then
-		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
-		if math.random(100) <= frag_chance then
-			ammo_mult = ammo_mult * 1.3
-			arti_handlers.fragment_sound(npc)
+		local frag_factor = ini_ammo:r_float_ex(ammo_section, "frag") or 0
+		frag_multiplier = 1 + (frag_factor * 0.01)
+		
+		ammo_mult = ammo_mult * frag_multiplier
+		if is_shooter_actor then
+			arti_handlers.fragment_sound(monster)
 		end
 	end
 	
@@ -1595,13 +1600,15 @@ function npc_on_before_hit(npc, shit, bone_id)
 	--------------------------
 	-- Fragmentation Rounds --
 	--------------------------
-	-- Chance to deal 30% increased damage on hit
+	-- Damage multipler/reducer on unarmored/armored hits
+	-- Multiplier = 1 + (frag_factor)
+	-- Reducer = 1 - (frag_factor) ... no lower than 5%
+	local frag_multiplier = 1
+	local frag_reducer = 1
 	if (special_effect == "frag") or (special_effect_2 == "frag") then
-		frag_chance = ini_ammo:r_float_ex(ammo_section, "frag") or 0
-		if math.random(100) <= frag_chance then
-			wpn_hit_power = wpn_hit_power * 1.3
-			arti_handlers.fragment_sound(npc)
-		end
+		local frag_factor = ini_ammo:r_float_ex(ammo_section, "frag") or 0
+		frag_multiplier = 1 + (frag_factor * 0.01)
+		frag_reducer = math.max(0.05, (1 - (frag_factor * 0.01)))
 	end
 	
 	------------------------
@@ -1693,15 +1700,16 @@ function npc_on_before_hit(npc, shit, bone_id)
 	custom_bone_value[custom_bone_id] = tonumber( clamp(new_bone_armor, 0, custom_bone_armor) )
 	
 	if k_ap < custom_bone_armor then
-	
---		new_bone_armor = tonumber( tonumber(custom_bone_armor) - tonumber(armor_loss_increment) )-- armor reduce
---		custom_bone_value[custom_bone_id] = new_bone_armor
 		
 		if k_ap > new_bone_armor then -- if bullet damaged armor enough and pen with reduced power
-			shit.power = shit.power * custom_bone_hitfraction
+			shit.power = shit.power * custom_bone_hitfraction * frag_multiplier
+			if is_shooter_actor and frag_multiplier > 1 then
+				arti_handlers.fragment_sound(npc)
+			end
 		else
 			-- ilrathCXV (04/01/24) - Flinch will decrease HP penalty/give some more concussion damage
-			shit.power = (0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) * (1 + (flinch_stun_chance))) / hp_no_penetration_penalty
+			-- ilrathCXV (03/30/26) - Fragment will now increase HP penalty
+			shit.power = (0.0025 * shit.power * custom_bone_hitfraction * math.random(25,100) * frag_reducer * (1 + (flinch_stun_chance))) / hp_no_penetration_penalty
 			pos = npc:bone_position(custom_bone_name)
 			fx = particles_object("hit_fx\\hit_metal_0" .. math.random(0,3))
 			fxdir = shit.direction
@@ -1714,13 +1722,20 @@ function npc_on_before_hit(npc, shit, bone_id)
 			pos.z = pos.z + (camdir.z * -0.0005)
 			fx:play_at_pos(pos)
 		end	
+	else
+		if is_shooter_actor and frag_multiplier > 1 then
+			shit.power = shit.power * frag_multiplier
+			arti_handlers.fragment_sound(npc)
+		end
 	end
 	
 	-- Add even more feedback on headshots
-	if (k_ap > new_bone_armor) and headBones[bone_id] then
-		fx = particles_object("anomaly2\\effects\\body_tear_blood_01")
-		pos = npc:bone_position(custom_bone_name)
-		fx:play_at_pos(pos)
+	if (k_ap > new_bone_armor) then
+		if headBones[bone_id] then
+			fx = particles_object("anomaly2\\effects\\body_tear_blood_01")
+			pos = npc:bone_position(custom_bone_name)
+			fx:play_at_pos(pos)
+		end
 	end
 	
 	-- Companions will retain their armor to avoid too many instant deaths

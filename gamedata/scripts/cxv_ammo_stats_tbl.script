@@ -8,8 +8,10 @@
 if momopate_knife_stats then end
 
 local ini_ammo = ini_file("ammo\\importer.ltx")
-local difficulty_scaling_damage = ballistics_mcm.get_config("difficulty_scaling_damage") or false
-local difficulty_scaling_ap = ballistics_mcm.get_config("difficulty_scaling_ap") or false
+
+local get_config 		 			= ballistics_mcm.get_config
+local difficulty_scaling_damage 	= get_config("difficulty_scaling_damage") or false
+local difficulty_scaling_ap 		= get_config("difficulty_scaling_ap") or false
 
 function inject_stats()
     utils_ui.stats_table["ammo"] = {
@@ -366,10 +368,14 @@ function prop_stalker_mod(obj, sec)
 	end
 end
 
+function actor_on_first_update()
+	get_difficulty_modifiers()
+end
+
 function on_option_change()
 	if ui_mcm and ballistics_mcm then
-		difficulty_scaling_damage = ballistics_mcm.get_config("difficulty_scaling_damage") or false
-		difficulty_scaling_ap = ballistics_mcm.get_config("difficulty_scaling_ap") or false
+		difficulty_scaling_damage = get_config("difficulty_scaling_damage") or false
+		difficulty_scaling_ap = get_config("difficulty_scaling_ap") or false
 		get_difficulty_modifiers()
 	end
 end
@@ -377,6 +383,7 @@ end
 function on_game_start()
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)
-	on_option_change()
-	get_difficulty_modifiers()
+	RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
+	
+--	on_option_change()
 end
