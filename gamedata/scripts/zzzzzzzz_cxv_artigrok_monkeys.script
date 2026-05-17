@@ -22,8 +22,14 @@ if not aas_check then
 		
 		ish()
 		
-		printf("CXV - Fixing GAMMA's weird damage values...")
-		utils_ui.stats_table["weapon"]["damage"].value_functor = { "zzzzzzzz_cxv_artigrok_monkeys","adj_damage" }
+		if utils_ui.stats_table["weapon"]["damage"] then
+			printf("CXV - Fixing GAMMA's weird damage values...")
+			utils_ui.stats_table["weapon"]["damage"].value_functor = { "zzzzzzzz_cxv_artigrok_monkeys","adj_damage" }
+		else
+			-- making index 10 to avoid any possible conflicts
+			printf("CXV - Fixing GAMMA getting rid of weapon damage in the tooltip...")
+			utils_ui.stats_table["weapon"]["damage"] = { index= 10, typ= "float",   name= "ui_inv_damage", icon_p= "ui_wp_prop_damage", icon_n= "", track= false,  magnitude= 1,    unit= "st_stat_dmg",   proper_unit="Ouchies", compare= false, sign= false, show_always= true, value_functor= { "zzzzzzzz_cxv_artigrok_monkeys","adj_damage" } }
+		end
 	end
 end	
 
