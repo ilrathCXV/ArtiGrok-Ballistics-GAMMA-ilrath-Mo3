@@ -201,6 +201,12 @@
 	<string id="st_ballistics_grav">
 		<text>No DMG/AP dropoff | longer dist. = up to x3 DMG/AP</text>
 	</string>
+	<string id="st_ballistics_cluster">
+		<text>Detonates into multiple smaller grenades</text>
+	</string>
+	<string id="st_ballistics_firebomb">
+		<text>Targets within 25m receive 18-60 Burn stacks</text>
+	</string>
 
 	<string id="st_link">
 		<text>link to belt</text>
@@ -481,7 +487,7 @@
 		<text>9x39mm 'Ambush' rounds (FMJ+)</text>
 	</string>
 	<string id="ammo_new_9x39_ambush_descr">
-		<text>Experimental 9x39mm round created by the Mercenaries. This round's design improves its performance, doing more damage to targets that are relaxed. When fired with a suppressed weapon, the effect still applies to all targets. The force from this round is also strong enough to rattle an enemy do the bone, causing them to unintentionally unload their weapon and forcing them to reload ammo back into it.</text>
+		<text>Experimental 9x39mm round created by the Mercenaries. This round's design improves on the performance of standard 9x39 FMJ rounds. Utilizing an anomalous gunpowder mixture, these rounds inflict much more damage and have enhanced armor-piercing capabilities on targets who are unaware of its shooter whilst this round is fired from a suppressed weapon. The force from this round is also strong enough to rattle an enemy do the bone, causing them to unintentionally unload their weapon and forcing them to reload ammo back into it.</text>
 	</string>
 	<string id="ammo_new_9x39_ambush_s">
 		<text>9x39 FMJ+</text>
@@ -490,7 +496,7 @@
 		<text>9x39mm 'Graze' rounds (AP+)</text>
 	</string>
 	<string id="ammo_new_9x39_graze_descr">
-		<text>Experimental 9x39mm round created by the Monolith. Making use of artefact fragments in the powder load, the round is able to make enemies near the inital struck target expereince some of the pain felt by said target. Rounds that strike the head or vital areas will cause even more pain to be felt. Along with its damage-sharing properties, targets that are unaware of the shooter, or if the shooter is using a suppressed weapon, causes the round to much more damage that expected. These rounds were created to not only dispatch enemies of the Monolith, but to scare any future attacks on it with stories of people "dying from an invisible force".</text>
+		<text>Experimental 9x39mm round created by the Monolith. Making use of artefact fragments in the powder load, the round is able to make enemies near the inital struck target expereince some of the pain felt by said target. Rounds that strike the head or vital areas will cause even more pain to be felt. Along with its damage-sharing properties, the round can cause much more damage and break through tougher armor if the target is unaware of the shooter and if the round is fired from a suppressed weapon. These rounds were created to not only dispatch the numerous enemies of the Monolith, but they help to propagate stories of people "dying from an invisible force" that Stalkers attribute to the power of the Monolith.</text>
 	</string>
 	<string id="ammo_new_9x39_graze_s">
 		<text>9x39 AP+</text>
@@ -607,6 +613,31 @@
 	</string>
 	<string id="ammo_new_338_ap_s">
 		<text>.338 Lapua+</text>
+	</string>
+	
+	<!-- UBGLs -->
+	<string id="ammo_new_m209_firebomb">
+		<text>M203 "Firebomb" grenade</text>
+	</string>
+	<string id="ammo_new_m209_firebomb_descr">
+		<text>40mm grenade produced in special research facilities set up by the Ministry of Science. High explosive material is replaced by a brittle compound grown from thermal artifact energies. On primary explosive detonation, a fine cloud of burning particles is scattered over a large area, igniting living creatures in the vicinity. No damage is dealt to nonliving things.\n \n
+		%c[d_red] WARNING: If projectile does not release the payload upon impact, it will detonate on a 5-second timer!
+		</text>
+	</string>
+	<string id="ammo_new_m209_firebomb_s">
+		<text>M203 "Firebomb"</text>
+	</string>
+	
+	<string id="ammo_new_vog-25_cluster">
+		<text>VOG-25 "Cluster" grenade</text>
+	</string>
+	<string id="ammo_new_vog-25_cluster_descr">
+		<text>Modified VOG-25 grenade produced locally. Explosive payload is augmented with volatile artifact shards that produce several secondary explosions after a short delay. Primary detonation does not cause wounding but serves to scatter submunitions. In high demand from all factions due to the exponential increase in firepower offered. Exercise caution.\n \n
+		%c[d_red] WARNING: If projectile does not release the payload upon impact, it will detonate on a 5-second timer!
+		</text>
+	</string>
+	<string id="ammo_new_vog-25_cluster_s">
+		<text>VOG-25 "Cluster"</text>
 	</string>
 	
 	<!-- some leftovers -->

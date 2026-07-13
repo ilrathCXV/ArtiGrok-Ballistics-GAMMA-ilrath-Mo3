@@ -73,7 +73,7 @@
 		<text>Re-enable Vanilla Anomaly Damage?</text>
 	</string>
 	<string id="ui_mcm_ballistics_anomaly_damage_unfix_desc">
-		<text>Turning this on will have anomalies go back to doing larger amounts of damage by disabling multi-hit protection from non-physical damage\n 
+		<text>Turning this on will have anomalies go back to doing larger amounts of damage by disabling multi-hit protection from non-physcial damage\n 
 		\nTurning this off will have anomalies no longer multi-hit, which can lead to most anomalies being less dangerous (i.e. thermal anomalies).</text>
 	</string>
 	

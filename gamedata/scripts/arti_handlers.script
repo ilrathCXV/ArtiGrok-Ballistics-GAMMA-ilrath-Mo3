@@ -15,15 +15,16 @@ local napalm_hits	= 0
 local graze_hits	= 0 
 local explode_hits	= 0
 
-local shock_effect_buffer = 0	-- should check once every second
-local burn_effect_buffer = 0	-- should check once every second
+local shock_effect_refresh_timer = 0		-- should check once every 0.5 seconds
+local burn_effect_refresh_timer = 0			-- should check once every 1 seconds
+local grounded_effect_refresh_timer = 0		-- should check once every 0.5 seconds
 
 local time_g_burn = 0
 local time_g_shock = 0
 
 -- messy I know
 npc_stun 			= {}
-grounded_stack_list = {}
+grounded_timer_list = {}
 shock_stack_list 	= {}
 burn_stack_list 	= {}
 burn_check_list 	= {}
@@ -34,6 +35,9 @@ local anims = {
     "norm_2_critical_hit_torso_0", -- good
     "norm_1_critical_hit_head_0", -- good
 }
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 
 function get_special(ammo_sec)
     if ini_ammo:section_exist(ammo_sec) then
@@ -101,8 +105,13 @@ function get_tier(val)
 	
 	return val
 end
-------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------
+
+function default(...)
+    return
+end
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 
 function stun_npc(npc, flinch_stun_chance)
     if not is_actor(npc) then
@@ -130,11 +139,11 @@ end
 function on_enemy_eval(obj, enemy, flags)
     if npc_stun[obj:id()] then
         if time_global() > npc_stun[obj:id()] then
-            npc_stun[obj:id()] = false
+            npc_stun[obj:id()] = nil
         else 
+			cause_fake_damage(obj)
             flags.override = true
-            flags.ret_value = false 
-            cause_fake_damage(obj)
+            flags.result = false
         end
     end
 end
@@ -151,10 +160,13 @@ function cause_fake_damage(obj)
     obj:hit(h)
 end
 
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
 -- New way to handle new burn system
 function burn_tick_on_update()
 	time_g_burn = time_global()
-	if burn_effect_buffer >= time_g_burn then return end
+	if burn_effect_refresh_timer >= time_g_burn then return end
 
 	-- Burn damage
 	for k,v in pairs(burn_stack_list) do
@@ -163,7 +175,7 @@ function burn_tick_on_update()
 				burn_check_list[k] = burn_check_list[k] + 1
 				local npc = level.object_by_id(k)
 				if npc and npc:alive() then
-					play_particle(npc, 11, "damage_fx\\effects\\body_burn_01")
+					play_particle(npc, 15, "damage_fx\\burn_creatures00")	-- 11, "damage_fx\\effects\\body_burn_01"
 					
 					local burn_dmg = (v * 0.01) or 0.01
 					-- printf("[Arti Handlers - Burn Tick] NPC Being Burned : %s | Burn Damage: %s", npc:name(), burn_dmg)
@@ -173,7 +185,7 @@ function burn_tick_on_update()
 					h.draftsman = db.actor
 					h.power = burn_dmg
 					h.bone = "bip01_spine"
-					h.weapon_id = db.actor:active_item()
+--					h.weapon_id = db.actor:active_item()
 					npc:hit(h)
 					
 				end
@@ -183,13 +195,13 @@ function burn_tick_on_update()
 		end
 	end
 	
-	burn_effect_buffer = time_global() + 1000
+	burn_effect_refresh_timer = time_global() + 1000
 end
 
 -- Show electric static effect if target currently has Shock stacks
 function shock_effect_on_update()
 	time_g_shock = time_global()
-	if shock_effect_buffer < time_g_shock then
+	if shock_effect_refresh_timer < time_g_shock then
 		for k, v in pairs(shock_stack_list) do
 			if shock_stack_list[k] and shock_stack_list[k] < 20 then
 				local npc = level.object_by_id(k)
@@ -198,7 +210,26 @@ function shock_effect_on_update()
 				end
 			end
 		end
-		shock_effect_buffer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
+		shock_effect_refresh_timer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
+	end
+end
+
+-- Timer to remove "Grounded" after 5 seconds
+function grounded_on_update()
+	time_g_grounded = time_global()
+	if grounded_effect_refresh_timer < time_g_grounded then
+		for k, v in pairs(grounded_timer_list) do
+			if grounded_timer_list[k] then
+				local npc = level.object_by_id(k)
+				if grounded_timer_list[k] and grounded_timer_list[k] <= time_g_grounded then
+					npc:movement_enabled(true)
+					grounded_timer_list[k] = nil
+				else
+					play_particle(npc, 15, "anomaly2\\artefact_gravi_blast_finished")
+				end
+			end
+		end
+		grounded_effect_refresh_timer = time_g_grounded + 500
 	end
 end
 
@@ -226,9 +257,9 @@ function burn_ignition(npc, wpn_id, stacks)
 			npcs_to_burn[#npcs_to_burn + 1] = obj
 			
 --			local stacks_taken = math_random(1, stack_amount)
---			CreateTimeEvent("cxv_ignition_spread" .. obj:id(), obj:id(), 0 + (number_of_npcs_ignition * ignition_spread_event_timer), ignite_npc, obj, 11, wpn_id, stacks_taken)
+--			CreateTimeEvent("cxv_ignition_spread" .. obj:id(), obj:id(), 0 + (number_of_npcs_ignition * ignition_spread_event_timer), burn_npc, obj, 11, stacks_taken)
 --			number_of_npcs_ignition = number_of_npcs_ignition + 1
---			ignite_npc(obj,11,wpn_id,stacks_taken,5)
+--			burn_npc(obj,11,stacks_taken)
 
 --			stack_amount = stack_amount - stacks_taken
 		end
@@ -239,7 +270,7 @@ function burn_ignition(npc, wpn_id, stacks)
 		local stacks_taken = math.floor(stack_amount/(#npcs_to_burn) + 0.5)
 		printf('Stacks to spread: %s', stacks_taken)
 		for i = 1, #npcs_to_burn do
-			CreateTimeEvent("cxv_ignition_spread" .. npcs_to_burn[i]:id(), npcs_to_burn[i]:id(), 0 + (i * ignition_spread_event_timer), ignite_npc, npcs_to_burn[i], 11, wpn_id, stacks_taken)
+			CreateTimeEvent("cxv_ignition_spread" .. npcs_to_burn[i]:id(), npcs_to_burn[i]:id(), 0 + (i * ignition_spread_event_timer), burn_npc, npcs_to_burn[i], 11, stacks_taken)
 		end
 	end
 	
@@ -254,7 +285,7 @@ function enemy_on_death_callback(victim, who)
 	local victim_id = victim:id()
 	
     npc_stun[victim_id] = nil
-	grounded_stack_list[victim_id] = nil
+	grounded_timer_list[victim_id] = nil
 	shock_stack_list[victim_id] = nil
 	acid_stack_list[victim_id] = nil
 	armorbuster_list[victim_id] = nil
@@ -266,6 +297,9 @@ function enemy_on_death_callback(victim, who)
 		burn_check_list[victim_id] = nil
 	end
 end
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 
 function fragment_sound(npc)
     play_sound_on_location("elite", npc)
@@ -336,7 +370,7 @@ function on_death_heal_check(victim, who)
 end
 
 -- Adds burn stacks to target + resets burn check counter
-function ignite_npc(npc, bone_id, wpn_id, stack)
+function burn_npc(npc, bone_id, stack)
 	
 	number_of_npcs_ignition = math.max(number_of_npcs_ignition - 1, 0)
 	
@@ -344,9 +378,11 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	
 	if not npc:id() then return true end
 	
+	local npc_id = npc:id()
+	
 	if not npc:alive() then
-		burn_stack_list[npc:id()] = nil
-		burn_check_list[npc:id()] = nil
+		burn_stack_list[npc_id] = nil
+		burn_check_list[npc_id] = nil
 		return true
 	end
 	
@@ -354,12 +390,23 @@ function ignite_npc(npc, bone_id, wpn_id, stack)
 	
     play_particle(npc, bone_id, "artefact\\af_thermal_idle")
     stack = stack or 1
-    -- printf("[Arti Handlers] Ignited %s", npc:id())
+    printf("[Arti Handlers] Burning NPC ID %s", npc_id)
     play_sound_on_location("incendiary", npc)
-	npc_id = npc:id()
 	burn_stack_list[npc_id] = (burn_stack_list[npc_id] and burn_stack_list[npc_id] + stack) or stack
 	burn_check_list[npc_id] = 0
 	return true
+end
+
+local grounded_duration = 5000 	-- 5 seconds
+function ground_npc(npc)
+	if not npc then return end
+	local npc_id = npc:id()
+	
+	-- Do not ground/refresh timer since they are already grounded
+	if grounded_timer_list[npc_id] then return end
+	
+	grounded_timer_list[npc_id] = time_global() + grounded_duration
+	npc:movement_enabled(false)
 end
 
 local aoe_count = 0
@@ -370,9 +417,11 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	if not npc:id() then return true end
 	
+	npc_id = npc:id()
+	
 	if not npc:alive() then
-		shock_stack_list[npc:id()] = nil
-		grounded_stack_list[npc:id()] = nil
+		shock_stack_list[npc_id] = nil
+		grounded_timer_list[npc_id] = nil
 		return true
 	end
 	
@@ -380,10 +429,8 @@ function shock_npc(npc, bone_id, wpn_id, stack)
 	
 	if string.find(npc:name(), "legs") then return true end	-- Avoid First-person legs from being checked (remove error spam)
 	
-	npc_id = npc:id()
-	
     stack = stack or 1
-    -- printf([Arti Handlers] "Shocked %s", npc:id())
+    -- printf([Arti Handlers] "Shocked %s", npc_id)
 	
 	shock_stack_list[npc_id] = (shock_stack_list[npc_id] and shock_stack_list[npc_id] + stack) or stack
 	-- printf("[Arti Handlers - Shock NPC] Shock Stacks: %s | NPC being shocked: %s", shock_stack_list[npc_id], npc:name())
@@ -439,7 +486,7 @@ function chaos_damage(npc, bone_id, wpn_id)
     local extra_effect = math_random(30)
     if not is_actor(npc) then
         if extra_effect >= 3 and extra_effect < 5 then			-- 4 burn stacks (slightly less than Dragon's Breath)
-            ignite_npc(npc, 11, wpn_id, 4)
+            burn_npc(npc, 11, 4)
 			extra_effect = 3
         elseif extra_effect >= 5 and extra_effect < 9 then		-- Stun NPC for 1 second
             stun_npc(npc, 1.0)
@@ -500,7 +547,7 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		h.draftsman = db.actor
 		h.power = shock_power
 		h.bone = "bip01_spine"
-		h.weapon_id = wpn_id
+--		h.weapon_id = wpn_id
 		npc:hit(h)
 		
 		radius = math_random(2,12) + armor_tier
@@ -526,14 +573,8 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 				-- Allows for other Shock-created AoEs to get created w/o crashing the game
 				CreateTimeEvent("shock_npc"..obj:id()..math_random(radius), obj:id(), (0 + (aoe_count * shock_aoe_event_timer)), shock_npc, obj, bone_id, wpn_id, 5)
 				aoe_count = aoe_count + 1
-				-- shock_npc(obj, bone_id, wpn_id, 3)
-				grounded_stack_list[obj:id()] = (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] + 1) or 1
 				
-				-- [Lightning Stacking Effect] If enemy has taken 3 Shock AoEs, they become "Grounded" and cannot move
-				if (grounded_stack_list[obj:id()] and grounded_stack_list[obj:id()] > 2) then
-					grounded_stack_list[obj:id()] = nil
-					obj:movement_enabled(false)
-				end
+				ground_npc(obj)
 				
 				obj:hit(h)
 				lightning_hits = lightning_hits + 1
@@ -544,7 +585,6 @@ function lightning_damage(npc, bone_id, wpn_id, armor_amount)
 		
     end
 
-    -- return s_hit
 end
 
 function damage_npc_grok(npc, power)
@@ -560,7 +600,7 @@ function napalm_damage(npc, wpn_id)
 	if napalm_effect and not napalm_effect:playing() then
 		napalm_effect:play_at_pos(npc:position())
 	end
-	ignite_npc(npc, 11, wpn_id, 15)
+	burn_npc(npc, 11, 15)
 end
 
 -- Graze: Spreads 25% of original damage on headshots in a 8m radius OR 5% of original damage on non-headshots in a 5m radius
@@ -717,6 +757,7 @@ function on_game_start()
 	
 	RegisterScriptCallback("actor_on_update", shock_effect_on_update)
 	RegisterScriptCallback("actor_on_update", burn_tick_on_update)
+	RegisterScriptCallback("actor_on_update", grounded_on_update)
 
 end
 

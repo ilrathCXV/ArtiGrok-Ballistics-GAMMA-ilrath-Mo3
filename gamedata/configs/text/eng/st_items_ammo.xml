@@ -70,9 +70,7 @@
 		<text>12x76 Bull shells</text>
 	</string>
 	<string id="ammo-12x76-bull_descr">
-		<text>12 gauge custom-made slugs for putting down dinosaurs and mutants. Slug inside is made of lead covered in copper that has steel, dart-like insert inside. Slug is very long and has got big powder load. It really can break your hands with recoil.\n
-		\n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power (AP): %c[ui_gray_1]BR2
-		\n%c[ui_gray_2] - %c[ui_gray_2] Nominal stopping power (DMG): %c[ui_gray_1]very high</text>
+		<text>12 gauge custom-made slugs for putting down dinosaurs and mutants. Slug inside is made of lead covered in copper that has steel, dart-like insert inside. Slug is very long and has got big powder load. It really can break your hands with recoil.\n</text>
 	</string>
 	<string id="ammo-12x76-bull_s">
 		<text>12x76 Bull</text>
@@ -182,9 +180,7 @@
 		<text>4.6x30mm FMJ rounds</text>
 	</string>
 	<string id="ammo-4.6x30-fmj_descr">
-		<text>The HK 4.6x30mm cartridge is a type of ammunition primarily used in the Heckler &amp; Koch MP7 personal defense weapon (PDW). It is designed to minimize weight and recoil while increasing penetration of body armor. It features a bottlenecked case and a pointed, steel-core, brass-jacketed bullet.
-		\n \n%c[ui_gray_2] - %c[ui_gray_2] Armor penetration power (AP): %c[ui_gray_1]BR3
-		\n%c[ui_gray_2] - %c[ui_gray_2] Nominal stopping power (DMG): %c[ui_gray_1]low - medium</text>
+		<text>The HK 4.6x30mm cartridge is a type of ammunition primarily used in the Heckler &amp; Koch MP7 personal defense weapon (PDW). It is designed to minimize weight and recoil while increasing penetration of body armor. It features a bottlenecked case and a pointed, steel-core, brass-jacketed bullet.\n</text>
 	</string>
 	<string id="ammo-4.6x30-fmj_s">
 		<text>4.6 FMJ</text>

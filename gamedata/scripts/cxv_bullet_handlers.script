@@ -1,0 +1,58 @@
+local rpg_hit_perks	= arti_handlers.rpg_hit_perks
+local fourth_times	= arti_handlers.fourth_times
+
+-- ilrathCXV: All of my "Bullet"/impact handlers
+function explode(pos, ammo, wpn_id)	
+	
+	local lvid = db.actor:level_vertex_id()
+    local gvid = db.actor:game_vertex_id()
+	
+    local explode_obj = alife_create_item("bullet_blow", {pos, lvid, gvid})
+    CreateTimeEvent(explode_obj.id, explode_obj.id, 0, 
+    function(id)
+        local explode_obj = get_object_by_id(id)
+        if explode_obj then
+            explode_obj:explode(0)
+			explode_obj:destroy_object()
+            return true
+        end
+        return false
+    end, explode_obj.id)
+end
+
+local fire_particle
+local last_particle_time
+
+-- Gives 3 burn stacks to all affected AoE targets
+function napalm(pos, ammo, wpn_id)
+	local napalm_hits = 0
+	
+	wpn_id = wpn_id or db.actor:active_item()
+	level.iterate_nearest(pos, 5, function(obj)
+		if obj and obj:id() ~= AC_ID and obj:id() ~= 65535 then
+			if string.find(obj:name(), "legs") then return end	-- First-person legs are being counted
+			if not obj:alive() then return end
+			arti_handlers.burn_npc(obj,11,8)
+			napalm_hits = napalm_hits + 1
+		end
+	end)
+	
+	if not fire_particle then fire_particle = particles_object("damage_fx\\effects\\body_burn_01") end
+	last_particle_time = time_global() + 1000
+    fire_particle:play_at_pos(pos)
+	ballistics_utils.play_sound_distance("anomaly\\fireball_blow", db.actor:position():distance_to(pos))
+	
+	if rpg_hit_perks and fourth_times > 0 and napalm_hits > 0 then
+		rpg_hit_perks.fourth_times_counter = rpg_hit_perks.fourth_times_counter + (napalm_hits * 0.2)	-- need at least 5 enemies burned to get one full stack
+		-- printf("[RPG - Arti Handlers - Napalm] On Your Mark stacks: %s of 8", rpg_hit_perks.fourth_times_counter)
+	end
+	napalm_hits = 0
+	
+	CreateTimeEvent("fire_particle_stop", math.random(30), 1.01, 
+	function()
+		if time_global() > last_particle_time and fire_particle:playing() then
+			fire_particle:stop()
+		end
+		return true
+	end)
+end

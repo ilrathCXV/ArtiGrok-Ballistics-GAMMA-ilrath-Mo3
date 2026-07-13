@@ -23,6 +23,15 @@ function ui_item.build_short_name_first(obj, sec, str)
     end
 end
 
+function get_handler(ammo_sec, default)
+    if ini_ammo:section_exist(ammo_sec) then
+        default = default or "arti_handlers.default"
+--		printf("Ballistics MCM - Handler: %s", ini_ammo:r_string_ex(ammo_sec, "handler") or "")
+        local proc = ini_ammo:r_string_ex(ammo_sec, "handler") or default
+        proc = str_explode(proc, "%.")
+        return proc
+    end
+end
 
 -- If you don't use MCM, change your defaults from here.
 local defaults = {
