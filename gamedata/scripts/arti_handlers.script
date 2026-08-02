@@ -303,46 +303,46 @@ function soulripper_heal_on_update()
 	end
 end
 
--- "Soulripper" will randomly heal a limb for 1 limb HP
-if zzz_player_injuries and zzz_player_injuries.health then
-	
-	function SaveNewLimbHealth()
-		local actor = db.actor
-		utils_obj.save_var(actor,"health.head",zzz_player_injuries.health.head)
-		utils_obj.save_var(actor,"health.torso",zzz_player_injuries.health.torso)
-		utils_obj.save_var(actor,"health.rightarm",zzz_player_injuries.health.rightarm)
-		utils_obj.save_var(actor,"health.leftarm",zzz_player_injuries.health.leftarm)
-		utils_obj.save_var(actor,"health.rightleg",zzz_player_injuries.health.rightleg)
-		utils_obj.save_var(actor,"health.leftleg",zzz_player_injuries.health.leftleg)
-	end
-	
-	limb_table = {
-		[head] = true,
-		[torso] = true,
-		[rightarm] = true,
-		[leftarm] = true,
-		[rightleg] = true,
-		[leftleg] = true
-	}
-	
-	function heal_random_limb()
-		local temp_limb_tbl = dup_table(limb_table)
-		local not_healed_limb = true
-		
-		while(not_healed_limb and (size_table(temp_limb_tbl) > 0))
-		do
-			local limb_to_heal = random_key_table(temp_limb_tbl)
-			if zzz_player_injuries.health[limb_to_heal] ~= zzz_player_injuries.maxhp[limb_to_heal] then
-				zzz_player_injuries.health[limb_to_heal] = zzz_player_injuries.health[limb_to_heal] + 1
-				SaveNewLimbHealth()
-				not_healed_limb = false
-			else
-				temp_limb_tbl[limb_to_heal] = nil
-			end
-		end
-	end
-	
-end
+-- "RIP Rounds" will randomly heal a limb for 1 limb HP
+--	if zzz_player_injuries and zzz_player_injuries.health then
+--		
+--		function SaveNewLimbHealth()
+--			local actor = db.actor
+--			utils_obj.save_var(actor,"health.head",zzz_player_injuries.health.head)
+--			utils_obj.save_var(actor,"health.torso",zzz_player_injuries.health.torso)
+--			utils_obj.save_var(actor,"health.rightarm",zzz_player_injuries.health.rightarm)
+--			utils_obj.save_var(actor,"health.leftarm",zzz_player_injuries.health.leftarm)
+--			utils_obj.save_var(actor,"health.rightleg",zzz_player_injuries.health.rightleg)
+--			utils_obj.save_var(actor,"health.leftleg",zzz_player_injuries.health.leftleg)
+--		end
+--		
+--		limb_table = {
+--			["head"] = true,
+--			["torso"] = true,
+--			["rightarm"] = true,
+--			["leftarm"] = true,
+--			["rightleg"] = true,
+--			["leftleg"] = true
+--		}
+--		
+--		function heal_random_limb()
+--			local temp_limb_tbl = dup_table(limb_table)
+--			local not_healed_limb = true
+--			
+--			while(not_healed_limb and (size_table(temp_limb_tbl) > 0))
+--			do
+--				local limb_to_heal = random_key_table(temp_limb_tbl)
+--				if zzz_player_injuries.health[limb_to_heal] ~= zzz_player_injuries.maxhp[limb_to_heal] then
+--					zzz_player_injuries.health[limb_to_heal] = zzz_player_injuries.health[limb_to_heal] + 1
+--					SaveNewLimbHealth()
+--					not_healed_limb = false
+--				else
+--					temp_limb_tbl[limb_to_heal] = nil
+--				end
+--			end
+--		end
+--		
+--	end
 
 function enemy_on_death_callback(victim, who)
 	-- printf("[Arti Handlers] Death callback firing!!!")
@@ -400,9 +400,9 @@ function lifesteal(npc, hit_power, is_soulripper_kill)
 		soulripper_heal_timer = time_global() + soulripper_heal_time
     else
 		heal_amt = hit_power * 0.25
-		if zzz_player_injuries and zzz_player_injuries.health then
-			heal_random_limb()
-		end
+--		if zzz_player_injuries and zzz_player_injuries.health then
+--			heal_random_limb()
+--		end
 	end
 	
     db.actor.health = clamp(db.actor.health + heal_amt, 0, 1)

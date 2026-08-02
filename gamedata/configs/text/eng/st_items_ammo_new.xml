@@ -142,7 +142,7 @@
 		<text>Headshots ignore some armor, center mass stuns</text>
 	</string>
 	<string id="st_ballistics_rip">
-		<text>Heal for 25% of DMG dealt + 1 random limb-HP heal</text>
+		<text>Heal for 25% of DMG dealt</text>
 	</string>
 	<string id="st_ballistics_varma">
 		<text>+60% DMG vs. mutants</text>
