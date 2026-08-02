@@ -17,7 +17,7 @@ We will now look at an example of an ammo type that will give you a good look at
 Example of an ammo type that has nearly all the elements involoved in the system - 5.56x45 FMJ Bad (now bridge b/w regular FMJ and AP)
 
 [ammo_5.56x45_fmj_bad]:ammo_5.56x45_fmj 		-- This is the debug name of the ammo. The ":ammo_5.56x45_fmj" just means it is inheriting some stats from the standard FMJ ammo. For custom ammo, I suggest using ":ammo_base"
-handler     = arti_handlers.fragment_sound		-- This is a handler from Arti's system. Due to changes, the "handler" is no longer needed.
+handler     = arti_handlers.fragment_sound		-- This is a handler from Arti's system. [WIP - needs to be updated]
 name		= ammo_new_5.56x45_fmjs				-- This is the name designation of the ammo. Pull the designation from the file the ammo is found (vanilla ammo: "weapons_ammo.ltx" / BaS ammo: w_ammo_bas.ltx"). Custom ammo will be found in that mod's files.
 k_hit		= 1.1 								-- This is the "k_hit" parameter of the ammo. This isn't used by the system anymore as of Update 7. This value is pulled straight from the file the ammo is found in.
 k_ap		= 0.326								-- This is the "k_ap" parameter of the ammo. It has been modified from Arti's system to give players a look at the BR/AP tier an ammo type has in Grok's BR/AP system. Pull the value from ammo's file (changes in here do not change actual parameter in calculations; change it via DLTX if you want to change it).
@@ -79,7 +79,7 @@ shock_stacks = 3									-- Amount of "Shock" stacks applied on hit. Increased b
 Lightning Rounds - This ammo creates an AoE damaging field when striking a target. The AoE's damage and size is based on the amount of armor value present on the impacted area. The AoE radius has a minimum range of 2-12 meters randomly, with the armor value adding to said value.
 If the hit area has at least 30 armor value, it will cause the Lightning AoE. If a critical area or the head of a target is struck, it will always create a Lightning AoE. "Shock" AoEs will always do a weaker AoE, regardless of the armor on the target. 
 Changes the damage type to Shock damage.
-Enemies who are hit by 3 seperate Lightning AoEs (from Lightning Rounds or Shock AoEs) will become "Grounded", making them unable to move until they die.
+Enemies who are hit by a Lightning AoE (from Lightning Rounds or Shock AoEs) will become "Grounded" for 5 seconds, making them unable to move. Timer cannot be reset and an enemy can only be "Grounded" once the original 5 seconds have ended.
 Recommended for large-caliber/sniper rounds. Not recommended against mutants.
 
 special 	= lightning							-- Special tag needed by the damage system to make use of this ammo's special effects
@@ -120,7 +120,7 @@ special     = frag								-- Special tag needed by the damage system to make use
 frag        = 50								-- Fragmentation damage multiplier (percent bonus). Recommended range is (15-75).
 
 
-RIP Rounds - These rounds heal the player for a portion of the final damage dealt after calculations.
+RIP Rounds - These rounds heal the player for a portion of the final damage dealt after calculations + heals 1 random limb for 1 limb HP if possible.
 Recommendations: (1) use for pistol HP ammo types, (2) reduce the ammo's k_hit to 0.75 or below, (3) set the k_hp in the range of (2.0 - 3.0).
 
 mutant_mod	= 3									-- Set this between (2.0 - 3.0) as this is meant to usually be an expansive round, dealing more damage to mutants
@@ -128,7 +128,8 @@ gigant_mod  = 5									-- Set this between (3.0 - 5.0) as this is meant to usua
 special     = rip								-- Special tag needed by the damage system to make use of this ammo's special effects
 
 
-Soulripper - These rounds will heal the user for 25% of the player's total HP on each kill. Recommended on hard-hitting weapons that can be capable of regular one-shot kills.
+Soulripper - These rounds will heal the user instantly for 10% total HP on each kill + 30% total HP over 10 seconds (0.3% HP every tenth of a second). Subsequent kills reset the timer to the full 10 seconds.
+Recommended on hard-hitting weapons that can be capable of regular one-shot kills.
 
 special     = soulripper						-- Special tag needed by the damage system to make use of this ammo's special effects
 

@@ -142,7 +142,7 @@
 		<text>Headshots ignore some armor, center mass stuns</text>
 	</string>
 	<string id="st_ballistics_rip">
-		<text>Heal for 25% of DMG dealt</text>
+		<text>Heal for 25% of DMG dealt + 1 random limb-HP heal</text>
 	</string>
 	<string id="st_ballistics_varma">
 		<text>+60% DMG vs. mutants</text>
@@ -166,7 +166,7 @@
 		<text>Headshots ignore armor and faction resistances</text>
 	</string>
 	<string id="st_ballistics_fire_melt">
-		<text>5 Burn stacks per pellet</text>
+		<text>5 Burn stacks per projectile</text>
 	</string>
 	<string id="st_ballistics_fire">
 		<text>Burn stacks | x3 on headshots</text>
@@ -184,7 +184,7 @@
 		<text>Cover piercing</text>
 	</string>
 	<string id="st_ballistics_soulripper">
-		<text>Heal for 25% HP on kill</text>
+		<text>10% HP heal + 30% HP over 10sec after kill</text>
 	</string>
 	<string id="st_ballistics_armorbuster">
 		<text>Breaks armor more effectively</text>
@@ -205,7 +205,7 @@
 		<text>Detonates into multiple smaller grenades</text>
 	</string>
 	<string id="st_ballistics_firebomb">
-		<text>Targets within 25m receive 18-60 Burn stacks</text>
+		<text>Targets within 25m receive 15-40 Burn stacks</text>
 	</string>
 
 	<string id="st_link">

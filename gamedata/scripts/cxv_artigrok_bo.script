@@ -29,10 +29,12 @@ anomaly_damage_unfix		= get_config("anomaly_damage_unfix") or false
 
 local cxv_tick = 60000
 local last_tick = 0
-local bone_clear_time = 0
+local effects_clear_time = 0
 
 local bullet_store_list = {}	-- multi-hit fix will now be here (remember to empty GAMMA's multihit script like Grok BO)
 local graze_bullet_dmg_list = {}
+
+local bullet_id_ammo_sec_tbl = {} -- ilrathCXV (08/01/26): Will store the ammo section of the round upon init --> clear on remove callback
 -----------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 game_num = 1
@@ -370,9 +372,9 @@ function validate_hit(shit, bone_id, npc_id)
 	if npc_id == get_story_object_id('the_living_fire_prometheus') then return end
 	
 	-- ilrathCXV (04/01/2024): Take MCM option into account
-	if shit.draftsman:id() ~= db.actor:id() then
+	if shit.draftsman:id() ~= AC_ID then
 		if npc_effects and not IsStalker(shit.draftsman) then
-			--printf("ArtiGrok BO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= db.actor:id(), not IsStalker(shit.draftsman))
+			--printf("ArtiGrok BO - Draftsman is not a Stalker (%s) or the player (%s)", shit.draftsman:id() ~= AC_ID, not IsStalker(shit.draftsman))
 			return
 		elseif not npc_effects then
 			--printf("ArtiGrok BO - Draftsman is not actor and NPC Effects is disabled (%s)", npc_effects)
@@ -475,11 +477,11 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	local sec = validate_data.sec
 	
 	local wpn_ap_modifier = ini_sys:r_float_ex(sec, "ap_modifier") or 1
-	
+		
 	local is_shooter_actor = false
-	if shit.draftsman:id() == db.actor:id() then
+	if shit.draftsman:id() == AC_ID then
 		is_shooter_actor = true
-		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
+		effects_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone/effect tables
 	end
 
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
@@ -498,20 +500,28 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	should_show_normal_numbers = true
 	hit_numbers_critical = false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.4.0   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.4.1   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if string.match(sec, "knife") or string.match(sec, "axe") or string.match(sec, "desuria") then
 		snake_mult = 1.50
 		printf('Close quarter combat hit detected')
 	end
+	
+	local ammo_section
 
-	local wpn_id = wpn:id()
-	local ammo_type_number = wpn:get_ammo_type()
-	local ammo_list = utils_item.get_ammo(sec, wpn_id)
-	local ammo_section = ammo_list[ammo_type_number+1]
+	if bullet_id and bullet_id_ammo_sec_tbl[bullet_id] then
+		--	printf("ArtiGrok BO Monster - Bullet ID: %s | Ammo Section: %s", bullet_id, bullet_id_ammo_sec_tbl[bullet_id])
+		ammo_section = bullet_id_ammo_sec_tbl[bullet_id]
+	else
+--		local wpn_id = wpn:id()
+		local ammo_type_number = wpn:get_ammo_type()
+		local ammo_list = utils_item.get_ammo(sec, shit.weapon_id)	-- wpn_id
+		ammo_section = ammo_list[ammo_type_number+1]
+	end
 	
 	if not ammo_section then
+		printf("ArtiGrok BO Monster - Ammo section is nil")
 		return {
             ["shit"] = shit,
             ["bone_id"] = bone_id
@@ -769,7 +779,8 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	
 	-- KS-23 Eco + 23x75 Cloudkill will OHK all mutants (take its remaining health and add it to the hit power)
 	if ammo_section == "ammo_23_eco" then
-		shit.power = shit.power + monster.health
+		local max_monster_health = ini_sys:r_float_ex(monster:section(), "Health") or 100
+		shit.power = shit.power + (max_monster_health * 0.01)
 		monster:set_health_ex(0.0001)
 		-- monster:kill(db.actor)
 		-- printf("23mm Eco Intercept: %s dead ", monster and monster:name())
@@ -1059,24 +1070,36 @@ function npc_on_before_hit(npc, shit, bone_id)
 	local wpn_ap_modifier = ini_sys:r_float_ex(sec, "ap_modifier") or 1
 	
 	local is_shooter_actor = false
-	if shit.draftsman:id() == db.actor:id() then
-		bone_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
+	if shit.draftsman:id() == AC_ID then
+		effects_clear_time = time_global() + cxv_tick	-- reset the timer on clearing the bone tables
 		is_shooter_actor = true
 	end
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.4.0  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.4.1  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
 
 --	/////// BOOLETS //////
-
-	local wpn_id = wpn:id()
-	local ammo_type_number = wpn:get_ammo_type()
-	local ammo_list = utils_item.get_ammo(sec, wpn_id)
-	local ammo_section = ammo_list[ammo_type_number+1]
+	
+	local ammo_section
+	if bullet_id and bullet_id_ammo_sec_tbl[bullet_id] then
+		-- printf("ArtiGrok BO Stalker - Bullet ID: %s | Ammo Section: %s", bullet_id, bullet_id_ammo_sec_tbl[bullet_id])
+		ammo_section = bullet_id_ammo_sec_tbl[bullet_id]
+	else
+--		local wpn_id = wpn:id()
+		local ammo_type_number = wpn:get_ammo_type()
+		local ammo_list = utils_item.get_ammo(sec, shit.weapon_id)	-- wpn_id
+		ammo_section = ammo_list[ammo_type_number+1]
+	end
+	
+	if not ammo_section then
+		printf("ArtiGrok BO Stalker - Ammo section is nil")
+		return
+	end
+	
 	local wpn_hit_power = ui_wpn_params.read_float(sec, "", "hit_power")
 	local melee_hit_power = IsMelee(wpn) and shit.power or nil
 	local wpn_kind = nil
@@ -1112,11 +1135,6 @@ function npc_on_before_hit(npc, shit, bone_id)
 
 	if string.find(sec, "wpn_toz106") then
 		wpn_hit_power = 0.8
-	end
-	
-	if not ammo_section then
-		-- printf("ArtiGrok BO - Ammo section is nil")
-		return
 	end
 
 	-----------------------------------------------------------------------
@@ -1951,20 +1969,31 @@ end
 
 local bullet_check = {}
 
+-- Postpone on next n tick
+local nextTick = _G.nextTick or function(f, n)
+	n = math.floor(math.max(n or 1, 1))
+	AddUniqueCall(function()
+		if n == 1 then
+			return f()
+		else
+			n = n - 1
+			return false
+		end
+	end)
+end
+
 -- ilrathCXV: Used to check for ricochets (bullet should only "explode" or "ignite" on destroy call)
 function trigger_handler(bullet)
 	-- in case of ricochet...?
 	if bullet.target_id == 65535 and bullet_check[bullet.bullet_id] then
-		printf("ArtiGrok BO - bullet already triggered/hit a surface, ending...")
+--		printf("ArtiGrok BO - bullet already triggered/hit a surface, ending...")
 		return
 	end
 	if bullet.target_id == 65535 then bullet_check[bullet.bullet_id] = true end
 	if bullet.parent_id ~= AC_ID and not npc_use_special then
-		printf("ArtiGrok BO - bullet does not belong to actor and NPC uses effects are off, ending...")
+--		printf("ArtiGrok BO - bullet does not belong to actor and NPC uses effects are off, ending...")
 		return
 	end
-	
---	printf("ArtiGrok BO - Bullet section: %s", bullet.section)
 	
 	if not bullet.position then return end
 	if not bullet.section then return end
@@ -1975,18 +2004,42 @@ function trigger_handler(bullet)
     if func == "" then return end
     func = str_explode(func, "%.")
     
---	printf("ArtiGrok BO - function to be called: %s.%s", func and func[1], func and func[2])
+
     if func and func[1] and func[2] and _G[func[1]] and _G[func[1]][func[2]] then
+		-- printf("ArtiGrok BO - function to be called: %s.%s", func and func[1], func and func[2])
+		-- printf("ArtiGrok BO - Bullet section: %s", bullet.section)
         _G[func[1]][func[2]](bullet.position, bullet.section, bullet.weapon_id)
     end
+	
+end
+
+-- ilrathCXV (08/01/26): Storing ammo section from bullet object
+--						 Mainly for compat. with Momo's BFG mod, but I think I like this approach for getting the ammo section better
+function bullet_on_init(bullet)
+	
+	if bullet.bullet_id and bullet.section then
+		-- printf("ArtiGrok Bo Bullet Init - ID: %s | Ammo Section: %s", bullet.bullet_id, bullet.section)
+		bullet_id_ammo_sec_tbl[bullet.bullet_id] = bullet.section
+	end
 	
 end
 
 function bullet_on_remove(bullet)
 	trigger_handler(bullet)
 	
-	if bullet_check[bullet.bullet_id] then
-		bullet_check[bullet.bullet_id] = nil
+	local b_id = bullet.bullet_id
+	
+	if bullet_check[b_id] then
+		bullet_check[b_id] = nil
+	end
+	
+	-- ilrathCXV (08/01/26): Need to delay clearing the value - this callback gets called before any "on_hit" calls
+	-- 						 If no delay, then value will always read "nil" when trying to read the table
+	if bullet_id_ammo_sec_tbl[b_id] then
+		nextTick(function()
+			bullet_id_ammo_sec_tbl[b_id] = nil
+			return true
+		end, 3)
 	end
 end
 
@@ -2054,13 +2107,13 @@ _G.CBaseMonster__BeforeHitCallback = function(monster,shit,bone_id)
 	return flags.ret_value
 end
 
--- will clear the tables after 40 real-world seconds of the player no to ensure companions don't get one-tapped if their armor was shredded from the last fight
+-- will clear the tables after 40 real-world seconds of the player to ensure companions don't get one-tapped if their armor was shredded from the last fight
 function actor_on_update()
 	-- no need to if the NPC options is disabled
 	if not npc_effects then return end
-	if time_global() <  bone_clear_time then return end
+	if time_global() <  effects_clear_time then return end
 
-	bone_clear_time = time_global() + cxv_tick
+	effects_clear_time = time_global() + cxv_tick
 	
 	empty_table(custom_bone_value)
 	empty_table(custom_bone_ap)
@@ -2077,7 +2130,7 @@ function actor_on_update()
 	
 	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.4.0  //////////////////")
+	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.4.1  //////////////////")
 	
 end
 
@@ -2096,6 +2149,7 @@ function on_game_start()
 	RegisterScriptCallback("bullet_on_remove", bullet_on_remove)
 --	RegisterScriptCallback("actor_on_update", actor_on_update)
 	RegisterScriptCallback("actor_on_first_update",actor_on_first_update)
+	RegisterScriptCallback("bullet_on_init", bullet_on_init)
 	
 	-- ilrathCXV (04/01/2024): MCM options
 	RegisterScriptCallback("on_option_change",on_option_change)

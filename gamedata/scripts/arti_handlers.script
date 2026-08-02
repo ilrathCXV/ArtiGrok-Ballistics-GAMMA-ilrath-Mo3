@@ -18,9 +18,12 @@ local explode_hits	= 0
 local shock_effect_refresh_timer = 0		-- should check once every 0.5 seconds
 local burn_effect_refresh_timer = 0			-- should check once every 1 seconds
 local grounded_effect_refresh_timer = 0		-- should check once every 0.5 seconds
+local soulripper_heal_refresh_timer = 0		-- should be once every 0.1 seconds
 
 local time_g_burn = 0
 local time_g_shock = 0
+local time_g_grounded = 0
+local time_g_soulripper_heal = 0
 
 -- messy I know
 npc_stun 			= {}
@@ -198,41 +201,6 @@ function burn_tick_on_update()
 	burn_effect_refresh_timer = time_global() + 1000
 end
 
--- Show electric static effect if target currently has Shock stacks
-function shock_effect_on_update()
-	time_g_shock = time_global()
-	if shock_effect_refresh_timer < time_g_shock then
-		for k, v in pairs(shock_stack_list) do
-			if shock_stack_list[k] and shock_stack_list[k] < 20 then
-				local npc = level.object_by_id(k)
-				if npc and npc:alive() then
-					play_particle(npc, 15, "anomaly2\\effects\\electra_entrance_small")
-				end
-			end
-		end
-		shock_effect_refresh_timer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
-	end
-end
-
--- Timer to remove "Grounded" after 5 seconds
-function grounded_on_update()
-	time_g_grounded = time_global()
-	if grounded_effect_refresh_timer < time_g_grounded then
-		for k, v in pairs(grounded_timer_list) do
-			if grounded_timer_list[k] then
-				local npc = level.object_by_id(k)
-				if grounded_timer_list[k] and grounded_timer_list[k] <= time_g_grounded then
-					npc:movement_enabled(true)
-					grounded_timer_list[k] = nil
-				else
-					play_particle(npc, 15, "anomaly2\\artefact_gravi_blast_finished")
-				end
-			end
-		end
-		grounded_effect_refresh_timer = time_g_grounded + 500
-	end
-end
-
 local ignition_spread_event_timer = 0.025
 local number_of_npcs_ignition = 0
 local npcs_to_burn = {}
@@ -280,6 +248,102 @@ function burn_ignition(npc, wpn_id, stacks)
 --	number_of_npcs_ignition = 0
 end
 
+-- Show electric static effect if target currently has Shock stacks
+function shock_effect_on_update()
+	time_g_shock = time_global()
+	if shock_effect_refresh_timer < time_g_shock then
+		for k, v in pairs(shock_stack_list) do
+			if shock_stack_list[k] and shock_stack_list[k] < 20 then
+				local npc = level.object_by_id(k)
+				if npc and npc:alive() then
+					play_particle(npc, 15, "anomaly2\\effects\\electra_entrance_small")
+				end
+			end
+		end
+		shock_effect_refresh_timer = time_global() + 500 -- shorter effect refresh as effect is not very noticable on a 1 second update
+	end
+end
+
+-- Timer to remove "Grounded" after 5 seconds
+function grounded_on_update()
+	time_g_grounded = time_global()
+	if grounded_effect_refresh_timer < time_g_grounded then
+		for k, v in pairs(grounded_timer_list) do
+			if grounded_timer_list[k] then
+				local npc = level.object_by_id(k)
+				if grounded_timer_list[k] and grounded_timer_list[k] <= time_g_grounded then
+					npc:movement_enabled(true)
+					grounded_timer_list[k] = nil
+				else
+					play_particle(npc, 15, "anomaly2\\artefact_gravi_blast_finished")
+				end
+			end
+		end
+		grounded_effect_refresh_timer = time_g_grounded + 500
+	end
+end
+
+local soulripper_heal_time = 10000	-- 10 seconds of healing-over-time
+local soulripper_heal_timer = 0
+local soulripper_heal_tick_amt = 0.003
+-- "Soulripper" now heals for 10 seconds after a kill, giving 3% HP per sec
+-- Also grants 10% HP per kill
+-- Timer refreshes back to full 10 seconds on kill
+function soulripper_heal_on_update()
+	time_g_soulripper_heal = time_global()
+	if (soulripper_heal_timer < time_g_soulripper_heal) or (soulripper_heal_timer <= 0) then
+		soulripper_heal_timer = 0
+		UnregisterScriptCallback("actor_on_update", soulripper_heal_on_update)
+		return
+	end
+	
+	if soulripper_heal_refresh_timer < time_g_soulripper_heal and (soulripper_heal_timer > time_g_soulripper_heal) then
+		db.actor.health = clamp(db.actor.health + soulripper_heal_tick_amt, 0, 1)
+		soulripper_heal_refresh_timer = time_g_soulripper_heal + 100
+	end
+end
+
+-- "Soulripper" will randomly heal a limb for 1 limb HP
+if zzz_player_injuries and zzz_player_injuries.health then
+	
+	function SaveNewLimbHealth()
+		local actor = db.actor
+		utils_obj.save_var(actor,"health.head",zzz_player_injuries.health.head)
+		utils_obj.save_var(actor,"health.torso",zzz_player_injuries.health.torso)
+		utils_obj.save_var(actor,"health.rightarm",zzz_player_injuries.health.rightarm)
+		utils_obj.save_var(actor,"health.leftarm",zzz_player_injuries.health.leftarm)
+		utils_obj.save_var(actor,"health.rightleg",zzz_player_injuries.health.rightleg)
+		utils_obj.save_var(actor,"health.leftleg",zzz_player_injuries.health.leftleg)
+	end
+	
+	limb_table = {
+		[head] = true,
+		[torso] = true,
+		[rightarm] = true,
+		[leftarm] = true,
+		[rightleg] = true,
+		[leftleg] = true
+	}
+	
+	function heal_random_limb()
+		local temp_limb_tbl = dup_table(limb_table)
+		local not_healed_limb = true
+		
+		while(not_healed_limb and (size_table(temp_limb_tbl) > 0))
+		do
+			local limb_to_heal = random_key_table(temp_limb_tbl)
+			if zzz_player_injuries.health[limb_to_heal] ~= zzz_player_injuries.maxhp[limb_to_heal] then
+				zzz_player_injuries.health[limb_to_heal] = zzz_player_injuries.health[limb_to_heal] + 1
+				SaveNewLimbHealth()
+				not_healed_limb = false
+			else
+				temp_limb_tbl[limb_to_heal] = nil
+			end
+		end
+	end
+	
+end
+
 function enemy_on_death_callback(victim, who)
 	-- printf("[Arti Handlers] Death callback firing!!!")
 	local victim_id = victim:id()
@@ -320,25 +384,28 @@ function ambush(npc, wpn)
 	return false
 end
 
-
 function lifesteal(npc, hit_power, is_soulripper_kill)
 
     if is_actor(npc) then return end
-	
-	if db.actor.health > 0.99 then return end
 	
 	local heal_amt = 0
 	
     if is_soulripper_kill then
     	local s = xr_sound.get_safe_sound_object("Soul_"..math.random(5))
 		s:play(db.actor, 0, sound_object.s2d)
-		heal_amt = 0.25
+		heal_amt = 0.10
+		if soulripper_heal_timer == 0 then
+			RegisterScriptCallback("actor_on_update", soulripper_heal_on_update)
+		end
+		soulripper_heal_timer = time_global() + soulripper_heal_time
     else
 		heal_amt = hit_power * 0.25
+		if zzz_player_injuries and zzz_player_injuries.health then
+			heal_random_limb()
+		end
 	end
 	
     db.actor.health = clamp(db.actor.health + heal_amt, 0, 1)
-
 end
 
 function on_death_heal_check(victim, who)
