@@ -13,7 +13,7 @@ function explode(pos, ammo, wpn_id)
         local explode_obj = get_object_by_id(id)
         if explode_obj then
             explode_obj:explode(0)
-			explode_obj:destroy_object()
+			-- explode_obj:destroy_object()
             return true
         end
         return false
