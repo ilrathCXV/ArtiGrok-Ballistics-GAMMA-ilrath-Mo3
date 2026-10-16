@@ -1,1 +1,10 @@
 printf("Grok BO disabled, look at CXV ArtiGrok BO for damage stuff")
+
+ini_sys = ini_sys
+
+-- Compatibility stubs for external mods expecting grok_bo callbacks (e.g. arksek_headshot_thing, momo_multihit_fix)
+function npc_on_before_hit(npc, shit, bone_id, flags)
+end
+
+function monster_on_before_hit(monster, shit, bone_id, flags)
+end

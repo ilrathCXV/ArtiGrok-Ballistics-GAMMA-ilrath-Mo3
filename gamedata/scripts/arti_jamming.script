@@ -321,12 +321,35 @@ end
 function persist_current_weapon()
 	if cgd.id and cgd.has_parts then
 		local saved_parts = se_load_var(cgd.id, nil, "parts")
-		for k,v in pairs(cgd.parts) do
-			saved_parts[k] = v
+		if not saved_parts then
+			local wpn_obj = level.object_by_id(cgd.id)
+			saved_parts = wpn_obj and item_parts.get_parts_con(wpn_obj, cgd.id, true)
 		end
-		saved_parts[cgd.barrel_name] = cgd.barrel_con
-		item_parts.set_parts_con(cgd.id, saved_parts)
-		print_dbg("Persisted parts for weapon %s", cgd.id)
+		if not saved_parts then
+			saved_parts = {}
+		end
+		if cgd.parts then
+			for k,v in pairs(cgd.parts) do
+				saved_parts[k] = v
+			end
+		end
+		if cgd.barrel_name and cgd.barrel_con then
+			saved_parts[cgd.barrel_name] = cgd.barrel_con
+		end
+		if next(saved_parts) then
+			item_parts.set_parts_con(cgd.id, saved_parts)
+			print_dbg("Persisted parts for weapon %s", cgd.id)
+		end
+	end
+end
+
+function update_part_con(id, part_sec, con)
+	if id and id == cgd.id and con then
+		if is_barrel(part_sec) then
+			cgd.barrel_con = con
+		elseif is_part(part_sec) and cgd.parts then
+			cgd.parts[part_sec] = con
+		end
 	end
 end
 
@@ -540,8 +563,11 @@ end
 
 -- Randomly damage 1 part of the weapon by DAMAGE, skipping barrels
 function damage_part(wpn)
+	if not (cgd.parts and next(cgd.parts)) then return end
 	local to_damage = random_key_table(cgd.parts)
+	if not to_damage then return end
 	local part_con = cgd.parts[to_damage]
+	if not part_con then return end
 	-- oleh5230: no damage random roll
 	local damage = 1
 	cgd.parts[to_damage] = part_con > damage and (part_con - damage) or 1

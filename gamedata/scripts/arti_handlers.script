@@ -696,6 +696,9 @@ function condition_degrade_on_fire(amount, wpn, chance)
 		if grok_gun_condition_fixed then
 			if arti_jamming.has_parts(weapon) then
 				local parts = se_load_var(weapon:id(), weapon:name(), "parts")
+				if not parts and item_parts and item_parts.get_parts_con then
+					parts = item_parts.get_parts_con(weapon, nil, true)
+				end
 				
 				if not parts then return end
 				
@@ -707,7 +710,7 @@ function condition_degrade_on_fire(amount, wpn, chance)
 				local part_to_dmg
 				local total_part_names = #part_names
 				for i = 1, total_part_names do
-					part_index = math_random(1, #part_names)
+					local part_index = math_random(1, #part_names)
 					part_to_dmg = part_names[part_index]
 					-- printf("Part to damage: %s", part_to_dmg)
 					if arti_jamming.is_part(part_to_dmg) then
@@ -719,14 +722,23 @@ function condition_degrade_on_fire(amount, wpn, chance)
 					part_to_dmg = nil
 				end
 				
-				parts[part_to_dmg] = clamp(parts[part_to_dmg] - ((dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 2), 1, parts[part_to_dmg])
-				
---				item_parts.set_parts_con(weapon:id(), parts)
---				se_save_var( weapon:id(), weapon:name(), "parts", parts )
-
-				-- Hopefully this will avoid parts "resetting"
-				arti_jamming.persist_current_weapon()
-				
+				if part_to_dmg and parts[part_to_dmg] then
+					local dmg = (dura_rip == 0.0105 and 3) or (dura_rip == 0.0025 and 2) or 2
+					parts[part_to_dmg] = clamp(parts[part_to_dmg] - dmg, 1, parts[part_to_dmg])
+					
+					item_parts.set_parts_con(weapon:id(), parts)
+					
+					-- Keep arti_jamming cache in sync if this weapon is currently equipped
+					if arti_jamming then
+						if arti_jamming.update_part_con then
+							arti_jamming.update_part_con(weapon:id(), part_to_dmg, parts[part_to_dmg])
+						elseif arti_jamming.current_id and weapon:id() == arti_jamming.current_id() then
+							if arti_jamming.reset_cgd then
+								arti_jamming.reset_cgd()
+							end
+						end
+					end
+				end
 			end
 		else
 			weapon:set_condition(clamp(weapon:condition() - dura_rip, 0, 1))	-- Lose 0.25% condition when using variants
