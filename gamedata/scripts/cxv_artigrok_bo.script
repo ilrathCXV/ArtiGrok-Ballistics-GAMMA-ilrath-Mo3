@@ -514,7 +514,7 @@ function mutant_on_before_hit(monster, shit, bone_id)
 	should_show_normal_numbers = true
 	hit_numbers_critical = false
 	
-	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.4.4   //////////////////")
+	printf("///////////   Mutant Hit registered: ArtiGrok BO  v2.4.5   //////////////////")
 	printf('%s about to be hit by %s in bone %s', monster and monster:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 
 	if string.match(sec, "knife") or string.match(sec, "axe") or string.match(sec, "desuria") then
@@ -1091,7 +1091,7 @@ function npc_on_before_hit(npc, shit, bone_id)
 	
 -- ////// Now, all of the GAMMA GBO + ArtiGrok stuff //////
 	
-	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.4.4  //////////////////")
+	printf("///////////   Stalker Hit registered: ArtiGrok BO  v2.4.5  //////////////////")
 	printf('%s about to be hit by %s in bone %s', npc and npc:name(), shit and shit.draftsman and shit.draftsman:name(), bone_id)
 	
 --////////////// DATA PARSING OF HELL - A BONES AND BOOLETS TALE //////////////
@@ -1909,6 +1909,9 @@ end
 function momo_do_falloff(dist, sec, w_speed, a_speed, air_res, w_speed_base, silencer_boost)
 	-- ilrathCXV: "Grav" Rounds gets no penalty
 	if dist == 0 then return 1 end
+	
+	-- ilrathCXV (11/10/26): Edge case due to engine shenanigans
+	if (not w_speed) or (not a_speed) or (not air_res) or (not w_speed_base) then return 1 end
 
 	dist 			= round_idp(dist, 2)
 	local eff_dis	= 5 + ((w_speed * a_speed) * silencer_boost) or 0
@@ -2148,7 +2151,7 @@ function actor_on_update()
 	
 --	empty_table(bas_handler.weakened)
 	
-	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.4.4  //////////////////")
+	printf("///////////   Bone/Effect Tables Reset: ArtiGrok BO  v2.4.5  //////////////////")
 	
 end
 

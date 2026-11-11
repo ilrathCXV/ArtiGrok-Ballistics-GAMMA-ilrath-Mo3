@@ -145,7 +145,7 @@ if arksek_headshot_thing or arksek_funny_gun then
 				k_ap = (k_ap < 1.0 and 1.0) or k_ap
 			end
 			
-			return ap_effects(k_ap)
+			return ap_effects(k_ap, wpn_parent_sec, bone_id)
 		end
 	end
 	
